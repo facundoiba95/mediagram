@@ -1,0 +1,26 @@
+      HECHO:
+       - se crea y se guarda correctamente en bdd
+       - referTo es un array de usernames
+       - la imagen se guarda correctamente en cloudinary
+       - middlewares para validar dato de post
+       - carga de imagen original y miniatura
+       - se agrega idPost a cada usuario
+       - crear modal con mensaje de exito o error en la creacion del post.
+       - en caso de exito, redirigir a perfil de usuario o Feed.
+       - crear busqueda de usuarios
+       - searchbar y funciones
+
+
+       
+       
+       POR HACER: 
+            - crear middlewares de verifytokens
+            - aplicar validacion de inicio de sesion en todas las vistas (isLogged, token);
+            - verificar que tipo de dato se devuelve al frontend, para reducir memoria, solo datos necesarios
+            - restringir datos de usuarios
+            - crear notificacion a usuarios referTo
+            
+
+       HACIENDO :
+         
+          
