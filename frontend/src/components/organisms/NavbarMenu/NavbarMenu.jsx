@@ -10,8 +10,9 @@ import { HiLightBulb } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { restartUser, setUser } from '../../../redux/slices/userSlices/userSlices';
+import { restartUser, restartUserFound, setUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
 
 const NavbarHeader = () => {
@@ -36,6 +37,8 @@ const NavbarHeader = () => {
     if(window.confirm('Desea cerrar sesión?')){
       dispatch(logout());
       dispatch(restartUser());
+      dispatch(restartUserFound())
+      dispatch(restartPostsList())
       navigator('/');
     } else {
       return;

@@ -11,7 +11,7 @@ import { MoonLoader } from 'react-spinners';
 import { FaWindowClose } from 'react-icons/fa';
 import { RiUserFollowFill } from 'react-icons/ri';
 import { createPost } from '../../../redux/slices/postSlices/postSlices';
-import { restartUser, searchUser } from '../../../redux/slices/userSlices/userSlices';
+import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
 import LoaderCreatePost from '../Loaders/LoaderCreatePost/LoaderCreatePost';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 import ModalStatusCreateContent from '../Modals/ModalStatusCreateContent/ModalStatusCreateContent';
@@ -41,7 +41,7 @@ const FormCreateContent = () => {
 
   // user states
   const userAuth = useSelector( state => state.authSlices.user );
-  const user = useSelector( state => state.userSlices.user );
+  const user = useSelector( state => state.userSlices.userFound );
 
   const [ listUsers, setListUsers ] = useState([]);
 
@@ -53,7 +53,7 @@ const FormCreateContent = () => {
 
   useEffect(() => {
     dispatch(resetLocation());
-    dispatch(restartUser());
+    dispatch(restartUserFound());
   }, [])
 
   const titleCreateContent = {
@@ -133,7 +133,7 @@ const FormCreateContent = () => {
       dispatch(searchUser(valueInputUser));
       // setListUsers(dataTestUsers.filter(item => item.username.includes(valueInputUser)))
     } else {
-      dispatch(restartUser());
+      dispatch(restartUserFound());
       return;
     }
   }
@@ -152,7 +152,7 @@ const FormCreateContent = () => {
   const handleSelectReferTo = (e) => {
     const usernameSelected = e.target.dataset.username;
     setListReferTo([ ... listReferTo, usernameSelected]);
-    dispatch(restartUser())
+    dispatch(restartUserFound())
     setInputReferTo('');
   }
 

@@ -4,7 +4,7 @@ import { BiSearch } from 'react-icons/bi';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
-import { restartUser, searchUser } from '../../../redux/slices/userSlices/userSlices';
+import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
 
 const SearchBar = () => {
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const SearchBar = () => {
             dispatch(searchUser(inputSearchUser))
         } else {
             setInputSearchUser(inputSearchUser);
-            dispatch(restartUser())
+            dispatch(restartUserFound())
             return;
         }
     }, [ inputSearchUser ])

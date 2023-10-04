@@ -56,6 +56,7 @@ export const ThumbnailProfileStyles = styled.span`
     height:40px;
     border-radius:50%;
     background-color:transparent;
+    margin-left:5px;
 }
 
 .imgProfile{

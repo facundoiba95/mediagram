@@ -60,6 +60,13 @@ const postSlices = createSlice({
     reducers: {
         restarStatusPost: ( state,action ) => {
             state.status = null;
+        },
+        restartPostsList: ( state, action ) => {
+            state.error = null;
+            state.message = null;
+            state.isLoading = false;
+            state.status = null;
+            state.post = [];
         }
     },
     extraReducers: ( builders ) => {
@@ -68,5 +75,5 @@ const postSlices = createSlice({
     }
 })
 
-export const { restarStatusPost } = postSlices.actions;
+export const { restarStatusPost, restartPostsList } = postSlices.actions;
 export default postSlices.reducer;

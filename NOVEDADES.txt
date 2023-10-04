@@ -22,5 +22,7 @@
             
 
        HACIENDO :
+         -  RE Ver la renderizacion y llamados a API, cuando se solicitan los posts de un usuario.
+         -  al crear un post nuevo, no se actualiza el perfil del usuario, queda en el estado anterior.
          
           

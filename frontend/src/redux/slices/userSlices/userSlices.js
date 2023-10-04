@@ -7,6 +7,7 @@ const initialState = {
     message: null,
     status: null,
     user: [],
+    userFound: [],
     isLoading: false
 }
 
@@ -59,7 +60,11 @@ const userSlices = createSlice({
         setUser: ( state, action ) => {
             state.user = action.payload;
         },
-        restartUser: ( state,action ) => {
+        restartUserFound: ( state,action ) => {
+            state.userFound = [];
+            state.error = null;
+        },
+        restartUser: ( state, action ) => {
             state.user = [];
             state.error = null;
         }
@@ -70,5 +75,5 @@ const userSlices = createSlice({
     }
 });
 
-export const { setUser, restartUser } = userSlices.actions;
+export const { setUser, restartUserFound, restartUser } = userSlices.actions;
 export default userSlices.reducer;

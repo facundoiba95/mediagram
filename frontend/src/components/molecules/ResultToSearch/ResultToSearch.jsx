@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import Skeleton from '@mui/material/Skeleton';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { RiUserSmileFill } from 'react-icons/ri';
-import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 import { MoonLoader } from 'react-spinners';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setUser } from '../../../redux/slices/userSlices/userSlices';
@@ -13,7 +12,7 @@ import { setUser } from '../../../redux/slices/userSlices/userSlices';
 const ResultToSearch = () => {
     const { isOpenSearchBar, setIsOpenSearchBar } = useContext(GlobalContext);
     const isLoading = useSelector( state => state.userSlices.isLoading );
-    const userSearched = useSelector( state => state.userSlices.user );
+    const userSearched = useSelector( state => state.userSlices.userFound );
     const statusUserSearched = useSelector( state => state.userSlices.status );
     const navigator = useNavigate();
     const dispatch = useDispatch();

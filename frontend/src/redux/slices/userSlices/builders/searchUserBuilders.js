@@ -8,7 +8,7 @@ export default ( builders, searchUser ) => {
             state.isLoading = false;
             state.error = action.payload.message;
             state.status = action.payload.status;
-            state.user = action.payload.user;
+            state.userFound = action.payload.userFound;
     })
     builders.addCase( searchUser.pending, ( state, action ) => {
         state.isLoading = true;
