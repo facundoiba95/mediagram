@@ -11,6 +11,11 @@ const SearchBar = () => {
     const { isOpenSearchBar, setIsOpenSearchBar } = useContext(GlobalContext);
     const [ inputSearchUser, setInputSearchUser ] = useState('');
 
+    const handleCloseSearchBar = () => {
+        setIsOpenSearchBar(!isOpenSearchBar)
+        setInputSearchUser('');
+    }
+
     useEffect(() => {
         if(inputSearchUser.length > 3){
             dispatch(searchUser(inputSearchUser))
@@ -23,7 +28,7 @@ const SearchBar = () => {
 
   return (
     <SearchBarContainerStyles isOpenSearchBar={isOpenSearchBar} onSubmit={e => e.preventDefault()}>
-        <AiOutlineCloseCircle className='iconCloseSearchBar' onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}/>
+        <AiOutlineCloseCircle className='iconCloseSearchBar' onClick={() => handleCloseSearchBar()}/>
         <input type="text" value={inputSearchUser} placeholder='Ingresa el nombre a buscar ...' onChange={(e) => setInputSearchUser(e.target.value)}/>
         <BiSearch className='iconSearch'/>
     </SearchBarContainerStyles>

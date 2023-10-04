@@ -234,7 +234,8 @@ export const GridTwoContainerStyles = styled.span`
     width:10px;
 }
 
-.infoUserAuth {    
+.infoUserAuth {   
+    text-align:start; 
     p{
         font-weight: 600;
     }
@@ -243,6 +244,15 @@ img {
   height:50px;
   border-radius: 50%;
 }
+}
+
+.imgProfile{
+    width:50px;
+    height: 50px;
+    font-size:3rem;
+    color: var(--violetpink);
+    background-color:var(--heavyLight);
+    border-radius:50%;
 }
 `
 

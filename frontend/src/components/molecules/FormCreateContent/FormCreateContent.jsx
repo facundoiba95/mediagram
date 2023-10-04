@@ -1,20 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { ButtonCreateContentStyles, CreateContentContainerStyles, FormCreateContentContainerStyles, GridOneContainerStyles, GridTwoContainerStyles, ItemRefersToStyles, ItemUserSearchedStyles, ListRefersToStyles, ListUserSearchedStyles, ReferToContainerStyles, ResultLocationContainerStyles } from './FormCreateContentStyles'
-import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer'
-import { useLocation, useParams } from 'react-router-dom';
-import { MdLocationOn, MdWrongLocation } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { getLocationByCity, resetLocation } from '../../../redux/slices/locationSlices/locationSlices';
-import imgAddContent from '../../../assets/addContentMediagram.png';
-import Compressor from 'compressorjs';
-import { MoonLoader } from 'react-spinners';
-import { FaWindowClose } from 'react-icons/fa';
-import { RiUserFollowFill } from 'react-icons/ri';
-import { createPost } from '../../../redux/slices/postSlices/postSlices';
-import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
+import React, { useEffect, useState } from 'react';
+
+// loaders
 import LoaderCreatePost from '../Loaders/LoaderCreatePost/LoaderCreatePost';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
+import { MoonLoader } from 'react-spinners';
+
+// icons
+import { FaWindowClose } from 'react-icons/fa';
+import { RiUserFollowFill, RiUserSmileFill } from 'react-icons/ri';
+import { MdLocationOn, MdWrongLocation } from 'react-icons/md';
+
+// hooks and tools
+import { useLocation, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Compressor from 'compressorjs';
+
+// styles
+import { ButtonCreateContentStyles, CreateContentContainerStyles, FormCreateContentContainerStyles, GridOneContainerStyles, GridTwoContainerStyles, ItemRefersToStyles, ItemUserSearchedStyles, ListRefersToStyles, ListUserSearchedStyles, ReferToContainerStyles, ResultLocationContainerStyles } from './FormCreateContentStyles'
+import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
 import ModalStatusCreateContent from '../Modals/ModalStatusCreateContent/ModalStatusCreateContent';
+import imgAddContent from '../../../assets/addContentMediagram.png';
+
+// reducers and actions
+import { createPost } from '../../../redux/slices/postSlices/postSlices';
+import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
+import { getLocationByCity, resetLocation } from '../../../redux/slices/locationSlices/locationSlices';
+
 
 const FormCreateContent = () => {
   const params = useParams();
@@ -42,8 +53,6 @@ const FormCreateContent = () => {
   // user states
   const userAuth = useSelector( state => state.authSlices.user );
   const user = useSelector( state => state.userSlices.userFound );
-
-  const [ listUsers, setListUsers ] = useState([]);
 
   // post states
   const isLoading = useSelector( state => state.postSlices.isLoading );
@@ -221,7 +230,11 @@ const FormCreateContent = () => {
               <GridTwoContainerStyles>
                 <span>
                   <span className='infoUserAuth'>
-                   <img src={userAuth.imgProfile} alt="img profile" />
+                    {
+                      userAuth.imgProfile 
+                      ? <img src={userAuth.imgProfile} alt="img profile" />
+                      : <RiUserSmileFill className='imgProfile'/>
+                    }
                    <p>{userAuth.username}</p>
                   </span>
                   { renderDescription() }
