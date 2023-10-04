@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
@@ -10,13 +10,19 @@ import { IoMdPersonAdd } from 'react-icons/io';
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { followUser } from '../../../redux/slices/userSlices/userSlices';
+import { MoonLoader } from 'react-spinners';
 
 const ProfileHeader = () => {
    const userAuth = useSelector( state => state.authSlices.user );
    const user = useSelector( state => state.userSlices.user );
-   const isFollowing = user[0].followings.some( usr => userAuth.followers[usr.username] );
+   const isFollowing = user[0].followings.some( usr => userAuth.followers[usr.username] ); 
+   const isLoading = useSelector( state => state.userSlices.isLoading );
    const dispatch = useDispatch();
 
+   useEffect(() => {
+    console.log(user);
+    console.log(userAuth);
+   }, [])
     const {
        username,
        isPrivate, 
@@ -32,6 +38,7 @@ const ProfileHeader = () => {
       } = user[0];
 
     const renderImgProfile = () => {
+
       if(imgProfile.length){
         return( 
           <ImgProfileStyles>
@@ -116,7 +123,7 @@ const ProfileHeader = () => {
         )
       } else {
         return (
-          <ButtonResponsive title={`Seguir`} icon={<IoMdPersonAdd className='icon' onClick={() => handleFollowUser()}/>}/>
+          <ButtonResponsive title={`Seguir`} icon={<IoMdPersonAdd className='icon'/>} handleFunction={() => handleFollowUser()}/>
         )
       }
     }
@@ -133,9 +140,11 @@ const ProfileHeader = () => {
       dispatch(followUser(newFollower));
     }
 
+
+    
   return (
     <ProfileHeaderContainerStyles>
-      { renderImgProfile() }
+        { renderImgProfile() }
       <InfoProfileContainerStyles>
         <span className='title'>
             <p>{username}</p>

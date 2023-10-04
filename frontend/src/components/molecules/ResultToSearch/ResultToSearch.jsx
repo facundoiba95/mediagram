@@ -6,7 +6,7 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { MoonLoader } from 'react-spinners';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setUser } from '../../../redux/slices/userSlices/userSlices';
+import { restartUser, restartUserFound, setUser } from '../../../redux/slices/userSlices/userSlices';
 
 
 const ResultToSearch = () => {
@@ -60,6 +60,7 @@ const ResultToSearch = () => {
         const userSelected = userSearched.filter(user => user.username === valueUserSelected);
         dispatch(setUser(userSelected));
         setIsOpenSearchBar(!isOpenSearchBar);
+        dispatch(restartUserFound());
         navigator(`/profile/${params.username}`);
     }
 

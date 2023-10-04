@@ -12,6 +12,10 @@ export default ( builders, handleLogin ) => {
             state.status = action.payload.status;
             state.token = action.payload.token;
             state.user = action.payload.user;
+
+            if(action.payload.status === 200){
+                localStorage.setItem('token', action.payload.token);
+            }
     })
     builders.addCase( handleLogin.pending, ( state, action ) => {
         state.isLoading = true;

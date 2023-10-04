@@ -38,9 +38,9 @@ const ProfileContent = () => {
 
   useEffect(() => {
     if(params.username === userAuth.username){
-      dispatch(getPosts(userAuth.posts));
+      dispatch(getPosts(userAuth._id));
     } else {
-      dispatch(getPosts(user[0].posts));
+      dispatch(getPosts(user[0]._id));
     }
   }, [ params.username ])
   return (

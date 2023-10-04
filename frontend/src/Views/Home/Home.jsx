@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import DefaultPage from '../DefaultPage/DefaultPage';
 import { HomeContainerStyles } from './HomeStyles';
 import TransitionContainer from '../../components/Containers/TransitionContainer/TransitionContainer';

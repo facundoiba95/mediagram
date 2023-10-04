@@ -9,7 +9,8 @@
        - en caso de exito, redirigir a perfil de usuario o Feed.
        - crear busqueda de usuarios
        - searchbar y funciones
-
+       - el renderizado de los posts segun usuario se realiza correctamente.
+       - enviar token, verificarlo, y luego enviar desde el backend el usuario actualizado
 
        
        
@@ -22,7 +23,8 @@
             
 
        HACIENDO :
-         -  RE Ver la renderizacion y llamados a API, cuando se solicitan los posts de un usuario.
+         
          -  al crear un post nuevo, no se actualiza el perfil del usuario, queda en el estado anterior.
+            
          
           

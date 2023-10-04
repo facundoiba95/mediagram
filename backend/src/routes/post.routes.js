@@ -10,6 +10,8 @@ import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
+import verifyToken from "../middlewares/auth/verifyToken.js";
+import { verifyUser } from "../controllers/user.controllers.js";
 config();
 
 const router = Router();
@@ -41,4 +43,6 @@ const upload = multer({storage: storage,
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile, handleErrors ], createPost);
 router.post('/getPosts', getPosts);
+router.post('/verifyUser', [ verifyToken, handleErrors ], verifyUser);
+
 export default router;

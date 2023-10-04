@@ -1,6 +1,7 @@
 import cloudinary from 'cloudinary';
 import fs from 'fs-extra';
 import Post from '../models/Post.js';
+import User from '../models/User.js';
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
@@ -44,12 +45,14 @@ export const createPost = async ( req,res ) => {
 
 export const getPosts = async ( req,res ) => {
     try {
-        const postRecived = req.body;
+        const { _id } = req.body;
+    
 
+        const foundUser = await User.findOne({_id});
         const postDatabase = await Post.find();
-        const foundPost = postDatabase.filter(content => postRecived.some(item => item == content._id));
-        console.log(foundPost);
-
+        
+        const foundPost = postDatabase.filter(content => foundUser.posts.includes(content._id));
+        
         if(!foundPost.length) return res.status(404).json({ error: 'No se encontraron posts!', status:404 });
 
         return res.status(200).json({ message: 'Se encontraron estos posts!', post: foundPost, status:200 });

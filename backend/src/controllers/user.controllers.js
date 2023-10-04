@@ -22,3 +22,15 @@ export const searchUser = async ( req,res ) => {
         res.status(500).json({error: error.message, status:500});
     }
 }
+
+
+export const verifyUser = async ( req,res ) => {
+    try {
+        const { username } = req.body;
+        const foundUser = await User.find({username}, {password: 0});
+        res.status(200).json({ message: 'refresh user!', user: foundUser, status: 200}); 
+    } catch (error) {
+        console.error('Ocurrio un error en verifyUser(). user.controllers.js', error.message);
+        res.status(error.status).json({error: error.message, status: error.status})
+    }
+}

@@ -10,7 +10,7 @@ import { HiLightBulb } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { restartUser, restartUserFound, setUser } from '../../../redux/slices/userSlices/userSlices';
+import { refreshUser, restartUser, restartUserFound, setUser, setUserFound } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
@@ -26,6 +26,8 @@ const NavbarHeader = () => {
   const goProfile = () => {
     params.username = user.username;
     dispatch(setUser([user]));
+    dispatch(setUserFound([user]))
+    dispatch(refreshUser(params.username));
     navigator(`/profile/${params.username}`);
   }
 
