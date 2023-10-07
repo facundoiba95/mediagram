@@ -21,6 +21,7 @@ const Router = () => {
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Home/>}/>
           <Route path='/profile/:username' element={<Profile/>}/>
+          <Route path='/profile/:username/:typeFollow' element={<Profile/>}/>
           <Route path='/createContent' element={<CreateContent/>}/>
           <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent}/></CreateContent>}/>
         </Routes>

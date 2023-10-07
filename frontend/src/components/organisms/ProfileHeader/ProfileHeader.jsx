@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
 import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
@@ -10,16 +10,21 @@ import { IoMdPersonAdd } from 'react-icons/io';
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { followUser, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
-import { MoonLoader } from 'react-spinners';
 import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
+import { GlobalContext } from '../../../Context/GlobalContext';
 
 const ProfileHeader = () => {
+   const { isOpen, setIsOpen } = useContext( GlobalContext );
    const userAuth = useSelector( state => state.authSlices.user );
    const user = useSelector( state => state.userSlices.user );
    const isFollowing = userAuth.followings.some(usr => usr._id === user[0]._id );
    const isLoading = useSelector( state => state.userSlices.isLoading );
+   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
    const dispatch = useDispatch();
+   const params = useParams();
+   const navigator = useNavigate();
 
     const {
        username,
@@ -51,13 +56,20 @@ const ProfileHeader = () => {
       }    
     }
 
+    const handleOpenFollowContent = (e) => {
+      const typeFollow = e.target.dataset.typefollow;
++     setIsOpen(!isOpen);
+      params.typeFollow = typeFollow;
+      navigator(`/profile/${params.username}/${params.typeFollow}`);
+    }
+
     const renderTableDataUser = () => {
       return (
         <table>
           <tr>
             <th>Publicaciónes</th>
-            <th>Seguidores</th>
-            <th>Siguiendo</th>
+            <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
+            <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th>
           </tr>
           <tr>
             <td>{posts.length}</td>
@@ -126,7 +138,7 @@ const ProfileHeader = () => {
     }
 
     const handleFollowUser = async () => {
-      const { imgProfile, username, _id } = user[0];
+      const { imgProfile, username, _id, } = user[0];
 
       const newFollower = {
         imgProfile,
@@ -140,32 +152,42 @@ const ProfileHeader = () => {
     }
 
     const handleUnfollowUser = async () => {
-      const { _id } = user[0];
+      const { _id, username } = user[0];
 
+      if(window.confirm(`Dejar de seguir a "${username}"`)){
       await dispatch(unfollowUser(_id));
       await dispatch(refreshUser(username));
       await dispatch(refreshUserAuth());
+      } else {
+        return;
+      }
     }
 
 
     
   return (
     <ProfileHeaderContainerStyles>
-        { renderImgProfile() }
-      <InfoProfileContainerStyles>
-        <span className='title'>
-            <p>{username}</p>
-            { renderButtonFollow() }
-        </span>
-        { renderTableDataUser() }
-        { renderViews() }
-        { renderNumberCellphone() }
-        { renderActions() }
-      </InfoProfileContainerStyles>
-      <span>
-        <h3>Agregar nuevo estado</h3>
-        <h3>Ver estados</h3>
-      </span>
+      {
+        isLoading || isLoadingAuth
+        ? <LoaderResponsive/>
+        : <>
+            { renderImgProfile() }
+            <InfoProfileContainerStyles>
+                    <span className='title'>
+                <p>{username}</p>
+                { renderButtonFollow() }
+             </span>
+              { renderTableDataUser() }
+              { renderViews() }
+              { renderNumberCellphone() }
+              { renderActions() }
+            </InfoProfileContainerStyles>
+            <span>
+              <h3>Agregar nuevo estado</h3>
+              <h3>Ver estados</h3>
+            </span>
+          </>
+      }
     </ProfileHeaderContainerStyles>
     )
 }

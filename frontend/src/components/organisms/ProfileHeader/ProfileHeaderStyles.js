@@ -44,6 +44,7 @@ table{
 
 th{
     padding:5px;
+    cursor: pointer;
 }
 
 .title{

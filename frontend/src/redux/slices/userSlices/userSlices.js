@@ -10,6 +10,7 @@ const initialState = {
     status: null,
     user: [],
     userFound: [],
+    userFiltered: [],
     isLoading: false
 }
 
@@ -123,6 +124,13 @@ const userSlices = createSlice({
         restartUser: ( state, action ) => {
             state.user = [];
             state.error = null;
+        },
+        listSearchFollow: ( state,action ) => {
+            state.userFiltered = action.payload;
+            state.message = 'Search user follows list'
+        },
+        setIsLoadingUser: ( state,action ) => {
+            state.isLoading = action.payload;
         }
     },
     extraReducers: ( builders ) => {
@@ -133,5 +141,5 @@ const userSlices = createSlice({
     }
 });
 
-export const { setUser, setUserFound, restartUserFound, restartUser } = userSlices.actions;
+export const { setUser, setUserFound, restartUserFound, restartUser, listSearchFollow, setIsLoadingUser } = userSlices.actions;
 export default userSlices.reducer;

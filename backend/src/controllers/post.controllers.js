@@ -45,10 +45,10 @@ export const createPost = async ( req,res ) => {
 
 export const getPosts = async ( req,res ) => {
     try {
-        const { _id } = req.body;
+        const { username } = req.body;
     
 
-        const foundUser = await User.findOne({_id});
+        const foundUser = await User.findOne({username});
         const postDatabase = await Post.find();
         
         const foundPost = postDatabase.filter(content => foundUser.posts.includes(content._id));

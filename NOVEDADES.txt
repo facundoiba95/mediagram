@@ -12,7 +12,7 @@
        - el renderizado de los posts segun usuario se realiza correctamente.
        - enviar token, verificarlo, y luego enviar desde el backend el usuario actualizado
        - perfil actualizado al crear un nuevo post!
-       
+       - followers, following, unfollow, agregar al usuario y mostrar su perfil.
        
        POR HACER: 
             - crear middlewares de verifytokens
@@ -20,10 +20,33 @@
             - verificar que tipo de dato se devuelve al frontend, para reducir memoria, solo datos necesarios
             - restringir datos de usuarios
             - crear notificacion a usuarios referTo
+            - realizar logica para cuentas privadas. ( isPrivate ), puede ser un middleware al final de cada ruta para comprobar esta propiedad.
             
 
        HACIENDO :
-       - followers,following, unfollow, agregar al usuario y mostrarlo en perfil
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             LOGICA DE FOLLOW USERS:
                facundo y lisandro

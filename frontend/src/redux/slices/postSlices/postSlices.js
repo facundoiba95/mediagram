@@ -35,16 +35,16 @@ export const createPost = createAsyncThunk(
 
 export const getPosts = createAsyncThunk(
     'getPosts/postSlices',
-    async (_id) => {
+    async (username) => {
         try {
-            const idUser = {_id}
+            const usernameValue = {username}
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPosts`,{
                 method: "POST",
                 mode:'cors',
                 headers: {
                     "Content-Type":"application/json"
                 },
-                body: JSON.stringify(idUser)
+                body: JSON.stringify(usernameValue)
             })
             const res = await req.json();
             return res;
