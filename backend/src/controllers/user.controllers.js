@@ -23,7 +23,57 @@ export const searchUser = async ( req,res ) => {
     }
 }
 
+export const followUser = async ( req,res ) => {
+    try {
+        const { imgProfile, username, _id} = req.body;
 
+        const foundUserFollowing = req.foundUserFollowing;
+        const foundUserFollower = req.foundUserFollower;
+       
+        const addUserFollowing = {
+            imgProfile,
+            username,
+            _id
+        }   
+
+        const addUserFollower = { 
+            imgProfile: foundUserFollowing.imgProfile,
+            username: foundUserFollowing.username, 
+            _id: foundUserFollowing._id 
+        }
+
+        foundUserFollowing.followings.unshift(addUserFollowing);
+        foundUserFollower.followers.unshift(addUserFollower);
+
+        await foundUserFollowing.save();
+        await foundUserFollower.save();
+
+        return res.status(200).json({ message: `Sigues a ${username}!`, status:200});
+    } catch (error) {
+        console.error(error.message);
+        return res.status(error.status).json({error: error.message, status: error.status });
+    }
+}
+
+export const unfollowUser = async ( req,res ) => {
+    try {
+        const { _id } = req.body;
+
+        const foundUserFollowing = await User.findOne({_id: req.idUser });
+        const foundUserFollower = await User.findOne({_id});
+       
+        foundUserFollowing.followings =  foundUserFollowing.followings.filter(usr => usr._id !== _id);
+        foundUserFollower.followers = foundUserFollower.followers.filter(usr => usr._id.toString() !== req.idUser);
+        
+        await foundUserFollowing.save();
+        await foundUserFollower.save();
+
+        return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status:200});
+    } catch (error) {
+        console.error(error.message);
+        return res.status(error.status).json({error: error.message, status: error.status });
+    }
+}
 export const verifyUser = async ( req,res ) => {
     try {
         const { username } = req.body;

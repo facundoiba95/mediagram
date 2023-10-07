@@ -54,3 +54,15 @@ export const handleRegister = async ( req,res ) => {
         return res.status(500).json({message: error, status: 500 });
     }
 }
+
+export const handleRefreshUserAuth = async ( req,res ) => {
+    try {
+        const foundUserAuth = await User.findOne({ _id: req.idUser });
+        if(!foundUserAuth) return res.status(404).json({ error: 'User not found', status: 404 });
+
+        return res.status(200).json({ message: 'User auth refresh!', user: foundUserAuth, status: 200 });
+    } catch (error) {
+        console.error('Ocurrio un error en handleRefreshUserAuth(). auth.controllers.js', error.message);
+        res.status(error.status).json({error: error.message, status: error.status})
+    }
+} 

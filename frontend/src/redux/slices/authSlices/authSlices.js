@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import handleLoginBuilders from "./Builders/handleLoginBuilders";
 import handleRegisterBuilders from "./Builders/handleRegisterBuilders";
+import refreshUserAuthBuilders from "./builders/refreshUserAuthBuilders";
 
 const initialState = {
     error: null,
@@ -54,6 +55,29 @@ export const handleRegister = createAsyncThunk(
     }
 );
 
+export const refreshUserAuth = createAsyncThunk(
+    'refreshUserAuth/authSlices',
+    async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/refreshUserAuth`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en refreshUserAuth, authSlices. Error: ', error);
+            alert('Ocurrio un error en refreshUserAuth, authSlices. Error: ', error);
+        }
+    }
+)
+
 
 const authSlices = createSlice({
     name:'authSlices',
@@ -72,9 +96,10 @@ const authSlices = createSlice({
     extraReducers: ( builders ) => {
         handleLoginBuilders( builders, handleLogin );
         handleRegisterBuilders( builders, handleRegister );
+        refreshUserAuthBuilders( builders, refreshUserAuth );
     }
 });
 
-export const { restartStatusAuthSlice, logout } = authSlices.actions;
+export const { restartStatusAuthSlice, logout  } = authSlices.actions;
 
 export default authSlices.reducer;

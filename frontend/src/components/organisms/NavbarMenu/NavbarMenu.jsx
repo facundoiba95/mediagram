@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { NavbarMenuContainerStyles, NavbarMenuItemStyles, NavbarMenuListStyles } from './NavbarMenuStyles'
 import LogoMediagram from '../../atoms/LogoMediagram/LogoMediagram'
 import { ImHome3 } from 'react-icons/im';
@@ -18,16 +18,22 @@ import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 const NavbarHeader = () => {
   const isLogged = useSelector( state => state.authSlices.isLogged );
   const user = useSelector( state => state.authSlices.user );
+  const userSelected = useSelector( state => state.userSlices.userFound );
   const { isOpenSearchBar, setIsOpenSearchBar  } = useContext(GlobalContext);
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
+  const refParams = useRef();
 
-  const goProfile = () => {
+
+
+  
+  const goProfile = async () => {
     params.username = user.username;
-    dispatch(setUser([user]));
-    dispatch(setUserFound([user]))
     dispatch(refreshUser(params.username));
+    await dispatch(setUser([user]));
+    await dispatch(setUserFound([user]))
+
     navigator(`/profile/${params.username}`);
   }
 
@@ -60,7 +66,6 @@ const NavbarHeader = () => {
       }
     
   }
-
 
   return (
     <NavbarMenuContainerStyles isLogged={isLogged}>

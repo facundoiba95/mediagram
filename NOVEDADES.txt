@@ -11,7 +11,7 @@
        - searchbar y funciones
        - el renderizado de los posts segun usuario se realiza correctamente.
        - enviar token, verificarlo, y luego enviar desde el backend el usuario actualizado
-
+       - perfil actualizado al crear un nuevo post!
        
        
        POR HACER: 
@@ -23,8 +23,39 @@
             
 
        HACIENDO :
-         
-         -  al crear un post nuevo, no se actualiza el perfil del usuario, queda en el estado anterior.
-            
+       - followers,following, unfollow, agregar al usuario y mostrarlo en perfil
+
+            LOGICA DE FOLLOW USERS:
+               facundo y lisandro
+
+               facundo es el usuario autenticado.
+               - facundo no sigue a lisandro : 
+                     Perfil lisandro: 
+                     boton "Seguir"
+                     0 followers, 0 following
+                     
+
+               - facundo sigue a lisandro :
+                      Perfil lisandro:
+                      0 followers, 1 following
+                      boton cambia "Seguir" => "Siguiendo"
+
+
+               *** facundo cierra sesion ***
+
+               lisandro es el usuario autenticado : 
+               - lisandro no sigue a facundo (pero facundo sigue a lisandro):
+                      Perfil facundo:
+                      1 followers, 0 following
+                      boton "Seguir tambien"
+                      - si facundo no sigue a lisandro, boton "Seguir"
+               
+
+               - lisandro sigue a facundo:
+                      Perfil facundo:
+                      1 followers, 1 following
+                      boton "Siguiendo"
+              
+               
          
           

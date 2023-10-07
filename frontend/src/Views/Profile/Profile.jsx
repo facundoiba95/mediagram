@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ProfileContainerStyles } from './ProfileStyles'
 import TransitionContainer from '../../components/Containers/TransitionContainer/TransitionContainer'
 import ProfileHeader from '../../components/organisms/ProfileHeader/ProfileHeader'
@@ -9,6 +9,8 @@ import { refreshUser } from '../../redux/slices/userSlices/userSlices'
 
 const Profile = () => {
     const isLogged = useSelector( state => state.authSlices.isLogged );
+    const userAuth = useSelector( state => state.authSlices.user );
+    const user = useSelector( state => state.userSlices.user );
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();

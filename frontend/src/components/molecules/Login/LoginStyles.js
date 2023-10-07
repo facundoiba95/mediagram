@@ -19,6 +19,7 @@ input{
     border-radius:5px;
     border:none;
     background-color:var(--light);
+    padding-left:10px;
 }
 
 

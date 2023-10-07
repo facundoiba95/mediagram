@@ -61,8 +61,8 @@ const Login = () => {
         <Loader/>
         :
         <FormLoginContainerStyles>
-        <input type="text" name='username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)}/>
-        <input type="password" name='password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)}/>
+        <input type="text" name='username' placeholder='Username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)}/>
+        <input type="password" name='password' placeholder='Password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)}/>
         
            <ButtonResponsive 
             title={'Iniciar sesión'}

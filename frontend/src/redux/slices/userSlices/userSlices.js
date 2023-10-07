@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import searchUserBuilders from './builders/searchUserBuilders';
 import followUserBuilders from './builders/followUserBuilders';
 import refreshUserBuilders from './builders/refreshUserBuilders';
+import unfollowUserBuilders from './builders/unfollowUserBuilders';
 
 const initialState = {
     error: null,
@@ -34,16 +35,17 @@ export const searchUser = createAsyncThunk(
 
 export const followUser = createAsyncThunk(
     'followUser/userSlices',
-    async (username) => {
+    async (user) => {
         try {
-            const usernameSelected = {username}
+            const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/followUser`, {
                 method: "POST",
                 mode:'cors',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
                 },
-                body: JSON.stringify(usernameSelected)
+                body: JSON.stringify(user)
             });
 
             const res = await req.json();
@@ -55,8 +57,33 @@ export const followUser = createAsyncThunk(
     }
 )
 
+export const unfollowUser = createAsyncThunk(
+    'unfollowUser/userSlices',
+    async (_id) => {
+        try {
+            const token = localStorage.getItem('token');
+            const idUserUnfollowed = { _id };
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/unfollowUser`,{
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(idUserUnfollowed)
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en unfollowUser. userSlices');
+            alert('Ocurrio un error en unfollowUser, userSlices');
+        }
+    }
+)
+
 export const refreshUser = createAsyncThunk(
-    'refreshUser/authSlices',
+    'refreshUser/userSlices',
     async (username) => {
         try {
             const token = localStorage.getItem('token');
@@ -102,6 +129,7 @@ const userSlices = createSlice({
         searchUserBuilders( builders, searchUser );
         followUserBuilders( builders, followUser );
         refreshUserBuilders( builders, refreshUser );
+        unfollowUserBuilders( builders, unfollowUser );
     }
 });
 

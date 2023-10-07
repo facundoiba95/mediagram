@@ -9,20 +9,18 @@ import { AiFillLike } from 'react-icons/ai';
 import { IoMdPersonAdd } from 'react-icons/io';
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
-import { followUser } from '../../../redux/slices/userSlices/userSlices';
+import { followUser, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
 import { MoonLoader } from 'react-spinners';
+import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
+import { useParams } from 'react-router-dom';
 
 const ProfileHeader = () => {
    const userAuth = useSelector( state => state.authSlices.user );
    const user = useSelector( state => state.userSlices.user );
-   const isFollowing = user[0].followings.some( usr => userAuth.followers[usr.username] ); 
+   const isFollowing = userAuth.followings.some(usr => usr._id === user[0]._id );
    const isLoading = useSelector( state => state.userSlices.isLoading );
    const dispatch = useDispatch();
 
-   useEffect(() => {
-    console.log(user);
-    console.log(userAuth);
-   }, [])
     const {
        username,
        isPrivate, 
@@ -38,7 +36,6 @@ const ProfileHeader = () => {
       } = user[0];
 
     const renderImgProfile = () => {
-
       if(imgProfile.length){
         return( 
           <ImgProfileStyles>
@@ -119,7 +116,7 @@ const ProfileHeader = () => {
       }
       if(isFollowing){
         return (
-          <ButtonResponsive title={`Siguiendo`} icon={<BsFillPersonCheckFill className='icon' />}/>
+          <ButtonResponsive title={`Siguiendo`} icon={<BsFillPersonCheckFill className='icon' />} handleFunction={() => handleUnfollowUser()}/>
         )
       } else {
         return (
@@ -128,7 +125,7 @@ const ProfileHeader = () => {
       }
     }
 
-    const handleFollowUser = () => {
+    const handleFollowUser = async () => {
       const { imgProfile, username, _id } = user[0];
 
       const newFollower = {
@@ -137,7 +134,17 @@ const ProfileHeader = () => {
         _id
       };
 
-      dispatch(followUser(newFollower));
+      await dispatch(followUser(newFollower));
+      await dispatch(refreshUser(username));
+      await dispatch(refreshUserAuth());
+    }
+
+    const handleUnfollowUser = async () => {
+      const { _id } = user[0];
+
+      await dispatch(unfollowUser(_id));
+      await dispatch(refreshUser(username));
+      await dispatch(refreshUserAuth());
     }
 
 
