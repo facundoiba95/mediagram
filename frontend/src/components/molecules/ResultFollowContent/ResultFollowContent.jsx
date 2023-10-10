@@ -32,7 +32,7 @@ const ResultFollowContent = () => {
                 return (
                     <ItemFollowContentStyles data-username={username} onClick={(e) => goToProfile(e)}>
                     {
-                        imgProfile.length 
+                        imgProfile 
                         ? <img src={imgProfile} alt="imgProfile" data-username={username}/>
                         : <RiUserSmileFill className='imgProfile' data-username={username}/>
                     }
@@ -45,7 +45,7 @@ const ResultFollowContent = () => {
                 return (
                     <ItemFollowContentStyles data-username={username} onClick={(e) => goToProfile(e)}>
                     {
-                        imgProfile.length 
+                        imgProfile
                         ? <img src={imgProfile} alt="imgProfile" data-username={username}/>
                         : <RiUserSmileFill className='imgProfile' data-username={username}/>
                     }

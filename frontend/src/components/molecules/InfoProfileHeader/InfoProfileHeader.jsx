@@ -3,35 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useSelector } from 'react-redux';
 
-
-
-
-
-
-
-
-    /*
-
-                            FUNCIONA, PERO ESTA MUY DESORDENADO E ILEGIBLE
-    
-                                 HAY QUE REPLANTEAR ESTE COMPONENTE
-    
-    
-
-
-    */
-
-
-
-
-
-
-
-
-
-
-
-
 const InfoProfileHeader = ({     
      isPrivate,
      isUserAuth, 
@@ -73,49 +44,25 @@ const handleOpenFollowContent = (e) => {
               </>
              )
         }
-    } else if( isPrivate && isUserAuth ) {
-      return (
-        <>
-          <th>Publicaciónes</th>
-          <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
-          <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th> 
-        </>
-      )
-    } else if(isUserAuth){
-      return (
-        <>
-          <th>Publicaciónes</th>
-          <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
-          <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th> 
-        </>
-      )
     } else {
-      return (
-        <>
-          <th>Publicaciónes</th>
-          <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
-          <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th> 
-        </>
-      )
+     return (
+      <>
+        <th>Publicaciónes</th>
+        <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
+        <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th> 
+      </>
+    )
     }
-  }
+    }
 
     const renderDataFollowers = () => {
       if( isPrivate ){
-        if(isFollowing) {
+        if(isFollowing || !isFollowing && isUserAuth) {
           return (
             <>
               <td>{ posts.length }</td>
               <td>{ followers.length }</td>
               <td>{ followings.length }</td>
-            </>
-          )
-        } else if(!isFollowing && isUserAuth){
-          return (
-            <>
-              <td>{posts.length}</td>
-              <td>{followers.length}</td>
-              <td>{followings.length}</td>
             </>
           )
         } else {

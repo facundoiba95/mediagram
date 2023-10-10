@@ -62,9 +62,9 @@ const ResultToSearch = () => {
     const goToProfile = async (e) => {
         const valueUserSelected = e.target.dataset.username;
         params.username = valueUserSelected;
-        dispatch(selectUser(params.username));
         setIsOpenSearchBar(!isOpenSearchBar);
-        dispatch(restartUserFound());
+        await dispatch(selectUser(params.username));
+        await dispatch(restartUserFound());
         navigator(`/profile/${params.username}`);
     }
 
