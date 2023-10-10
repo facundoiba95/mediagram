@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
@@ -9,11 +9,12 @@ import { AiFillLike } from 'react-icons/ai';
 import { IoMdPersonAdd } from 'react-icons/io';
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
-import { followUser, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
+import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
 import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -24,9 +25,10 @@ const ProfileHeader = () => {
   // states redux Toolkit
   const userAuth = useSelector( state => state.authSlices.user );
   const user = useSelector( state => state.userSlices.userFiltered );
-  const isFollowing = userAuth.followings.some(usr => usr._id === user[0]._id );
+  const isFollowing = useSelector( state => state.userSlices.isFollowing ); // debe manejarse desde el backend
   const isLoading = useSelector( state => state.userSlices.isLoading );
   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
+  const isUserAuth = userAuth.username === user[0].username;
 
 
   // useContext
@@ -62,29 +64,6 @@ const ProfileHeader = () => {
       }    
     }
 
-    const handleOpenFollowContent = (e) => {
-      const typeFollow = e.target.dataset.typefollow;
-+     setIsOpen(!isOpen);
-      params.typeFollow = typeFollow;
-      navigator(`/profile/${params.username}/${params.typeFollow}`);
-    }
-
-    const renderTableDataUser = () => {
-      return (
-        <table>
-          <tr>
-            <th>Publicaciónes</th>
-            <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
-            <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th>
-          </tr>
-          <tr>
-            <td>{posts.length}</td>
-            <td>{followers.length}</td>
-            <td>{followings.length}</td>
-          </tr>
-         </table>
-      )
-    }
 
     const renderViews = () => {
       return (
@@ -153,8 +132,10 @@ const ProfileHeader = () => {
       };
 
       await dispatch(followUser(newFollower));
+      await dispatch(handleIsFollowing(params.username))
       await dispatch(refreshUser(username));
       await dispatch(refreshUserAuth());
+
     }
 
     const handleUnfollowUser = async () => {
@@ -164,13 +145,13 @@ const ProfileHeader = () => {
       await dispatch(unfollowUser(username));
       await dispatch(refreshUser(username));
       await dispatch(refreshUserAuth());
+      await dispatch(handleIsFollowing(params.username))
+
       } else {
         return;
       }
     }
 
-
-    
   return (
     <ProfileHeaderContainerStyles>
       {
@@ -179,11 +160,16 @@ const ProfileHeader = () => {
         : <>
             { renderImgProfile() }
             <InfoProfileContainerStyles>
-                    <span className='title'>
+              <span className='title'>
                 <p>{username}</p>
                 { renderButtonFollow() }
-             </span>
-              { renderTableDataUser() }
+              </span>
+              <InfoProfileHeader 
+              followers={followers}
+              followings={followings}
+              isPrivate={isPrivate}
+              isUserAuth={isUserAuth}
+              posts={posts}/>
               { renderViews() }
               { renderNumberCellphone() }
               { renderActions() }

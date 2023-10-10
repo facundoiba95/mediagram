@@ -13,7 +13,7 @@ const CardContentProfile = ({
   likes,
   description
 }) => {
-  const user = useSelector( state => state.userSlices.user );
+  const user = useSelector( state => state.userSlices.userFiltered );
   const isLoading = useSelector( state => state.postSlices.isLoading );
   const { imgProfile } = user[0];
 

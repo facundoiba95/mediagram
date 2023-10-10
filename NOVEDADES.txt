@@ -14,7 +14,13 @@
        - perfil actualizado al crear un nuevo post!
        - followers, following, unfollow, agregar al usuario y mostrar su perfil.
        - restringir data de cuentas privadas, desde el backend al frontend, aun sin renderizar.
-
+       - renderizado de modal y elementos de una cuenta privada que no se tiene acceso
+            - si no tiene permiso, unicamente se envia: 
+                 * imgProfile
+                 * username  
+                 * _id
+                 el resto de datos solo muestran la cantidad en numero de objetos que tiene cada propiedad, LENGTH
+                 
        
        POR HACER: 
             - crear middlewares de verifytokens
@@ -26,8 +32,10 @@
 
        HACIENDO :
             - realizar logica para cuentas privadas. ( isPrivate ), puede ser un middleware al final de cada ruta para comprobar esta propiedad.
-
-
+               
+               
+               ** ( )
+              
 
 
 

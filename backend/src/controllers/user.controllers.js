@@ -40,10 +40,10 @@ export const selectUser = async ( req,res ) => {
     try {
         const { username  } = req.body;
 
-        const foundUser = await isPrivateProfile(username);
+        const foundUser = await isPrivateProfile(username, req.idUser);
         const foundUserAuth = await User.find({ _id: req.idUser},{password:0 });
 
-        if(foundUser[0].username === foundUserAuth[0].username && foundUserAuth[0]._id == req.idUser)  return res.status(200).json({ message:'user auth selected!', status:200, userFiltered: foundUserAuth });
+        if(foundUser[0].username === foundUserAuth[0].username && foundUserAuth[0]._id == req.idUser)  return res.status(200).json({ message:'user auth selected!', status:200, userFiltered: foundUserAuth, isFollowing: true });
 
         return res.status(200).json({ message:'users searched selected!', status:200, userFiltered: foundUser });
     } catch (error) {
@@ -105,11 +105,26 @@ export const unfollowUser = async ( req,res ) => {
     }
 }
 
+export const handleIsFollowing = async ( req,res ) => {
+    try {
+        const { username } = req.body;
+        const foundUserRecived = await User.findOne({ username });
+        const userAuth = await User.findOne({_id: req.idUser});
+        const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
+        
+        if(isFollowingsUsers) return res.status(200).json({ message: 'Is followers users!', isFollowing: isFollowingsUsers, status: 200 });
+        return res.status(401).json({ message: `You´re not follower to user ${ username }`, isFollowing:  isFollowingsUsers, status: 401});
+    } catch (error) {
+        console.error(error.message);
+        return res.status(error.status).json({error: error.message, status: error.status });
+    }
+}
+
 
 export const verifyUser = async ( req,res ) => {
     try {
         const { username } = req.body;
-        const foundUser = await isPrivateProfile(username);
+        const foundUser = await isPrivateProfile(username, req.idUser);
         res.status(200).json({ message: 'refresh user!', user: foundUser, status: 200}); 
     } catch (error) {
         console.error('Ocurrio un error en verifyUser(). user.controllers.js', error.message);

@@ -4,6 +4,7 @@ import followUserBuilders from './builders/followUserBuilders';
 import refreshUserBuilders from './builders/refreshUserBuilders';
 import unfollowUserBuilders from './builders/unfollowUserBuilders';
 import selectUserBuilders from './builders/selectUserBuilders';
+import handleIsFollowingBuilders from './builders/handleIsFollowingBuilders';
 
 const initialState = {
     error: null,
@@ -131,6 +132,30 @@ export const refreshUser = createAsyncThunk(
             alert('Ocurrio un error en refreshUser, authSlices. Error: ', error);
         }
     }
+);
+
+export const handleIsFollowing = createAsyncThunk(
+    'handleIsFollowing/userSlices',
+    async ( username ) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }, 
+                body: JSON.stringify({username})
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en handleIsFollowing, authSlices. Error: ', error);
+            alert('Ocurrio un error en handleIsFollowing, authSlices. Error: ', error);
+        }
+    }
 )
 
 const userSlices = createSlice({
@@ -172,8 +197,9 @@ const userSlices = createSlice({
         refreshUserBuilders( builders, refreshUser );
         unfollowUserBuilders( builders, unfollowUser );
         selectUserBuilders( builders, selectUser );
+        handleIsFollowingBuilders( builders, handleIsFollowing );
     }
 });
 
-export const { setUser, setUserFound, restartUserFound, restartUser, listSearchFollow, setIsLoadingUser } = userSlices.actions;
+export const { setUser, setUserFound, restartUserFound, restartUser, listSearchFollow, setIsLoadingUser, restartUserFiltered } = userSlices.actions;
 export default userSlices.reducer;

@@ -10,7 +10,7 @@ import { HiLightBulb } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { restartUser, restartUserFound, selectUser, setUser, setUserFound } from '../../../redux/slices/userSlices/userSlices';
+import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser, setUser, setUserFound } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
@@ -31,6 +31,7 @@ const NavbarHeader = () => {
   const goProfile = async () => {
     params.username = user.username;
     await dispatch(selectUser(params.username))
+    dispatch(handleIsFollowing(params.username))
     navigator(`/profile/${params.username}`);
   }
 
@@ -42,8 +43,9 @@ const NavbarHeader = () => {
     if(window.confirm('Desea cerrar sesión?')){
       dispatch(logout());
       dispatch(restartUser());
-      dispatch(restartUserFound())
-      dispatch(restartPostsList())
+      dispatch(restartUserFound());
+      dispatch(restartPostsList());
+      dispatch(restartUserFiltered());
       navigator('/');
     } else {
       return;

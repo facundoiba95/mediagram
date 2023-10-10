@@ -1,4 +1,14 @@
 import User from "../models/User.js"
+import isFollowing from "./isFollowing.js";
+
+
+/*
+    - la data restringida envia: 
+        * imgProfile
+        * username  
+        * _id
+        el resto de datos solo muestran la cantidad en numero de objetos que tiene cada propiedad, LENGTH
+*/
 
 const restrictDataUsersPrivateAccount = (users) => {
     const restrictData = users.map( usr => {
@@ -17,14 +27,18 @@ const restrictDataUsersPrivateAccount = (users) => {
         return { ... usr };
     })
 
-    return [restrictData[0]._doc];
+    return [ restrictData[0]._doc ];
 }
 
-export default async ( username ) => {
+export default async ( username, idUser ) => {
     try {
         const foundUser = await User.find({username},{ password:0 });
-        if( foundUser[0].isPrivate == true){
-            return restrictDataUsersPrivateAccount(foundUser);
+        if( foundUser[0].isPrivate == true){                   // perfil privado ?
+            if( await isFollowing( username, idUser )){        // son seguidores ?
+                return foundUser;     // devuelve datos sin restricciones
+            } else {
+                return restrictDataUsersPrivateAccount(foundUser); // devuelve data restringida.
+            }
         } else if( foundUser[0].isPrivate == false ){
             return foundUser;
         }
