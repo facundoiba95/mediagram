@@ -10,30 +10,27 @@ import { HiLightBulb } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { refreshUser, restartUser, restartUserFound, setUser, setUserFound } from '../../../redux/slices/userSlices/userSlices';
+import { restartUser, restartUserFound, selectUser, setUser, setUserFound } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
 
 const NavbarHeader = () => {
+  // states 
   const isLogged = useSelector( state => state.authSlices.isLogged );
   const user = useSelector( state => state.authSlices.user );
-  const userSelected = useSelector( state => state.userSlices.userFound );
-  const { isOpenSearchBar, setIsOpenSearchBar  } = useContext(GlobalContext);
+
+  // hooks and tools
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  const refParams = useRef();
-
-
-
   
+  // useContext
+  const { isOpenSearchBar, setIsOpenSearchBar  } = useContext(GlobalContext);
+
   const goProfile = async () => {
     params.username = user.username;
-    dispatch(refreshUser(params.username));
-    await dispatch(setUser([user]));
-    await dispatch(setUserFound([user]))
-
+    await dispatch(selectUser(params.username))
     navigator(`/profile/${params.username}`);
   }
 

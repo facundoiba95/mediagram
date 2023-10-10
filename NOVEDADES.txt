@@ -13,6 +13,8 @@
        - enviar token, verificarlo, y luego enviar desde el backend el usuario actualizado
        - perfil actualizado al crear un nuevo post!
        - followers, following, unfollow, agregar al usuario y mostrar su perfil.
+       - restringir data de cuentas privadas, desde el backend al frontend, aun sin renderizar.
+
        
        POR HACER: 
             - crear middlewares de verifytokens
@@ -20,11 +22,11 @@
             - verificar que tipo de dato se devuelve al frontend, para reducir memoria, solo datos necesarios
             - restringir datos de usuarios
             - crear notificacion a usuarios referTo
-            - realizar logica para cuentas privadas. ( isPrivate ), puede ser un middleware al final de cada ruta para comprobar esta propiedad.
             
 
        HACIENDO :
-       
+            - realizar logica para cuentas privadas. ( isPrivate ), puede ser un middleware al final de cada ruta para comprobar esta propiedad.
+
 
 
 

@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import isPrivateProfile from '../libs/isPrivateProfile.js'
+
 
 export const searchUser = async ( req,res ) => {
     try {
@@ -12,16 +14,44 @@ export const searchUser = async ( req,res ) => {
             ]
         },{
             password: 0,
-            email: 0
+            email: 0,
+            posts:0,
+            likesInProfile:0,
+            start: 0,
+            greets:0,
+            followings:0,
+            followers:0,
+            histories:0,
+            viewsInProfile:0,
+            createdAt:0,
+            updatedAt:0
         })
         
         if(!foundUser.length) return res.status(404).json({message: 'No se encontraron usuarios!', status: 404, userFound:[]})
         return res.status(200).json({message:'users searched!', status:200, userFound: foundUser});
     } catch (error) {
-        console.error('Ocurrio un error en searchUser(). user.controllers.js', error.message);
+        console.error('Ocurrio un error en (). user.controllers.js', error.message);
         res.status(500).json({error: error.message, status:500});
     }
 }
+
+
+export const selectUser = async ( req,res ) => {
+    try {
+        const { username  } = req.body;
+
+        const foundUser = await isPrivateProfile(username);
+        const foundUserAuth = await User.find({ _id: req.idUser},{password:0 });
+
+        if(foundUser[0].username === foundUserAuth[0].username && foundUserAuth[0]._id == req.idUser)  return res.status(200).json({ message:'user auth selected!', status:200, userFiltered: foundUserAuth });
+
+        return res.status(200).json({ message:'users searched selected!', status:200, userFiltered: foundUser });
+    } catch (error) {
+        console.error('Ocurrio un error en selectUser(). user.controllers.js', error.message);
+        res.status(500).json({ error: error.message, status:500 });
+    }
+}
+
 
 export const followUser = async ( req,res ) => {
     try {
@@ -57,12 +87,12 @@ export const followUser = async ( req,res ) => {
 
 export const unfollowUser = async ( req,res ) => {
     try {
-        const { _id } = req.body;
+        const { username } = req.body;
 
         const foundUserFollowing = await User.findOne({_id: req.idUser });
-        const foundUserFollower = await User.findOne({_id});
+        const foundUserFollower = await User.findOne({username});
        
-        foundUserFollowing.followings =  foundUserFollowing.followings.filter(usr => usr._id !== _id);
+        foundUserFollowing.followings =  foundUserFollowing.followings.filter(usr => usr.username !== username);
         foundUserFollower.followers = foundUserFollower.followers.filter(usr => usr._id.toString() !== req.idUser);
         
         await foundUserFollowing.save();
@@ -74,10 +104,12 @@ export const unfollowUser = async ( req,res ) => {
         return res.status(error.status).json({error: error.message, status: error.status });
     }
 }
+
+
 export const verifyUser = async ( req,res ) => {
     try {
         const { username } = req.body;
-        const foundUser = await User.find({username}, {password: 0});
+        const foundUser = await isPrivateProfile(username);
         res.status(200).json({ message: 'refresh user!', user: foundUser, status: 200}); 
     } catch (error) {
         console.error('Ocurrio un error en verifyUser(). user.controllers.js', error.message);

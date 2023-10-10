@@ -13,8 +13,8 @@ const BarFollowContent = () => {
     const params = useParams();
 
     // states
-    const user = useSelector( state => state.userSlices.user );
-    const [ inputSearchUser, setInputSearchUser ] = useState('');
+    const user = useSelector( state => state.userSlices.userFiltered );
+    const [ inputSearchUserFollow, setInputSearchUser ] = useState('');
     const placeholderValue = {
         followers: `Buscar seguidores de ${params.username}`,
         followings: `Buscar a quién sigue ${params.username}`
@@ -27,29 +27,41 @@ const BarFollowContent = () => {
     const handleCloseSearchBar = () => {
         setIsOpen(!isOpen);
         setInputSearchUser('');
-        dispatch(listSearchFollow([]));
     }
     
     useEffect(() => {
-        if(inputSearchUser.length < 1){
-            dispatch(listSearchFollow([]));
+        if(inputSearchUserFollow.length < 1){
+            // if(params.typeFollow == 'followers'){
+            //     dispatch(setIsLoadingUser(true));
+            //     dispatch(listSearchFollow( user[0].followers));
+            //     dispatch(setIsLoadingUser(false));
+            // } else if(params.typeFollow == 'followings'){
+            //     dispatch(setIsLoadingUser(true));
+            //     dispatch(listSearchFollow( user[0].followings));
+            //     dispatch(setIsLoadingUser(false));
+            //
+            //
+            //         arreglar bug de search bars, los resultados no desaparecen al cerrar el modal
+            //
+            // }
             return;
         }
+
         if(params.typeFollow == 'followers'){
             dispatch(setIsLoadingUser(true));
-            dispatch(listSearchFollow( user[0].followers.filter(usr => usr.username.includes(inputSearchUser))));
+            dispatch(listSearchFollow( user[0].followers.filter(usr => usr.username.includes(inputSearchUserFollow))));
             dispatch(setIsLoadingUser(false));
         } else if(params.typeFollow == 'followings'){
             dispatch(setIsLoadingUser(true));
-            dispatch(listSearchFollow( user[0].followings.filter(usr => usr.username.includes(inputSearchUser))));
+            dispatch(listSearchFollow( user[0].followings.filter(usr => usr.username.includes(inputSearchUserFollow))));
             dispatch(setIsLoadingUser(false));
         }
-    }, [ inputSearchUser ])
+    }, [ inputSearchUserFollow ])
 
   return (
     <BarFollowContentContainerStyles isOpen={isOpen}>
         <AiOutlineCloseCircle className='iconCloseSearchBar' onClick={() => handleCloseSearchBar() }/>
-        <input type="text" placeholder={placeholderValue[params.typeFollow]} value={inputSearchUser} onChange={(e) => setInputSearchUser(e.target.value)}/>
+        <input type="text" placeholder={placeholderValue[params.typeFollow]} value={inputSearchUserFollow} onChange={(e) => setInputSearchUser(e.target.value)}/>
         <BiSearch className='iconSearch'/>
     </BarFollowContentContainerStyles>
     )

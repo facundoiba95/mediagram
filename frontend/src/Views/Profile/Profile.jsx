@@ -5,14 +5,16 @@ import ProfileHeader from '../../components/organisms/ProfileHeader/ProfileHeade
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import ProfileContent from '../../components/organisms/ProfileContent/ProfileContent'
-import { refreshUser } from '../../redux/slices/userSlices/userSlices'
+import { refreshUser, selectUser } from '../../redux/slices/userSlices/userSlices'
 import ContainerBlur from '../../components/Containers/ContainerBlur/ContainerBlur'
 import FollowContent from '../../components/organisms/FollowContent/FollowContent'
 import { getPosts } from '../../redux/slices/postSlices/postSlices'
+import LoaderResponsive from '../../components/molecules/Loaders/LoaderResponsive/LoaderResponsive'
 
 const Profile = () => {
   // states
     const isLogged = useSelector( state => state.authSlices.isLogged );
+    const isLoading = useSelector( state => state.userSlices.isLoading );
 
   // hooks and tools
   const navigator = useNavigate();
@@ -20,8 +22,9 @@ const Profile = () => {
   const params = useParams();
  
     useEffect(() => {
-      dispatch(refreshUser(params.username));
+      // dispatch(refreshUser(params.username));
       dispatch(getPosts(params.username))
+      // dispatch(selectUser(params.username))
     },[ params.username ])
 
     
@@ -43,7 +46,11 @@ const Profile = () => {
     
   return (
     <TransitionContainer>
-      { renderProfile() }
+      {
+        isLoading 
+        ? <LoaderResponsive/>
+        : renderProfile() 
+      }
     </TransitionContainer>
     )
 }

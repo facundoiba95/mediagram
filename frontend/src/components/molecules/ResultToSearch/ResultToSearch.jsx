@@ -6,17 +6,22 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { MoonLoader } from 'react-spinners';
 import { useNavigate, useParams } from 'react-router-dom';
-import { restartUser, restartUserFound, setUser } from '../../../redux/slices/userSlices/userSlices';
+import { restartUser, restartUserFound, selectUser, setUser } from '../../../redux/slices/userSlices/userSlices';
 
 
 const ResultToSearch = () => {
-    const { isOpenSearchBar, setIsOpenSearchBar } = useContext(GlobalContext);
-    const isLoading = useSelector( state => state.userSlices.isLoading );
-    const userSearched = useSelector( state => state.userSlices.userFound );
-    const statusUserSearched = useSelector( state => state.userSlices.status );
+    // hooks and tools
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
+
+    // states
+    const isLoading = useSelector( state => state.userSlices.isLoading );
+    const userSearched = useSelector( state => state.userSlices.userFound );
+    const statusUserSearched = useSelector( state => state.userSlices.status );
+
+    // useContext
+    const { isOpenSearchBar, setIsOpenSearchBar } = useContext(GlobalContext);
 
     const renderContentSearched = () => {
         if(statusUserSearched === 404 && !userSearched.length ){
@@ -54,11 +59,10 @@ const ResultToSearch = () => {
         }
     }
 
-    const goToProfile = (e) => {
+    const goToProfile = async (e) => {
         const valueUserSelected = e.target.dataset.username;
         params.username = valueUserSelected;
-        const userSelected = userSearched.filter(user => user.username === valueUserSelected);
-        dispatch(setUser(userSelected));
+        dispatch(selectUser(params.username));
         setIsOpenSearchBar(!isOpenSearchBar);
         dispatch(restartUserFound());
         navigator(`/profile/${params.username}`);

@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 const ProfileContent = () => {
   // states
   const userAuth = useSelector( state => state.authSlices.user );
-  const user = useSelector( state => state.userSlices.user );
+  const user = useSelector( state => state.userSlices.userFiltered );
   const posts = useSelector( state => state.postSlices.post );
   const isLoading = useSelector( state =>state.postSlices.isLoading );
 

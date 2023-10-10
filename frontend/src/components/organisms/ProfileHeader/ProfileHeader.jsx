@@ -16,15 +16,21 @@ import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderRes
 import { GlobalContext } from '../../../Context/GlobalContext';
 
 const ProfileHeader = () => {
+  // hooks and tools
+  const dispatch = useDispatch();
+  const params = useParams();
+  const navigator = useNavigate();
+
+  // states redux Toolkit
+  const userAuth = useSelector( state => state.authSlices.user );
+  const user = useSelector( state => state.userSlices.userFiltered );
+  const isFollowing = userAuth.followings.some(usr => usr._id === user[0]._id );
+  const isLoading = useSelector( state => state.userSlices.isLoading );
+  const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
+
+
+  // useContext
    const { isOpen, setIsOpen } = useContext( GlobalContext );
-   const userAuth = useSelector( state => state.authSlices.user );
-   const user = useSelector( state => state.userSlices.user );
-   const isFollowing = userAuth.followings.some(usr => usr._id === user[0]._id );
-   const isLoading = useSelector( state => state.userSlices.isLoading );
-   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
-   const dispatch = useDispatch();
-   const params = useParams();
-   const navigator = useNavigate();
 
     const {
        username,
@@ -155,7 +161,7 @@ const ProfileHeader = () => {
       const { _id, username } = user[0];
 
       if(window.confirm(`Dejar de seguir a "${username}"`)){
-      await dispatch(unfollowUser(_id));
+      await dispatch(unfollowUser(username));
       await dispatch(refreshUser(username));
       await dispatch(refreshUserAuth());
       } else {

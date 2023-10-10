@@ -3,6 +3,7 @@ import searchUserBuilders from './builders/searchUserBuilders';
 import followUserBuilders from './builders/followUserBuilders';
 import refreshUserBuilders from './builders/refreshUserBuilders';
 import unfollowUserBuilders from './builders/unfollowUserBuilders';
+import selectUserBuilders from './builders/selectUserBuilders';
 
 const initialState = {
     error: null,
@@ -34,6 +35,31 @@ export const searchUser = createAsyncThunk(
     }
 )
 
+export const selectUser = createAsyncThunk(
+    'selectUser/userSlices',
+    async (username) => {
+        try {
+            const token = localStorage.getItem('token');
+            const usernameValue = { username }
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/selectUser`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(usernameValue)
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en selectUser. userSlices');
+            alert('Ocurrio un error en selectUser, userSlices');
+        }
+    }
+)
+
 export const followUser = createAsyncThunk(
     'followUser/userSlices',
     async (user) => {
@@ -60,10 +86,10 @@ export const followUser = createAsyncThunk(
 
 export const unfollowUser = createAsyncThunk(
     'unfollowUser/userSlices',
-    async (_id) => {
+    async (username) => {
         try {
             const token = localStorage.getItem('token');
-            const idUserUnfollowed = { _id };
+            const usernameValue = { username };
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/unfollowUser`,{
                 method: "POST",
                 mode: 'cors',
@@ -71,7 +97,7 @@ export const unfollowUser = createAsyncThunk(
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
                 },
-                body: JSON.stringify(idUserUnfollowed)
+                body: JSON.stringify(usernameValue)
             });
 
             const res = await req.json();
@@ -120,13 +146,20 @@ const userSlices = createSlice({
         restartUserFound: ( state,action ) => {
             state.userFound = [];
             state.error = null;
+            state.message = null;
         },
         restartUser: ( state, action ) => {
             state.user = [];
             state.error = null;
+            state.message = null;
+        },
+        restartUserFiltered: ( state,action )=> {
+            state.userFiltered = [];
+            state.error = null;
+            state.message = null;
         },
         listSearchFollow: ( state,action ) => {
-            state.userFiltered = action.payload;
+            state.userFound = action.payload;
             state.message = 'Search user follows list'
         },
         setIsLoadingUser: ( state,action ) => {
@@ -138,6 +171,7 @@ const userSlices = createSlice({
         followUserBuilders( builders, followUser );
         refreshUserBuilders( builders, refreshUser );
         unfollowUserBuilders( builders, unfollowUser );
+        selectUserBuilders( builders, selectUser );
     }
 });
 

@@ -4,7 +4,7 @@ import { RiUserSmileFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
-import { listSearchFollow, searchUser } from '../../../redux/slices/userSlices/userSlices';
+import { listSearchFollow, restartUserFound, searchUser, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 
 const ResultFollowContent = () => {
@@ -14,7 +14,7 @@ const ResultFollowContent = () => {
     const dispatch = useDispatch();
 
     // states
-    const user = useSelector( state => state.userSlices.user );
+    const user = useSelector( state => state.userSlices.userFound );
     const isLoading = useSelector( state => state.userSlices.isLoading );
     const listUserFiltered = useSelector( state => state.userSlices.userFiltered );
 
@@ -22,8 +22,8 @@ const ResultFollowContent = () => {
     const { isOpen, setIsOpen } = useContext( GlobalContext );
 
     // data
-    const followers = listUserFiltered.length ? listUserFiltered : user[0].followers;
-    const following = listUserFiltered.length ? listUserFiltered: user[0].followings;
+    const followers = user.length ? user : listUserFiltered[0].followers;
+    const following = user.length ? user : listUserFiltered[0].followings;
 
     const renderItemToFollow = () => {
         if( params.typeFollow === 'followers' ){
@@ -61,9 +61,10 @@ const ResultFollowContent = () => {
     const goToProfile = (e) => {
         const valueUserSelected = e.target.dataset.username;
         params.username = valueUserSelected;
-        dispatch(searchUser(valueUserSelected));
+        dispatch(selectUser(params.username));
         setIsOpen(!isOpen);
         dispatch(listSearchFollow([]));
+        dispatch(restartUserFound());
         navigator(`/profile/${params.username}`);
     }
 
