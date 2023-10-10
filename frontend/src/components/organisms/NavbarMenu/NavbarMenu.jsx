@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext } from 'react'
 import { NavbarMenuContainerStyles, NavbarMenuItemStyles, NavbarMenuListStyles } from './NavbarMenuStyles'
 import LogoMediagram from '../../atoms/LogoMediagram/LogoMediagram'
 import { ImHome3 } from 'react-icons/im';
@@ -10,9 +10,9 @@ import { HiLightBulb } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser, setUser, setUserFound } from '../../../redux/slices/userSlices/userSlices';
+import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
+import { getPosts, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
 
 const NavbarHeader = () => {
@@ -30,9 +30,11 @@ const NavbarHeader = () => {
 
   const goProfile = async () => {
     params.username = user.username;
-    await dispatch(selectUser(params.username))
-    dispatch(handleIsFollowing(params.username))
     navigator(`/profile/${params.username}`);
+
+    await dispatch(selectUser(params.username))
+    await dispatch(handleIsFollowing(params.username))
+    await dispatch(getPosts(params.username))
   }
 
   const goCreateContent = () => {

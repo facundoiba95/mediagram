@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import isPrivateProfile from '../libs/isPrivateProfile.js'
+import isFollowing from "../libs/isFollowing.js";
 
 
 export const searchUser = async ( req,res ) => {
@@ -43,9 +44,12 @@ export const selectUser = async ( req,res ) => {
         const foundUser = await isPrivateProfile(username, req.idUser);
         const foundUserAuth = await User.find({ _id: req.idUser},{password:0 });
 
-        if(foundUser[0].username === foundUserAuth[0].username && foundUserAuth[0]._id == req.idUser)  return res.status(200).json({ message:'user auth selected!', status:200, userFiltered: foundUserAuth, isFollowing: true });
+        if(foundUser[0].username === foundUserAuth[0].username && foundUserAuth[0]._id == req.idUser){
+            return res.status(200).json({ message:'user auth selected!', status:200, userFiltered: foundUserAuth, isFollowing: true });
+        }  
 
         return res.status(200).json({ message:'users searched selected!', status:200, userFiltered: foundUser });
+
     } catch (error) {
         console.error('Ocurrio un error en selectUser(). user.controllers.js', error.message);
         res.status(500).json({ error: error.message, status:500 });
@@ -113,7 +117,7 @@ export const handleIsFollowing = async ( req,res ) => {
         const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
         
         if(isFollowingsUsers) return res.status(200).json({ message: 'Is followers users!', isFollowing: isFollowingsUsers, status: 200 });
-        return res.status(401).json({ message: `You´re not follower to user ${ username }`, isFollowing:  isFollowingsUsers, status: 401});
+        return res.status(401).json({ message: `You are a not follower to user "${ username }"`, isFollowing:  isFollowingsUsers, status: 401});
     } catch (error) {
         console.error(error.message);
         return res.status(error.status).json({error: error.message, status: error.status });

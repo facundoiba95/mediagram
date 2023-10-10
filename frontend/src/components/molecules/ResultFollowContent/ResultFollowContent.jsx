@@ -4,8 +4,9 @@ import { RiUserSmileFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
-import { listSearchFollow, restartUserFound, searchUser, selectUser } from '../../../redux/slices/userSlices/userSlices';
+import { handleIsFollowing, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 
 const ResultFollowContent = () => {
     // hooks and tools
@@ -30,9 +31,9 @@ const ResultFollowContent = () => {
             return followers.map(usr => {
                 const { username, imgProfile, _id } = usr;
                 return (
-                    <ItemFollowContentStyles data-username={username} onClick={(e) => goToProfile(e)}>
+                    <ItemFollowContentStyles data-username={username} onClick={(e) => goToProfile(e)} key={_id}>
                     {
-                        imgProfile 
+                        imgProfile
                         ? <img src={imgProfile} alt="imgProfile" data-username={username}/>
                         : <RiUserSmileFill className='imgProfile' data-username={username}/>
                     }
@@ -43,7 +44,7 @@ const ResultFollowContent = () => {
             return following.map(usr => {
                 const { username, imgProfile, _id } = usr;
                 return (
-                    <ItemFollowContentStyles data-username={username} onClick={(e) => goToProfile(e)}>
+                    <ItemFollowContentStyles data-username={username} onClick={(e) => goToProfile(e)} key={_id}>
                     {
                         imgProfile
                         ? <img src={imgProfile} alt="imgProfile" data-username={username}/>
@@ -58,14 +59,15 @@ const ResultFollowContent = () => {
     }
 
 
-    const goToProfile = (e) => {
+    const goToProfile = async (e) => {
         const valueUserSelected = e.target.dataset.username;
         params.username = valueUserSelected;
-        dispatch(selectUser(params.username));
         setIsOpen(!isOpen);
-        dispatch(listSearchFollow([]));
-        dispatch(restartUserFound());
         navigator(`/profile/${params.username}`);
+        await dispatch(selectUser(params.username));
+        dispatch(handleIsFollowing(params.username));
+        await dispatch(getPosts(params.username))
+        await dispatch(restartUserFound());
     }
 
 

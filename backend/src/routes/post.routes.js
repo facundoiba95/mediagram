@@ -42,7 +42,7 @@ const upload = multer({storage: storage,
 
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile, handleErrors ], createPost);
-router.post('/getPosts', getPosts);
+router.post('/getPosts',[ verifyToken, handleErrors ], getPosts);
 router.post('/verifyUser', [ verifyToken, handleErrors ], verifyUser);
 
 export default router;

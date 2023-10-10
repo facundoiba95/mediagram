@@ -2,28 +2,28 @@ import React, { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useSelector } from 'react-redux';
+import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 
 const InfoProfileHeader = ({     
      isPrivate,
      isUserAuth, 
-     posts, 
-     followers, 
-     followings 
+     countPosts, 
+     countFollowers, 
+     countFollowings 
 }) => {
     const navigator = useNavigate();
     const params = useParams();
     const { isOpen, setIsOpen } = useContext( GlobalContext );
     const isFollowing = useSelector( state => state.userSlices.isFollowing );
+    const isLoading = useSelector( state => state.userSlices.isLoading );
 
 
-    
 const handleOpenFollowContent = (e) => {
     const typeFollow = e.target.dataset.typefollow;
     setIsOpen(!isOpen);
     params.typeFollow = typeFollow;
     navigator(`/profile/${params.username}/${params.typeFollow}`);
   }
-
 
     const renderInfo = () => {
       if( isPrivate ){
@@ -56,42 +56,30 @@ const handleOpenFollowContent = (e) => {
     }
 
     const renderDataFollowers = () => {
-      if( isPrivate ){
-        if(isFollowing || !isFollowing && isUserAuth) {
-          return (
-            <>
-              <td>{ posts.length }</td>
-              <td>{ followers.length }</td>
-              <td>{ followings.length }</td>
-            </>
-          )
-        } else {
-          return (
-            <>
-              <td>{posts}</td>
-              <td>{followers}</td>
-              <td>{followings}</td>
-            </>
-          )
-        }
-      } else {
-        return (
-          <>
-            <td>{ posts.length }</td>
-            <td>{ followers.length }</td>
-            <td>{ followings.length }</td>
-          </>
-        )
-      }
+      return (
+        <>
+          <td>{ countPosts }</td>
+          <td>{ countFollowers }</td>
+          <td>{ countFollowings }</td>
+        </>
+      )
     }
 
   return (
     <table>
     <tr>
-      { renderInfo() }
+      {
+        isLoading
+        ? <LoaderResponsive/>
+        : renderInfo() 
+      }
     </tr>
     <tr>
-      { renderDataFollowers() }
+      {
+        isLoading
+        ? <LoaderResponsive/>
+        : renderDataFollowers()
+      }
     </tr>
     </table>
   )

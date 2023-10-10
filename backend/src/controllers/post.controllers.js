@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
 import addPostToUser from '../libs/addPostToUser.js';
+import isPrivateProfile from '../libs/isPrivateProfile.js';
 config();
 
 export const createPost = async ( req,res ) => {
@@ -46,16 +47,17 @@ export const createPost = async ( req,res ) => {
 export const getPosts = async ( req,res ) => {
     try {
         const { username } = req.body;
-    
 
-        const foundUser = await User.findOne({username});
+        const foundUser = await isPrivateProfile(username, req.idUser);
+        const userAuth = await User.find({_id: req.idUser});
         const postDatabase = await Post.find();
-        
-        const foundPost = postDatabase.filter(content => foundUser.posts.includes(content._id));
-        
-        if(!foundPost.length) return res.status(404).json({ error: 'No se encontraron posts!', status:404 });
+        const isUserAuthPost = userAuth[0].username === foundUser[0].username; 
+        const dataPostToSend = isUserAuthPost ? userAuth[0] : foundUser[0]; // si es usuario auth, envia toda la data, sino lo maneja foundUser;
 
-        return res.status(200).json({ message: 'Se encontraron estos posts!', post: foundPost, status:200 });
+        const foundPosts = postDatabase.filter(content => dataPostToSend.posts.includes(content._id));
+        if(!foundPosts.length) return res.status(404).json({ error: 'No se encontraron posts!', status:404 });
+        return res.status(200).json({ message: 'Se encontraron estos posts!', post: foundPosts, status:200 });
+
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "getPosts()"',{error: error.message, status: error.status});
         return res.status(500).json({error: error.message, status: error.status});

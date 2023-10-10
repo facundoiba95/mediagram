@@ -20,6 +20,18 @@ const userSchema = new Schema({
     followers: [ Object],
     histories:[Object],
     posts: [ Object ],
+    countPosts: {
+        type: Number,
+        default: 0
+    },
+    countFollowers: {
+        type: Number,
+        default: 0
+    },
+    countFollowings: {
+        type: Number,
+        default: 0
+    },
     isPrivate: Boolean,
     viewsInProfile: [ Object ],
     stars:[ Object ],
@@ -45,5 +57,12 @@ userSchema.pre('save', async function (next){
     user.password = hash;
     next();
 })
+
+userSchema.pre('save', function(next) {
+    this.countPosts = this.posts.length;
+    this.countFollowers = this.followers.length;
+    this.countFollowings = this.followings.length
+    next();
+});
 
 export default model('User', userSchema);

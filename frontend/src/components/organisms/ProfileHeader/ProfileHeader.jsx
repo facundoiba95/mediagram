@@ -15,12 +15,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
+import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 
 const ProfileHeader = () => {
   // hooks and tools
   const dispatch = useDispatch();
   const params = useParams();
-  const navigator = useNavigate();
 
   // states redux Toolkit
   const userAuth = useSelector( state => state.authSlices.user );
@@ -30,16 +30,12 @@ const ProfileHeader = () => {
   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
   const isUserAuth = userAuth.username === user[0].username;
 
-
-  // useContext
-   const { isOpen, setIsOpen } = useContext( GlobalContext );
-
     const {
        username,
        isPrivate, 
-       followings, 
-       followers, 
-       posts, 
+       countFollowings, 
+       countFollowers, 
+       countPosts, 
        imgProfile, 
        viewsInProfile, 
        numberCellphone,
@@ -63,7 +59,6 @@ const ProfileHeader = () => {
         )
       }    
     }
-
 
     const renderViews = () => {
       return (
@@ -134,8 +129,8 @@ const ProfileHeader = () => {
       await dispatch(followUser(newFollower));
       await dispatch(handleIsFollowing(params.username))
       await dispatch(refreshUser(username));
+      await dispatch(getPosts(params.username))
       await dispatch(refreshUserAuth());
-
     }
 
     const handleUnfollowUser = async () => {
@@ -165,19 +160,17 @@ const ProfileHeader = () => {
                 { renderButtonFollow() }
               </span>
               <InfoProfileHeader 
-              followers={followers}
-              followings={followings}
+              countPosts={countPosts}
+              countFollowings={countFollowings}
+              countFollowers={countFollowers}
               isPrivate={isPrivate}
               isUserAuth={isUserAuth}
-              posts={posts}/>
+              />
               { renderViews() }
               { renderNumberCellphone() }
               { renderActions() }
             </InfoProfileContainerStyles>
-            <span>
-              <h3>Agregar nuevo estado</h3>
-              <h3>Ver estados</h3>
-            </span>
+            
           </>
       }
     </ProfileHeaderContainerStyles>

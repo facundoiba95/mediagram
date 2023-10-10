@@ -38,11 +38,13 @@ export const getPosts = createAsyncThunk(
     async (username) => {
         try {
             const usernameValue = {username}
+            const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPosts`,{
                 method: "POST",
                 mode:'cors',
                 headers: {
-                    "Content-Type":"application/json"
+                    "Content-Type":"application/json",
+                    "x-access-token": `${token}`
                 },
                 body: JSON.stringify(usernameValue)
             })

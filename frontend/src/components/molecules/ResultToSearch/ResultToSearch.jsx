@@ -6,7 +6,8 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { MoonLoader } from 'react-spinners';
 import { useNavigate, useParams } from 'react-router-dom';
-import { restartUser, restartUserFound, selectUser, setUser } from '../../../redux/slices/userSlices/userSlices';
+import { handleIsFollowing, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
+import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 
 
 const ResultToSearch = () => {
@@ -42,7 +43,7 @@ const ResultToSearch = () => {
                             ? <Skeleton variant="circular" width={60} height={60} animation='wave' />
                             : <>
                               {
-                                imgProfile.length 
+                                imgProfile
                                 ? <img src={imgProfile} alt="img profile user searched" data-username={username} onClick={(e) => goToProfile(e)}/>
                                 : <RiUserSmileFill className='imgProfile'/>
                               }
@@ -64,6 +65,8 @@ const ResultToSearch = () => {
         params.username = valueUserSelected;
         setIsOpenSearchBar(!isOpenSearchBar);
         await dispatch(selectUser(params.username));
+        dispatch(handleIsFollowing(params.username));
+        await dispatch(getPosts(params.username));
         await dispatch(restartUserFound());
         navigator(`/profile/${params.username}`);
     }

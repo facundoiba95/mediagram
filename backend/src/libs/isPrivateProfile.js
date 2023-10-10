@@ -13,10 +13,10 @@ import isFollowing from "./isFollowing.js";
 const restrictDataUsersPrivateAccount = (users) => {
     const restrictData = users.map( usr => {
         usr.email = null;
-        usr.followings = usr.followings.length;
-        usr.followers = usr.followers.length;
+        usr.followings = [];
+        usr.followers = [];
+        usr.posts = [];
         usr.histories = null;
-        usr.posts = usr.posts.length;
         usr.stars = usr.stars.length;
         usr.viewsInProfile = usr.viewsInProfile.length;
         usr.likesInProfile = usr.likesInProfile.length;
@@ -33,10 +33,13 @@ const restrictDataUsersPrivateAccount = (users) => {
 export default async ( username, idUser ) => {
     try {
         const foundUser = await User.find({username},{ password:0 });
-        if( foundUser[0].isPrivate == true){                   // perfil privado ?
-            if( await isFollowing( username, idUser )){        // son seguidores ?
-                return foundUser;     // devuelve datos sin restricciones
+
+        if( foundUser[0].isPrivate == true){   
+            if( await isFollowing( username, idUser )){    // perfil privado ?
+                console.log('data sin restringir');        // son seguidores ?
+                return foundUser;                          // devuelve datos sin restricciones
             } else {
+                console.log('data restringida');
                 return restrictDataUsersPrivateAccount(foundUser); // devuelve data restringida.
             }
         } else if( foundUser[0].isPrivate == false ){

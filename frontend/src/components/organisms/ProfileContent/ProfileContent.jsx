@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { MessagePrivateAccountStyles, ProfileContentContainerStyles } from './ProfileContentStyles'
 import CardContentProfile from '../../molecules/CardContentProfile/CardContentProfile'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPosts } from '../../../redux/slices/postSlices/postSlices'
 import ContentIsEmpty from '../../molecules/Modals/ContentIsEmpty/ContentIsEmpty'
 import Skeleton from '@mui/material/Skeleton';
 import { useParams } from 'react-router-dom';
@@ -18,13 +17,9 @@ const ProfileContent = () => {
   const isFollowing = useSelector( state => state.userSlices.isFollowing );
   const isUserAuth = user.some(usr => usr.username === userAuth.username);
 
-  // hooks and tools
-  const params = useParams();
-  const dispatch = useDispatch();
-
   const renderContentProfile = () => {
     return posts.map(item => {
-      const { thumbnail, description, postBy, likes, comments, typePost } = item;
+      const { thumbnail, description, postBy, likes, comments, typePost,_id } = item;
       if(isLoading){
         return (
           <Skeleton variant='rounded' width={350} height={350} animation='wave'/>
@@ -37,7 +32,9 @@ const ProfileContent = () => {
           postBy={postBy}
           likes={likes}
           comments={comments}
-          typePost={typePost}/>
+          typePost={typePost}
+          key={_id}
+          />
         )
       }
     })
@@ -65,14 +62,6 @@ const ProfileContent = () => {
       return (<>{renderContentProfile()}</>)
     } else if( !user[0].isPrivate && !posts ) return (<ContentIsEmpty/>)
   }
-
-  useEffect(() => {
-    if(params.username === userAuth.username){
-      dispatch(getPosts(userAuth.username));
-    } else {
-      dispatch(getPosts(user[0].username));
-    }
-  }, [ params.username ])
 
   return (
     <ProfileContentContainerStyles posts={posts}>

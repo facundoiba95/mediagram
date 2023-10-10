@@ -17,7 +17,7 @@ const SearchBar = () => {
     }
 
     useEffect(() => {
-        if(inputSearchUser.length > 3){
+        if(inputSearchUser.length > 2){
             dispatch(searchUser(inputSearchUser))
         } else {
             setInputSearchUser(inputSearchUser);
