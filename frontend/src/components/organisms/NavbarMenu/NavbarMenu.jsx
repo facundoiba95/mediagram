@@ -26,7 +26,7 @@ const NavbarHeader = () => {
   const params = useParams();
   
   // useContext
-  const { isOpenSearchBar, setIsOpenSearchBar  } = useContext(GlobalContext);
+  const { isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
 
   const goProfile = async () => {
     params.username = user.username;
@@ -88,7 +88,7 @@ const NavbarHeader = () => {
               <AiFillMessage className='iconNavbar'/>
               <p>Mensajes</p>
             </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles>
+            <NavbarMenuItemStyles onClick={() => setIsOpenNotifications(!isOpenNotifications)}>
               <IoMdNotifications className='iconNavbar'/>
               <p>Notificaciónes</p>
             </NavbarMenuItemStyles>

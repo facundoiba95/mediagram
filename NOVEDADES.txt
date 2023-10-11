@@ -28,15 +28,16 @@
             - verificar que tipo de dato se devuelve al frontend, para reducir memoria, solo datos necesarios
             - restringir datos de usuarios
             - crear notificacion a usuarios referTo
+
             
 
        HACIENDO :
-            - realizar logica para cuentas privadas. ( isPrivate ), puede ser un middleware al final de cada ruta para comprobar esta propiedad.
-               
-               
-               ** ( )
-              
+               - SOLICITUD DE SEGUIMIENTO 
+                  - ver logica de notificaciones:
+                         * estado de solicitud ( aceptada, rechazada, pendiente )
 
+                 ahora:    
+                   - modal de notificaciones 
 
 
 

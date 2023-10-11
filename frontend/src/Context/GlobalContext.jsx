@@ -7,6 +7,7 @@ export const GlobalContextProvider = ({children}) => {
     const [ isLogged, setIsLogged ] = useState(false);
     const [ isOpenSearchBar, setIsOpenSearchBar ] = useState(false);
     const [ isOpen, setIsOpen ] = useState(false);
+    const [ isOpenNotifications, setIsOpenNotifications ] = useState(false);
 
 
     return (
@@ -14,7 +15,8 @@ export const GlobalContextProvider = ({children}) => {
             isOpenMenu, setIsOpenMenu,
             isLogged, setIsLogged,
             isOpenSearchBar, setIsOpenSearchBar,
-            isOpen, setIsOpen 
+            isOpen, setIsOpen,
+            isOpenNotifications, setIsOpenNotifications 
         }}>
             {children}
         </GlobalContext.Provider>
