@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const FollowUpRequestContainerStyles = styled.div`
 width:100%;
 height:100%;
-max-height:260px;
+max-height:285px;
 background-color: var(--medium);
 font-family: 'Red Hat Display';
 overflow-y: scroll;
@@ -12,8 +12,10 @@ padding:10px;
 
 export const TitleOfFollowUpRequestStyles = styled.span`
 width:100%;
-height:auto;
 padding:10px;
+display:flex;
+align-items: flex-start;
+justify-content: flex-start;
 
 h2 {
 width:100%;
@@ -25,7 +27,8 @@ width:100%;
 height:auto;
 display:grid;
 grid-template-columns: 1fr 1fr;
-gap:10px;
+align-content:center;
+justify-items:start;
 padding:5px;
 `
 
@@ -50,10 +53,18 @@ p {
 }
 
 img {
-    width:150px;
-    height:150px;
+    width:120px;
+    height:120px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.imgProfile{
+    width:120px;
+    height: 120px;
+    color: var(--violetpink);
+    background-color:var(--heavyLight);
+    border-radius:50%;
 }
 `
 

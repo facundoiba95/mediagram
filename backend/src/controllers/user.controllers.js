@@ -24,6 +24,7 @@ export const searchUser = async ( req,res ) => {
             followers:0,
             histories:0,
             viewsInProfile:0,
+            followUpRequest:0,
             createdAt:0,
             updatedAt:0
         })
@@ -59,11 +60,20 @@ export const selectUser = async ( req,res ) => {
 
 export const followUser = async ( req,res ) => {
     try {
-        const { imgProfile, username, _id} = req.body;
+        const { imgProfile, username, _id } = req.body;
 
         const foundUserFollowing = req.foundUserFollowing;
-        const foundUserFollower = req.foundUserFollower;
-       
+        const foundUserFollower =  req.foundUserFollower;
+        const foundFollowUpRequest = foundUserFollower.followUpRequest.filter(request => request.sentBy.find(usr => usr.username === foundUserFollowing.username));
+
+        switch (foundFollowUpRequest[0].status) {
+            case 'REJECT':
+                return res.status(401).json({ message: `Debes enviar una solicitud de seguimiento a "${username}"`, status:401,  })
+
+            case 'ACCEPT':
+                console.log(`Sigues al usuario "${username}"`);
+        }
+
         const addUserFollowing = {
             imgProfile,
             username,

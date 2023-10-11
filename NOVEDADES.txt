@@ -20,7 +20,10 @@
                  * username  
                  * _id
                  el resto de datos solo muestran la cantidad en numero de objetos que tiene cada propiedad, LENGTH
-                 
+       - renderizado de lista de solicitudes de seguimiento con contadores e iconos
+       - envian solicitudes de seguimiento correctamente
+       - los datos de los usuarios con cuenta privada estan restringidos
+       - logica de seguimiento de usuarios;
        
        POR HACER: 
             - crear middlewares de verifytokens
@@ -32,25 +35,95 @@
             
 
        HACIENDO :
-               - SOLICITUD DE SEGUIMIENTO 
-                  - ver logica de notificaciones:
-                         * estado de solicitud ( aceptada, rechazada, pendiente )
-
-                 ahora:    
-                   - modal de notificaciones 
+               - SOLICITUD DE SEGUIMIENTO
+                  - falta aceptar o rechazar las solicitudes
+                  - al hacer eso, el estado de la misma debe cambiar, "REJECT", "ACCEPT"
+                  - al hacer eso, controlar que los demas controladores restrinjan o no la informacion de los usuarios.
 
 
 
 
 
 
+******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************
 
+    1 // desde el frontend se envia { imgProfile, username, _id } del usuario a seguir y el token del usuario autenticado
+    
+    2 // pasa por el middleware "verifyToken"
+    
+    3 // pasa por el middleware "isExistUserFollow" , que comprueba que los sean o no seguidores:
+         - si ya son seguidores, devuelve : { error: 'Is following user!', status: 409 } y se muestra el perfil.
+         - si no son seguidores: 
+              - se buscan ambos usuarios (usuario a seguir y usuario autenticado ) y se guardan ambos en las rutas:
+                  req.foundUserFollower;  usuario a seguir
+                  req.foundUserFollowing;  usuario autenticado
+                  
+                  y continua con :
 
+    4 // pasa por el middleware "followUpRequests":
+         - crea un nuevo objeto "newUser", con 3 propiedades: imgProfile, username, _id.
+         - los datos de estos provienen del middleware anterior y son los datos del usuario autenticado:
 
+                     const userToFollowing = req.foundUserFollowing;
+                     const userToFollow = req.foundUserFollower;
 
+                     const newFollower = {
+                           imgProfile: userToFollowing.imgProfile,
+                           username: userToFollowing.username,
+                           _id: userToFollowing._id
+                       }
 
+   5 // luego se ejecuta la funcion asincrona "handleFollowUpRequest" que recibira los parametros de "userToFollow" y "newFollower": 
+         - esta funcion verifica la propiedad "isPrivate" del usuario a seguir.
+         - si es TRUE: 
+             - inserta el objeto "newFollower" en la propiedad "followUpRequest" del usuario a seguir.
+                       {
+                            status: 'PENDING",
+                            sentBy: newFollower
+                       }
+                     creando la solicitud de seguimiento.  
+             - luego espera que el se guarde el documento en base de datos
+             - retorna una promesa rechazada con el objeto:
+                     { error: `Se envio la solicitud de seguimiento a "${username}"`, status: 201 } 
+             - aqui se termina la funcion y no permite continuar con la siguiente funcion.
+       
+       - si es FALSE: 
+            - inserta el objeto "newFollower" en la propiedad "followUpRequest" del usuario a seguir.
+                       {
+                            status: 'ACCEPT",
+                            sentBy: newFollower
+                       }
+                       aqui se envia una solicitud de seguimiento con su status = "ACCEPT",
+                       esto acepta automaticamente la solicitud de seguimiento y el usuario tiene acceso al contenido de la cuenta
+            - luego espera que se guarde el documento en base de datos
+            - continua con la siguiente funcion.
 
+  6 // se ejecuta el controlador "followUser":
+       - verifica si el usuario autenticado envio o no una solicitud de seguimiento al usuario a seguir
+          - status === "REJECT":
+              - retorna un objeto { message: `Debes enviar una solicitud de seguimiento a "${username}"`, status:401  }
+          
+          - status === 'ACCEPT':
+              - sale de la sentencia switch y ejecuta el siguiente codigo.
+       
+       - se crean dos objetos con datos de los usuarios:
+             ambos tienen las propiedades: imgProfile, username, _id
 
+       - los datos de ambos usuarios provienen del parametro "req" que fueron pasados en el middleware "isExistUserFollow":
+                 const foundUserFollowing = req.foundUserFollowing; // usuario autenticado
+                 const foundUserFollower =  req.foundUserFollower;  // usuario a seguir
+
+       - luego se crean dos objetos:
+                 - addUserFollower: 
+                     * son los datos del usuario a seguir
+                 - addUserFollowing:
+                     * son los datos del usuario autenticado
+            
+       - luego se agregan ambos objetos en las propiedades "followings" y "followers" 
+               foundUserFollowing.followings.unshift(addUserFollowing);
+               foundUserFollower.followers.unshift(addUserFollower);
+
+       - se guardan en base de datos los usuarios modificados
 
 
 

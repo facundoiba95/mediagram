@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
@@ -9,11 +9,11 @@ import { AiFillLike } from 'react-icons/ai';
 import { IoMdPersonAdd } from 'react-icons/io';
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
+import { FaUserClock } from 'react-icons/fa';
 import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
 import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
-import { GlobalContext } from '../../../Context/GlobalContext';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 
@@ -41,7 +41,8 @@ const ProfileHeader = () => {
        numberCellphone,
        stars,
        likesInProfile,
-       greets 
+       greets,
+       followUpRequest
       } = user[0];
 
     const renderImgProfile = () => {
@@ -110,6 +111,12 @@ const ProfileHeader = () => {
         return (
           <ButtonResponsive title={`Siguiendo`} icon={<BsFillPersonCheckFill className='icon' />} handleFunction={() => handleUnfollowUser()}/>
         )
+      } else if(followUpRequest.length){
+            if(followUpRequest[0].status === 'PENDING'){
+              return (
+               <ButtonResponsive title={`Pendiente`} icon={<FaUserClock className='icon'/>}/>
+              )
+            }
       } else {
         return (
           <ButtonResponsive title={`Seguir`} icon={<IoMdPersonAdd className='icon'/>} handleFunction={() => handleFollowUser()}/>

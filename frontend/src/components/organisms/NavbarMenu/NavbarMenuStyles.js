@@ -61,4 +61,59 @@ img {
     border-radius: 50%;
 }
 
+.subItemNavbarMenu {
+    display:flex;
+    background-color: transparent;
+    justify-content:center;
+    align-items:center;
+    gap: 10px;
+}
+
+&:nth-child(5) {
+justify-content:center;
+}
+`
+
+export const BoxNotificationNavbarMenuStyles = styled.div`
+width:150px;
+height:30px;
+background-color: crimson;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:5px;
+gap:40px;
+
+
+.iconNewFollowUpRequest, .iconNotification {
+    color: white;
+    background-color: crimson;
+    width:25px;
+    height:25px;
+    padding:2px;
+    text-align: center;
+}
+
+span {
+    background-color: transparent;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    position: relative;
+}
+
+.counterFollowUpRequests, .counterNotifications {
+    border-radius:10%;
+    width:18px;
+    height:18px;
+    font-size:0.8rem;
+    background-color:white;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
 `

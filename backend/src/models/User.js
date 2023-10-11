@@ -1,19 +1,20 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const userSchema = new Schema({
     username: {
         type: String,
         unique: true,
-        require: true,
+        required: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     email:{
         type: String,
-        require: true
+        unique: true,
+        required: true
     },
     imgProfile: String,
     followings: [ Object ],
@@ -36,7 +37,49 @@ const userSchema = new Schema({
     viewsInProfile: [ Object ],
     stars:[ Object ],
     likesInProfile:[ Object ],
-    greets: [ Object ]
+    greets: [ Object ],
+    notifications: [{
+        _idNotification: {
+            type: mongoose.Types.ObjectId,
+            default: mongoose.Types.ObjectId,
+            unique: true
+        },
+        type: {
+            type: String,
+            enum: [ 'FOLLOWERS', 'POSTS', 'ACTIONS' ],
+            required: true
+        },
+        content: [{
+            type: Object,
+            message: String,
+            required: true
+        }],
+        createdBy: [{
+            type: Object,
+            required: true,
+            _id: mongoose.Types.ObjectId,
+            imgProfile: String,
+            username: String
+        }],
+        status: {
+            type: String,
+            enum: [ 'PENDING','VIEWED' ],
+            default: 'PENDING',
+            required: true
+        },
+    }],
+    followUpRequest: [{
+        status: {
+            type: String,
+            enum: [ 'PENDING', 'REJECTED', 'ACCEPT' ],
+        },
+        sentBy:[{
+            type: Object,
+            imgProfile: String,
+            username: String,
+            _id: mongoose.Types.ObjectId
+        }]
+    }]
 },{
     timestamps: true,
     versionKey: false
