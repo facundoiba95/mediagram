@@ -40,6 +40,13 @@ const upload = multer({storage: storage,
     }
 });
 
+router.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile, handleErrors ], createPost);
 router.post('/getPosts',[ verifyToken, handleErrors ], getPosts);
