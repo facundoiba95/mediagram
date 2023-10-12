@@ -6,7 +6,7 @@ import { GlobalContext } from '../../../Context/GlobalContext'
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive'
 import { useDispatch, useSelector } from 'react-redux';
 import { handleRegister, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices'
-import Loader from '../../../../../../proyectoFinalNUCBA/src/components/molecules/Loader/Loader'
+import Loader from '../Loaders/Loader/Loader';
 
 const Register = () => {
     const navigator = useNavigate();
