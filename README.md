@@ -45,6 +45,6 @@ Inlcuye tecnologias, librerias y herramientas como:
      <li>Atomic Design</li>
 </ul>
 
-Desarrollado por: Facundo Ibañez Gambarte.
+Desarrollado por: ***Facundo Ibañez Gambarte***.
 
 
