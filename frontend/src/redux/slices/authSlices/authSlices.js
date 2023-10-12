@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import handleLoginBuilders from "./Builders/handleLoginBuilders";
-import handleRegisterBuilders from "./Builders/handleRegisterBuilders";
-import refreshUserAuthBuilders from "./builders/refreshUserAuthBuilders";
+import handleLoginBuilders from "./authBuilders/handleLoginBuilders";
+import handleRegisterBuilders from "./authBuilders/handleRegisterBuilders";
+import refreshUserAuthBuilders from "./authBuilders/refreshUserAuthBuilders";
 
 const initialState = {
     error: null,
