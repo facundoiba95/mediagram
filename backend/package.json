@@ -4,7 +4,8 @@
   "description": "API Mediagram",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon src/indexAppMediagram.js",
+    "start": "node src/indexAppMediagram.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",

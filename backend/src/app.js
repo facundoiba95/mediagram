@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/', indexRoutes);
-app.use('/api/auth/', authRoutes);
-app.use('/api/post/', postRoutes);
-app.use('/api/user/', userRoutes);
+app.use('/api/mediagram/auth/', authRoutes);
+app.use('/api/mediagram/post/', postRoutes);
+app.use('/api/mediagram/user/', userRoutes);
 
 export default app;
