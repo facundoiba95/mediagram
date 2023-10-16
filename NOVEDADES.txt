@@ -24,6 +24,8 @@
        - envian solicitudes de seguimiento correctamente
        - los datos de los usuarios con cuenta privada estan restringidos
        - logica de seguimiento de usuarios;
+       - aceptar o rechazar solicitudes de cuentas privadas.
+       - 
        
        POR HACER: 
             - crear middlewares de verifytokens
@@ -36,12 +38,29 @@
 
        HACIENDO :
                - SOLICITUD DE SEGUIMIENTO
-                  - falta aceptar o rechazar las solicitudes
+                  - ** falta aceptar o rechazar las solicitudes
+                  
+                  
+                  ** problema: 
+                     ejemplo, hay dos usuarios, facundo y lisandro.
+                     facundo tiene cuenta privada 
+                     lisandro le envia la solicitud
+                     facundo acepta
+                     
+                     al aceptarla e ingresar al perfil o buscar el usuario, lisandro puede ver las solicitudes o "followUpRequest" de facundo
+                     es decir, se muestran solicitudes que tiene facundo ( joa => facundo / augusto => facundo / etc );
+                     - esto se debe restringir, y mostrar unicamente la de lisandro => facundo
+                     - tiene que ser asi para renderizar el id de la solicitud y manejar los estados de solicitud ( dejar de seguir, siguiendo, seguir );
+                     - ademas de la privacidad
+                     
                   - al hacer eso, el estado de la misma debe cambiar, "REJECT", "ACCEPT"
                   - al hacer eso, controlar que los demas controladores restrinjan o no la informacion de los usuarios.
+ 
+                  - al dejar de seguir el usuario, se debe reemplazar la solicitud con los datos nuevos, NO CREAR UNA NUEVA SOLICITUD!
 
+                  ( SOLUCIONADO EN MIDDLEWARE "followUpRequest.js" )
 
-
+                 
 
 
 

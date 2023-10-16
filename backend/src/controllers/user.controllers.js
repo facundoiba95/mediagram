@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import isPrivateProfile from '../libs/isPrivateProfile.js'
-import isFollowing from "../libs/isFollowing.js";
+import addFollower from "../libs/Users/addFollower.js";
+import deleteFollowUpRequest from "../libs/Users/deleteFollowUpRequest.js";
 
 
 export const searchUser = async ( req,res ) => {
@@ -37,7 +38,6 @@ export const searchUser = async ( req,res ) => {
     }
 }
 
-
 export const selectUser = async ( req,res ) => {
     try {
         const { username  } = req.body;
@@ -57,7 +57,6 @@ export const selectUser = async ( req,res ) => {
     }
 }
 
-
 export const followUser = async ( req,res ) => {
     try {
         const { imgProfile, username, _id } = req.body;
@@ -67,7 +66,7 @@ export const followUser = async ( req,res ) => {
         const foundFollowUpRequest = foundUserFollower.followUpRequest.filter(request => request.sentBy.find(usr => usr.username === foundUserFollowing.username));
 
         switch (foundFollowUpRequest[0].status) {
-            case 'REJECT':
+            case 'REJECTED':
                 return res.status(401).json({ message: `Debes enviar una solicitud de seguimiento a "${username}"`, status:401,  })
 
             case 'ACCEPT':
@@ -101,13 +100,15 @@ export const followUser = async ( req,res ) => {
 
 export const unfollowUser = async ( req,res ) => {
     try {
-        const { username } = req.body;
+        const { username, idFollowUpRequest } = req.body;
 
         const foundUserFollowing = await User.findOne({_id: req.idUser });
         const foundUserFollower = await User.findOne({username});
-       
+        const foundFollowUpRequest = foundUserFollower.followUpRequest.find(request => request._id.toString() === idFollowUpRequest.toString());
+
         foundUserFollowing.followings =  foundUserFollowing.followings.filter(usr => usr.username !== username);
         foundUserFollower.followers = foundUserFollower.followers.filter(usr => usr._id.toString() !== req.idUser);
+        foundFollowUpRequest.status = 'REJECTED'
         
         await foundUserFollowing.save();
         await foundUserFollower.save();
@@ -134,6 +135,28 @@ export const handleIsFollowing = async ( req,res ) => {
     }
 }
 
+export const handleFollowUpRequest = async ( req,res ) => {
+    try {
+        const { idFollowUpRequest, followUpRequestResult, imgProfile,username, _id } = req.body;
+        const userAuth = req.foundUserFollowing;
+        const userFollower = req.foundUserFollower;
+        const foundFollowUpRequest = userAuth.followUpRequest.find(request => request._id.toString() === idFollowUpRequest.toString());
+
+        if( followUpRequestResult === '5cc07723-451c-418f-b90a-e6b469f1f2b1'){                                // este id significa que SE ACEPTA la solicitud de seguimiento
+            await addFollower({imgProfile, username, _id, userAuth, userFollower, foundFollowUpRequest});
+            return res.status(200).json({message: `You and "${userFollower.username}" are a followers!`, status: 200 });
+        } else if( followUpRequestResult === '50d11393-dc3f-4ac4-89a6-143febd2e131' ) {                       // este id significa que NO SE ACEPTA la solicitud de seguimiento
+            await deleteFollowUpRequest( userAuth, idFollowUpRequest, foundFollowUpRequest );
+            return res.status(200).json({message: `Has been rejected follow up request of "${userFollower.username}"!`, status: 200 });
+        } else {
+            return res.status(400).json({message: `"followUpRequestResult" is not a Boolean!`, status: 400 });
+        }
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(error.status).json({error: error.message, status: error.status });
+    }
+}
 
 export const verifyUser = async ( req,res ) => {
     try {

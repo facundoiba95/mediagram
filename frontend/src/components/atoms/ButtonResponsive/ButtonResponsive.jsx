@@ -1,9 +1,9 @@
 import React from 'react'
 import { ButtonContainerStyles } from './ButtonResponsiveStyles'
 
-const ButtonResponsive = ({title, isAlternative, handleFunction, icon}) => {
+const ButtonResponsive = ({title, isAlternative, handleFunction, icon, id}) => {
   return (
-    <ButtonContainerStyles isAlternative={isAlternative} onClick={(e) => handleFunction(e)}>
+    <ButtonContainerStyles data-id={id} isAlternative={isAlternative} onClick={(e) => handleFunction(e)}>
         {title}
         {icon}
     </ButtonContainerStyles>

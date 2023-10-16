@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-
+import { config } from 'dotenv';
+config();
 // routes
 import authRoutes from './routes/auth.routes.js';
 import postRoutes from './routes/post.routes.js';
@@ -12,7 +13,12 @@ import userRoutes from './routes/user.routes.js';
 const app = express();
 
 //middlewares;
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'https://mediagram-delta.vercel.app'
+    ]
+}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));

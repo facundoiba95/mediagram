@@ -1,15 +1,6 @@
 import User from "../models/User.js"
 import isFollowing from "./isFollowing.js";
 
-
-/*
-    - la data restringida envia: 
-        * imgProfile
-        * username  
-        * _id
-        el resto de datos solo muestran la cantidad en numero de objetos que tiene cada propiedad, LENGTH
-*/
-
 const restrictDataUsersPrivateAccount = (users, idUser) => {
     const restrictData = users.map( usr => {
         const foundFollowUpRequest = usr.followUpRequest.filter(request => request.sentBy.find(usr => usr._id.toString() === idUser));
@@ -32,14 +23,25 @@ const restrictDataUsersPrivateAccount = (users, idUser) => {
     return [ restrictData[0]._doc ];
 }
 
+export const restrictFollowUpRequestData = ( foundUser, idUser ) => {
+    const restrictFollowUpRequests = foundUser.map(usr => {
+        const foundFollowUpRequest = usr.followUpRequest.filter(request => request.sentBy.find(usr => usr._id.toString() === idUser));
+        usr.followUpRequest = foundFollowUpRequest;
+        return {  ... usr};
+    });
+
+    return [ restrictFollowUpRequests[0]._doc ];
+}
+
 export default async ( username, idUser ) => {
     try {
         const foundUser = await User.find({ username },{ password:0 });
 
+
         if( foundUser[0].isPrivate == true){               // perfil privado ?
             if( await isFollowing( username, idUser )){    // son seguidores ?
                 console.log('data sin restringir');        
-                return foundUser;                          // devuelve datos sin restricciones
+                return restrictFollowUpRequestData( foundUser, idUser );                          // devuelve datos sin restricciones
             } else {
                 console.log('data restringida');
                 return restrictDataUsersPrivateAccount(foundUser, idUser); // devuelve data restringida.

@@ -5,6 +5,7 @@ import refreshUserBuilders from './builders/refreshUserBuilders';
 import unfollowUserBuilders from './builders/unfollowUserBuilders';
 import selectUserBuilders from './builders/selectUserBuilders';
 import handleIsFollowingBuilders from './builders/handleIsFollowingBuilders';
+import handleFollowUpRequestBuilders from './builders/handleFollowUpRequestBuilders';
 
 const initialState = {
     error: null,
@@ -30,7 +31,7 @@ export const searchUser = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en searchUser. userSlices');
+            console.error('Ocurrio un error en searchUser. userSlices', error);
             alert('Ocurrio un error en searchUser, userSlices');
         }
     }
@@ -55,7 +56,7 @@ export const selectUser = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en selectUser. userSlices');
+            console.error('Ocurrio un error en selectUser. userSlices', error);
             alert('Ocurrio un error en selectUser, userSlices');
         }
     }
@@ -79,7 +80,7 @@ export const followUser = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en followUser. userSlices');
+            console.error('Ocurrio un error en followUser. userSlices', error);
             alert('Ocurrio un error en followUser, userSlices');
         }
     }
@@ -87,10 +88,9 @@ export const followUser = createAsyncThunk(
 
 export const unfollowUser = createAsyncThunk(
     'unfollowUser/userSlices',
-    async (username) => {
+    async (dataUnfollow) => {
         try {
             const token = localStorage.getItem('token');
-            const usernameValue = { username };
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/unfollowUser`,{
                 method: "POST",
                 mode: 'cors',
@@ -98,13 +98,13 @@ export const unfollowUser = createAsyncThunk(
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
                 },
-                body: JSON.stringify(usernameValue)
+                body: JSON.stringify(dataUnfollow)
             });
 
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en unfollowUser. userSlices');
+            console.error('Ocurrio un error en unfollowUser. userSlices', error);
             alert('Ocurrio un error en unfollowUser, userSlices');
         }
     }
@@ -128,8 +128,8 @@ export const refreshUser = createAsyncThunk(
               const res = await req.json();
               return res;
         } catch (error) {
-            console.error('Ocurrio un error en refreshUser, authSlices. Error: ', error);
-            alert('Ocurrio un error en refreshUser, authSlices. Error: ', error);
+            console.error('Ocurrio un error en refreshUser, userSlices. Error: ', error);
+            alert('Ocurrio un error en refreshUser, userSlices. Error: ', error);
         }
     }
 );
@@ -152,8 +152,31 @@ export const handleIsFollowing = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en handleIsFollowing, authSlices. Error: ', error);
-            alert('Ocurrio un error en handleIsFollowing, authSlices. Error: ', error);
+            console.error('Ocurrio un error en handleIsFollowing, userSlices. Error: ', error);
+            alert('Ocurrio un error en handleIsFollowing, userSlices. Error: ', error);
+        }
+    }
+)
+
+export const handleFollowUpRequest = createAsyncThunk(
+    'handleFollowUpRequest/userSlices',
+    async (dataFollowUpRequest) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleFollowUpRequest` , {
+                method: "POST",
+                mode:'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(dataFollowUpRequest)
+            });
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en handleFollowUpRequest, userSlices. Error: ', error);
+            alert('Ocurrio un error en handleFollowUpRequest, userSlices. Error: ', error);
         }
     }
 )
@@ -198,6 +221,7 @@ const userSlices = createSlice({
         unfollowUserBuilders( builders, unfollowUser );
         selectUserBuilders( builders, selectUser );
         handleIsFollowingBuilders( builders, handleIsFollowing );
+        handleFollowUpRequestBuilders( builders, handleFollowUpRequest );
     }
 });
 

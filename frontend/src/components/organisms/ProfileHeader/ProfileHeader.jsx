@@ -104,25 +104,59 @@ const ProfileHeader = () => {
     const renderButtonFollow = () => {
       if(user[0]._id === userAuth._id){
         return (
-          <></>
+          <><h2>Usuario autenticado</h2></>
         )
       }
-      if(isFollowing){
-        return (
-          <ButtonResponsive title={`Siguiendo`} icon={<BsFillPersonCheckFill className='icon' />} handleFunction={() => handleUnfollowUser()}/>
-        )
-      } else if(followUpRequest.length){
+      if(isFollowing || followUpRequest.length){
+        if(followUpRequest.length){
             if(followUpRequest[0].status === 'PENDING'){
               return (
-               <ButtonResponsive title={`Pendiente`} icon={<FaUserClock className='icon'/>}/>
+               <ButtonResponsive 
+                id={followUpRequest[0]._id} 
+                title={`Pendiente`} 
+                icon={<FaUserClock 
+                data-id={followUpRequest[0]._id} 
+                className='icon'/>}/>
+              )
+            } else if(followUpRequest[0].status === 'REJECTED') {
+              return (
+                <ButtonResponsive 
+                title={`Seguir`} 
+                icon={<BsFillPersonCheckFill 
+                className='icon' />} 
+                handleFunction={() => handleFollowUser()}
+                id={followUpRequest[0]._id}/>
+              )
+            } else if(followUpRequest[0].status === 'ACCEPT') {
+              return (
+                <ButtonResponsive 
+                title={`Siguiendo`} 
+                icon={<BsFillPersonCheckFill 
+                className='icon' />} 
+                handleFunction={(e) => handleUnfollowUser(e)}
+                id={followUpRequest[0]._id}/>
               )
             }
       } else {
         return (
-          <ButtonResponsive title={`Seguir`} icon={<IoMdPersonAdd className='icon'/>} handleFunction={() => handleFollowUser()}/>
+          <ButtonResponsive  
+            title={`Seguir`} 
+            icon={<IoMdPersonAdd 
+            className='icon' 
+            />} 
+            handleFunction={() => handleFollowUser()}/>
+        )
+      }} else {
+        return (
+          <ButtonResponsive  
+            title={`Seguir`} 
+            icon={<IoMdPersonAdd 
+            className='icon' 
+            />} 
+            handleFunction={() => handleFollowUser()}/>
         )
       }
-    }
+  }
 
     const handleFollowUser = async () => {
       const { imgProfile, username, _id, } = user[0];
@@ -140,15 +174,19 @@ const ProfileHeader = () => {
       await dispatch(refreshUserAuth());
     }
 
-    const handleUnfollowUser = async () => {
+    const handleUnfollowUser = async (e) => {
       const { _id, username } = user[0];
+      const dataToUnfollow = {
+        username,
+        idFollowUpRequest: e.target.dataset.id
+      };
 
       if(window.confirm(`Dejar de seguir a "${username}"`)){
-      await dispatch(unfollowUser(username));
-      await dispatch(refreshUser(username));
-      await dispatch(refreshUserAuth());
-      await dispatch(handleIsFollowing(params.username))
-
+        if(e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
+          await dispatch(unfollowUser(dataToUnfollow));
+          await dispatch(refreshUser(username));
+          await dispatch(refreshUserAuth());
+          await dispatch(handleIsFollowing(params.username))
       } else {
         return;
       }
