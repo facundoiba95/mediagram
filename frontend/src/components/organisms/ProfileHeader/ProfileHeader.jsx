@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
@@ -11,11 +11,14 @@ import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { FaUserClock } from 'react-icons/fa';
 import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
-import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
+import { changePrivacityOfAccount, refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
 import { useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
+import { MdSettings } from 'react-icons/md';
+import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSettingUserAuth';
+import { GlobalContext } from '../../../Context/GlobalContext';
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -29,6 +32,9 @@ const ProfileHeader = () => {
   const isLoading = useSelector( state => state.userSlices.isLoading );
   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
   const isUserAuth = userAuth.username === user[0].username;
+
+  // useContext 
+  const { isOpenMenuSetting, setIsOpenMenuSetting } = useContext( GlobalContext );
 
     const {
        username,
@@ -104,7 +110,10 @@ const ProfileHeader = () => {
     const renderButtonFollow = () => {
       if(user[0]._id === userAuth._id){
         return (
-          <><h2>Usuario autenticado</h2></>
+          <span className='spanMenuSetting' onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting) }>
+            <MdSettings className='iconSetting'/>
+            <small>Ajustes de usuario.</small>
+          </span>
         )
       }
       if(isFollowing || followUpRequest.length){
@@ -199,11 +208,12 @@ const ProfileHeader = () => {
         ? <LoaderResponsive/>
         : <>
             { renderImgProfile() }
-            <InfoProfileContainerStyles>
+            <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting}>
               <span className='title'>
                 <p>{username}</p>
                 { renderButtonFollow() }
               </span>
+              <MenuSettingUserAuth isPrivate={isPrivate}/>
               <InfoProfileHeader 
               countPosts={countPosts}
               countFollowings={countFollowings}

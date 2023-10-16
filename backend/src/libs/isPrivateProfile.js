@@ -26,7 +26,9 @@ const restrictDataUsersPrivateAccount = (users, idUser) => {
 export const restrictFollowUpRequestData = ( foundUser, idUser ) => {
     const restrictFollowUpRequests = foundUser.map(usr => {
         const foundFollowUpRequest = usr.followUpRequest.filter(request => request.sentBy.find(usr => usr._id.toString() === idUser));
+        
         usr.followUpRequest = foundFollowUpRequest;
+        console.log(foundFollowUpRequest);
         return {  ... usr};
     });
 
@@ -47,7 +49,8 @@ export default async ( username, idUser ) => {
                 return restrictDataUsersPrivateAccount(foundUser, idUser); // devuelve data restringida.
             }
         } else if( foundUser[0].isPrivate == false ){
-            return foundUser;
+            console.log('no tiene cuenta privada');
+            return await restrictFollowUpRequestData(foundUser, idUser);
         }
     } catch (error) {
         console.error('Ocurrio un error en el modulo isPrivateProfile.js. Bloque trycatch. Error: ', error);

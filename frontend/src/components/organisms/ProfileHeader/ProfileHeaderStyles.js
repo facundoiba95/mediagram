@@ -11,6 +11,7 @@ align-items:center;
 gap:80px;
 padding-bottom:30px;
 padding-top:30px;
+position: relative;
 `
 
 export const ImgProfileStyles = styled.div`
@@ -67,6 +68,39 @@ th{
     font-size:1.4rem;
     color: black;
 }
+
+.spanMenuSetting {
+    position:absolute;
+    right:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    font-weight:600;
+    background-color: var(--heavyLight);
+    padding:5px;
+    cursor: pointer;
+    border-radius:10px;
+    transition: all 0.2s ease-in-out;
+
+    small {
+        background-color: var(--heavyLight);
+        font-size:1rem;
+    }
+
+    &:active {
+        transform: scale(90%);
+    }
+}
+
+.iconSetting {
+    background-color: var(--heavyLight);
+    font-size:1.8rem;
+    transform: ${ props => props.isOpenMenuSetting ? 'rotate(180deg)' : 'rotate(0deg)' };
+    transition: all 0.2s ease-in-out;
+    color:${ props => props.isOpenMenuSetting ? 'var(--violetpink)' : 'black' };
+}
+
 `
 
 export const ActionProfileContainerStyles = styled.div`

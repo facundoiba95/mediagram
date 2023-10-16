@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { handleLogin, handleRefreshUserAuth, handleRegister } from "../controllers/auth.controllers.js";
+import { changePrivacityOfAccount, handleLogin, handleRefreshUserAuth, handleRegister } from "../controllers/auth.controllers.js";
 import verifyToken from "../middlewares/auth/verifyToken.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
 
@@ -16,5 +16,6 @@ router.use((req, res, next) => {
 router.post('/login', handleLogin);
 router.post('/register', handleRegister);
 router.post('/refreshUserAuth', [ verifyToken, handleErrors], handleRefreshUserAuth);
+router.post('/changePrivacityOfAccount', [ verifyToken, handleErrors ], changePrivacityOfAccount );
 
 export default router;

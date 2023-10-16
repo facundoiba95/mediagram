@@ -20,7 +20,8 @@ export default async (req, res, next) => {
         const foundUser = await User.findOne({ _id: req.idUser }, { password: 0 });
 
         if (!foundUser) return await Promise.reject({ error: 'User not found', status: 404 });
-        
+    
+        req.userAuth = foundUser;
         next();
     } catch (error) {
         next(error);

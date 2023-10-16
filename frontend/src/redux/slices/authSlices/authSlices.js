@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import handleLoginBuilders from "./authBuilders/handleLoginBuilders";
 import handleRegisterBuilders from "./authBuilders/handleRegisterBuilders";
 import refreshUserAuthBuilders from "./authBuilders/refreshUserAuthBuilders";
+import changePrivacityOfAccountBuilders from "./authBuilders/changePrivacityOfAccountBuilders";
 
 const initialState = {
     error: null,
@@ -78,6 +79,29 @@ export const refreshUserAuth = createAsyncThunk(
     }
 )
 
+export const changePrivacityOfAccount = createAsyncThunk(
+    'changePrivacityOfAccount/authSlices',
+    async (condition) => {
+        try {
+           const token = localStorage.getItem('token');
+           const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/changePrivacityOfAccount`, {
+            method: 'POST',
+            mode:'cors',
+            headers: {
+                "Content-Type":"application/json",
+                "x-access-token": `${token}`
+            },
+            body: JSON.stringify({condition})
+           }) 
+           const res = await req.json();
+           return res;
+        } catch (error) {
+            console.error('Ocurrio un error en changePrivacityOfAccount, authSlices. Error: ', error);
+            alert('Ocurrio un error en changePrivacityOfAccount, authSlices. Error: ', error);
+        }
+    }
+)
+
 
 const authSlices = createSlice({
     name:'authSlices',
@@ -97,6 +121,7 @@ const authSlices = createSlice({
         handleLoginBuilders( builders, handleLogin );
         handleRegisterBuilders( builders, handleRegister );
         refreshUserAuthBuilders( builders, refreshUserAuth );
+        changePrivacityOfAccountBuilders( builders, changePrivacityOfAccount );
     }
 });
 

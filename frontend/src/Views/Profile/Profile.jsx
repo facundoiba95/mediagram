@@ -13,6 +13,7 @@ import LoaderResponsive from '../../components/molecules/Loaders/LoaderResponsiv
 const Profile = () => {
   // states
     const isLogged = useSelector( state => state.authSlices.isLogged );
+    const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
     const isLoading = useSelector( state => state.userSlices.isLoading );
 
   // hooks and tools
@@ -37,7 +38,7 @@ const Profile = () => {
   return (
     <TransitionContainer>
       {
-        isLoading 
+        isLoading || isLoadingAuth
         ? <LoaderResponsive/>
         : renderProfile() 
       }

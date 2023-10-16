@@ -66,3 +66,16 @@ export const handleRefreshUserAuth = async ( req,res ) => {
         res.status(error.status).json({error: error.message, status: error.status})
     }
 } 
+
+export const changePrivacityOfAccount = async ( req,res ) => {
+    try {
+        const { condition } = req.body;
+        const userAuth = req.userAuth;
+        userAuth.isPrivate = condition;
+        await userAuth.save();
+        return res.status(200).json({ message: `Privacity is changed. isPrivate: "${userAuth.isPrivate}"`, status: 200 });
+    } catch (error) {
+        console.error('Ocurrio un error en changePrivacityOfAccount(). auth.controllers.js', error.message);
+        res.status(error.status).json({error: error.message, status: error.status})
+    }
+}
