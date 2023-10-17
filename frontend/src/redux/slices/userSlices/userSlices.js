@@ -189,7 +189,6 @@ export const changeImgProfile = createAsyncThunk(
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/changeImgProfile`, {
                 method: "POST",
-                mode:'cors',
                 headers: {
                     "x-access-token": `${token}`
                 },
