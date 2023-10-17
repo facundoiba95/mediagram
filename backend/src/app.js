@@ -14,6 +14,7 @@ app.use(cors({
         'https://mediagram-delta.vercel.app'
     ]
 }));
+
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));

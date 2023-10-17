@@ -17,6 +17,7 @@ export const createPost = createAsyncThunk(
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/createPost`, {
                 method: "POST",
+                mode:'cors',
                 headers:{
                     "x-access-token": `${token}`
                 },
