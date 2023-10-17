@@ -25,6 +25,7 @@ export default async (req, res, next) => {
         next();
     } catch (error) {
         next(error);
-        console.log(error);
+        console.error('Ocurrio un error en middleware verifyToken.js().Error: ', error);
+
     }
 }

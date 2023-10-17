@@ -26,6 +26,7 @@
        - logica de seguimiento de usuarios;
        - aceptar o rechazar solicitudes de cuentas privadas.
        - cambiar la privacidad de la cuenta
+       - Cambiar imagen de usuario
 
        
        POR HACER: 
@@ -39,8 +40,9 @@
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
-           - Cambiar imagen de usuario
-
+           
+           ******* AL SUBIR FOTOS EN PRODUCCION, OCURRE UN ERROR DE CORS     ******
+          ******** en la ruta para crear post y para cambiar imagen, ** VER CLOUDINARY *****
                  
 
 

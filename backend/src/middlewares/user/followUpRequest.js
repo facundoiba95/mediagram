@@ -21,7 +21,7 @@ export default async ( req,res,next ) => {
         
         next();
     } catch (error) {
-        console.error(error)
+        console.error('Ocurrio un error en middleware followUpRequest.js().Error: ',error.message)
         next(error);
     }
 }

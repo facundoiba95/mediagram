@@ -8,6 +8,7 @@ export default async (req,res) => {
             .rotate(0,{ ignoreOrientation: true }) // evita la rotacion automatica de la imagen convertida
             .toFile(`${thumbnailPath}-thumbnail.jpeg`, (err, info) => {
               if (err) {
+                console.error('Ocurrio un error al generar la thumbnail en generateThumbnail.js().Error: ',err)
                 reject(err);
               } else {
                 resolve(info);
