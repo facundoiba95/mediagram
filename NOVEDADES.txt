@@ -27,6 +27,7 @@
        - aceptar o rechazar solicitudes de cuentas privadas.
        - cambiar la privacidad de la cuenta
        - Cambiar imagen de usuario
+       - Solucione conflicto para crear contenido nuevo o cambiar imagen en Produccion.
 
        
        POR HACER: 
@@ -41,8 +42,7 @@
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
            
-           ******* AL SUBIR FOTOS EN PRODUCCION, OCURRE UN ERROR DE CORS     ******
-          ******** en la ruta para crear post y para cambiar imagen, ** VER CLOUDINARY *****
+           
                  
 
 
