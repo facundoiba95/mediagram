@@ -7,6 +7,7 @@ import CreateContent from '../Views/CreateContent/CreateContent';
 import FormCreateContent from '../components/molecules/FormCreateContent/FormCreateContent';
 import SearchSection from '../components/organisms/SearchSection/SearchSection';
 import Notifications from '../components/organisms/Notifications/Notifications';
+import ChangeImageUser from '../components/molecules/ChangeImageUser/ChangeImageUser';
 
 
 const Router = () => {
@@ -21,6 +22,7 @@ const Router = () => {
           <Route path='/register' element={<Home/>}/>
           <Route path='/profile/:username' element={<Profile/>}/>
           <Route path='/profile/:username/:typeFollow' element={<Profile/>}/>
+          <Route path='/profile/:username/changeImageUser' element={<Profile><ChangeImageUser/></Profile>}/>
           <Route path='/createContent' element={<CreateContent/>}/>
           <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent}/></CreateContent>}/>
         </Routes>

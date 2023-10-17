@@ -1,24 +1,25 @@
 import React from 'react'
-import { LoaderCreatePostContainerStyles } from '../../Loaders/LoaderCreatePost/LoaderCreatePostStyles'
-import { ModalStatusCreateContentBoxStyles } from './ModalStatusCreateContentStyles'
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { MdError } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { restarStatusPost } from '../../../../redux/slices/postSlices/postSlices';
+import { LoaderCreatePostContainerStyles } from '../../Loaders/LoaderCreatePost/LoaderCreatePostStyles';
 import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
-import('animate.css');
+import { ModalStatusCreateContentBoxStyles } from '../ModalStatusCreateContent/ModalStatusCreateContentStyles';
+import 'animate.css';
+import { restartStatusUser } from '../../../../redux/slices/userSlices/userSlices';
 
-
-const ModalStatusCreateContent = ({status, error}) => {
+const ModalStatusUpdateImage = ({status, error}) => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
+    const params = useParams();
     
     const isSuccessfullyContent = () => {
         setTimeout(() => {
-           navigator('/')
-           dispatch(restarStatusPost())
-        }, 3000)
+           navigator(`/profile/${params.username}`);
+           dispatch(restartStatusUser());
+        }, 3000);
+
         return (
             <>
               <BsPatchCheckFill className='animate__animated animate__heartBeat iconStatusContent'/>
@@ -28,13 +29,12 @@ const ModalStatusCreateContent = ({status, error}) => {
     }
 
     const errorCreatePost = () => {
-        
         return (
             <>
              <MdError className='animate__animated animate__heartBeat iconStatusContent'/>
              <h2>Error {status}! {error}</h2>
              <span>
-                <button onClick={() => dispatch(restarStatusPost())}>Verificar datos</button>
+                <button onClick={() => dispatch(restartStatusUser())}>Verificar datos</button>
              </span>
             </>
         )
@@ -55,4 +55,4 @@ const ModalStatusCreateContent = ({status, error}) => {
     )
 }
 
-export default ModalStatusCreateContent
+export default ModalStatusUpdateImage

@@ -39,6 +39,7 @@
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
+           - Cambiar imagen de usuario
 
                  
 

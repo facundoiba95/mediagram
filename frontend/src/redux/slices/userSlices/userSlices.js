@@ -6,6 +6,7 @@ import unfollowUserBuilders from './builders/unfollowUserBuilders';
 import selectUserBuilders from './builders/selectUserBuilders';
 import handleIsFollowingBuilders from './builders/handleIsFollowingBuilders';
 import handleFollowUpRequestBuilders from './builders/handleFollowUpRequestBuilders';
+import changeImgProfileBuilders from './builders/changeImgProfileBuilders';
 
 const initialState = {
     error: null,
@@ -181,6 +182,29 @@ export const handleFollowUpRequest = createAsyncThunk(
     }
 )
 
+export const changeImgProfile = createAsyncThunk(
+    'changeImgProfile/userSlices',
+    async (form) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/changeImgProfile`, {
+                method: "POST",
+                mode:'cors',
+                headers: {
+                    "x-access-token": `${token}`
+                },
+                body: new FormData(form)
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en changeImgProfile, userSlices. Error: ', error);
+            alert('Ocurrio un error en changeImgProfile, userSlices. Error: ', error);
+        }
+    }
+)
+
 const userSlices = createSlice({
     name: 'userSlice',
     initialState,
@@ -212,6 +236,10 @@ const userSlices = createSlice({
         },
         setIsLoadingUser: ( state,action ) => {
             state.isLoading = action.payload;
+        },
+        restartStatusUser: ( state, action ) => {
+            state.status = null;
+            state.message = null;
         }
     },
     extraReducers: ( builders ) => {
@@ -222,8 +250,19 @@ const userSlices = createSlice({
         selectUserBuilders( builders, selectUser );
         handleIsFollowingBuilders( builders, handleIsFollowing );
         handleFollowUpRequestBuilders( builders, handleFollowUpRequest );
+        changeImgProfileBuilders( builders, changeImgProfile );
     }
 });
 
-export const { setUser, setUserFound, restartUserFound, restartUser, listSearchFollow, setIsLoadingUser, restartUserFiltered } = userSlices.actions;
+export const { 
+    setUser,
+    setUserFound, 
+    restartUserFound, 
+    restartUser, 
+    listSearchFollow, 
+    setIsLoadingUser, 
+    restartUserFiltered,
+    restartStatusUser 
+} = userSlices.actions;
+
 export default userSlices.reducer;

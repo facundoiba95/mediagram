@@ -17,6 +17,7 @@ const userSchema = new Schema({
         required: true
     },
     imgProfile: String,
+    thumbnail: String,
     followings: [ Object ],
     followers: [ Object],
     histories:[Object],

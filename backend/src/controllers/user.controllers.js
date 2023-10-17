@@ -2,6 +2,9 @@ import User from "../models/User.js";
 import isPrivateProfile from '../libs/isPrivateProfile.js'
 import addFollower from "../libs/Users/addFollower.js";
 import deleteFollowUpRequest from "../libs/Users/deleteFollowUpRequest.js";
+import generateThumbnail from "../libs/generateThumbnail.js";
+import fs from 'fs-extra';
+import cloudinary from 'cloudinary';
 
 
 export const searchUser = async ( req,res ) => {
@@ -166,5 +169,28 @@ export const verifyUser = async ( req,res ) => {
     } catch (error) {
         console.error('Ocurrio un error en verifyUser(). user.controllers.js', error.message);
         res.status(error.status).json({error: error.message, status: error.status})
+    }
+}
+
+export const changeImgProfile = async ( req,res ) => {
+    try {
+        const userAuth = req.userAuth;
+        const result = await cloudinary.v2.uploader.upload(req.file.path); // subir archivo original
+        userAuth.imgProfile = `${result.secure_url}`;// guarda la ruta de archivo original
+
+        await generateThumbnail(req,res);
+        const thumbnailPath = `${req.file.path}`; // Ruta para la miniatura
+        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailPath}-thumbnail.jpeg`); // subir archivo miniatura
+        userAuth.thumbnail = `${resultThumbnail.secure_url}`;// guarda la ruta de la miniatura
+
+
+        await fs.unlink(`${thumbnailPath}-thumbnail.jpeg`)   // elimina archivo local de miniatura  
+        await fs.unlink(req.file.path); // elimina archivo local original
+        await userAuth.save();
+
+        return res.status(200).json({ message: 'Image profile updated!', status:200 });
+    } catch (error) {
+        console.error('Ocurrio un error en changeImgProfile(). user.controllers.js', error.message);
+        res.status(error.status || 500).json({error: error.message, status: error.status || 500})
     }
 }

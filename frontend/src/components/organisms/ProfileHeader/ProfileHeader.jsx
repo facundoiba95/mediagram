@@ -11,7 +11,7 @@ import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { FaUserClock } from 'react-icons/fa';
 import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
-import { changePrivacityOfAccount, refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
+import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
 import { useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
@@ -42,7 +42,8 @@ const ProfileHeader = () => {
        countFollowings, 
        countFollowers, 
        countPosts, 
-       imgProfile, 
+       imgProfile,
+       thumbnail, 
        viewsInProfile, 
        numberCellphone,
        stars,
@@ -55,7 +56,7 @@ const ProfileHeader = () => {
       if(imgProfile.length){
         return( 
           <ImgProfileStyles>
-            <img src={imgProfile} alt="" />
+            <img src={thumbnail} alt="" />
           </ImgProfileStyles>
         )
       } else {

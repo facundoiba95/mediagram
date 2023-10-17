@@ -33,9 +33,17 @@ transition: all 0.2s ease-in-out;
 background-color:transparent;
 cursor: pointer;
 border-radius:10px;
+gap: 10px;
 
 &:hover {
     background-color:var(--heavyLight);
-   
+}
+
+b {
+    background-color:transparent;
+}
+.iconItemMenuSetting {
+    background-color:transparent;
+    font-size:1.4rem;
 }
 `
