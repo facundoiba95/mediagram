@@ -7,7 +7,7 @@ height: ${ props => props.isOpenMenuSetting ? '100%': '0%' };
 max-height: 200px;
 transition: all 0.2s ease-in-out;
 position: absolute;
-right:0;
+right:30px;
 top:80px;
 visibility: ${ props => props.isOpenMenuSetting ? 'visible': 'hidden' };
 opacity: ${ props => props.isOpenMenuSetting ? '1': '0' };

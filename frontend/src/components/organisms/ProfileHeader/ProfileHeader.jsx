@@ -203,6 +203,7 @@ const ProfileHeader = () => {
 
   return (
     <ProfileHeaderContainerStyles>
+      <MenuSettingUserAuth isPrivate={isPrivate}/>
       {
         isLoading || isLoadingAuth
         ? <LoaderResponsive/>
@@ -213,7 +214,6 @@ const ProfileHeader = () => {
                 <p>{username}</p>
                 { renderButtonFollow() }
               </span>
-              <MenuSettingUserAuth isPrivate={isPrivate}/>
               <InfoProfileHeader 
               countPosts={countPosts}
               countFollowings={countFollowings}

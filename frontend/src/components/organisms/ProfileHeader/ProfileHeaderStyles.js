@@ -11,7 +11,6 @@ align-items:center;
 gap:80px;
 padding-bottom:30px;
 padding-top:30px;
-position: relative;
 `
 
 export const ImgProfileStyles = styled.div`
@@ -71,7 +70,7 @@ th{
 
 .spanMenuSetting {
     position:absolute;
-    right:0;
+    right:30px;
     display:flex;
     align-items:center;
     justify-content:center;

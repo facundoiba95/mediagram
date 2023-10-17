@@ -36,7 +36,6 @@
             - crear notificacion a usuarios referTo
 
             
-
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
@@ -125,44 +124,4 @@
 
        - se guardan en base de datos los usuarios modificados
 
-
-
-
-
-
-
-
-            LOGICA DE FOLLOW USERS:
-               facundo y lisandro
-
-               facundo es el usuario autenticado.
-               - facundo no sigue a lisandro : 
-                     Perfil lisandro: 
-                     boton "Seguir"
-                     0 followers, 0 following
-                     
-
-               - facundo sigue a lisandro :
-                      Perfil lisandro:
-                      0 followers, 1 following
-                      boton cambia "Seguir" => "Siguiendo"
-
-
-               *** facundo cierra sesion ***
-
-               lisandro es el usuario autenticado : 
-               - lisandro no sigue a facundo (pero facundo sigue a lisandro):
-                      Perfil facundo:
-                      1 followers, 0 following
-                      boton "Seguir tambien"
-                      - si facundo no sigue a lisandro, boton "Seguir"
-               
-
-               - lisandro sigue a facundo:
-                      Perfil facundo:
-                      1 followers, 1 following
-                      boton "Siguiendo"
-              
-               
-         
           

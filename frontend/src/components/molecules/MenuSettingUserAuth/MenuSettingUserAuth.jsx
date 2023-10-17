@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { changePrivacityOfAccount } from '../../../redux/slices/authSlices/authSlices';
 
 export const MenuSettingUserAuth = ({isPrivate}) => {
-    const { isOpenMenuSetting, setIsOpenMenuSetting } = useContext( GlobalContext );
+    const { isOpenMenuSetting, setIsOpenMenuSetting  } = useContext( GlobalContext );
     const dispatch = useDispatch();
 
     const privacityOfAccount = () => {
@@ -23,16 +23,21 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
                 await dispatch(changePrivacityOfAccount(false));
                 await alert('Tu cuenta es PÚBLICA.');
                 return;
+            } else {
+                setIsOpenMenuSetting(!isOpenMenuSetting);
+                return;
             }
-            return;
+            
         } else {
             if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PRIVADA"?')){
                 setIsOpenMenuSetting(!isOpenMenuSetting);
                 await dispatch(changePrivacityOfAccount(true));
                 await alert('Tu cuenta es PRIVADA.');
                 return;
+            } else {
+                setIsOpenMenuSetting(!isOpenMenuSetting);
+                return;
             }
-            return;
         }
     }
 
