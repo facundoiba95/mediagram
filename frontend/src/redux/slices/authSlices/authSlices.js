@@ -3,6 +3,7 @@ import handleLoginBuilders from "./authBuilders/handleLoginBuilders";
 import handleRegisterBuilders from "./authBuilders/handleRegisterBuilders";
 import refreshUserAuthBuilders from "./authBuilders/refreshUserAuthBuilders";
 import changePrivacityOfAccountBuilders from "./authBuilders/changePrivacityOfAccountBuilders";
+import changePasswordBuilders from "./authBuilders/changePasswordBuilders";
 
 const initialState = {
     error: null,
@@ -102,6 +103,29 @@ export const changePrivacityOfAccount = createAsyncThunk(
     }
 )
 
+export const changePassword = createAsyncThunk(
+    'changePassword/authSlices',
+    async (password) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/changePassword` , {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify({password})
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en changePassword(), authSlices. Error: ', error);
+            alert('Ocurrio un error en changePassword(), authSlices. Error: ', error);
+        }
+    }
+)
 
 const authSlices = createSlice({
     name:'authSlices',
@@ -122,6 +146,7 @@ const authSlices = createSlice({
         handleRegisterBuilders( builders, handleRegister );
         refreshUserAuthBuilders( builders, refreshUserAuth );
         changePrivacityOfAccountBuilders( builders, changePrivacityOfAccount );
+        changePasswordBuilders( builders, changePassword );
     }
 });
 

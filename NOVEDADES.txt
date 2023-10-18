@@ -28,7 +28,7 @@
        - cambiar la privacidad de la cuenta
        - Cambiar imagen de usuario
        - Solucione conflicto para crear contenido nuevo o cambiar imagen en Produccion.
-
+       - Cambiar contraseña
        
        POR HACER: 
             - crear middlewares de verifytokens
@@ -41,6 +41,7 @@
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
+           
            
            
                  

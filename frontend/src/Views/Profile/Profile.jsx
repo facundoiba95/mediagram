@@ -32,8 +32,9 @@ const Profile = ({children}) => {
                 {
                   location.pathname === `/profile/${params.username}/changeImageUser`
                   ? <>{children}</>
+                  : location.pathname === `/profile/${params.username}/changePassword`
+                  ? <>{children}</>
                   : <ProfileContent/>
-
                 }
             </ProfileContainerStyles>
           )

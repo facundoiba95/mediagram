@@ -79,3 +79,18 @@ export const changePrivacityOfAccount = async ( req,res ) => {
         res.status(error.status).json({error: error.message, status: error.status})
     }
 }
+
+export const changePassword = async ( req,res ) => {
+    try {
+        const { password } = req.body;
+        const userAuth = req.userAuth;
+
+        userAuth.password = password;
+        await userAuth.save();
+
+        return res.status(200).json({ message: 'Is password changed successfully!', status: 200 });
+    } catch (error) {
+        console.error('Ocurrio un error en changePassword(). auth.controllers.js', error.message);
+        res.status(error.status).json({error: error.message, status: error.status})
+    }
+}

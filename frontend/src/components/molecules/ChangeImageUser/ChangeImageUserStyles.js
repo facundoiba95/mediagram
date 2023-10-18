@@ -3,9 +3,36 @@ import styled from 'styled-components';
 export const ChangeImageUserContainerStyles = styled.section`
 width:100%;
 max-width:900px;
-height:300px;
+height: auto;
 font-family: 'Red Hat Display';
 padding:10px;
+gap:10px;
+display: flex;
+flex-direction: column;
+background-color: var(--darkgrey);
+margin-top: 10px;
+border-radius:10px;
+
+h2 {
+    background-color: transparent;
+}
+
+ul {
+    display:flex;
+    flex-direction: column;
+    background-color: transparent;
+
+    li {
+        background-color: var(--darkgrey);
+    }
+    p {
+        font-weight:600;
+        background-color: var(--darkgrey);
+    }
+    b {
+        background-color: transparent;
+    }
+}
 `
 
 export const FormChangeImageUserStyles = styled.form`
@@ -16,8 +43,10 @@ justify-content:center;
 align-items:flex-start;
 gap:20px;
 padding:10px;
+background-color: var(--darkgrey);
 
 span {
+    background-color: var(--darkgrey);
 
     button {
         padding:10px;
@@ -39,6 +68,7 @@ export const ContainerImageUploadStyles = styled.div`
 width:100%;
 height:100%;
 max-width:350px;
+background-color: var(--darkgrey);
 
 .iconImgUpdate {
     width: 300px;

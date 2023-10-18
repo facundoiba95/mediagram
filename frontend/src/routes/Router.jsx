@@ -8,6 +8,7 @@ import FormCreateContent from '../components/molecules/FormCreateContent/FormCre
 import SearchSection from '../components/organisms/SearchSection/SearchSection';
 import Notifications from '../components/organisms/Notifications/Notifications';
 import ChangeImageUser from '../components/molecules/ChangeImageUser/ChangeImageUser';
+import ChangePassword from '../components/molecules/ChangePassword/ChangePassword';
 
 
 const Router = () => {
@@ -23,6 +24,7 @@ const Router = () => {
           <Route path='/profile/:username' element={<Profile/>}/>
           <Route path='/profile/:username/:typeFollow' element={<Profile/>}/>
           <Route path='/profile/:username/changeImageUser' element={<Profile><ChangeImageUser/></Profile>}/>
+          <Route path='/profile/:username/changePassword' element={<Profile><ChangePassword/></Profile>}/>
           <Route path='/createContent' element={<CreateContent/>}/>
           <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent}/></CreateContent>}/>
         </Routes>

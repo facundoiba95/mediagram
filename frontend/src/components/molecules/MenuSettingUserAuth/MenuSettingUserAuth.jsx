@@ -56,10 +56,16 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
         navigator(`/profile/${params.username}/changeImageUser`);
     }
 
+    const goChangePassword = () => {
+        dispatch(restartStatusUser());
+        setIsOpenMenuSetting(!isOpenMenuSetting);
+        navigator(`/profile/${params.username}/changePassword`);
+    }
+
   return (
     <MenuSettingListStyles isOpenMenuSetting={isOpenMenuSetting}>
         <MenuSettingItemStyles onClick={() => goChangeImageUser()}><BsFillImageFill className='iconItemMenuSetting'/>Cambiar imagen de perfil</MenuSettingItemStyles>
-        <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><MdOutlinePassword className='iconItemMenuSetting'/>Cambiar contraseña</MenuSettingItemStyles>
+        <MenuSettingItemStyles onClick={() => goChangePassword()}><MdOutlinePassword className='iconItemMenuSetting'/>Cambiar contraseña</MenuSettingItemStyles>
         { privacityOfAccount() }
         <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting'/>Otros ajustes</MenuSettingItemStyles>
     </MenuSettingListStyles>
