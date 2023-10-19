@@ -5,10 +5,10 @@ import { FormChangePasswordStyle } from './ChangePasswordStyles'
 import { GoAlertFill } from 'react-icons/go';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePassword } from '../../../redux/slices/authSlices/authSlices';
-import LoaderCreatePost from '../Loaders/LoaderCreatePost/LoaderCreatePost';
+import { changePassword, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalStatusChangePassword from '../Modals/ModalStatusChangePassword/ModalStatusChangePassword';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
+import { useNavigate } from 'react-router-dom';
 
 
 const ChangePassword = () => {
@@ -19,7 +19,9 @@ const ChangePassword = () => {
     const status = useSelector( state => state.authSlices.status );
     const errorMessage = useSelector( state => state.authSlices.message );
     const isLoading = useSelector( state => state.authSlices.isLoading );
+    const isLogged = useSelector( state => state.authSlices.isLogged );
     const dispatch = useDispatch()
+    const navigator = useNavigate();
 
     const handleValidateInputPassword = () => {
 
@@ -64,12 +66,17 @@ const ChangePassword = () => {
         }
     }
     
-    const sendChangePassword = (e) => {
+    const sendChangePassword = async (e) => {
         e.preventDefault();
-        if( isValidate.validate == true ){
-            dispatch(changePassword(inputPassword));
+        await dispatch(validateSession())
+        if(isLogged){
+            if( isValidate.validate == true ){
+                dispatch(changePassword(inputPassword));
+            } else {
+                setIsValidate({ error: 'Faltan datos por verificar! Por favor, revisa los campos.', validate: false });
+            }
         } else {
-            setIsValidate({ error: 'Faltan datos por verificar! Por favor, revisa los campos.', validate: false });
+            navigator('/')
         }
     }
 

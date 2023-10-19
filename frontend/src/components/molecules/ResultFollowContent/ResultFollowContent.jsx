@@ -7,6 +7,7 @@ import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 import { handleIsFollowing, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
+import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 
 const ResultFollowContent = () => {
     // hooks and tools
@@ -18,6 +19,7 @@ const ResultFollowContent = () => {
     const user = useSelector( state => state.userSlices.userFound );
     const isLoading = useSelector( state => state.userSlices.isLoading );
     const listUserFiltered = useSelector( state => state.userSlices.userFiltered );
+    const isLogged = useSelector( state => state.authSlices.isLogged );
 
     // useContext
     const { isOpen, setIsOpen } = useContext( GlobalContext );
@@ -60,14 +62,19 @@ const ResultFollowContent = () => {
 
 
     const goToProfile = async (e) => {
-        const valueUserSelected = e.target.dataset.username;
-        params.username = valueUserSelected;
-        setIsOpen(!isOpen);
-        navigator(`/profile/${params.username}`);
-        await dispatch(selectUser(params.username));
-        dispatch(handleIsFollowing(params.username));
-        await dispatch(getPosts(params.username))
-        await dispatch(restartUserFound());
+        await dispatch(validateSession());
+        if(isLogged){
+            const valueUserSelected = e.target.dataset.username;
+            params.username = valueUserSelected;
+            setIsOpen(!isOpen);
+            navigator(`/profile/${params.username}`);
+            await dispatch(selectUser(params.username));
+            dispatch(handleIsFollowing(params.username));
+            await dispatch(getPosts(params.username));
+            await dispatch(restartUserFound());
+        } else {
+            navigator('/');
+        }
     }
 
 

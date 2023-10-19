@@ -8,6 +8,8 @@ import { MoonLoader } from 'react-spinners';
 import { useNavigate, useParams } from 'react-router-dom';
 import { handleIsFollowing, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
+import { validateSession } from '../../../redux/slices/authSlices/authSlices';
+import ModalUnauthenticated from '../Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 
 const ResultToSearch = () => {
@@ -20,11 +22,15 @@ const ResultToSearch = () => {
     const isLoading = useSelector( state => state.userSlices.isLoading );
     const userSearched = useSelector( state => state.userSlices.userFound );
     const statusUserSearched = useSelector( state => state.userSlices.status );
+    const isLogged = useSelector( state => state.authSlices.isLogged );
 
     // useContext
     const { isOpenSearchBar, setIsOpenSearchBar } = useContext(GlobalContext);
 
     const renderContentSearched = () => {
+        if(!isLogged){
+            return ( <ModalUnauthenticated/> )
+        }
         if(statusUserSearched === 404 && !userSearched.length ){
             return (
                 <h2>No se encontraron coincidencias :/</h2>
@@ -61,14 +67,19 @@ const ResultToSearch = () => {
     }
 
     const goToProfile = async (e) => {
-        const valueUserSelected = e.target.dataset.username;
-        params.username = valueUserSelected;
-        setIsOpenSearchBar(!isOpenSearchBar);
-        await dispatch(selectUser(params.username));
-        dispatch(handleIsFollowing(params.username));
-        await dispatch(getPosts(params.username));
-        await dispatch(restartUserFound());
-        navigator(`/profile/${params.username}`);
+        await dispatch(validateSession())
+        if(isLogged){
+            const valueUserSelected = e.target.dataset.username;
+            params.username = valueUserSelected;
+            setIsOpenSearchBar(!isOpenSearchBar);
+            await dispatch(selectUser(params.username));
+            dispatch(handleIsFollowing(params.username));
+            await dispatch(getPosts(params.username));
+            await dispatch(restartUserFound());
+            navigator(`/profile/${params.username}`);
+        } else {
+            navigator('/')
+        }
     }
 
   return (

@@ -10,10 +10,11 @@ import { HiLightBulb } from 'react-icons/hi';
 import { FaUserPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { logout, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices';
+import { logout, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { getPosts, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
+import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 const NavbarHeader = () => {
   // states 
@@ -28,13 +29,17 @@ const NavbarHeader = () => {
   const { isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
 
   const goProfile = async () => {
-    params.username = user.username;
-    navigator(`/profile/${params.username}`);
-
-    await dispatch(selectUser(params.username))
-    await dispatch(handleIsFollowing(params.username))
-    await dispatch(getPosts(params.username))
-    dispatch(restartStatusAuthSlice())
+    await dispatch(validateSession());
+    if(isLogged){
+      params.username = user.username;
+      navigator(`/profile/${params.username}`);
+      await dispatch(selectUser(params.username));
+      await dispatch(handleIsFollowing(params.username));
+      await dispatch(getPosts(params.username));
+      dispatch(restartStatusAuthSlice());
+    } else {
+      navigator('/');
+    }
   }
 
   const goCreateContent = () => {
@@ -114,49 +119,49 @@ const NavbarHeader = () => {
 
   return (
     <NavbarMenuContainerStyles isLogged={isLogged}>
-      <LogoMediagram title={'Mediagram'} />
-        <NavbarMenuListStyles>
-            <NavbarMenuItemStyles onClick={() => navigator('/')}>
-              <ImHome3 className='iconNavbar'/>
-              <p>Inicio</p>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}>
-              <BiSolidSearchAlt2 className='iconNavbar' onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}/>
-              <p onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}>Buscar</p>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles>
-              <MdExplore className='iconNavbar'/>
-              <p>Explorar</p>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles>
-              <AiFillMessage className='iconNavbar'/>
-              <p>Mensajes</p>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles>
-              <BoxNotificationNavbarMenuStyles onClick={() => setIsOpenNotifications(!isOpenNotifications)}>
-                <span>
-                  { renderIconNotification() }
-                </span>
-                <span>
-                  { renderIconNewFollowUpRequest() }
-                </span>
-              </BoxNotificationNavbarMenuStyles>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles onClick={() => goCreateContent()}>
-              <HiLightBulb className='iconNavbar'/>
-              <p>Crear</p>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles onClick={() => goProfile()}>
-              {
-                renderImageProfileNavbarMenu()
-              }
-              <p>Perfil</p>
-            </NavbarMenuItemStyles>
-            <NavbarMenuItemStyles onClick={ () => handleLogout()} isLogout={true}>
-              <p>Cerrar sesión</p>
-            </NavbarMenuItemStyles>
-        </NavbarMenuListStyles>
-    </NavbarMenuContainerStyles>
+    <LogoMediagram title={'Mediagram'} />
+      <NavbarMenuListStyles>
+          <NavbarMenuItemStyles onClick={() => navigator('/')}>
+            <ImHome3 className='iconNavbar'/>
+            <p>Inicio</p>
+          </NavbarMenuItemStyles>
+          <NavbarMenuItemStyles onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}>
+            <BiSolidSearchAlt2 className='iconNavbar' onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}/>
+            <p onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}>Buscar</p>
+          </NavbarMenuItemStyles>
+          <NavbarMenuItemStyles>
+            <MdExplore className='iconNavbar'/>
+            <p>Explorar</p>
+          </NavbarMenuItemStyles>
+          <NavbarMenuItemStyles>
+            <AiFillMessage className='iconNavbar'/>
+            <p>Mensajes</p>
+          </NavbarMenuItemStyles>
+          <NavbarMenuItemStyles>
+            <BoxNotificationNavbarMenuStyles onClick={() => setIsOpenNotifications(!isOpenNotifications)}>
+              <span>
+                { renderIconNotification() }
+              </span>
+              <span>
+                { renderIconNewFollowUpRequest() }
+              </span>
+            </BoxNotificationNavbarMenuStyles>
+          </NavbarMenuItemStyles>
+          <NavbarMenuItemStyles onClick={() => goCreateContent()}>
+            <HiLightBulb className='iconNavbar'/>
+            <p>Crear</p>
+          </NavbarMenuItemStyles>
+               <NavbarMenuItemStyles onClick={() => goProfile()}>
+            {
+              renderImageProfileNavbarMenu()
+            }
+            <p>Perfil</p>
+          </NavbarMenuItemStyles>
+          <NavbarMenuItemStyles onClick={ () => handleLogout()} isLogout={true}>
+            <p>Cerrar sesión</p>
+          </NavbarMenuItemStyles>
+      </NavbarMenuListStyles>
+  </NavbarMenuContainerStyles>
   )
 }
 

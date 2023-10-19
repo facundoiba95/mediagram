@@ -10,7 +10,6 @@ import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
-import verifyToken from "../middlewares/auth/verifyToken.js";
 import { verifyUser } from "../controllers/user.controllers.js";
 config();
 
@@ -48,8 +47,8 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile, handleErrors ], createPost);
-router.post('/getPosts',[ verifyToken, handleErrors ], getPosts);
-router.post('/verifyUser', [ verifyToken, handleErrors ], verifyUser);
+router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
+router.post('/getPosts', getPosts);
+router.post('/verifyUser', verifyUser);
 
 export default router;

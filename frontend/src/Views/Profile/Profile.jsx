@@ -5,10 +5,11 @@ import ProfileHeader from '../../components/organisms/ProfileHeader/ProfileHeade
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ProfileContent from '../../components/organisms/ProfileContent/ProfileContent'
-import { handleIsFollowing } from '../../redux/slices/userSlices/userSlices'
 import ContainerBlur from '../../components/Containers/ContainerBlur/ContainerBlur'
 import FollowContent from '../../components/organisms/FollowContent/FollowContent'
 import LoaderResponsive from '../../components/molecules/Loaders/LoaderResponsive/LoaderResponsive'
+import Login from '../../components/molecules/Login/Login'
+import ModalUnauthenticated from '../../components/molecules/Modals/ModalUnauthenticated/ModalUnauthenticated'
 
 const Profile = ({children}) => {
   // states
@@ -39,8 +40,9 @@ const Profile = ({children}) => {
             </ProfileContainerStyles>
           )
         } else {
-          navigator('/');
+          return (<ModalUnauthenticated />)
         }
+        
     }
     
   return (

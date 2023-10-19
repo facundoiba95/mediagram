@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { MenuSettingItemStyles, MenuSettingListStyles } from './MenuSettingUserAuthStyles';
-import { useDispatch } from 'react-redux';
-import { changePrivacityOfAccount } from '../../../redux/slices/authSlices/authSlices';
+import { useDispatch, useSelector } from 'react-redux';
+import { changePrivacityOfAccount, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import { restartStatusUser } from '../../../redux/slices/userSlices/userSlices';
 import { BsFillImageFill, BsFillLockFill, BsFillUnlockFill } from 'react-icons/bs';
@@ -15,6 +15,7 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
+    const isLogged = useSelector( state => state.authSlices.isLogged );
 
 
     const privacityOfAccount = () => {
@@ -26,40 +27,57 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
     }
 
     const handleChangePrivacityOfAccount = async () => {
-        if(isPrivate) {
-            if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PÚBLICA"?')){
-                setIsOpenMenuSetting(!isOpenMenuSetting);
-                await dispatch(changePrivacityOfAccount(false));
-                await alert('Tu cuenta es PÚBLICA.');
-                return;
+        await dispatch(validateSession());
+        if(isLogged){
+            if(isPrivate) {
+                if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PÚBLICA"?')){
+                    setIsOpenMenuSetting(!isOpenMenuSetting);
+                    await dispatch(changePrivacityOfAccount(false));
+                    await alert('Tu cuenta es PÚBLICA.');
+                    return;
+                } else {
+                    setIsOpenMenuSetting(!isOpenMenuSetting);
+                    return;
+                }
+                
             } else {
-                setIsOpenMenuSetting(!isOpenMenuSetting);
-                return;
+                if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PRIVADA"?')){
+                    setIsOpenMenuSetting(!isOpenMenuSetting);
+                    await dispatch(changePrivacityOfAccount(true));
+                    await alert('Tu cuenta es PRIVADA.');
+                    return;
+                } else {
+                    setIsOpenMenuSetting(!isOpenMenuSetting);
+                    return;
+                }
             }
-            
         } else {
-            if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PRIVADA"?')){
-                setIsOpenMenuSetting(!isOpenMenuSetting);
-                await dispatch(changePrivacityOfAccount(true));
-                await alert('Tu cuenta es PRIVADA.');
-                return;
-            } else {
-                setIsOpenMenuSetting(!isOpenMenuSetting);
-                return;
-            }
+           navigator('/')
         }
     }
 
-    const goChangeImageUser = () => {
+    const goChangeImageUser = async () => {
+        dispatch(validateSession());
+        if(isLogged){
         dispatch(restartStatusUser());
+        dispatch(restartStatusAuthSlice());
         setIsOpenMenuSetting(!isOpenMenuSetting);
-        navigator(`/profile/${params.username}/changeImageUser`);
+        await navigator(`/profile/${params.username}/changeImageUser`);
+        } else {
+        navigator('/')
+        }
     }
 
-    const goChangePassword = () => {
-        dispatch(restartStatusUser());
+    const goChangePassword = async () => {
+        await dispatch(validateSession());
+       if(isLogged){
         setIsOpenMenuSetting(!isOpenMenuSetting);
-        navigator(`/profile/${params.username}/changePassword`);
+        dispatch(restartStatusUser());
+        dispatch(restartStatusAuthSlice());
+        await navigator(`/profile/${params.username}/changePassword`);
+       } else {
+        navigator('/')
+       }
     }
 
   return (

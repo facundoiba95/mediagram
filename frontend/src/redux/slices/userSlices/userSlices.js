@@ -44,7 +44,7 @@ export const selectUser = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const usernameValue = { username }
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/selectUser`, {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/selectUser/`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
@@ -240,6 +240,9 @@ const userSlices = createSlice({
         restartStatusUser: ( state, action ) => {
             state.status = null;
             state.message = null;
+        },
+        restartUserSlice: ( state ) => {
+            return initialState;
         }
     },
     extraReducers: ( builders ) => {
@@ -262,7 +265,8 @@ export const {
     listSearchFollow, 
     setIsLoadingUser, 
     restartUserFiltered,
-    restartStatusUser 
+    restartStatusUser,
+    restartUserSlice 
 } = userSlices.actions;
 
 export default userSlices.reducer;

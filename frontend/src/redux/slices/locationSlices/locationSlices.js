@@ -43,14 +43,14 @@ const locationSlices = createSlice({
     name: 'locationSlices',
     initialState,
     reducers: {
-        resetLocation: ( state, action ) => {
-            state.location = [];
+        resetStateLocation: ( state ) => {
+            return initialState;
         }
     },
     extraReducers: ( builders ) => {
         getLocationByCityBuilders( builders, getLocationByCity );
     }
 })
-export const { resetLocation } = locationSlices.actions;
+export const { resetStateLocation } = locationSlices.actions;
 export default locationSlices.reducer;
 

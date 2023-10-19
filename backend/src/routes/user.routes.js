@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, unfollowUser } from '../controllers/user.controllers.js';
-import verifyToken from '../middlewares/auth/verifyToken.js';
 import handleErrors from '../middlewares/errors/handleErrors.js';
 import isExistUserFollow from '../middlewares/user/isExistUserFollow.js';
 import followUpRequest from '../middlewares/user/followUpRequest.js';
@@ -48,14 +47,14 @@ router.use((req, res, next) => {
     );
     next();
   });
-  
+
 router.get('/searchUser/:valueUser', searchUser);
-router.post('/followUser' , [ verifyToken, isExistUserFollow, followUpRequest, handleErrors ] , followUser);
-router.post('/unfollowUser',[ verifyToken, handleErrors ],  unfollowUser);
-router.post('/selectUser', [ verifyToken, handleErrors ] , selectUser);
-router.post('/handleIsFollowing', [ verifyToken, handleErrors ], handleIsFollowing );
-router.post('/handleFollowUpRequest', [ verifyToken, isExistUserFollow ,handleErrors ], handleFollowUpRequest);
-router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyToken, verifyExistImage, verifySizeFile, handleErrors ], changeImgProfile );
+router.post('/followUser' , [ isExistUserFollow, followUpRequest ] , followUser);
+router.post('/unfollowUser', unfollowUser);
+router.post('/selectUser', selectUser);
+router.post('/handleIsFollowing', handleIsFollowing );
+router.post('/handleFollowUpRequest', [ isExistUserFollow ], handleFollowUpRequest);
+router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile ], changeImgProfile );
 
 
 export default router;

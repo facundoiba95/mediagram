@@ -10,7 +10,7 @@ export const handleLogin = async ( req,res ) => {
        
         const foundUser = await User.findOne({ username: username.trim() });
 
-        if(!foundUser) return res.status(404).json({ message: 'This user is not exist!', status: 404, isLogged: false});
+        if(!foundUser) return res.status(404).json({ message: 'This user is not exist!', status: 404, isLogged: false });
 
         const matchPassword = await User.comparePassword(password.trim(), foundUser.password);
         if(!matchPassword) return res.status(401).json({ isLogged: false, token: null, status:401, message: 'Invalid Password'});
@@ -57,13 +57,13 @@ export const handleRegister = async ( req,res ) => {
 
 export const handleRefreshUserAuth = async ( req,res ) => {
     try {
-        const foundUserAuth = await User.findOne({ _id: req.idUser });
+        const foundUserAuth = req.userAuth;
         if(!foundUserAuth) return res.status(404).json({ error: 'User not found', status: 404 });
 
         return res.status(200).json({ message: 'User auth refresh!', user: foundUserAuth, status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en handleRefreshUserAuth(). auth.controllers.js', error.message);
-        res.status(error.status).json({error: error.message, status: error.status})
+        res.status(error.status).json({ error: error.message, status: error.status })
     }
 } 
 
@@ -76,7 +76,7 @@ export const changePrivacityOfAccount = async ( req,res ) => {
         return res.status(200).json({ message: `Privacity is changed. isPrivate: "${userAuth.isPrivate}"`, status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en changePrivacityOfAccount(). auth.controllers.js', error.message);
-        res.status(error.status).json({error: error.message, status: error.status})
+        res.status(error.status).json({ error: error.message, status: error.status })
     }
 }
 
@@ -91,6 +91,15 @@ export const changePassword = async ( req,res ) => {
         return res.status(200).json({ message: 'Is password changed successfully!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en changePassword(). auth.controllers.js', error.message);
-        res.status(error.status).json({error: error.message, status: error.status})
+        res.status(error.status).json({error: error.message, status: error.status })
+    }
+}
+
+export const validateSession = async ( req,res ) => {
+    try {
+        return res.status(req.isLogged.status).json({ isLogged: req.isLogged.isLogged, status: req.isLogged.status });
+    } catch (error) {
+        console.error('Ocurrio un error en validateSession(). auth.controllers.js. Error: ', error.error);
+        return res.status(error.status).json({ error: error.error, status: error.status });
     }
 }

@@ -22,9 +22,10 @@ import ModalStatusCreateContent from '../Modals/ModalStatusCreateContent/ModalSt
 import imgAddContent from '../../../assets/addContentMediagram.png';
 
 // reducers and actions
-import { createPost } from '../../../redux/slices/postSlices/postSlices';
+import { createPost, restarStatusPost } from '../../../redux/slices/postSlices/postSlices';
 import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
-import { getLocationByCity, resetLocation } from '../../../redux/slices/locationSlices/locationSlices';
+import { getLocationByCity, resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
+import { restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 
 
 const FormCreateContent = () => {
@@ -53,6 +54,7 @@ const FormCreateContent = () => {
   // user states
   const userAuth = useSelector( state => state.authSlices.user );
   const user = useSelector( state => state.userSlices.userFound );
+  const isLogged = useSelector( state => state.authSlices.isLogged );
 
   // post states
   const isLoading = useSelector( state => state.postSlices.isLoading );
@@ -61,8 +63,9 @@ const FormCreateContent = () => {
 
 
   useEffect(() => {
-    dispatch(resetLocation());
+    dispatch(resetStateLocation());
     dispatch(restartUserFound());
+    dispatch(restarStatusPost())
   }, [])
 
   const titleCreateContent = {
@@ -195,10 +198,14 @@ const FormCreateContent = () => {
     }
   }
 
-  const handleCreatePost = (e) => {
+  const handleCreatePost = async (e) => {
     e.preventDefault();
-    const formCreateContent = document.getElementById('formCreateContent');
-    dispatch(createPost(formCreateContent));
+    await dispatch(validateSession());
+    if(isLogged){
+      const formCreateContent = document.getElementById('formCreateContent');
+      await dispatch(createPost(formCreateContent));
+      dispatch(restartStatusAuthSlice());
+    }
   }
 
   return (

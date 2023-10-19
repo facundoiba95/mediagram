@@ -11,22 +11,25 @@ import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { FaUserClock } from 'react-icons/fa';
 import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
-import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
-import { useParams } from 'react-router-dom';
+import { refreshUserAuth, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 import { MdSettings } from 'react-icons/md';
 import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSettingUserAuth';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 const ProfileHeader = () => {
   // hooks and tools
   const dispatch = useDispatch();
   const params = useParams();
+  const navigator = useNavigate();
 
   // states redux Toolkit
   const userAuth = useSelector( state => state.authSlices.user );
+  const isLogged = useSelector( state => state.authSlices.isLogged );
   const user = useSelector( state => state.userSlices.userFiltered );
   const isFollowing = useSelector( state => state.userSlices.isFollowing ); // debe manejarse desde el backend
   const isLoading = useSelector( state => state.userSlices.isLoading );
@@ -177,11 +180,18 @@ const ProfileHeader = () => {
         _id
       };
 
+      await dispatch(validateSession());
+      if(isLogged){
       await dispatch(followUser(newFollower));
       await dispatch(handleIsFollowing(params.username))
       await dispatch(refreshUser(username));
       await dispatch(getPosts(params.username))
       await dispatch(refreshUserAuth());
+      dispatch(restartStatusAuthSlice());
+      } else {
+        dispatch(restartStatusAuthSlice())
+        navigator('/')
+      }
     }
 
     const handleUnfollowUser = async (e) => {
@@ -191,19 +201,30 @@ const ProfileHeader = () => {
         idFollowUpRequest: e.target.dataset.id
       };
 
-      if(window.confirm(`Dejar de seguir a "${username}"`)){
-        if(e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
-          await dispatch(unfollowUser(dataToUnfollow));
-          await dispatch(refreshUser(username));
-          await dispatch(refreshUserAuth());
-          await dispatch(handleIsFollowing(params.username))
+      await dispatch(validateSession());
+
+      if(isLogged) {
+        if(window.confirm(`Dejar de seguir a "${username}"`)){
+          if(e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
+            await dispatch(unfollowUser(dataToUnfollow));
+            await dispatch(refreshUser(username));
+            await dispatch(refreshUserAuth());
+            await dispatch(handleIsFollowing(params.username))
+            dispatch(restartStatusAuthSlice());
+        } else {
+          return;
+        }
       } else {
-        return;
+        navigator('/')
       }
+      
     }
 
   return (
-    <ProfileHeaderContainerStyles>
+    <>
+    {
+      isLogged ?
+      <ProfileHeaderContainerStyles>
       <MenuSettingUserAuth isPrivate={isPrivate}/>
       {
         isLoading || isLoadingAuth
@@ -226,10 +247,12 @@ const ProfileHeader = () => {
               { renderNumberCellphone() }
               { renderActions() }
             </InfoProfileContainerStyles>
-            
           </>
       }
     </ProfileHeaderContainerStyles>
+    : <ModalUnauthenticated />
+    }
+    </>
     )
 }
 

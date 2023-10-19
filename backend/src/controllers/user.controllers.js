@@ -56,7 +56,7 @@ export const selectUser = async ( req,res ) => {
 
     } catch (error) {
         console.error('Ocurrio un error en selectUser(). user.controllers.js', error.message);
-        res.status(500).json({ error: error.message, status:500 });
+        res.status(500).json({ error: error.message, status:500  });
     }
 }
 
@@ -70,7 +70,7 @@ export const followUser = async ( req,res ) => {
 
         switch (foundFollowUpRequest[0].status) {
             case 'REJECTED':
-                return res.status(401).json({ message: `Debes enviar una solicitud de seguimiento a "${username}"`, status:401,  })
+                return res.status(401).json({ message: `Debes enviar una solicitud de seguimiento a "${username}"`, status:401 })
 
             case 'ACCEPT':
                 console.log(`Sigues al usuario "${username}"`);
@@ -94,10 +94,10 @@ export const followUser = async ( req,res ) => {
         await foundUserFollowing.save();
         await foundUserFollower.save();
 
-        return res.status(200).json({ message: `Sigues a ${username}!`, status:200});
+        return res.status(200).json({ message: `Sigues a ${username}!`, status:200 });
     } catch (error) {
         console.error(error.message);
-        return res.status(error.status).json({error: error.message, status: error.status });
+        return res.status(error.status).json({error: error.message, status: error.status   });
     }
 }
 
@@ -116,10 +116,10 @@ export const unfollowUser = async ( req,res ) => {
         await foundUserFollowing.save();
         await foundUserFollower.save();
 
-        return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status:200});
+        return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status:200 });
     } catch (error) {
         console.error(error.message);
-        return res.status(error.status).json({error: error.message, status: error.status });
+        return res.status(error.status).json({error: error.message, status: error.status  });
     }
 }
 
@@ -130,11 +130,11 @@ export const handleIsFollowing = async ( req,res ) => {
         const userAuth = await User.findOne({_id: req.idUser});
         const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
         
-        if(isFollowingsUsers) return res.status(200).json({ message: 'Is followers users!', isFollowing: isFollowingsUsers, status: 200 });
-        return res.status(401).json({ message: `You are a not follower to user "${ username }"`, isFollowing:  isFollowingsUsers, status: 401});
+        if(isFollowingsUsers) return res.status(200).json({ message: 'Is followers users!', isFollowing: isFollowingsUsers, status: 200  });
+        return res.status(401).json({ message: `You are a not follower to user "${ username }"`, isFollowing:  isFollowingsUsers, status: 401 });
     } catch (error) {
         console.error(error.message);
-        return res.status(error.status).json({error: error.message, status: error.status });
+        return res.status(error.status).json({error: error.message, status: error.status  });
     }
 }
 
@@ -165,10 +165,10 @@ export const verifyUser = async ( req,res ) => {
     try {
         const { username } = req.body;
         const foundUser = await isPrivateProfile(username, req.idUser);
-        res.status(200).json({ message: 'refresh user!', user: foundUser, status: 200}); 
+        res.status(200).json({ message: 'refresh user!', user: foundUser, status: 200 }); 
     } catch (error) {
         console.error('Ocurrio un error en verifyUser(). user.controllers.js', error.message);
-        res.status(error.status).json({error: error.message, status: error.status})
+        res.status(error.status).json({error: error.message, status: error.status })
     }
 }
 
@@ -188,9 +188,9 @@ export const changeImgProfile = async ( req,res ) => {
         await fs.unlink(req.file.path); // elimina archivo local original
         await userAuth.save();
 
-        return res.status(200).json({ message: 'Image profile updated!', status:200 });
+        return res.status(200).json({ message: 'Image profile updated!', status:200  });
     } catch (error) {
         console.error('Ocurrio un error en changeImgProfile(). user.controllers.js', error.message);
-        res.status(error.status || 500).json({error: error.message, status: error.status || 500})
+        res.status(error.status || 500).json({error: error.message, status: error.status || 500 })
     }
 }

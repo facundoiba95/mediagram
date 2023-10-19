@@ -37,12 +37,13 @@
             - verificar que tipo de dato se devuelve al frontend, para reducir memoria, solo datos necesarios
             - restringir datos de usuarios
             - crear notificacion a usuarios referTo
-
+            - autenticar rutas. Mostrar contenido, sino , mostrar mensaje de error.
             
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
-
+           
+           
            
            
                  

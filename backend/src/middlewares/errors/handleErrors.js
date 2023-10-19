@@ -11,6 +11,6 @@ export default async (error, req,res,next) => {
           next();
     } catch (error) {
         console.error('Ocurrio un error en el bloque trycatch de handleErrors.js', error);
-        return res.status(newError.status).json({error:newError.error, status: newError.status});
+        return res.status(newError.status).json({error:newError.error, status: newError.status });
     }
 }

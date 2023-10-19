@@ -6,6 +6,7 @@ const initialState = {
     error: null,
     message: null,
     isLoading: false,
+    isLogged: false,
     status: null,
     post:[],
 }
@@ -64,12 +65,8 @@ const postSlices = createSlice({
         restarStatusPost: ( state,action ) => {
             state.status = null;
         },
-        restartPostsList: ( state, action ) => {
-            state.error = null;
-            state.message = null;
-            state.isLoading = false;
-            state.status = null;
-            state.post = [];
+        restartPostsList: ( state ) => {
+            return initialState;
         }
     },
     extraReducers: ( builders ) => {

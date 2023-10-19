@@ -28,4 +28,9 @@ button{
     border-radius:5px;
     cursor: pointer;
 }
+
+.goHome {
+    cursor: pointer;
+    font-weight:600;
+}
 `

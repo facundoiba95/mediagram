@@ -11,11 +11,11 @@ const FormAuth = ({children}) => {
   const isLogged = useSelector( state => state.authSlices.isLogged ); 
 
   const renderFormsAuth = () =>  {
-    if( location.pathname === '/' && isLogged === false ){
+    if( location.pathname === '/' && isLogged == false ){
       return (
         <Login/>
       )
-    } else if(location.pathname === '/register' && isLogged === false ){
+    } else if(location.pathname === '/register' && isLogged == false ){
       return (
         <Register/>
       )

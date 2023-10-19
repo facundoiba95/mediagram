@@ -10,24 +10,20 @@ import { LoaderCreatePostContainerStyles } from '../../Loaders/LoaderCreatePost/
 
 
 const ModalStatusChangePassword = ({ status,error }) => {
-    const navigator = useNavigate();
     const dispatch = useDispatch();
-    
+    const navigator = useNavigate();
+
     const isSuccessfullyChangePassword = () => {
-        setTimeout(() => {
-           navigator('/')
-           dispatch(restartStatusAuthSlice());
-        }, 3000)
         return (
             <>
               <BsPatchCheckFill className='animate__animated animate__heartBeat iconStatusContent'/>
               <h2>Se ha cambiado la contraseña!</h2>
+              <p className='goHome' onClick={() => navigator('/')}>Volver al inicio</p>
            </>
         )
     }
 
     const errorChangePassword = () => {
-        
         return (
             <>
              <MdError className='animate__animated animate__heartBeat iconStatusContent'/>
