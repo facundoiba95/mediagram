@@ -9,7 +9,6 @@ align-items:center;
 backdrop-filter: blur(10px);
 position: relative;
 margin: 0 auto;
-
 `
 
 export const LoaderBoxContainerStyle = styled.div`
@@ -28,5 +27,10 @@ h2{
     font-family:'Poppins';
     font-size:1.5rem;
     letter-spacing: 8px;
+}
+
+.iconOk {
+    font-size:6rem;
+    color: green;
 }
 `

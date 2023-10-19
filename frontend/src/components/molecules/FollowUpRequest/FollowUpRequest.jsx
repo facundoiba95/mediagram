@@ -8,10 +8,11 @@ import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 
 const FollowUpRequest = () => {
     const dispatch = useDispatch();
+    const isLogged = useSelector( state => state.authSlices.isLogged );
     const userAuth = useSelector( state => state.authSlices.user );
     const isLoading = useSelector( state => state.authSlices.isLoading );
     const isLoadingUser = useSelector( state => state.userSlices.isLoading );
-    const listFollowUpRequest = userAuth.followUpRequest;
+    const listFollowUpRequest = userAuth;
 
     const sendRequestFollowUp = async (e) => {
         const dataFollowUpRequest = {
@@ -28,8 +29,8 @@ const FollowUpRequest = () => {
 
     const renderFollowUpRequestList = () => {
         if(listFollowUpRequest){
-            if(listFollowUpRequest.length){
-                return listFollowUpRequest.filter(request => request.status === 'PENDING').map( item => {
+            if(listFollowUpRequest.followUpRequest && listFollowUpRequest.followUpRequest.length){
+                return listFollowUpRequest.followUpRequest.filter(request => request.status === 'PENDING').map( item => {
                     console.log(item);
                     const { username, imgProfile, _id } = item.sentBy[0];
                     return (

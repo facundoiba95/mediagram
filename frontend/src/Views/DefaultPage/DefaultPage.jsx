@@ -21,7 +21,6 @@ const DefaultPage = () => {
         <FormAuth/>
      </DefaultPageContainerStyles>
    </TransitionContainer>
-
     )
 }
 

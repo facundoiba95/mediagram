@@ -8,7 +8,7 @@ const Home = () => {
   const isLogged = useSelector( state => state.authSlices.isLogged );
   
   const verifySession = () => {
-    if(isLogged === true){
+    if(isLogged == true){
       return (
         <img src='https://www.shutterstock.com/shutterstock/photos/2024534225/display_1500/stock-photo-a-vertical-shot-of-open-windows-looking-at-a-garden-and-the-sea-on-a-sunny-day-2024534225.jpg' />
       )

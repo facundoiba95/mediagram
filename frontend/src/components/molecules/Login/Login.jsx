@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { FormLoginContainerStyles } from './LoginStyles'
+import { FormLoginContainerStyles, MessageLoginContainerStyles } from './LoginStyles'
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive'
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
 import { handleLogin, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices';
 import Loader from '../Loaders/Loader/Loader';
+import { GoAlertFill } from 'react-icons/go';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 
 const Login = () => {
     const statusLogin = useSelector( state => state.authSlices.status );
+    const errorMessage = useSelector( state => state.authSlices.error );
     const isLoading = useSelector( state => state.authSlices.isLoading );
-    
+    const isLogged = useSelector( state => state.authSlices.isLogged );
     const [ inputUsername, setInputUsername ] = useState('');
     const [ inputPassword, setInputPassword ] = useState('');
+    const [ messageLogin, setMessageLogin ] = useState({ error: '', validate: null, type:'' }); 
     const navigator = useNavigate();
     const dispatch = useDispatch();
 
@@ -34,19 +38,20 @@ const Login = () => {
     useEffect(() => {
       switch(statusLogin){
         case 200:
-          navigator('/');
+          navigator('/')
+          setMessageLogin({ error: '', validate: isLogged });
           dispatch(restartStatusAuthSlice());
           break;
         case 404:
-          alert('Usuario inexistente! Regístrate!');
+          setMessageLogin({ error: 'Usuario no encontrado!', validate: isLogged, type: 'username' })
           dispatch(restartStatusAuthSlice());
           break;
         case 401:
-          alert('Contraseña incorrecta.');
+          setMessageLogin({ error: 'Contraseña incorrecta!', validate: isLogged, type: 'password' })
           dispatch(restartStatusAuthSlice());
           break;
         case 500:
-          alert('Ocurrio un error en el servidor!');
+          setMessageLogin({ error: errorMessage, validate: isLogged })
           dispatch(restartStatusAuthSlice());
           break;
           default:
@@ -58,12 +63,16 @@ const Login = () => {
     <TransitionContainer>
       {
         isLoading ?
-        <Loader/>
+        <Loader isLoading={isLoading} status={statusLogin}/>
         :
-        <FormLoginContainerStyles>
+        <FormLoginContainerStyles type={messageLogin.type}>
         <input type="text" name='username' placeholder='Username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)}/>
         <input type="password" name='password' placeholder='Password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)}/>
-        
+        <MessageLoginContainerStyles isLogged={messageLogin.validate}>
+            <GoAlertFill className='iconError'/>
+            <BsFillCheckCircleFill className='iconOkay'/>
+            <small>{messageLogin.error}</small>
+        </MessageLoginContainerStyles>
            <ButtonResponsive 
             title={'Iniciar sesión'}
             isAlternative={false}

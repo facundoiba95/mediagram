@@ -6,8 +6,8 @@ const Loader = () => {
   return (
     <LoaderContainerStyle>
         <LoaderBoxContainerStyle>
-            <MoonLoader size={50} color='crimson'/>
-            <h2>LOADING</h2>
+          <MoonLoader size={50} color='crimson'/>
+          <h2>LOADING</h2>
         </LoaderBoxContainerStyle>
     </LoaderContainerStyle>
   )

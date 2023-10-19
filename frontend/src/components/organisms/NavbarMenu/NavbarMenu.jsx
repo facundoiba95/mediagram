@@ -10,7 +10,7 @@ import { HiLightBulb } from 'react-icons/hi';
 import { FaUserPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { logout } from '../../../redux/slices/authSlices/authSlices';
+import { logout, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices';
 import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { getPosts, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
@@ -34,6 +34,7 @@ const NavbarHeader = () => {
     await dispatch(selectUser(params.username))
     await dispatch(handleIsFollowing(params.username))
     await dispatch(getPosts(params.username))
+    dispatch(restartStatusAuthSlice())
   }
 
   const goCreateContent = () => {
@@ -68,6 +69,7 @@ const NavbarHeader = () => {
   }
 
   const renderIconNewFollowUpRequest = () => {
+    if(!isLogged) return;
    if( user.followUpRequest ){
     const followUpRequests = user.followUpRequest.filter( request => request.status === 'PENDING' );
     if(followUpRequests.length){
@@ -84,14 +86,6 @@ const NavbarHeader = () => {
   }
 
   const renderIconNotification = () => {
-
-   /**
-    * 
-    *      RENDERIZAR SOLO NOTIFICACIONES CON STATUS === 'PENDING'
-    *      LAS VIEWED NO!
-    * 
-    */
-
     if( user ){
       if(user.notifications){
         return (

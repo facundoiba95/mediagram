@@ -29,7 +29,8 @@
        - Cambiar imagen de usuario
        - Solucione conflicto para crear contenido nuevo o cambiar imagen en Produccion.
        - Cambiar contraseña
-       
+       - Arreglando bugs de inicio de sesion o registro, agregando mensajes de errores.
+
        POR HACER: 
             - crear middlewares de verifytokens
             - aplicar validacion de inicio de sesion en todas las vistas (isLogged, token);
@@ -41,7 +42,7 @@
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
-           
+
            
            
                  
