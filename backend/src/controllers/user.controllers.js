@@ -141,7 +141,7 @@ export const handleIsFollowing = async ( req,res ) => {
 export const handleFollowUpRequest = async ( req,res ) => {
     try {
         const { idFollowUpRequest, followUpRequestResult, imgProfile,username, _id } = req.body;
-        const userAuth = req.foundUserFollowing;
+        const userAuth = req.userAuth;
         const userFollower = req.foundUserFollower;
         const foundFollowUpRequest = userAuth.followUpRequest.find(request => request._id.toString() === idFollowUpRequest.toString());
 

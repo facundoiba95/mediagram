@@ -8,7 +8,6 @@ const __dirname = dirname(__filename);
 import cloudinary from 'cloudinary';
 import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
-import handleErrors from "../middlewares/errors/handleErrors.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
 import { verifyUser } from "../controllers/user.controllers.js";
 config();

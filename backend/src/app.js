@@ -10,7 +10,6 @@ const exceptionPOSTPaths = [
     '/api/mediagram/auth/register'
 ]
 
-// routes
 const app = express();
 
 //middlewares;
@@ -42,6 +41,7 @@ app.use( async ( req,res,next ) => {
 });
 
 
+// routes
 import authRoutes from './routes/auth.routes.js';
 import postRoutes from './routes/post.routes.js';
 import indexRoutes from './routes/index.routes.js';

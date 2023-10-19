@@ -1,11 +1,8 @@
 import { Router } from "express";
 import { changePassword, changePrivacityOfAccount, handleLogin, handleRefreshUserAuth, handleRegister, validateSession } from "../controllers/auth.controllers.js";
-import handleErrors from "../middlewares/errors/handleErrors.js";
 import validatePassword from "../middlewares/auth/validatePassword.js";
 
 const router = Router();
-
-
 
 router.use((req, res, next) => {
     res.header(

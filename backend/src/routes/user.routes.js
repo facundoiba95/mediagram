@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, unfollowUser } from '../controllers/user.controllers.js';
-import handleErrors from '../middlewares/errors/handleErrors.js';
 import isExistUserFollow from '../middlewares/user/isExistUserFollow.js';
 import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
