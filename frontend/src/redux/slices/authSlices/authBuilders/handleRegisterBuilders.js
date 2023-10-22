@@ -8,7 +8,7 @@ export default ( builders, handleRegister ) => {
     builders.addCase( handleRegister.fulfilled, ( state, action ) => {
             state.isLoading = false;
             state.status = action.payload.status;
-            state.message = action.payload.message;
+            state.message = action.payload.message || action.payload.error[0].message;
     })
     builders.addCase( handleRegister.pending, ( state, action ) => {
         state.isLoading = true;

@@ -1,84 +1,103 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormRegisterContainerStyles } from './RegisterStyles'
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer'
-import { useNavigate } from 'react-router-dom'
-import { GlobalContext } from '../../../Context/GlobalContext'
-import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive'
 import { useDispatch, useSelector } from 'react-redux';
-import { handleRegister, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices'
+import { handleRegister } from '../../../redux/slices/authSlices/authSlices'
 import Loader from '../Loaders/Loader/Loader';
+import { GoAlertFill } from 'react-icons/go';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
+import ModalStatusRegister from '../Modals/ModalStatusRegister/ModalStatusRegister'
+import { validateEmail, validateLengthInputs, validatePassword, validateUsername } from '../../../libs/validateInputs'
+
 
 const Register = () => {
-    const navigator = useNavigate();
     const dispatch = useDispatch();
-    const statusRegister = useSelector( state => state.authSlices.status );
-    const messageRegister = useSelector( state => state.authSlices.message );
     const isLoading = useSelector( state => state.authSlices.isLoading );
-
-    
-    const { isLogged, setIsLogged  } = useContext(GlobalContext);
     const [ inputUsername, setInputUsername ] = useState('');
     const [ inputPassword, setInputPassword ] = useState('');
     const [ repeatPassword, setRepeatPassword ] = useState('');
     const [ inputEmail, setInputEmail ] = useState('');
+    const [ isValidate, setIsValidate ] = useState({ error: [], validate: ''});
+    const [ isButtonVisible, setIsButtonVisible ] = useState(false);
+    const status = useSelector( state => state.authSlices.status );
+    const errorMessage = useSelector( state => state.authSlices.message );
+    const isLengthInput = validateLengthInputs({ inputUsername, inputPassword, repeatPassword, inputEmail });
 
-    const validateInputs = () => {
-        if( !inputUsername.length || !inputPassword.length || !repeatPassword.length || !inputEmail.length){
-            alert('Debes completar los campos vacios');
-            return;
-        } else if(inputPassword !== repeatPassword){
-            alert('Las contraseñas no coinciden. Por favor, revisalas!.');
-            return;
-        }
-        return true;
-    }
-
-    const goToHome = (e) => {
+    const sendRegister = (e) => {
         e.preventDefault();
-        if(validateInputs()){
+
             const user = {
                 username: inputUsername.trim(),
                 password: inputPassword.trim(),
                 email: inputEmail.trim()
+            };
+
+            if(isValidate.validate == true){
+                if(isLengthInput.validate == true){
+                    dispatch(handleRegister(user));
+                } else {
+                    setIsValidate(isLengthInput);
+                    return;
+                }
             }
-            dispatch(handleRegister(user));
         }
+    
+    const handleValidateUsername = (e) => {
+        const inputValue = e.target.value;
+        setInputUsername(inputValue);
+        const result = validateUsername(inputValue);
+        setIsValidate(result);
+    }
+    
+    const handleValidatePassword = (e) => {
+        const inputValue = e.target.value;
+        setInputPassword(inputValue);
+        const result = validatePassword(inputValue, repeatPassword);
+        setIsValidate(result);
+    };
+
+    const handleRepeatPassword = (e) => {
+        const inputValue = e.target.value;
+        setRepeatPassword(inputValue);
+        const result = validatePassword(inputPassword, inputValue);
+        setIsValidate(result);
+    }
+
+    const handleValidateEmail = (e) => {
+        const inputValue = e.target.value;
+        setInputEmail(inputValue);
+        const result = validateEmail(inputValue);
+        setIsValidate(result);
     }
 
     useEffect(() => {
-        switch(statusRegister){
-            case 200:
-                alert('Se registro usuario exitosamente!. Inicia sesión para continuar.')
-                dispatch(restartStatusAuthSlice());
-                navigator('/');   
-                break;
-            case 409:
-                alert(`El usuario o email ya se encuentran registrados!. Intente con uno diferente.`);
-                dispatch(restartStatusAuthSlice());
-                break;
-            case 500:
-                alert('Ocurrio un error en el servidor! No se pudo completar el registro.');
-                break;
-                default:
-                    break;
-        }
-    }, [ statusRegister ])
+        isValidate.validate == true
+        ? setIsButtonVisible(true)
+        : setIsButtonVisible(false)
+    }, [ isValidate.validate ])
 
   return (
     <TransitionContainer>
         {
-            isLoading ?
-            <Loader/>
-            : <FormRegisterContainerStyles>
-               <input type="text" required name='username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)}/>
-               <input type="password" required name='password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)}/>
-               <input type="password" required value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}/>
-               <input type="email" required name='email' value={inputEmail} onChange={(e) => setInputEmail(e.target.value)}/>
-
-                <ButtonResponsive 
-                title={'Registrarme'}
-                isAlternative={true}
-                handleFunction={(e) => goToHome(e)}/>
+            isLoading 
+            ? <Loader/>
+            : status !== null
+            ? <ModalStatusRegister status={status} error={ errorMessage } />
+            : <FormRegisterContainerStyles isValidate={ isValidate.validate }>
+               <input type="text" required name='username' placeholder='Nombre de usuario' value={inputUsername} onChange={(e) => handleValidateUsername(e)}/>
+               <input type="text" required name='password' placeholder='Contraseña' value={inputPassword} onChange={(e) => handleValidatePassword(e)}/>
+               <input type="text" required placeholder='Repetir contraseña'value={repeatPassword} onChange={(e) => handleRepeatPassword(e)}/> 
+               <input type="email" required name='email' value={inputEmail} placeholder='Email' onChange={(e) => handleValidateEmail(e)}/>
+                 <div className='containerMessageValidationPassword'>
+                   <GoAlertFill className='iconError'/>
+                   <BsFillCheckCircleFill className='iconOkay'/>
+                   <small>{isValidate.length ? '' : isValidate.error.map(item => item.message)}</small>
+                </div>
+                <button 
+                className='btnRegister'
+                onClick={(e) => sendRegister(e)}
+                hidden={!isButtonVisible}
+                >Registrarme</button>
              </FormRegisterContainerStyles>
         }
     </TransitionContainer>
@@ -86,4 +105,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default Register;

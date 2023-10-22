@@ -30,6 +30,7 @@
        - Solucione conflicto para crear contenido nuevo o cambiar imagen en Produccion.
        - Cambiar contraseña
        - Arreglando bugs de inicio de sesion o registro, agregando mensajes de errores.
+       - Registro e inicio de sesion arreglado. Con validaciones de inputs, en back y front.
 
        POR HACER: 
             - crear middlewares de verifytokens
@@ -42,6 +43,9 @@
        HACIENDO :
            - menu de ajustes de usuario autenticado
            - estilos de estos componentes. ( menu de ajustes usuario autenticado )
+        
+
+
            
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************

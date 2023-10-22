@@ -1,4 +1,3 @@
-import { validateInputs } from "../libs/validateInputUser.js";
 import Jwt from 'jsonwebtoken';
 import User from "../models/User.js";
 import { config } from 'dotenv';
@@ -33,7 +32,6 @@ export const handleRegister = async ( req,res ) => {
     
         if(isExistUser) return res.status(409).json({ message: 'This user or email is already exist!', status: 409 });
 
-        if(validateInputs(username, password, email)){
             const newUser = new User({
                 username: username.trim(), 
                 password: password.trim(),
@@ -45,10 +43,6 @@ export const handleRegister = async ( req,res ) => {
             
             await newUser.save();
             return res.status(200).json({ message: 'User created successfully!', status: 200 });
-        } else {
-            return res.status(409).json({ message: 'Ocurrio un error en los campos ingresados. Por favor verifiquelos!.', status: 409 });
-        }
-
     } catch (error) {
         console.error('Ocurrio un error en handleRegister. Error: ', error);
         return res.status(500).json({message: error, status: 500 });

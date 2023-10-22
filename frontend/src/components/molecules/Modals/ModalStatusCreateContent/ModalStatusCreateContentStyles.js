@@ -33,4 +33,14 @@ button{
     cursor: pointer;
     font-weight:600;
 }
+
+p{
+    font-size:1.4rem;
+    display:flex;
+    gap: 10px;
+}
+
+b {
+    cursor: pointer;
+}
 `

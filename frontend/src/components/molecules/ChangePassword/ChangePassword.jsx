@@ -105,7 +105,7 @@ useEffect(() => {
                     <span>
                         <input type="text" require={true} placeholder='Nueva contraseña' value={inputPassword} onChange={(e) => setInputPassword(e.target.value.trim())}/>
                         <input type='text' require={true} placeholder='Repite nueva contraseña' value={inputRepeatPassword} onChange={(e) => setInputRepeatPassword(e.target.value.trim())}/>
-                         <div className='containerMessageValidationPassword'>
+                        <div className='containerMessageValidationPassword'>
                            <GoAlertFill className='iconError'/>
                            <BsFillCheckCircleFill className='iconOkay'/>
                            <small>{isValidate.error}</small>
