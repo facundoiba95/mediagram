@@ -1,6 +1,7 @@
 import React from 'react'
 import { FeedContainerHeaderStyles, FeedContainerNewsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
+import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
 
 const Feed = () => {
   return (
@@ -11,12 +12,7 @@ const Feed = () => {
 
 
         <FeedContainerPostsStyles>
-            <div>Container posts</div>
-            <div>Container posts</div>
-            <div>Container posts</div>
-            <div>Container posts</div>
-            <div>Container posts</div>
-            <div>Container posts</div>
+          <PostsInFeed/>
         </FeedContainerPostsStyles>
         
 

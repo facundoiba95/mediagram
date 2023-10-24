@@ -31,6 +31,9 @@
        - Cambiar contraseña
        - Arreglando bugs de inicio de sesion o registro, agregando mensajes de errores.
        - Registro e inicio de sesion arreglado. Con validaciones de inputs, en back y front.
+       - componentes de "lista de amigos"en Feed.( ListFriendFeed ) ** maquetado
+       - renderizar post en Feed.  ** maquetado
+       - componentes de "posts" en Feed  ** maquetado
 
        POR HACER: 
             - crear notificacion a usuarios referTo
@@ -42,8 +45,7 @@
             - viewsInProfile
             
        HACIENDO :
-          - renderizar post en Feed.
-          - componentes de "lista de amigos"en Feed.
+
         
 
 
