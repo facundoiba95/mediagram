@@ -20,6 +20,18 @@ const GlobalStyle = createGlobalStyle`
         --heavyLight: #F6FFF8;
         --darkgrey:rgba(255, 255, 255, 0.2);
     }
+
+    ::-webkit-scrollbar {
+    background-color: var(--light);
+    border-radius:5px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--violetpink);
+    border-radius:5px;
+    height: 7px;
+}
 `
 
 export default GlobalStyle;

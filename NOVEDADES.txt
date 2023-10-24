@@ -33,16 +33,17 @@
        - Registro e inicio de sesion arreglado. Con validaciones de inputs, en back y front.
 
        POR HACER: 
-            - crear middlewares de verifytokens
-            - aplicar validacion de inicio de sesion en todas las vistas (isLogged, token);
-            - verificar que tipo de dato se devuelve al frontend, para reducir memoria, solo datos necesarios
-            - restringir datos de usuarios
             - crear notificacion a usuarios referTo
-            - autenticar rutas. Mostrar contenido, sino , mostrar mensaje de error.
+            - filtrar por typePost ( 'post', 'fastPost', 'closeFriend' )
+            - ver post
+            - reacciones
+            - comentarios
+            - explorar ( ubicaciones, hashtags, otros )
+            - viewsInProfile
             
        HACIENDO :
-           - menu de ajustes de usuario autenticado
-           - estilos de estos componentes. ( menu de ajustes usuario autenticado )
+          - renderizar post en Feed.
+          - componentes de "lista de amigos"en Feed.
         
 
 
