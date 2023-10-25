@@ -13,7 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { logout, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { getPosts, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
+import { getPosts, getPostsOfFollowings, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 const NavbarHeader = () => {
@@ -29,7 +29,7 @@ const NavbarHeader = () => {
   const { isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
 
   const goProfile = async () => {
-    await dispatch(validateSession());
+    dispatch(validateSession());
     if(isLogged){
       params.username = user.username;
       navigator(`/profile/${params.username}`);
@@ -44,6 +44,10 @@ const NavbarHeader = () => {
 
   const goCreateContent = () => {
     navigator('/createContent');
+  }
+
+  const goHome = () => {
+    navigator('/feed')
   }
 
   const handleLogout = () => {
@@ -121,7 +125,7 @@ const NavbarHeader = () => {
     <NavbarMenuContainerStyles isLogged={isLogged}>
     <LogoMediagram title={'Mediagram'} />
       <NavbarMenuListStyles>
-          <NavbarMenuItemStyles onClick={() => navigator('/')}>
+          <NavbarMenuItemStyles onClick={() => goHome()}>
             <ImHome3 className='iconNavbar'/>
             <p>Inicio</p>
           </NavbarMenuItemStyles>

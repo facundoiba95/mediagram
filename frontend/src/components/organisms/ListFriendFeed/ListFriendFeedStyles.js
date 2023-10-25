@@ -98,7 +98,6 @@ img {
     border-radius:5px;
     color: white;
     padding:2px 3px 2px 3px;
-    z-index: 2000;
 }
 
 

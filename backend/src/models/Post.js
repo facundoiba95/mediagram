@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 const postSchema = new Schema({
     typePost: {
@@ -31,7 +31,11 @@ const postSchema = new Schema({
         type: String,
         require: true
     },
-    views: Number
+    views: [{
+        imgProfile: String,
+        _id: mongoose.Schema.Types.ObjectId,
+        username: String
+    }]
 }, {
     versionKey: false,
     timestamps: true

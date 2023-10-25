@@ -10,6 +10,7 @@ align-items:center;
 font-family:'Red Hat Display';
 font-weight: 900;
 font-size: 1.2rem;
+background-color: transparent;
 
 p{
     letter-spacing:5px;

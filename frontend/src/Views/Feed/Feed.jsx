@@ -10,11 +10,9 @@ const Feed = () => {
             <ListFriendFeed/>
         </FeedContainerHeaderStyles>
 
-
         <FeedContainerPostsStyles>
-          <PostsInFeed/>
+            <PostsInFeed/>
         </FeedContainerPostsStyles>
-        
 
         <FeedContainerNewsStyles>
             <div>Container News</div>

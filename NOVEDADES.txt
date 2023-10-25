@@ -34,17 +34,19 @@
        - componentes de "lista de amigos"en Feed.( ListFriendFeed ) ** maquetado
        - renderizar post en Feed.  ** maquetado
        - componentes de "posts" en Feed  ** maquetado
+       - obtener posts en feed de usuario autenticado.
 
        POR HACER: 
-            - crear notificacion a usuarios referTo
-            - filtrar por typePost ( 'post', 'fastPost', 'closeFriend' )
-            - ver post
-            - reacciones
-            - comentarios
-            - explorar ( ubicaciones, hashtags, otros )
-            - viewsInProfile
+          - crear notificacion a usuarios referTo
+          - filtrar por typePost ( 'post', 'fastPost', 'closeFriend' )
+          - ver post
+          - reacciones
+          - comentarios
+          - explorar ( ubicaciones, hashtags, otros )
+          - viewsInProfile
             
        HACIENDO :
+       - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
 
         
 

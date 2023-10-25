@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import createPostBuilders from "./Builders/createPostBuilders";
 import getPostsBuilders from "./Builders/getPostsBuilders";
+import getPostsOfFollowingsBuilders from "./Builders/getPostsOfFollowingsBuilders";
 
 const initialState = {
     error: null,
@@ -56,7 +57,31 @@ export const getPosts = createAsyncThunk(
             alert('Ocurrio un error en getPosts, postSlices');
         }
     }
+);
+
+export const getPostsOfFollowings = createAsyncThunk(
+    'getPostsOfFollowings/postSlices',
+    async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByFollowings` , {
+              method: 'POST',
+              mode: 'cors',
+              headers: {
+                "Content-Type": "application/json",
+                "x-access-token": `${token}`
+              }
+            });
+        
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getPostsOfFollowings, postSlices');
+            alert('Ocurrio un error en getPostsOfFollowings, postSlices');
+        }
+    }
 )
+
 
 const postSlices = createSlice({
     name: 'postSlices',
@@ -72,6 +97,7 @@ const postSlices = createSlice({
     extraReducers: ( builders ) => {
         createPostBuilders( builders, createPost );
         getPostsBuilders( builders, getPosts );
+        getPostsOfFollowingsBuilders( builders, getPostsOfFollowings );
     }
 })
 

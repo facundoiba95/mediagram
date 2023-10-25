@@ -8,7 +8,7 @@ const LoaderResponsive = () => {
     <LoaderResponsiveContainerStyles>
         <LogoMediagram />
         <p>LOADING</p>
-        <MoonLoader size={20} color='#FF006E'/>
+        <MoonLoader size={20} color='#FF006E' />
     </LoaderResponsiveContainerStyles>
     )
 }

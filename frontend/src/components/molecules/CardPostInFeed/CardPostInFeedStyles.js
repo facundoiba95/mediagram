@@ -45,6 +45,7 @@ img {
 h4 {
     background-color: transparent;
     cursor: pointer;
+    font-size:1.2rem;
 }
 `
 
@@ -60,10 +61,11 @@ h4 {
 }
 
 .containerIconPost{
-    padding: 4px;
+    padding: 10px 5px;
     display:flex;
-    gap:20px;
+    gap:15px;
     background-color: transparent;
+    font-size:1.2rem;
     
     div {
         display: flex;
@@ -82,6 +84,10 @@ h4 {
     font-size:1.1rem;        
     background-color:var(--heavyLight);
     cursor: pointer;
+}
+
+.iconHeart {
+    color: crimson;
 }
 
 .containerDescription {

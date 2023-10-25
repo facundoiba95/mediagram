@@ -7,12 +7,14 @@ display: grid;
 grid-template-columns: minmax(350px, 600px) 1fr minmax(350px, 400px);
 grid-template-rows: 235px 1fr;
 background-color: var(--heavyLight);
+
+
 `
 
 export const FeedContainerHeaderStyles = styled.header`
 width: 100%;
 height:100%;
-grid-column: 1/4;
+grid-column: 3/4;
 grid-row: 1/2;
 display: flex;
 flex-direction:column;
@@ -23,9 +25,9 @@ background-color: var(--heavyLight);
 
 export const FeedContainerPostsStyles = styled.section`
 width:100%;
-height:calc(100vh - 235px);
+height:100vh;
 grid-column: 1/3;
-grid-row: 2/3;
+grid-row: 1/3;
 display:flex;
 flex-direction:column;
 align-items: center;

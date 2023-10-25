@@ -10,6 +10,7 @@ import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
 import { verifyUser } from "../controllers/user.controllers.js";
+import getPostByFollowings from "../middlewares/posts/getPostByFollowings.js";
 config();
 
 const router = Router();
@@ -49,5 +50,6 @@ router.use((req, res, next) => {
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
 router.post('/getPosts', getPosts);
 router.post('/verifyUser', verifyUser);
+router.post('/getPostByFollowings', [ getPostByFollowings ]);
 
 export default router;
