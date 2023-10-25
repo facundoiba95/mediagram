@@ -20,6 +20,7 @@ import { MdSettings } from 'react-icons/md';
 import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSettingUserAuth';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
+import SkeletonCardContentProfile from '../../molecules/Loaders/SkeletonCardContentProfile/SkeletonCardContentProfile';
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -228,7 +229,7 @@ const ProfileHeader = () => {
       <MenuSettingUserAuth isPrivate={isPrivate}/>
       {
         isLoading || isLoadingAuth
-        ? <LoaderResponsive/>
+        ? <SkeletonCardContentProfile/>
         : <>
             { renderImgProfile() }
             <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting}>

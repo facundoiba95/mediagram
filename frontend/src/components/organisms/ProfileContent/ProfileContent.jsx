@@ -11,6 +11,7 @@ import Loader from '../../molecules/Loaders/Loader/Loader'
 import { MoonLoader } from 'react-spinners'
 import ContainerBlur from '../../Containers/ContainerBlur/ContainerBlur'
 import { GlobalContext } from '../../../Context/GlobalContext'
+import SkeletonCardPostProfile from '../../molecules/Loaders/SkeletonCardPostProfile/SkeletonCardPostProfile'
 
 
 const ProfileContent = () => {
@@ -30,8 +31,8 @@ const ProfileContent = () => {
       const { thumbnail, description, postBy, likes, comments, typePost,_id } = item;
       if(isLoading || isLoadingAuth){
         return (
-          <Skeleton variant='rounded' width={350} height={350} animation='wave'/>
-        )
+          <SkeletonCardPostProfile />
+          )
       } else {
         return (
           <CardContentProfile 
@@ -74,9 +75,7 @@ const ProfileContent = () => {
   return (
     <ProfileContentContainerStyles posts={posts}>
       {
-        isLoading || isLoadingAuth
-        ? <MoonLoader size={30}/>
-        :  handleViewPrivateAccountContent()  
+        handleViewPrivateAccountContent()  
       }
     </ProfileContentContainerStyles>
     )

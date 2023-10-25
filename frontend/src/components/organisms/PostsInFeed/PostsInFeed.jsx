@@ -1,21 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { PostsInFeedContainerStyles } from './PostsInFeedStyles'
 import CardPostInFeed from '../../molecules/CardPostInFeed/CardPostInFeed'
-import { useDispatch, useSelector } from 'react-redux';
-import { getPostsOfFollowings } from '../../../redux/slices/postSlices/postSlices';
-import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/SkeletonCardPostFeed';
 
 const PostsInFeed = () => {
   const posts = useSelector( state => state.postSlices.post );
   const isLoadingPost = useSelector( state => state.postSlices.isLoading );
-  const dispatch = useDispatch();
-  const location = useLocation();
-
-
-  useEffect(() => {
-    dispatch(getPostsOfFollowings());
-}, [ location.pathname === '/feed' ])
 
   const renderPosts = () => {
     if(!posts) return (<SkeletonCardPostFeed/>)
@@ -25,6 +16,7 @@ const PostsInFeed = () => {
           <SkeletonCardPostFeed/>
         )
       } else {
+        if(!item.foundedPosts) return (<SkeletonCardPostFeed/>);
         const { thumbnail, description } = item;  
         const { username, imgProfile } = item.foundedPosts;
         return (

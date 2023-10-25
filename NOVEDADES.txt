@@ -35,7 +35,9 @@
        - renderizar post en Feed.  ** maquetado
        - componentes de "posts" en Feed  ** maquetado
        - obtener posts en feed de usuario autenticado.
+       - skeleton para componentes que estan en isLoading == true
 
+       
        POR HACER: 
           - crear notificacion a usuarios referTo
           - filtrar por typePost ( 'post', 'fastPost', 'closeFriend' )
@@ -51,7 +53,13 @@
         
 
 
-           
+        HAY UN PROBLEMA MUY GRANDE!!!!
+        - Ejemplo: - usuario 1, inicia sesion en pestaña 1
+                   - usuario 2, inicia sesion en pestaña 2
+                   - usuario 1, crea nuevo contenido
+                   - en la pestaña del usuario 2 se sobreescriben los datos y se muestran datos del usuario 1.
+
+                   - puede que sea un problema de almacenamiento local, ya que utilizo localStorage.
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************
 

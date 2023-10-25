@@ -9,6 +9,7 @@ import SearchSection from '../components/organisms/SearchSection/SearchSection';
 import Notifications from '../components/organisms/Notifications/Notifications';
 import ChangeImageUser from '../components/molecules/ChangeImageUser/ChangeImageUser';
 import ChangePassword from '../components/molecules/ChangePassword/ChangePassword';
+import Feed from '../Views/Feed/Feed';
 
 const Router = () => {
   const params = useParams();
@@ -20,7 +21,7 @@ const Router = () => {
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Home/>}/>
-          <Route path='/feed' element={<Home/>}/>
+          <Route path='/feed' element={<Home><Feed/></Home>}/>
           <Route path='/profile/:username' element={<Profile/>}/>
           <Route path='/profile/:username/:typeFollow' element={<Profile/>}/>
           <Route path='/profile/:username/changeImageUser' element={<Profile><ChangeImageUser/></Profile>}/>

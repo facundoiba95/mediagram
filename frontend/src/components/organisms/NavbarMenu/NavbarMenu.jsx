@@ -13,8 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { logout, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { getPosts, getPostsOfFollowings, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
-import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
+import { getPosts, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
 const NavbarHeader = () => {
   // states 
@@ -29,7 +28,7 @@ const NavbarHeader = () => {
   const { isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
 
   const goProfile = async () => {
-    dispatch(validateSession());
+     dispatch(validateSession());
     if(isLogged){
       params.username = user.username;
       navigator(`/profile/${params.username}`);
