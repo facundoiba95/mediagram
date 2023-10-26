@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 const FormAuth = ({children}) => {
   const location = useLocation();
   const isLogged = useSelector( state => state.authSlices.isLogged ); 
+  const isLoading = useSelector( state => state.authSlices.isLoading );
 
   const renderFormsAuth = () =>  {
     if( location.pathname === '/' && isLogged == false ){
@@ -22,8 +23,19 @@ const FormAuth = ({children}) => {
     }
   }
 
+  const renderTitleAuth = () => {
+    if(isLoading){
+      return (<></>)
+    } else if(location.pathname === '/' && isLogged == false){
+      return (<h2>Iniciar sesión</h2>)
+    } else if(location.pathname === '/register' && isLogged == false) {
+      return (<h2>Registrarme</h2>)
+    }
+  }
+
   return (
     <FormAuthContainerStyles>
+        {renderTitleAuth()}
         {renderFormsAuth()}
     </FormAuthContainerStyles>
     )

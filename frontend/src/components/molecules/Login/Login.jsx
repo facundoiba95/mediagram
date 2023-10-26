@@ -8,6 +8,7 @@ import { handleLogin, restartStatusAuthSlice } from '../../../redux/slices/authS
 import Loader from '../Loaders/Loader/Loader';
 import { GoAlertFill } from 'react-icons/go';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
+import { MoonLoader } from 'react-spinners';
 
 const Login = () => {
     const statusLogin = useSelector( state => state.authSlices.status );
@@ -63,7 +64,7 @@ const Login = () => {
     <TransitionContainer>
       {
         isLoading ?
-        <Loader isLoading={isLoading} status={statusLogin}/>
+        <MoonLoader size={50} color='#FF70A6' className='spinner'/>
         :
         <FormLoginContainerStyles type={messageLogin.type}>
         <input type="text" name='username' placeholder='Username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)}/>

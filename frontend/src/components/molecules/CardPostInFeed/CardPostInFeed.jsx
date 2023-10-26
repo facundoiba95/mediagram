@@ -1,6 +1,8 @@
 import React from 'react'
 import { CardPostInFeedContainerStyles, FootCardPostInProfileStyles, HeadCardPostInProfileStyles } from './CardPostInFeedStyles'
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
+import { RiUserSmileFill } from 'react-icons/ri';
+
 
 const CardPostInFeed = ({
   imgProfile,
@@ -11,10 +13,14 @@ const CardPostInFeed = ({
   return (
     <CardPostInFeedContainerStyles>
             <HeadCardPostInProfileStyles>
-             <img src={imgProfile} alt="" />
+              {
+                imgProfile
+                ? <img src={imgProfile}/>
+                : <RiUserSmileFill className='imgProfile'/>
+              }
               <h4>{username}</h4>
             </HeadCardPostInProfileStyles>
-            <img src={thumbnail} alt="image post in feed" />
+            <img src={thumbnail} alt="" />
             <FootCardPostInProfileStyles isDescription={description ? description.length : false}>
               <span className='containerIconPost'>
                 <div><FaEye className='iconView'/><h5>22</h5></div>         {/** counterViews */}

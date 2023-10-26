@@ -8,10 +8,12 @@ import { GoAlertFill } from 'react-icons/go';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import ModalStatusRegister from '../Modals/ModalStatusRegister/ModalStatusRegister'
 import { validateEmail, validateLengthInputs, validatePassword, validateUsername } from '../../../libs/validateInputs'
+import { useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
     const dispatch = useDispatch();
+    const navigator = useNavigate();
     const isLoading = useSelector( state => state.authSlices.isLoading );
     const [ inputUsername, setInputUsername ] = useState('');
     const [ inputPassword, setInputPassword ] = useState('');
@@ -98,6 +100,7 @@ const Register = () => {
                 onClick={(e) => sendRegister(e)}
                 hidden={!isButtonVisible}
                 >Registrarme</button>
+                <button className='goLogin' onClick={() => navigator('/')}>Volver atrás</button>
              </FormRegisterContainerStyles>
         }
     </TransitionContainer>

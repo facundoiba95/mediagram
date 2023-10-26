@@ -29,10 +29,10 @@ justify-content: flex-start;
 align-items: center;
 padding:5px;
 background-color: transparent;
-background-color: var(--light);
+background-color: var(--lightblack);;
 border-top-right-radius:10px;
 border-top-left-radius:10px;
-
+color:white;
 img {
     width:55px;
     height:55px;
@@ -46,6 +46,14 @@ h4 {
     background-color: transparent;
     cursor: pointer;
     font-size:1.2rem;
+}
+
+.imgProfile {
+    width: 55px;
+    height:55px;
+    color: var(--violetpink);
+    background-color: white;
+    border-radius:50%;
 }
 `
 
@@ -82,7 +90,6 @@ h4 {
 
 .iconView, .iconHeart, .iconComment{
     font-size:1.1rem;        
-    background-color:var(--heavyLight);
     cursor: pointer;
 }
 

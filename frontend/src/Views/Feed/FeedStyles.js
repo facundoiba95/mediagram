@@ -6,9 +6,9 @@ height:100%;
 display: grid;
 grid-template-columns: minmax(350px, 600px) 1fr minmax(350px, 400px);
 grid-template-rows: 235px 1fr;
-background-color: var(--heavyLight);
-
-
+/* background-color: var(--heavyLight); */
+color:white;
+font-family: 'Red Hat Display';
 `
 
 export const FeedContainerHeaderStyles = styled.header`
@@ -20,7 +20,7 @@ display: flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-background-color: var(--heavyLight);
+/* background-color: var(--heavyLight); */
 ` 
 
 export const FeedContainerPostsStyles = styled.section`
@@ -33,7 +33,7 @@ flex-direction:column;
 align-items: center;
 justify-content: center;
 overflow-y: scroll;
-background-color: var(--heavyLight);
+/* background-color: var(--heavyLight); */
 
 div {
     background-color: transparent;

@@ -49,17 +49,8 @@
             
        HACIENDO :
        - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
-
+       - modificando estilos de defaultPage
         
-
-
-        HAY UN PROBLEMA MUY GRANDE!!!!
-        - Ejemplo: - usuario 1, inicia sesion en pestaña 1
-                   - usuario 2, inicia sesion en pestaña 2
-                   - usuario 1, crea nuevo contenido
-                   - en la pestaña del usuario 2 se sobreescriben los datos y se muestran datos del usuario 1.
-
-                   - puede que sea un problema de almacenamiento local, ya que utilizo localStorage.
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************
 

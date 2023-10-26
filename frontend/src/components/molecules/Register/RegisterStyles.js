@@ -8,11 +8,15 @@ flex-direction:column;
 align-items:center;
 gap:10px;
 margin-top:20px;
+background-color: transparent;
 
 span{
     display:flex;
     width:100%;
+    background-color:transparent;
+
 }
+
 input{
     width:200px;
     height:35px;
@@ -26,8 +30,9 @@ input{
     display:flex;
     align-items: center;
     justify-content:center;
-    background-color: transparent;
-    gap:10px;
+    gap:0px;
+    text-align: center;
+    background-color:transparent;
 
     small {
         font-size:1rem;
@@ -97,5 +102,16 @@ input:nth-child(4){
 
 input {
     border: ${ props => props.isValidate ? '3px solid green' : ''};
+}
+
+.goLogin {
+    color:var(--light);
+    font-weight:600;
+    padding:8px 20px;
+    font-size:0.9rem;
+    background-color: transparent;
+    border: none;
+    border-bottom:1px solid white;
+    cursor: pointer;
 }
 `

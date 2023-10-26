@@ -2,8 +2,18 @@ import { styled } from "styled-components";
 
 export const FormAuthContainerStyles = styled.div`
 width:100%;
-max-width:500px;
-height:450px;
+max-width:300px;
+height:73vh;
 display:flex;
 flex-direction:column;
+align-items: center;
+justify-content: center;
+border: 1px solid #80808080;
+z-index:2000;
+background-color:transparent;
+backdrop-filter: blur(10px);
+
+.spinner {
+    background-color: transparent;
+}
 `
