@@ -5,8 +5,12 @@ width:100%;
 height:auto;
 padding:10px;
 margin:1rem 0 1rem 0;
-background-color: var(--darkgrey);
+background-color: var(--lightblack);
 border-radius:10px;
+
+::placeholder{
+    color:white;
+}
 `
 
 export const FormCreateContentContainerStyles = styled.form`
@@ -17,11 +21,12 @@ display:grid;
 grid-template-columns: ${props => props.isLoading ? '1fr' : 'minmax(180px,500px) 1fr 1fr'};
 grid-template-rows: 50px 1fr;
 position:relative;
+color: white;
 
 p, h2{
     width:auto;
     height:auto;
-    background-color: var(--darkgrey);
+    background-color: var(--lightblack);
 }
 
 .titleCreateContent{
@@ -44,14 +49,13 @@ width:100%;
 max-width:250px;
 height:100%;
 min-height:180px;
-background-color: red;
 overflow-y: scroll;
 display:flex;
 flex-direction: column;
 position: absolute;
 top: 40px;
 gap:5px;
-background-color:var(--dark);
+background-color:var(--lightblack);
 padding:5px;
 visibility:${ props => props.isExistUserSearched ? 'visible' : 'hidden'};
 opacity:${ props => props.isExistUserSearched ? '1' : '0'};
@@ -62,7 +66,7 @@ transition:all 0.2s ease-in-out;
 export const ItemUserSearchedStyles = styled.li`
 width:100%;
 height: 50px;
-background-color:var(--darkgray);
+background-color: var(--lightblack);
 display:flex;
 justify-content: flex-start;
 align-items:center;
@@ -72,6 +76,7 @@ border-radius: 5px;
 
 img{
     width:40px;
+    height: 40px;
     border-radius: 50%;
     object-fit:cover;
 }
@@ -89,6 +94,7 @@ p{
     transition:all 0.1s ease-in-out;
     cursor: pointer;
     background-color:var(--light);
+    color:black;
 }
 `
 
@@ -116,7 +122,7 @@ cursor: pointer;
 padding:2px;
 gap:10px;
 font-weight: 600;
-
+color: black;
 .iconDeleteReferTo{
     color: crimson;
 }
@@ -174,6 +180,7 @@ export const GridTwoContainerStyles = styled.span`
             padding-left:5px;
             border:none;
             border-bottom: 1px solid black;
+            color:white;
         }
 
         input:focus {
@@ -282,7 +289,6 @@ export const ResultLocationContainerStyles = styled.span`
 
 export const ReferToContainerStyles = styled.span`
     position: relative;
-
 `
 export const ButtonCreateContentStyles = styled.button`
 width:130px;

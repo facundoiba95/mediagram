@@ -6,9 +6,7 @@ import ContainerGridFramer from '../../components/Containers/ContainerGridFramer
 import CardTypeContent from '../../components/molecules/CardTypeContent/CardTypeContent'
 import { useDispatch, useSelector } from 'react-redux'
 import { restarStatusPost } from '../../redux/slices/postSlices/postSlices'
-import { useNavigate } from 'react-router-dom'
 import ModalUnauthenticated from '../../components/molecules/Modals/ModalUnauthenticated/ModalUnauthenticated'
-import { validateSession } from '../../redux/slices/authSlices/authSlices'
 
 const CreateContent = ({children}) => {
     const contenido = [ 
@@ -35,7 +33,7 @@ const CreateContent = ({children}) => {
                  <p>Créa una publicación y compártela en tu Feed.</p>
                </TitleCreateContentStyles>
                <ContainerGridFramer content={contenido}/>
-                    <ContainerFlexColumn>
+               <ContainerFlexColumn>
                  {children}
                </ContainerFlexColumn>
             </>

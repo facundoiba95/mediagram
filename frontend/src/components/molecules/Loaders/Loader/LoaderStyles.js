@@ -21,6 +21,7 @@ height:400px;
 width:360px;
 gap:30px;
 margin: 0 auto;
+color:white;
 
 
 h2{

@@ -18,6 +18,8 @@ justify-content:center;
 align-items:center;
 gap:20px;
 letter-spacing:3px;
+color:white;
+
 h2{
     background-color: transparent;
 }

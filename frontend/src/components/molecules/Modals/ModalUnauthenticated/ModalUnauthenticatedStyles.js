@@ -19,11 +19,11 @@ display:flex;
 flex-direction: column;
 align-items:center;
 justify-content:center;
-background-color:var(--heavyLight);
+background-color:var(--lightblack);
 font-size:2rem;
 border-radius:5px;
 gap:10px;
-
+color:var(--light);
 
 p {
     font-size:1.5rem;

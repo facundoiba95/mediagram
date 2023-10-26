@@ -9,6 +9,7 @@ grid-template-rows: 235px 1fr;
 /* background-color: var(--heavyLight); */
 color:white;
 font-family: 'Red Hat Display';
+
 `
 
 export const FeedContainerHeaderStyles = styled.header`
@@ -33,8 +34,11 @@ flex-direction:column;
 align-items: center;
 justify-content: center;
 overflow-y: scroll;
-/* background-color: var(--heavyLight); */
+border-right:1px solid #80808080;
 
+&::-webkit-scrollbar {
+    display: none;
+}
 div {
     background-color: transparent;
 }
@@ -47,7 +51,7 @@ display:flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-background-color: blue;
+background-color: transparent;
 
 div {
     background-color: transparent;

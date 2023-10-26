@@ -25,8 +25,8 @@ object-fit:cover;
 }
 
 .imgProfile{
-    width:100%;
-    font-size:12rem;
+    width:180px;
+    height:180px;
     color: var(--violetpink);
     background-color:var(--heavyLight);
     border-radius:50%;
@@ -41,9 +41,11 @@ gap:10px;
 table{
     text-align:center;
     font-weight:900;
+    color:#F6FFF899;
 }
 
 th{
+    color:white;
     padding:5px;
     cursor: pointer;
 }
@@ -54,6 +56,7 @@ th{
     align-items:center;
     gap:30px;
     background-color:transparent;
+    color:white;
 
     p{
         font-weight:900;
@@ -65,7 +68,7 @@ th{
 .icon{
     background-color: transparent;
     font-size:1.4rem;
-    color: black;
+    color:black;
 }
 
 .spanMenuSetting {
@@ -81,6 +84,7 @@ th{
     cursor: pointer;
     border-radius:10px;
     transition: all 0.2s ease-in-out;
+    color:black;
 
     small {
         background-color: var(--heavyLight);
@@ -119,10 +123,14 @@ span{
     gap:10px;
 }
 
+p {
+    color:var(--light);
+}
+
 .iconLike, .iconStar, .iconGreet{
     font-size:1.4rem;
     cursor: pointer;
-    color: black;
+    color: var(--light);
     transition:all 0.2s ease-in-out;
 }
 
@@ -130,7 +138,7 @@ span{
     color:var(--violetpink);
 }
 .iconLike:hover{
-    color:#226f54;
+    color:green;
 }
 .iconStar :hover{
     color:#f9c80e;
@@ -146,6 +154,7 @@ span{
     transform: scale(1.5);
 }
 small{
+    color:var(--light);
     font-weight:600;
     visibility:hidden;
     opacity:0;

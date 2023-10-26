@@ -24,14 +24,12 @@ const GlobalStyle = createGlobalStyle`
 
     ::-webkit-scrollbar {
     background-color: #80808080;
-    border-radius:5px;
     height: 7px;
     width:13px;
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--darkgrey);
-    border-radius:10px;
     height: 7px;
 }
 `

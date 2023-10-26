@@ -50,6 +50,7 @@
        HACIENDO :
        - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
        - modificando estilos de defaultPage
+       - cambiando estilos generales
         
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************

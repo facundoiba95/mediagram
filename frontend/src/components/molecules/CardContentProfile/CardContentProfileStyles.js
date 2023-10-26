@@ -9,7 +9,7 @@ justify-content:flex-start;
 align-items:flex-start;
 padding-bottom:15px;
 gap:10px;
-background-color:var(--heavyLight);
+background-color:var(--lightblack);
 border-bottom-left-radius:10px;
 border-bottom-right-radius:10px;
 font-family: 'Red Hat Display';
@@ -55,7 +55,7 @@ export const ThumbnailProfileStyles = styled.span`
     width:40px;
     height:40px;
     border-radius:50%;
-    background-color:transparent;
+    background-color: transparent;
     margin-left:5px;
 }
 
@@ -70,25 +70,29 @@ export const ThumbnailProfileStyles = styled.span`
 
 export const DescriptionContentProfileStyles = styled.span`
     width:100%;
-    background-color:var(--heavyLight);
+    background-color: transparent;
     display:flex;
+    align-items: center;
     gap:8px;
-    font-weight:600;
+    font-weight:300;
 
     span, p{
         background-color: transparent;
+        color:var(--light);
     }
 
     .containerIconPost{
+        background-color:transparent;
         position:absolute;
         display:flex;
         right:10px;
         bottom:10px;
         gap:10px;
     }
+
     .iconView, .iconHeart, .iconComment{
+        color: var(--light);
         font-size:1.1rem;        
-        background-color:var(--heavyLight);
         cursor: pointer;
     }
 

@@ -19,6 +19,7 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 gap:30px;
+color: var(--light);
 
 .iconPrivateAccount {
     font-size: 3rem;

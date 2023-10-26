@@ -9,9 +9,10 @@ padding:10px;
 gap:10px;
 display: flex;
 flex-direction: column;
-background-color: var(--darkgrey);
+background-color: var(--lightblack);
 margin-top: 10px;
 border-radius:10px;
+color:white;
 
 h2 {
     background-color: transparent;
@@ -23,11 +24,11 @@ ul {
     background-color: transparent;
 
     li {
-        background-color: var(--darkgrey);
+        background-color: transparent;
     }
     p {
         font-weight:600;
-        background-color: var(--darkgrey);
+        background-color: transparent;
     }
     b {
         background-color: transparent;
@@ -43,10 +44,10 @@ justify-content:center;
 align-items:flex-start;
 gap:20px;
 padding:10px;
-background-color: var(--darkgrey);
+background-color: transparent;
 
 span {
-    background-color: var(--darkgrey);
+    background-color: var(--lightblack);
 
     button {
         padding:10px;
@@ -68,7 +69,11 @@ export const ContainerImageUploadStyles = styled.div`
 width:100%;
 height:100%;
 max-width:350px;
-background-color: var(--darkgrey);
+background-color: transparent;
+display: flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
 
 .iconImgUpdate {
     width: 300px;

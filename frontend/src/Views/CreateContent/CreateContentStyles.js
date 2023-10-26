@@ -8,4 +8,5 @@ flex-direction: column;
 font-family:'Red Hat Display';
 font-weight:600;
 padding-bottom: 10px;
+color: var(--light);
 `

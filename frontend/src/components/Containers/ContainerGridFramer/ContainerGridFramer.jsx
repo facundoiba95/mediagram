@@ -28,6 +28,7 @@ const ContainerGridFramer = ({content}) => (
     variants={container}
     initial="hidden"
     animate="visible"
+    style={{backgroundColor: 'var(--lightblack)'}}
   >
     {
          content.map(cnt => (

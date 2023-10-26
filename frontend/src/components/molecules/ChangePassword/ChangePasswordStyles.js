@@ -10,7 +10,7 @@ justify-content: center;
 align-items: center;
 gap:20px;
 padding:10px;
-background-color: var(--darkgrey);
+background-color: transparent;
 
 
 span {
@@ -87,9 +87,10 @@ input:focus {
 
     .iconOkay {
         display: ${ props => props.isValidate == true ? 'block' : 'none' };
-        color: green;
+        color: #38b000;
+        background-color: white;
         font-size:1.4rem;
-        background-color: transparent;
+        border-radius:50%;
     }
 }
 `

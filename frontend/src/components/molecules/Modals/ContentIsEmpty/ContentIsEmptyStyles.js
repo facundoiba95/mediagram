@@ -9,6 +9,7 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 gap:30px;
+color: var(--light);
 
 .iconEmptyContent {
     font-size: 3rem;

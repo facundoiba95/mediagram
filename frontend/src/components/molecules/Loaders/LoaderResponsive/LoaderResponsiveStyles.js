@@ -11,6 +11,7 @@ font-family:'Red Hat Display';
 font-weight: 900;
 font-size: 1.2rem;
 background-color: transparent;
+color:white;
 
 p{
     letter-spacing:5px;

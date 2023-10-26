@@ -10,6 +10,7 @@ import FollowContent from '../../components/organisms/FollowContent/FollowConten
 import LoaderResponsive from '../../components/molecules/Loaders/LoaderResponsive/LoaderResponsive'
 import Login from '../../components/molecules/Login/Login'
 import ModalUnauthenticated from '../../components/molecules/Modals/ModalUnauthenticated/ModalUnauthenticated'
+import LoaderWidthVw from '../../components/molecules/Loaders/LoaderWidthVw/LoaderWidthVw'
 
 const Profile = ({children}) => {
   // states
@@ -49,7 +50,7 @@ const Profile = ({children}) => {
     <TransitionContainer>
       {
         isLoading || isLoadingAuth
-        ? <LoaderResponsive/>
+        ? <LoaderWidthVw/>
         : renderProfile() 
       }
     </TransitionContainer>
