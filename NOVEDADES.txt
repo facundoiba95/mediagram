@@ -36,7 +36,8 @@
        - componentes de "posts" en Feed  ** maquetado
        - obtener posts en feed de usuario autenticado.
        - skeleton para componentes que estan en isLoading == true
-
+       *- modificando estilos de defaultPage
+       *- cambiando estilos generales
        
        POR HACER: 
           - crear notificacion a usuarios referTo
@@ -49,8 +50,7 @@
             
        HACIENDO :
        - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
-       - modificando estilos de defaultPage
-       - cambiando estilos generales
+       - abrir usuario que se encuentra en los post del feed
         
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************

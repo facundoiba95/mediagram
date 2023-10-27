@@ -54,6 +54,7 @@ h4 {
     color: var(--violetpink);
     background-color: white;
     border-radius:50%;
+    cursor: pointer;
 }
 `
 

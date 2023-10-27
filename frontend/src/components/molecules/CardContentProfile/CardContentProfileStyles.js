@@ -62,6 +62,7 @@ export const ThumbnailProfileStyles = styled.span`
 .imgProfile{
     width:100%;
     height:100%;
+    border-radius:50%;
     font-size:2rem;
     color: var(--violetpink);
     background-color:var(--heavyLight);
