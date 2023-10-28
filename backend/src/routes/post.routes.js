@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getPosts } from "../controllers/post.controllers.js";
+import { createPost, getPostByID, getPosts } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import path,{ dirname } from 'path'
 import { fileURLToPath } from 'url';
@@ -49,6 +49,7 @@ router.use((req, res, next) => {
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
 router.post('/getPosts', getPosts);
+router.get('/getPostByID/:idPost', getPostByID );
 router.post('/verifyUser', verifyUser);
 router.post('/getPostByFollowings', [ getPostByFollowings ]);
 

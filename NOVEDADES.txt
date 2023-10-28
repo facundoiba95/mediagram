@@ -51,6 +51,7 @@
        HACIENDO :
        - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
        - abrir usuario que se encuentra en los post del feed
+       - ir a url del post solicitado (getPostByID)
         
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************

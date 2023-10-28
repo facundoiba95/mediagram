@@ -63,3 +63,49 @@ export const getPosts = async ( req,res ) => {
         return res.status(500).json({error: error.message, status: error.status});
     }
 }
+
+export const getPostByID = async ( req,res ) => {
+    try {
+        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+        const foundPost = await Post.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: '_id',
+                    foreignField: 'posts',
+                    as: 'postedBy',  // guarda los USUARIOS relacionados con los posts
+                    let: {
+                        idPostUser: '$_id' // referencia al _id de coleccion POST
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $in: ['$$idPostUser', [idPost] ]  // obtiene el post solicitado
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $unwind: '$postedBy'
+            }
+        ]);
+
+        if(!foundPost.length) return res.status(404).json({ error: 'Post not found', status: 404 });
+
+        const restrictFoundedPost = foundPost.map(post => {
+            post.postedBy = {
+                username: post.postedBy.username,
+                imgProfile: post.postedBy.imgProfile,
+            }
+            return { ... post }
+        });
+
+        res.status(200).json({ message: 'Founded post!', status: 200, post: restrictFoundedPost })
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "getPost()"',{error: error.message, status: error.status});
+        return res.status(500).json({error: error.message, status: error.status});
+    }
+}
