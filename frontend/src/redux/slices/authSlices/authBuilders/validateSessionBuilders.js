@@ -9,6 +9,7 @@ export default ( builders, validateSession ) => {
             state.isLoading = false;
             state.isLogged = action.payload.isLogged;
             state.status = action.payload.status;
+            state.user = action.payload.user;
     })
     builders.addCase( validateSession.pending, ( state, action ) => {
         state.isLoading = true;

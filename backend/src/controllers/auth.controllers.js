@@ -91,7 +91,13 @@ export const changePassword = async ( req,res ) => {
 
 export const validateSession = async ( req,res ) => {
     try {
-        return res.status(req.isLogged.status).json({ isLogged: req.isLogged.isLogged, status: req.isLogged.status });
+        const userAuth = req.userAuth;
+
+        return res.status(req.isLogged.status).json({ 
+            isLogged: req.isLogged.isLogged, 
+            status: req.isLogged.status,
+            user: userAuth 
+        });
     } catch (error) {
         console.error('Ocurrio un error en validateSession(). auth.controllers.js. Error: ', error.error);
         return res.status(error.status).json({ error: error.error, status: error.status });

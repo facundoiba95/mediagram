@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ContainerFormsAuthStyles, DefaultPageContainerStyles, WelcomeContentDefaultPageStyles, WelcomeMessageDefaultPageStyles } from './DefaultPageStyles'
 import FormAuth from '../../components/organisms/FormAuth/FormAuth'
 import LogoMediagram from '../../components/atoms/LogoMediagram/LogoMediagram'
@@ -9,9 +9,14 @@ import imgOne from '../../assets/drinkingcoffee.jpg';
 import imgTwo from '../../assets/tomorrowland.jpg';
 import imgTree from '../../assets/miguelangel.jpg'
 import imgFour from '../../assets/watchingfootball.jpg'
+import { validateSession } from '../../redux/slices/authSlices/authSlices'
+import { useDispatch } from 'react-redux'
 
 const DefaultPage = () => {
    const navigate = useNavigate();
+   const dispatch = useDispatch();
+
+   
 
   return (
    <TransitionContainer>

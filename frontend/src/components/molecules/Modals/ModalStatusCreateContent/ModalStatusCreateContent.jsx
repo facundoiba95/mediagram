@@ -16,7 +16,7 @@ const ModalStatusCreateContent = ({status, error}) => {
     
     const isSuccessfullyContent = () => {
         setTimeout(() => {
-           navigator('/')
+           navigator('/feed')
            dispatch(restarStatusPost())
         }, 3000)
         return (

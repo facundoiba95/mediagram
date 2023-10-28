@@ -3,7 +3,6 @@ import { FormAuthContainerStyles } from './FormAuthStyles'
 import Login from '../../molecules/Login/Login'
 import { useLocation } from 'react-router-dom'
 import Register from '../../molecules/Register/Register'
-import { GlobalContext } from '../../../Context/GlobalContext'
 import { useSelector } from 'react-redux'
 
 const FormAuth = ({children}) => {
@@ -11,12 +10,14 @@ const FormAuth = ({children}) => {
   const isLogged = useSelector( state => state.authSlices.isLogged ); 
   const isLoading = useSelector( state => state.authSlices.isLoading );
 
+
+
   const renderFormsAuth = () =>  {
-    if( location.pathname === '/' && isLogged == false ){
+    if( location.pathname === '/' && isLogged == false || !isLogged ){
       return (
         <Login/>
       )
-    } else if(location.pathname === '/register' && isLogged == false ){
+    } else if(location.pathname === '/register' && isLogged == false || !isLogged){
       return (
         <Register/>
       )
