@@ -163,8 +163,7 @@ const authSlices = createSlice({
         },
         resetStateAuth: ( state ) => {
             return initialState;
-        },
-        
+        }   
     },
     extraReducers: ( builders ) => {
         handleLoginBuilders( builders, handleLogin );

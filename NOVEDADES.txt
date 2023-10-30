@@ -38,6 +38,10 @@
        - skeleton para componentes que estan en isLoading == true
        *- modificando estilos de defaultPage
        *- cambiando estilos generales
+       - abrir usuario que se encuentra en los post del feed
+       - ir a url del post solicitado (getPostByID -  backend)
+       - componentes para mostrar post solicitado ( getPostByID - frontend );
+       - refactorizacion de funcion y logica para acceder a perfiles. Ver funcion goToProfile y useEffect de Profile.jsx.
        
        POR HACER: 
           - crear notificacion a usuarios referTo
@@ -50,9 +54,7 @@
             
        HACIENDO :
        - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
-       - abrir usuario que se encuentra en los post del feed
-       - ir a url del post solicitado (getPostByID)
-        
+      
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************
 

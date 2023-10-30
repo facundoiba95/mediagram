@@ -10,14 +10,15 @@ import { HiLightBulb } from 'react-icons/hi';
 import { FaUserPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { logout, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
-import { handleIsFollowing, restartUser, restartUserFiltered, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
+import { logout } from '../../../redux/slices/authSlices/authSlices';
+import { restartUser, restartUserFiltered, restartUserFound  } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { getPosts, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
+import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 
 const NavbarHeader = () => {
   // states 
   const isLogged = useSelector( state => state.authSlices.isLogged );
+  const isLoading = useSelector( state => state.authSlices.isLoading );
   const user = useSelector( state => state.authSlices.user );
   // hooks and tools
   const navigator = useNavigate();
@@ -27,18 +28,9 @@ const NavbarHeader = () => {
   // useContext
   const { isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
 
-  const goProfile = async () => {
-     dispatch(validateSession());
-    if(isLogged){
+  const goToProfile = async () => {
       params.username = user.username;
       navigator(`/profile/${params.username}`);
-      await dispatch(selectUser(params.username));
-      await dispatch(handleIsFollowing(params.username));
-      await dispatch(getPosts(params.username));
-      dispatch(restartStatusAuthSlice());
-    } else {
-      navigator('/');
-    }
   }
 
   const goCreateContent = () => {
@@ -154,7 +146,7 @@ const NavbarHeader = () => {
             <HiLightBulb className='iconNavbar'/>
             <p>Crear</p>
           </NavbarMenuItemStyles>
-               <NavbarMenuItemStyles onClick={() => goProfile()}>
+               <NavbarMenuItemStyles onClick={() => goToProfile()}>
             {
               renderImageProfileNavbarMenu()
             }

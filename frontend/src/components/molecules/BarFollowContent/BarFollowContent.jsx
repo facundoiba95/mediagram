@@ -31,19 +31,6 @@ const BarFollowContent = () => {
     
     useEffect(() => {
         if(inputSearchUserFollow.length < 1){
-            // if(params.typeFollow == 'followers'){
-            //     dispatch(setIsLoadingUser(true));
-            //     dispatch(listSearchFollow( user[0].followers));
-            //     dispatch(setIsLoadingUser(false));
-            // } else if(params.typeFollow == 'followings'){
-            //     dispatch(setIsLoadingUser(true));
-            //     dispatch(listSearchFollow( user[0].followings));
-            //     dispatch(setIsLoadingUser(false));
-            //
-            //
-            //         arreglar bug de search bars, los resultados no desaparecen al cerrar el modal
-            //
-            // }
             return;
         }
 

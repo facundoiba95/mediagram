@@ -6,9 +6,7 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { MoonLoader } from 'react-spinners';
 import { useNavigate, useParams } from 'react-router-dom';
-import { handleIsFollowing, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
-import { getPosts } from '../../../redux/slices/postSlices/postSlices';
-import { validateSession } from '../../../redux/slices/authSlices/authSlices';
+import { restartUserFound } from '../../../redux/slices/userSlices/userSlices';
 import ModalUnauthenticated from '../Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 
@@ -67,19 +65,11 @@ const ResultToSearch = () => {
     }
 
     const goToProfile = async (e) => {
-        await dispatch(validateSession())
-        if(isLogged){
-            const valueUserSelected = e.target.dataset.username;
-            params.username = valueUserSelected;
-            setIsOpenSearchBar(!isOpenSearchBar);
-            await dispatch(selectUser(params.username));
-            dispatch(handleIsFollowing(params.username));
-            await dispatch(getPosts(params.username));
-            await dispatch(restartUserFound());
-            navigator(`/profile/${params.username}`);
-        } else {
-            navigator('/')
-        }
+        const valueUserSelected = e.target.dataset.username;
+        params.username = valueUserSelected;
+        setIsOpenSearchBar(!isOpenSearchBar);
+        navigator(`/profile/${params.username}`);
+        dispatch(restartUserFound());
     }
 
   return (

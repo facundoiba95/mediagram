@@ -67,6 +67,7 @@ export const getPosts = async ( req,res ) => {
 export const getPostByID = async ( req,res ) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+        console.log(idPost);
         const foundPost = await Post.aggregate([
             {
                 $lookup: {
@@ -98,7 +99,7 @@ export const getPostByID = async ( req,res ) => {
         const restrictFoundedPost = foundPost.map(post => {
             post.postedBy = {
                 username: post.postedBy.username,
-                imgProfile: post.postedBy.imgProfile,
+                thumbnail: post.postedBy.thumbnail,
             }
             return { ... post }
         });

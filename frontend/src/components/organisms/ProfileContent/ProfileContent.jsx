@@ -42,6 +42,7 @@ const ProfileContent = () => {
           likes={likes}
           comments={comments}
           typePost={typePost}
+          _id={_id}
           key={_id}
           />
         )

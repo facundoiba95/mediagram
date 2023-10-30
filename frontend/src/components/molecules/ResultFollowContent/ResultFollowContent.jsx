@@ -4,10 +4,7 @@ import { RiUserSmileFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
-import { handleIsFollowing, restartUserFound, selectUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { getPosts } from '../../../redux/slices/postSlices/postSlices';
-import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 
 const ResultFollowContent = () => {
     // hooks and tools
@@ -18,6 +15,7 @@ const ResultFollowContent = () => {
     // states
     const user = useSelector( state => state.userSlices.userFound );
     const isLoading = useSelector( state => state.userSlices.isLoading );
+    const isLoadingAuth = useSelector(state => state.authSlices.isLoading);
     const listUserFiltered = useSelector( state => state.userSlices.userFiltered );
     const isLogged = useSelector( state => state.authSlices.isLogged );
 
@@ -62,26 +60,17 @@ const ResultFollowContent = () => {
 
 
     const goToProfile = async (e) => {
-        await dispatch(validateSession());
-        if(isLogged){
-            const valueUserSelected = e.target.dataset.username;
-            params.username = valueUserSelected;
-            setIsOpen(!isOpen);
-            navigator(`/profile/${params.username}`);
-            await dispatch(selectUser(params.username));
-            dispatch(handleIsFollowing(params.username));
-            await dispatch(getPosts(params.username));
-            await dispatch(restartUserFound());
-        } else {
-            navigator('/');
-        }
+        const valueUserSelected = e.target.dataset.username;
+        params.username = valueUserSelected;
+        setIsOpen(!isOpen);
+        navigator(`/profile/${params.username}`);
     }
 
 
   return (
     <ListFollowContentContainerStyles>
         {
-            isLoading 
+            isLoading || isLoadingAuth
             ? <LoaderResponsive />
             : renderItemToFollow()
         }

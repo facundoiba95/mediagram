@@ -9,6 +9,7 @@ export const GlobalContextProvider = ({children}) => {
     const [ isOpen, setIsOpen ] = useState(false);
     const [ isOpenNotifications, setIsOpenNotifications ] = useState(false);
     const [ isOpenMenuSetting, setIsOpenMenuSetting ] = useState(false); 
+    const [ isOpenViewPost, setIsOpenViewPost ] = useState(false); 
 
     return (
         <GlobalContext.Provider value={{
@@ -18,6 +19,7 @@ export const GlobalContextProvider = ({children}) => {
             isOpen, setIsOpen,
             isOpenNotifications, setIsOpenNotifications,
             isOpenMenuSetting, setIsOpenMenuSetting,
+            isOpenViewPost, setIsOpenViewPost
         }}>
             {children}
         </GlobalContext.Provider>

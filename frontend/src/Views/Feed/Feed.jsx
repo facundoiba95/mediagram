@@ -1,15 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FeedContainerHeaderStyles, FeedContainerNewsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
 import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
 import { useDispatch } from 'react-redux'
 import { getPostsOfFollowings } from '../../redux/slices/postSlices/postSlices'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Feed = () => {
 const dispatch = useDispatch();
+const [ isReadyFeed, setIsReadyFeed ] = useState(false);
+
 
   useEffect(() => {
-    dispatch(getPostsOfFollowings());
+    const handleGetPostsByFollowing = async () => {
+      await dispatch(getPostsOfFollowings());
+      setIsReadyFeed(true)
+    }
+
+    handleGetPostsByFollowing();
    }, [ dispatch ]);
    
   return (
@@ -19,7 +27,7 @@ const dispatch = useDispatch();
         </FeedContainerHeaderStyles>
 
         <FeedContainerPostsStyles>
-            <PostsInFeed/>
+            <PostsInFeed isReadyFeed={isReadyFeed}/>
         </FeedContainerPostsStyles>
 
         <FeedContainerNewsStyles>

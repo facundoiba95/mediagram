@@ -1,20 +1,25 @@
 import React from 'react'
 import { CardContentProfileContainerStyles, DescriptionContentProfileStyles, ThumbnailProfileStyles } from './CardContentProfileStyles'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { CgArrowsExpandRight} from 'react-icons/cg';
 import { Box, Skeleton } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 
 const CardContentProfile = ({
   thumbnail,
   typePost,
   postBy,
   likes,
+  _id,
   description
 }) => {
   const user = useSelector( state => state.userSlices.userFiltered );
-  const isLoading = useSelector( state => state.postSlices.isLoading );
+  const navigator = useNavigate();
+  const params = useParams();
+  const dispatch = useDispatch();
   const { imgProfile } = user[0];
 
   const renderImgProfile = () => {
@@ -33,6 +38,12 @@ const CardContentProfile = ({
     }    
   }
 
+  const goPost = () => {
+    params.idPost = _id;
+    navigator(`/getPostByID/${params.idPost}`)
+    dispatch(getPostByID(params.idPost))
+  }
+
   return (
     <CardContentProfileContainerStyles>
         <img src={thumbnail} alt="img content profile user" className='imgContent'/>
@@ -47,7 +58,7 @@ const CardContentProfile = ({
               <FaComment className='iconComment'/>
           </span>
         </DescriptionContentProfileStyles>
-        <div className='overlay'>
+        <div className='overlay' onClick={() => goPost()}>
           <CgArrowsExpandRight className='iconExpandImage'/>
         </div>
     </CardContentProfileContainerStyles>
