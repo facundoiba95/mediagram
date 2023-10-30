@@ -2,6 +2,13 @@ import React from 'react'
 import { ItemCommentContentStyles, ItemCommentStyles, ItemCommentUserInfoStyles } from './ComentaryStyles'
 
 const Comentary = ({content}) => {
+
+/*
+
+         - pasar los parametros de thumbnail, username y content del comentario
+         - crear funcion goToProfile
+ */
+
   return (
     <ItemCommentStyles>
       <ItemCommentUserInfoStyles>

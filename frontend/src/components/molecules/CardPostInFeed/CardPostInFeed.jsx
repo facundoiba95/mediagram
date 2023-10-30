@@ -26,7 +26,6 @@ const CardPostInFeed = ({
   const goPost = async () => {
     params.idPost = _id;
     navigator(`/getPostByID/${params.idPost}`);
-    dispatch(getPostByID(params.idPost));
   }
 
   return (

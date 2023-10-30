@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ViewPostBackgroundStyles , ViewPostImageContainerStyles, ViewPostLogosLeftStyles, ViewPostLogosRightStyles, ViewPostWrapperStyles } from './ViewPostStyles'
 import { GlobalContext } from '../../../Context/GlobalContext'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import Loader from '../../molecules/Loaders/Loader/Loader';
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
     const isLoadingPost = useSelector( state => state.postSlices.isLoading );
+    const [ isReadyPost, setIsReadyPost ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
     const navigator = useNavigate();
     const dispatch = useDispatch();
@@ -22,15 +23,21 @@ const ViewPost = () => {
         navigator(-1);
     }
 
+   
+
 
     useEffect(() => {
-      if(!post.length){
-        dispatch(getPostByID(params.idPost))
+      const handleViewPost = async () => {
+        await dispatch(getPostByID(params.idPost));
+        setIsReadyPost(true)
       }
+
+      handleViewPost();
        setIsOpenViewPost(!isOpenViewPost);
     },[ dispatch, params.idPost ])
 
     const renderPost = () => {
+      if(!isReadyPost) return (<Loader/>);
       return post.map(item => {
         const { imgPost, description } = item;
         const { username, thumbnail } = item.postedBy;
@@ -76,7 +83,7 @@ const ViewPost = () => {
   return (
     <>
     {
-      isLoadingPost 
+      isLoadingPost
       ? <Loader/>
       : <TransitionContainer>
          { renderPost() }
