@@ -28,11 +28,12 @@ const ViewPost = () => {
     useEffect(() => {
       const handleViewPost = async () => {
         await dispatch(getPostByID(params.idPost));
+        setIsOpenViewPost(!isOpenViewPost);
         setIsReadyPost(true)
       }
 
       handleViewPost();
-      setIsOpenViewPost(!isOpenViewPost);
+      
     },[ dispatch, params.idPost ])
 
     const renderPost = () => {
