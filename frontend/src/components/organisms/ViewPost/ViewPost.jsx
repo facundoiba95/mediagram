@@ -37,7 +37,7 @@ const ViewPost = () => {
     },[ dispatch, params.idPost ])
 
     const renderPost = () => {
-      if(!isReadyPost) return (<Loader/>);
+      if(!isReadyPost){
       if(statusPost !== 200){
         navigator('/unauthorized')
         return;
@@ -83,6 +83,11 @@ const ViewPost = () => {
         )
 
       })
+      } else {
+        return (
+          <Loader/>
+        )
+      }
     }
 
   return (
