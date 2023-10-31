@@ -26,6 +26,14 @@ img {
 h4 {
     color: white;
 }
+
+.imgProfile{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    color: var(--violetpink);
+    background-color:var(--heavyLight);
+}
 `
 
 export const ItemCommentContentStyles = styled.div`

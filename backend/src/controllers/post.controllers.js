@@ -2,7 +2,7 @@ import cloudinary from 'cloudinary';
 import fs from 'fs-extra';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
 import addPostToUser from '../libs/addPostToUser.js';
@@ -67,7 +67,6 @@ export const getPosts = async ( req,res ) => {
 export const getPostByID = async ( req,res ) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
-        console.log(idPost);
         const foundPost = await Post.aggregate([
             {
                 $lookup: {
@@ -107,6 +106,42 @@ export const getPostByID = async ( req,res ) => {
         res.status(200).json({ message: 'Founded post!', status: 200, post: restrictFoundedPost })
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "getPost()"',{error: error.message, status: error.status});
+        return res.status(500).json({error: error.message, status: error.status});
+    }
+}
+
+export const addComment = async ( req,res ) => {
+    try {
+
+        const { content, _idPost, postedBy } = req.body;
+        const { username, thumbnail, _id } = req.userAuth;
+
+        const newComment = {
+            _idPost: new mongoose.Types.ObjectId(_idPost),
+            sender: {
+                username,
+                thumbnail: thumbnail ? thumbnail : '',
+                _id
+            },
+            content
+        }
+
+        const addCommentInPost = await Post.findByIdAndUpdate(_idPost,
+               {  $push: { comments: newComment }  },
+               { new: true }
+            )
+
+           
+        const addPostedBy = [addCommentInPost._doc].map(item => {
+            return {
+                ... item,
+                postedBy
+            }
+        })
+        
+        return res.status(200).json({ post: addPostedBy, message: 'Added comment!', status:200 });
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "addComment()"',{error: error.message, status: error.status});
         return res.status(500).json({error: error.message, status: error.status});
     }
 }

@@ -15,10 +15,23 @@ const postSchema = new Schema({
     },
     description: String,
     location: String,
-    comments: {
-        type: [],
-        default:[]
-    },
+    comments: [{
+        _id: {
+            type: Schema.Types.ObjectId,
+            default: () => new mongoose.Types.ObjectId() // Generar un ObjectID por defecto
+        },
+        _idPost: Schema.Types.ObjectId,
+        sender: {
+            thumbnail: String,
+            username: String,
+            _id: Schema.Types.ObjectId
+        },
+        content: {
+            type: String,
+            required: true,
+            default: ''
+        }
+    }],
     likes: {
         type: [],
         default: []

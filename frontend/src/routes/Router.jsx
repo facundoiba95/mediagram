@@ -11,6 +11,7 @@ import ChangeImageUser from '../components/molecules/ChangeImageUser/ChangeImage
 import ChangePassword from '../components/molecules/ChangePassword/ChangePassword';
 import Feed from '../Views/Feed/Feed';
 import ViewPost from '../components/organisms/ViewPost/ViewPost';
+import ModalUnauthenticated from '../components/molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 const Router = () => {
   const params = useParams();
@@ -30,6 +31,7 @@ const Router = () => {
           <Route path='/profile/:username/changePassword' element={<Profile><ChangePassword/></Profile>}/>
           <Route path='/createContent' element={<CreateContent/>}/>
           <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent}/></CreateContent>}/>
+          <Route path='/unauthorized' element={<ModalUnauthenticated/>}/>
         </Routes>
      </GlobalContainer>
     </BrowserRouter>

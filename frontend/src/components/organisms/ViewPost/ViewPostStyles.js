@@ -66,11 +66,19 @@ align-items: center;
 gap: 10px;
 cursor: pointer;
 
-.imgProfile {
+img{
     width:50px;
     height:50px;
     border-radius:50%;
     object-fit: cover;
+}
+
+.imgProfile{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    color: var(--violetpink);
+    background-color:var(--heavyLight);
 }
 `
 export const ViewPostLogosLeftStyles = styled.div`

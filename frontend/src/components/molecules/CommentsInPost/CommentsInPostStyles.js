@@ -9,7 +9,7 @@ flex-direction: column;
 justify-content: flex-start;
 align-items: center;
 gap: 20px;
-padding-left:0px;
+background-color: transparent;
 `
 export const ViewPostHandleActiveDescriptionStyles = styled.span`
 width:100%;

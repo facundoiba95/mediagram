@@ -46,15 +46,21 @@
        POR HACER: 
           - crear notificacion a usuarios referTo
           - filtrar por typePost ( 'post', 'fastPost', 'closeFriend' )
-          - ver post
           - reacciones
-          - comentarios
           - explorar ( ubicaciones, hashtags, otros )
           - viewsInProfile
+          - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
+
             
        HACIENDO :
-       - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
-      
+       - AddComment
+       - los comentarios se agregan correctamente
+
+
+
+
+
+
 
 ******************************* LOGICA DE SEGUIMIENTO DE USUARIOS: *****************************************
 

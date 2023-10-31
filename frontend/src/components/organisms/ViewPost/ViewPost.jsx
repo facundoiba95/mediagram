@@ -7,12 +7,14 @@ import CommentsInPost from '../../molecules/CommentsInPost/CommentsInPost';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 import Loader from '../../molecules/Loaders/Loader/Loader';
+import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
     const isLoadingPost = useSelector( state => state.postSlices.isLoading );
     const [ isReadyPost, setIsReadyPost ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
+    const statusPost = useSelector( state => state.postSlices.status );
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
@@ -23,9 +25,6 @@ const ViewPost = () => {
         navigator(-1);
     }
 
-   
-
-
     useEffect(() => {
       const handleViewPost = async () => {
         await dispatch(getPostByID(params.idPost));
@@ -33,11 +32,16 @@ const ViewPost = () => {
       }
 
       handleViewPost();
-       setIsOpenViewPost(!isOpenViewPost);
+      setIsOpenViewPost(!isOpenViewPost);
     },[ dispatch, params.idPost ])
 
     const renderPost = () => {
       if(!isReadyPost) return (<Loader/>);
+      if(statusPost !== 200){
+        navigator('/unauthorized')
+        return;
+      }
+
       return post.map(item => {
         const { imgPost, description } = item;
         const { username, thumbnail } = item.postedBy;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getPostByID, getPosts } from "../controllers/post.controllers.js";
+import { addComment, createPost, getPostByID, getPosts } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import path,{ dirname } from 'path'
 import { fileURLToPath } from 'url';
@@ -11,6 +11,9 @@ import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
 import { verifyUser } from "../controllers/user.controllers.js";
 import getPostByFollowings from "../middlewares/posts/getPostByFollowings.js";
+import validateComment from "../middlewares/posts/validateComment.js";
+import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
+import handleErrors from "../middlewares/errors/handleErrors.js";
 config();
 
 const router = Router();
@@ -52,5 +55,6 @@ router.post('/getPosts', getPosts);
 router.get('/getPostByID/:idPost', getPostByID );
 router.post('/verifyUser', verifyUser);
 router.post('/getPostByFollowings', [ getPostByFollowings ]);
+router.post('/addComment', [ validateAuthInPost, validateComment, handleErrors ] , addComment);
 
 export default router;

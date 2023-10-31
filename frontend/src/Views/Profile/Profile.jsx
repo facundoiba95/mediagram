@@ -41,7 +41,7 @@ const Profile = ({ children }) => {
     }
 
     handleConectProfile();
-  }, [dispatch, params.username ]);
+  }, [ dispatch, params.username ]);
 
 
   const renderProfile = () => {
