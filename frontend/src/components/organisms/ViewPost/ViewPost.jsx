@@ -37,7 +37,7 @@ const ViewPost = () => {
     },[ dispatch, params.idPost ])
 
     const renderPost = () => {
-      if(!isReadyPost){
+      if(isReadyPost){
       if(statusPost !== 200){
         navigator('/unauthorized')
         return;
