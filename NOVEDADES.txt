@@ -55,6 +55,7 @@
        HACIENDO :
        - AddComment
        - los comentarios se agregan correctamente
+       - agregando datos al comentario ( ir al perfil, tiempo de creación )
 
 
 

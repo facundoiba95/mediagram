@@ -18,7 +18,7 @@ const postSchema = new Schema({
     comments: [{
         _id: {
             type: Schema.Types.ObjectId,
-            default: () => new mongoose.Types.ObjectId() // Generar un ObjectID por defecto
+            default: () => new mongoose.Types.ObjectId() // genera nuevo ObjectID
         },
         _idPost: Schema.Types.ObjectId,
         sender: {
@@ -30,11 +30,27 @@ const postSchema = new Schema({
             type: String,
             required: true,
             default: ''
+        },
+        date: {
+            type: String,
+            default: () => new Date().toISOString(),
         }
     }],
     likes: {
         type: [],
         default: []
+    },
+    counterLikes: {
+        type: Number,
+        default: 0
+    },
+    counterComments: {
+        type: Number,
+        default: 0
+    },
+    counterViews: {
+        type: Number,
+        default: 0
     },
     imgPost: {
         type: String,
@@ -53,5 +69,8 @@ const postSchema = new Schema({
     versionKey: false,
     timestamps: true
 });
+
+postSchema.index({ _id: 1 });
+postSchema.index({ postBy: 1});
 
 export default model('Post', postSchema);

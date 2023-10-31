@@ -131,6 +131,10 @@ export const addComment = async ( req,res ) => {
                { new: true }
             )
 
+        addCommentInPost.counterComments = addCommentInPost.comments.length;
+        addCommentInPost.counterLikes = addCommentInPost.likes.length;
+        addCommentInPost.counterViews = addCommentInPost.views.length;
+        await addCommentInPost.save();
            
         const addPostedBy = [addCommentInPost._doc].map(item => {
             return {

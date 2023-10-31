@@ -1,20 +1,20 @@
 import React from 'react'
 import { ItemInteractionStyles, ListInteractionStyles, PostInteractionContainerStyles } from './PostInteractionStyles'
 import{ FaComment, FaEye, FaHeart } from 'react-icons/fa';
+import { BsShareFill } from 'react-icons/bs';
 
-
-const PostInteraction = () => {
+const PostInteraction = ({counterViews,counterLikes}) => {
   return (
     <PostInteractionContainerStyles>
         <ListInteractionStyles>
             <ItemInteractionStyles>
-                <FaEye className='iconView'/><h5>22</h5>         {/** counterViews */}
+                <FaEye className='iconView'/><h5>{counterViews}</h5>         {/** counterViews */}
             </ItemInteractionStyles>
             <ItemInteractionStyles>
-               <FaHeart className='iconHeart'/><h5>4</h5>     {/** counterLikes */}
+               <FaHeart className='iconHeart'/><h5>{counterLikes}</h5>     {/** counterLikes */}
             </ItemInteractionStyles>
             <ItemInteractionStyles>
-               <FaComment className='iconComment'/><h5>6</h5>
+               <BsShareFill className='iconComment'/>
             </ItemInteractionStyles>
         </ListInteractionStyles>
     </PostInteractionContainerStyles>

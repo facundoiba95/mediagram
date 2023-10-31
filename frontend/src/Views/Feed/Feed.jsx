@@ -4,7 +4,6 @@ import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriend
 import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
 import { useDispatch } from 'react-redux'
 import { getPostsOfFollowings } from '../../redux/slices/postSlices/postSlices'
-import { useNavigate, useParams } from 'react-router-dom'
 
 const Feed = () => {
 const dispatch = useDispatch();

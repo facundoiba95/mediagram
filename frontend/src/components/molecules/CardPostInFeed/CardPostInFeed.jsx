@@ -12,6 +12,9 @@ const CardPostInFeed = ({
   username,
   thumbnail,
   description,
+  counterViews,
+  counterLikes,
+  counterComments
 }) => {
 
   const dispatch = useDispatch();
@@ -41,9 +44,9 @@ const CardPostInFeed = ({
         <img src={thumbnail} alt="" onClick={goPost} loading='lazy'/>
         <FootCardPostInProfileStyles isDescription={description ? description.length : false}>
           <span className='containerIconPost'>
-            <div><FaEye className='iconView'/><h5>22</h5></div>         {/** counterViews */}
-            <div><FaHeart className='iconHeart'/><h5>4</h5></div>       {/** counterLikes */}
-            <div><FaComment className='iconComment'/><h5>6</h5></div>   {/** counterComments */}
+            <div><FaEye className='iconView'/><h5>{counterViews}</h5></div>         {/** counterViews */}
+            <div><FaHeart className='iconHeart'/><h5>{counterLikes}</h5></div>       {/** counterLikes */}
+            <div><FaComment className='iconComment'/><h5>{counterComments}</h5></div>   {/** counterComments */}
           </span>
           <span className='containerDescription'>
             {

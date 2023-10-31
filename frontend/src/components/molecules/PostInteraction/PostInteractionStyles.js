@@ -23,20 +23,23 @@ flex-direction: column;
 align-items: center;
 gap:8px;
 
+
 .iconComment, .iconHeart, .iconView {
     font-size: 1.5rem;
     cursor: pointer;
 }
 
-.iconView {
-
+.iconView:hover {
+    color: var(--violetpink);
 }
 
-.iconHeart {
-
+.iconHeart:hover {
+    color: var(--violetpink);
 }
 
-.iconComment {
-
+.iconComment:hover {
+    color: var(--violetpink);
 }
+
+
 `

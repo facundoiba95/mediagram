@@ -7,7 +7,7 @@ import CommentsInPost from '../../molecules/CommentsInPost/CommentsInPost';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 import Loader from '../../molecules/Loaders/Loader/Loader';
-import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
+import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
@@ -18,22 +18,21 @@ const ViewPost = () => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    const location = useLocation();
 
     const goBack = () => {
-        setIsOpenViewPost(!isOpenViewPost);
+        setIsOpenViewPost(false);
         navigator(-1);
     }
 
     useEffect(() => {
+      dispatch(validateSession());
       const handleViewPost = async () => {
         await dispatch(getPostByID(params.idPost));
-        setIsOpenViewPost(!isOpenViewPost);
+        setIsOpenViewPost(true);
         setIsReadyPost(true)
       }
 
       handleViewPost();
-      
     },[ dispatch, params.idPost ])
 
     const renderPost = () => {
@@ -44,7 +43,7 @@ const ViewPost = () => {
       }
 
       return post.map(item => {
-        const { imgPost, description } = item;
+        const { imgPost, description, counterLikes, counterViews } = item;
         const { username, thumbnail } = item.postedBy;
 
         return (
@@ -76,7 +75,10 @@ const ViewPost = () => {
             <CommentsInPost 
             description={description}
             username={username}
-            thumbnail={thumbnail}/>
+            thumbnail={thumbnail}
+            counterLikes={counterLikes}
+            counterViews={counterViews}
+            />
             <button onClick={() => goBack()}>Cerrar</button>
           </ViewPostWrapperStyles>
         </ViewPostBackgroundStyles>
