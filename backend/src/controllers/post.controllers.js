@@ -2,11 +2,12 @@ import cloudinary from 'cloudinary';
 import fs from 'fs-extra';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
 import addPostToUser from '../libs/addPostToUser.js';
 import isPrivateProfile from '../libs/isPrivateProfile.js';
+import addCountersInPost from '../libs/Posts/addCountersInPost.js';
 config();
 
 export const createPost = async ( req,res ) => {
@@ -112,7 +113,6 @@ export const getPostByID = async ( req,res ) => {
 
 export const addComment = async ( req,res ) => {
     try {
-
         const { content, _idPost, postedBy } = req.body;
         const { username, thumbnail, _id } = req.userAuth;
 
@@ -146,6 +146,40 @@ export const addComment = async ( req,res ) => {
         return res.status(200).json({ post: addPostedBy, message: 'Added comment!', status:200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "addComment()"',{error: error.message, status: error.status});
+        return res.status(500).json({error: error.message, status: error.status});
+    }
+}
+
+export const handleLikeToPost = async ( req,res ) => {
+    try {
+        const { thumbnail, username, _id, idPost, postedBy } = req.body;
+    
+        const newLike = {
+            username,
+            thumbnail: thumbnail ? thumbnail : '',
+            _id
+        }
+
+        const addLikeToPost = await Post.findByIdAndUpdate(
+            idPost,
+            { $push: { likes: newLike } },
+            { new: true }
+        )
+
+        addLikeToPost.likedPost = true;
+
+        await addCountersInPost(addLikeToPost)
+                  
+        const addPostedBy = [ addLikeToPost._doc ].map(item => {
+            return {
+                ... item,
+                postedBy
+            }
+        })
+
+        return res.status(200).json({ post: addPostedBy ,message: 'Added like!', status:200 });
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "addLikeComment()"',{error: error.message, status: error.status});
         return res.status(500).json({error: error.message, status: error.status});
     }
 }

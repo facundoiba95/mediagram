@@ -57,6 +57,9 @@
        - los comentarios se agregan correctamente
        - agregando datos al comentario ( ir al perfil, tiempo de creación )
 
+       - likes y views en post, ok
+       - manejar errores cuando no se puedan realizar acciones ( likes, comentarios ) por no iniciar sesion.
+
 
 
 

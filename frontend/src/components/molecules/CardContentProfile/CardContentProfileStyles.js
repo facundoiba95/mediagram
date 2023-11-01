@@ -97,4 +97,8 @@ export const DescriptionContentProfileStyles = styled.span`
         cursor: pointer;
     }
 
+    .iconHeart {
+        color: ${ props => props.likedPost ? 'var(--violetpink)' : 'white' };
+    }
+
 `

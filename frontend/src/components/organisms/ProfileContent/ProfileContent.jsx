@@ -28,7 +28,7 @@ const ProfileContent = () => {
 
   const renderContentProfile = () => {
     return posts.map(item => {
-      const { thumbnail, description, postBy, likes, comments, typePost,_id } = item;
+      const { thumbnail, description, postBy, likes, comments, typePost,_id,likedPost } = item;
       if(isLoading || isLoadingAuth){
         return (
           <SkeletonCardPostProfile />
@@ -42,6 +42,7 @@ const ProfileContent = () => {
           likes={likes}
           comments={comments}
           typePost={typePost}
+          likedPost={likedPost}
           _id={_id}
           key={_id}
           />

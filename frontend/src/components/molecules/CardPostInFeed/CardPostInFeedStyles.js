@@ -95,7 +95,7 @@ h4 {
 }
 
 .iconHeart {
-    color: crimson;
+    color: ${ props => props.likedPost ? 'var(--violetpink)' : 'white' };
 }
 
 .containerDescription {

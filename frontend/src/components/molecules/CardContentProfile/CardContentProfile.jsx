@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { CgArrowsExpandRight} from 'react-icons/cg';
-import { Box, Skeleton } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 
@@ -14,6 +13,7 @@ const CardContentProfile = ({
   postBy,
   likes,
   _id,
+  likedPost,
   description
 }) => {
   const user = useSelector( state => state.userSlices.userFiltered );
@@ -47,7 +47,7 @@ const CardContentProfile = ({
   return (
     <CardContentProfileContainerStyles>
         <img src={thumbnail} alt="img content profile user" className='imgContent'/>
-        <DescriptionContentProfileStyles>
+        <DescriptionContentProfileStyles likedPost={likedPost}>
           { renderImgProfile()  }
           <span>
             <p>{description ? description : <></>}</p>

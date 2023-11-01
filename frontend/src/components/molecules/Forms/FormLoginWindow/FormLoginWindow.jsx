@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { FormLoginContainerStyles, MessageLoginContainerStyles } from './LoginStyles'
-import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive'
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
-import { handleLogin, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices';
-import { GoAlertFill } from 'react-icons/go';
-import { BsFillCheckCircleFill } from 'react-icons/bs';
+import React, { useContext, useEffect, useState } from 'react'
+import { FormLoginContainerStyles, MessageLoginContainerStyles } from '../../Login/LoginStyles'
+import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
 import { MoonLoader } from 'react-spinners';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
+import { GoAlertFill } from 'react-icons/go';
+import ButtonResponsive from '../../../atoms/ButtonResponsive/ButtonResponsive';
+import { handleLogin, restartStatusAuthSlice } from '../../../../redux/slices/authSlices/authSlices';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { GlobalContext } from '../../../../Context/GlobalContext';
 
-const Login = () => {
+const FormLoginWindow = () => {
     const statusLogin = useSelector( state => state.authSlices.status );
     const errorMessage = useSelector( state => state.authSlices.error );
     const isLoading = useSelector( state => state.authSlices.isLoading );
     const isLogged = useSelector( state => state.authSlices.isLogged );
+    const { setToggleAuth, isOpenModalWindowAuth, setIsOpenModalWindowAuth } = useContext(GlobalContext);
+    const params = useParams();
     const [ inputUsername, setInputUsername ] = useState('');
     const [ inputPassword, setInputPassword ] = useState('');
     const [ messageLogin, setMessageLogin ] = useState({ error: '', validate: null, type:'' }); 
@@ -32,27 +35,28 @@ const Login = () => {
     
     const handleFunctionRegister = (e) => {
         e.preventDefault();
-        navigator('/register');
+        setToggleAuth('register')
     }
 
     useEffect(() => {
       switch(statusLogin){
         case 200:
-          navigator('/')
+          navigator(`/getPostByID/${params.idPost}`);
           setMessageLogin({ error: '', validate: isLogged });
-          dispatch(restartStatusAuthSlice());
+          setIsOpenModalWindowAuth(false)
+          // dispatch(restartStatusAuthSlice());
           break;
         case 404:
           setMessageLogin({ error: 'Usuario no encontrado!', validate: isLogged, type: 'username' })
-          dispatch(restartStatusAuthSlice());
+          // dispatch(restartStatusAuthSlice());
           break;
         case 401:
           setMessageLogin({ error: 'Contraseña incorrecta!', validate: isLogged, type: 'password' })
-          dispatch(restartStatusAuthSlice());
+          // dispatch(restartStatusAuthSlice());
           break;
         case 500:
           setMessageLogin({ error: errorMessage, validate: isLogged })
-          dispatch(restartStatusAuthSlice());
+          // dispatch(restartStatusAuthSlice());
           break;
           default:
             break;
@@ -88,4 +92,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default FormLoginWindow;

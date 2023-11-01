@@ -36,10 +36,12 @@ const postSchema = new Schema({
             default: () => new Date().toISOString(),
         }
     }],
-    likes: {
-        type: [],
-        default: []
-    },
+    likes: [{
+        thumbnail: String,
+        _id: mongoose.Schema.Types.ObjectId,
+        username: String
+    }],
+    likedPost: Boolean,
     counterLikes: {
         type: Number,
         default: 0
@@ -61,7 +63,7 @@ const postSchema = new Schema({
         require: true
     },
     views: [{
-        imgProfile: String,
+        thumbnail: String,
         _id: mongoose.Schema.Types.ObjectId,
         username: String
     }]
@@ -70,7 +72,6 @@ const postSchema = new Schema({
     timestamps: true
 });
 
-postSchema.index({ _id: 1 });
 postSchema.index({ postBy: 1});
 
 export default model('Post', postSchema);

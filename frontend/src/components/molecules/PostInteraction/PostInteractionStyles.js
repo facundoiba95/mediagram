@@ -23,6 +23,9 @@ flex-direction: column;
 align-items: center;
 gap:8px;
 
+.iconHeart {
+    color:${ props => props.likedPost == true ? 'var(--violetpink)' : 'white' };
+}
 
 .iconComment, .iconHeart, .iconView {
     font-size: 1.5rem;

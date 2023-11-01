@@ -4,7 +4,7 @@ import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
+import { getPostByID, handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
 
 const CardPostInFeed = ({
   _id,
@@ -14,12 +14,15 @@ const CardPostInFeed = ({
   description,
   counterViews,
   counterLikes,
-  counterComments
+  counterComments,
+  likedPost
 }) => {
 
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const params = useParams();
+  const userAuth = useSelector( state => state.authSlices.user );
+
 
   const goToProfile = () => {
     params.username = username;
@@ -29,6 +32,23 @@ const CardPostInFeed = ({
   const goPost = async () => {
     params.idPost = _id;
     navigator(`/getPostByID/${params.idPost}`);
+  }
+
+
+  const sendLike = () => {
+      const newLike = {
+          username: userAuth.username,
+          thumbnail: userAuth.thumbnail,
+          _id: userAuth._id,
+          idPost: _id,
+          postedBy: { 
+            username, 
+            thumbnail: imgProfile,
+            _id 
+          }
+      };
+
+      dispatch(handleLikeToPost(newLike));
   }
 
   return (
@@ -42,13 +62,13 @@ const CardPostInFeed = ({
           <h4>{username}</h4>
         </HeadCardPostInProfileStyles>
         <img src={thumbnail} alt="" onClick={goPost} loading='lazy'/>
-        <FootCardPostInProfileStyles isDescription={description ? description.length : false}>
-          <span className='containerIconPost'>
+        <FootCardPostInProfileStyles isDescription={description ? description.length : false} likedPost={likedPost}>
+          <span className='containerIconPost' onClick={goPost}>
             <div><FaEye className='iconView'/><h5>{counterViews}</h5></div>         {/** counterViews */}
             <div><FaHeart className='iconHeart'/><h5>{counterLikes}</h5></div>       {/** counterLikes */}
             <div><FaComment className='iconComment'/><h5>{counterComments}</h5></div>   {/** counterComments */}
           </span>
-          <span className='containerDescription'>
+          <span className='containerDescription' onClick={goPost}>
             {
               description ?
               <>

@@ -10,6 +10,8 @@ export const GlobalContextProvider = ({children}) => {
     const [ isOpenNotifications, setIsOpenNotifications ] = useState(false);
     const [ isOpenMenuSetting, setIsOpenMenuSetting ] = useState(false); 
     const [ isOpenViewPost, setIsOpenViewPost ] = useState(false); 
+    const [ isOpenModalWindowAuth, setIsOpenModalWindowAuth ] = useState(false);
+    const [ toggleAuth, setToggleAuth ] = useState('login'); 
 
     return (
         <GlobalContext.Provider value={{
@@ -19,7 +21,9 @@ export const GlobalContextProvider = ({children}) => {
             isOpen, setIsOpen,
             isOpenNotifications, setIsOpenNotifications,
             isOpenMenuSetting, setIsOpenMenuSetting,
-            isOpenViewPost, setIsOpenViewPost
+            isOpenViewPost, setIsOpenViewPost,
+            isOpenModalWindowAuth, setIsOpenModalWindowAuth,
+            toggleAuth, setToggleAuth
         }}>
             {children}
         </GlobalContext.Provider>

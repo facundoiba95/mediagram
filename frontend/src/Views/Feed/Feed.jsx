@@ -9,7 +9,6 @@ const Feed = () => {
 const dispatch = useDispatch();
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
 
-
   useEffect(() => {
     const handleGetPostsByFollowing = async () => {
       await dispatch(getPostsOfFollowings());

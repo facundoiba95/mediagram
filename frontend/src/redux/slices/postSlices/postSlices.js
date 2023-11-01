@@ -4,6 +4,7 @@ import getPostsBuilders from "./Builders/getPostsBuilders";
 import getPostsOfFollowingsBuilders from "./Builders/getPostsOfFollowingsBuilders";
 import getPostByIDBuilders from "./Builders/getPostByIDBuilders";
 import addCommentBuilders from "./Builders/addCommentBuilders";
+import handleLikeToPostBuilders from "./Builders/handleLikeToPostBuilders";
 
 const initialState = {
     error: null,
@@ -88,10 +89,16 @@ export const getPostByID = createAsyncThunk(
     'getPostByID/postSlices',
     async (idPost) => {
         try {
+            const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByID/${idPost}`,{
                 method: "GET",
-                mode:'cors'
-            })
+                mode:'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
+            });
+
             const res = await req.json();
             return res;
         } catch (error) {
@@ -125,6 +132,29 @@ export const addComment = createAsyncThunk(
     }
 )
 
+export const handleLikeToPost = createAsyncThunk(
+    'handleLikeToPost/postSlices',
+    async (post) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/handleLikeToPost`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(post)
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en addLikeToPost, postSlices');
+            alert('Ocurrio un error en addLikeToPost, postSlices');
+        }
+    }
+)
 
 const postSlices = createSlice({
     name: 'postSlices',
@@ -143,6 +173,7 @@ const postSlices = createSlice({
         getPostsOfFollowingsBuilders( builders, getPostsOfFollowings );
         getPostByIDBuilders( builders, getPostByID );
         addCommentBuilders( builders, addComment );
+        handleLikeToPostBuilders( builders, handleLikeToPost );
     }
 })
 

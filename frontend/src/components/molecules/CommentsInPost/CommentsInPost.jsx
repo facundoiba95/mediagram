@@ -8,14 +8,15 @@ import AddComment from '../AddComment/AddComment';
 import { useSelector } from 'react-redux';
 import Comentary from '../../atoms/Comentary/Comentary';
 import { RiUserSmileFill } from 'react-icons/ri';
-import dateTime from '../../../libs/dateTime';
+import ValidateSession from '../../Containers/ValidateSession/ValidateSession';
 
 const CommentsInPost = ({
   description,
   username,
   thumbnail,
   counterViews,
-  counterLikes
+  counterLikes,
+  likedPost
 }) => {
     const [ hiddenDescription, setHiddenDescription ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
@@ -56,7 +57,14 @@ const CommentsInPost = ({
           }
           <h3>{username}</h3>
         </ViewPostUserInfoHeadStyles>
-        <PostInteraction counterLikes={counterLikes} counterViews={counterViews}/>
+        <ValidateSession>
+          <PostInteraction 
+            counterLikes={counterLikes} 
+            counterViews={counterViews}
+            post={post}
+            likedPost={likedPost}
+          />
+        </ValidateSession>
       </ViewPostHeadStyles>
     <ViewPostDescriptionStyles>
       <ViewPostHandleActiveDescriptionStyles isDescription={isDescription} hiddenDescription={hiddenDescription} onClick={() => setHiddenDescription(!hiddenDescription)}>
@@ -69,7 +77,9 @@ const CommentsInPost = ({
           { renderComments() }
         </ListCommentsStyles>
       </WrapperCommentContainerStyles>
-      <AddComment/>
+      <ValidateSession>
+        <AddComment/>
+      </ValidateSession>
     </ViewPostDescriptionStyles>
   </ViewPostCommentsSectionStyles>
   )

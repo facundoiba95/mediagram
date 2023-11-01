@@ -7,8 +7,8 @@ import handleErrors from './middlewares/errors/handleErrors.js';
 
 const exceptionPOSTPaths = [
      '/api/mediagram/auth/login',
-    '/api/mediagram/auth/register',
-    '/api/mediagram/post/addComment'
+     '/api/mediagram/auth/register',
+     '/api/mediagram/post/addComment'
 ]
 
 const app = express();
