@@ -108,14 +108,30 @@ li {
     background-color: transparent;
     padding:2px;
 }
+
 h3 {
     width:80%;
     background-color: transparent;
 }
 
+button {
+    height:30px;
+    font-size:1rem;
+    background-color: crimson;
+    padding:1px 10px;
+    border-radius:5px;
+    margin-bottom:10px;
+    cursor: pointer;
+    border:none;
+    font-weight:600;
+    color: white;
+}
+
 b {
     background-color: transparent;
 }
+
+
 `
 
 export const ContainerFormsAuthStyles = styled.div`

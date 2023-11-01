@@ -9,7 +9,8 @@ left:0;
 z-index: 2200;
 backdrop-filter: blur(10px);
 background-color: #111B2199;
-display: ${ props => props.isOpenModalWindowAuth ? 'flex' : 'none' };
+opacity: ${ props => props.isOpenModalWindowAuth ? '1' : '0' };
+visibility: ${ props => props.isOpenModalWindowAuth ? 'visible' : 'hidden' };
 transition: all 0.2s ease-in-out;
 `
 

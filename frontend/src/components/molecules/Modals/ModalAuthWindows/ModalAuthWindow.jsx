@@ -5,6 +5,8 @@ import { GlobalContext } from '../../../../Context/GlobalContext'
 import { ContainerFormsAuthStyles, WelcomeContentDefaultPageStyles, WelcomeMessageDefaultPageStyles } from '../../../../Views/DefaultPage/DefaultPageStyles'
 import FormLoginWindow from '../../Forms/FormLoginWindow/FormLoginWindow'
 import FormRegisterWindow from '../../Forms/FormRegisterWindow/FormRegisterWindow'
+import { LogoMediagramStyle } from '../../../atoms/LogoMediagram/LogoMediagramStyles'
+import LogoMediagram from '../../../atoms/LogoMediagram/LogoMediagram'
 
 const ModalAuthWindow = () => {
   const { isOpenModalWindowAuth, setIsOpenModalWindowAuth, toggleAuth, setToggleAuth } = useContext(GlobalContext);
@@ -22,7 +24,10 @@ const ModalAuthWindow = () => {
        <WrapperModalAuthWindowStyles>
         <WelcomeContentDefaultPageStyles>
           <WelcomeMessageDefaultPageStyles>
-             <h2>Registrate en <b>Mediagram</b> para explorar al máximo tu mundo!</h2>
+            {/* <LogoMediagramStyle>Mediagram</LogoMediagramStyle> */}
+            <LogoMediagram/>
+             <h2>Regístrate para explorar al máximo tu mundo!</h2>
+             <h3>Descubre todas las interacciónes dentro de la app y conécta con quién quieras!</h3>
              <button onClick={() => setIsOpenModalWindowAuth(false)}>Cerrar ventana</button>
           </WelcomeMessageDefaultPageStyles>
         </WelcomeContentDefaultPageStyles>

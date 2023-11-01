@@ -16,8 +16,7 @@ const DefaultPage = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-   
-
+  
   return (
    <TransitionContainer>
      <DefaultPageContainerStyles>

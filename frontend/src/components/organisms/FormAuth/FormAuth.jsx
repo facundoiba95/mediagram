@@ -1,23 +1,21 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FormAuthContainerStyles } from './FormAuthStyles'
 import Login from '../../molecules/Login/Login'
 import { useLocation } from 'react-router-dom'
 import Register from '../../molecules/Register/Register'
 import { useSelector } from 'react-redux'
 
-const FormAuth = ({children}) => {
+const FormAuth = () => {
   const location = useLocation();
   const isLogged = useSelector( state => state.authSlices.isLogged ); 
   const isLoading = useSelector( state => state.authSlices.isLoading );
 
-
-
   const renderFormsAuth = () =>  {
-    if( location.pathname === '/' && isLogged == false || !isLogged ){
+    if( location.pathname == '/' && !isLogged){
       return (
         <Login/>
       )
-    } else if(location.pathname === '/register' && isLogged == false || !isLogged){
+    } else if(location.pathname == '/register' && !isLogged){
       return (
         <Register/>
       )
@@ -27,9 +25,9 @@ const FormAuth = ({children}) => {
   const renderTitleAuth = () => {
     if(isLoading){
       return (<></>)
-    } else if(location.pathname === '/' && isLogged == false){
+    } else if(location.pathname === '/' && !isLogged ){
       return (<h2>Iniciar sesión</h2>)
-    } else if(location.pathname === '/register' && isLogged == false) {
+    } else if(location.pathname === '/register' && !isLogged ) {
       return (<h2>Registrarme</h2>)
     }
   }

@@ -11,7 +11,6 @@ const Home = ({children}) => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   
-
   useEffect(() => {
     dispatch(validateSession())
   }, [ dispatch ])
