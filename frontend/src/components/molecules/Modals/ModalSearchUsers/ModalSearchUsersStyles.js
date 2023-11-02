@@ -1,6 +1,23 @@
-import { styled } from "styled-components";
+import styled from 'styled-components';
 
-export const ListFollowContentContainerStyles = styled.ul`
+export const ModalSearchUsersContainerStyles = styled.div`
+width:100%;
+max-width:500px;
+height:100%;
+min-height:300px;
+max-height:500px;
+display:flex;
+flex-direction:column; 
+position: relative;
+gap:10px;
+top: 0;
+left: 50%;
+transform: translate(-50%,20%);
+border-radius: 10px;
+background-color: transparent;
+`
+
+export const ListModalSearchUsersStyles = styled.ul`
 width:100%;
 height:100%;
 background-color:#eeeeee50;
@@ -29,7 +46,7 @@ small {
 }
 `
 
-export const ItemFollowContentStyles = styled.li`
+export const ItemModalSearchUsersStyles = styled.li`
 width:100%;
 height:80px;
 background-color:white;
@@ -59,5 +76,11 @@ img {
 &:hover {
     cursor: pointer;
     background-color: var(--heavyLight);
+}
+
+p {
+    background-color: transparent;
+    font-weight:600;
+    margin: 0 auto;
 }
 `

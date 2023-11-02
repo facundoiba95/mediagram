@@ -42,7 +42,14 @@
        - ir a url del post solicitado (getPostByID -  backend)
        - componentes para mostrar post solicitado ( getPostByID - frontend );
        - refactorizacion de funcion y logica para acceder a perfiles. Ver funcion goToProfile y useEffect de Profile.jsx.
-       
+       - ModalSearchUser, modal para la busqueda de usuarios a nivel global.
+       - likes y views en post, ok
+       - manejar errores cuando no se puedan realizar acciones ( likes, comentarios ) por no iniciar sesion.
+       - modal de informacion de interacciones(likes, views);
+       - AddComment
+       - los comentarios se agregan correctamente
+       - agregando datos al comentario ( ir al perfil, tiempo de creación )
+
        POR HACER: 
           - crear notificacion a usuarios referTo
           - filtrar por typePost ( 'post', 'fastPost', 'closeFriend' )
@@ -53,13 +60,10 @@
           - estilos al ModalAuthWindow  
             
        HACIENDO :
-       - AddComment
-       - los comentarios se agregan correctamente
-       - agregando datos al comentario ( ir al perfil, tiempo de creación )
 
-       - likes y views en post, ok
-       - manejar errores cuando no se puedan realizar acciones ( likes, comentarios ) por no iniciar sesion.
-       - modal de informacion de interacciones(likes, views);
+
+
+       
 
 
 

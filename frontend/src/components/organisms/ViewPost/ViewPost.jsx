@@ -9,7 +9,7 @@ import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 import Loader from '../../molecules/Loaders/Loader/Loader';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
-import ModalInteractionsInfo from '../../molecules/Modals/ModalInteractionsInfo/ModalInteractionsInfo';
+import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
 
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
@@ -90,6 +90,18 @@ const ViewPost = () => {
       }
     }
 
+    const renderModalSearchUsers = () => {
+      if(params.typeInteraction === 'views'){
+        return (
+          <ModalSearchUsers data={post[0].views} message={`La vieron "${post[0].anonymViews}" cuentas no registradas.`}/>
+        )
+      } else if(params.typeInteraction === 'likes'){
+        return (
+          <ModalSearchUsers data={post[0].likes}/>
+        )
+      }
+    }
+
   return (
     <>
     {
@@ -97,8 +109,8 @@ const ViewPost = () => {
       ? <Loader/>
       : <TransitionContainer>
           <ModalAuthWindow/>
-          <ModalInteractionsInfo/>
-         { renderPost() }
+          { renderModalSearchUsers() }
+          { renderPost() }
         </TransitionContainer>
     }
     </>

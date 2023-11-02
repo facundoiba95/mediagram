@@ -8,30 +8,29 @@ import { validateSession } from '../../redux/slices/authSlices/authSlices';
 
 const Home = ({children}) => {
   const isLogged = useSelector( state => state.authSlices.isLogged );
-  const navigator = useNavigate();
   const dispatch = useDispatch();
   
   useEffect(() => {
     dispatch(validateSession())
-  }, [ dispatch ])
+  }, [dispatch ])
 
-  const verifySession = () => {
-    if(isLogged === true){
-      navigator('/feed');
-      return (
-        <>{children}</>
-        )
-    } else {
-      return (<DefaultPage/>)
-    }
+  if(isLogged === true){
+    return (
+      <HomeContainerStyles>
+        <TransitionContainer>
+          {children}
+        </TransitionContainer>
+      </HomeContainerStyles>
+    );
+  } else {
+    return (
+      <HomeContainerStyles>
+        <TransitionContainer>
+          <DefaultPage/>
+        </TransitionContainer>
+      </HomeContainerStyles>
+    );
   }
-  return (
-    <HomeContainerStyles>
-      <TransitionContainer>
-         { verifySession() }
-      </TransitionContainer>
-    </HomeContainerStyles>
-  )
 }
 
 export default Home;

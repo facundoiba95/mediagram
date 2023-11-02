@@ -20,13 +20,14 @@ const NavbarHeader = () => {
   const isLogged = useSelector( state => state.authSlices.isLogged );
   const isLoading = useSelector( state => state.authSlices.isLoading );
   const user = useSelector( state => state.authSlices.user );
+
   // hooks and tools
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
   
   // useContext
-  const { isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
+  const { setIsOpen,isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
 
   const goToProfile = async () => {
       params.username = user.username;
@@ -120,9 +121,9 @@ const NavbarHeader = () => {
             <ImHome3 className='iconNavbar'/>
             <p>Inicio</p>
           </NavbarMenuItemStyles>
-          <NavbarMenuItemStyles onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}>
-            <BiSolidSearchAlt2 className='iconNavbar' onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}/>
-            <p onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}>Buscar</p>
+          <NavbarMenuItemStyles onClick={() => setIsOpen(true)}>
+            <BiSolidSearchAlt2 className='iconNavbar' onClick={() => setIsOpen(true)}/>
+            <p onClick={() => setIsOpen(true)}>Buscar</p>
           </NavbarMenuItemStyles>
           <NavbarMenuItemStyles>
             <MdExplore className='iconNavbar'/>

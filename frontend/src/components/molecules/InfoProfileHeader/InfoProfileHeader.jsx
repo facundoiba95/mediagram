@@ -20,7 +20,7 @@ const InfoProfileHeader = ({
 
 const handleOpenFollowContent = (e) => {
     const typeFollow = e.target.dataset.typefollow;
-    setIsOpen(!isOpen);
+    setIsOpen(true);
     params.typeFollow = typeFollow;
     navigator(`/profile/${params.username}/${params.typeFollow}`);
   }

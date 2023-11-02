@@ -1,21 +1,17 @@
 import { styled } from "styled-components";
 
-export const SearchBarContainerStyles = styled.form`
-width:${ props => props.isOpenSearchBar ? '100%' : '5%' };
-max-width:800px;
-height:60px;
-background-color:#eeeeee30;
+export const SearchBarUserContainerStyles = styled.span`
+width:${ props => props.isOpen ? '100%' : '5%' };
+height: 80px;
+background-color:#eeeeee30 ;
 border-radius:10px;
-position: absolute;
-top:30px;
 display:flex;
 justify-content:center;
 align-items:center;
-left:50%;
-transform: translate(-50%);
 font-family:'Red Hat Display';
 transition:all 0.3s ease-in-out;
 border:3px solid white;
+border-radius: 10px;
 
 input {
     width:100%;
@@ -27,8 +23,8 @@ input {
     font-weight: 600;
     font-size:1.2rem;
     transition:all 0.3s ease-in-out;
-    visibility: ${ props => props.isOpenSearchBar ? 'visible' : 'hidden' };
-    opacity: ${ props => props.isOpenSearchBar ? '1' : '0' };
+    visibility: ${ props => props.isOpen ? 'visible' : 'hidden' };
+    opacity: ${ props => props.isOpen ? '1' : '0' };
 };
 
 ::placeholder {
