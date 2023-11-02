@@ -4,6 +4,8 @@ export default async (req, res, next) => {
     try {
         const userAuth = req.userAuth;
 
+        console.log('****** USER AUTH ******: ', userAuth.username);
+        console.log(userAuth.followings);
         const getPostsOfFollowings = await Post.aggregate([           // CAPA PADRE
             {
                 $lookup: {            // Post, debe mirar en la coleccion "users"

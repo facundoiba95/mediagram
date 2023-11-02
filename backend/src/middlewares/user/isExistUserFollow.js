@@ -3,7 +3,7 @@ import User from "../../models/User.js";
 export default async ( req,res,next ) => {
     try {
         const { username } = req.body;
-        const foundUserFollowing = await User.findOne({ _id: req.idUser });
+        const foundUserFollowing = req.userAuth;
         const foundUserFollower = await User.findOne({username});
 
         if(!foundUserFollowing) return await Promise.reject({ error: 'User not found.', status: 404 });

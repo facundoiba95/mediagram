@@ -39,7 +39,7 @@ const NavbarHeader = () => {
   }
 
   const goHome = () => {
-    navigator('/feed')
+    navigator('/')
   }
 
   const handleLogout = () => {

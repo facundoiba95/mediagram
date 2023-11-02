@@ -11,7 +11,7 @@ export default async ({ imgProfile, username, _id, userAuth, userFollower, found
         const addUserAuthInRecived = { 
             imgProfile: userAuth.imgProfile,
             username: userAuth.username, 
-            _id: userAuth._id 
+            _id: new mongoose.Types.ObjectId(userAuth._id )
         }
         foundFollowUpRequest.status = 'ACCEPT';
 

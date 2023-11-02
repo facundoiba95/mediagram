@@ -5,6 +5,7 @@ import deleteFollowUpRequest from "../libs/Users/deleteFollowUpRequest.js";
 import generateThumbnail from "../libs/generateThumbnail.js";
 import fs from 'fs-extra';
 import cloudinary from 'cloudinary';
+import mongoose from "mongoose";
 
 
 export const searchUser = async ( req,res ) => {
@@ -79,13 +80,13 @@ export const followUser = async ( req,res ) => {
         const addUserFollowing = {
             imgProfile,
             username,
-            _id
+            _id: new mongoose.Types.ObjectId(_id)
         }   
 
         const addUserFollower = { 
             imgProfile: foundUserFollowing.imgProfile,
             username: foundUserFollowing.username, 
-            _id: foundUserFollowing._id 
+            _id: new mongoose.Types.ObjectId(foundUserFollowing._id )
         }
 
         foundUserFollowing.followings.unshift(addUserFollowing);

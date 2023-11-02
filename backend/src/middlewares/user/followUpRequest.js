@@ -5,6 +5,8 @@
 
 */
 
+import mongoose from "mongoose";
+
 export default async ( req,res,next ) => {
     try {
         const userToFollow = req.foundUserFollower;
@@ -14,7 +16,7 @@ export default async ( req,res,next ) => {
         const newFollower = {
             imgProfile: userToFollowing.imgProfile,
             username: userToFollowing.username,
-            _id: userToFollowing._id
+            _id: new mongoose.Types.ObjectId(userToFollowing._id)
         }
 
         await handleFollowUpRequest( userToFollow, newFollower, foundFollowUpRequest );

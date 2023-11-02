@@ -60,6 +60,7 @@
           - estilos al ModalAuthWindow  
             
        HACIENDO :
+       - arreglando followUpRequest y renderizado en Feed;
 
 
 
