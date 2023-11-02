@@ -10,6 +10,7 @@ import Loader from '../../molecules/Loaders/Loader/Loader';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
+import { BsXCircle } from 'react-icons/bs';
 
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);

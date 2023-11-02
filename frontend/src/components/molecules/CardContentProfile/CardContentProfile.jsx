@@ -5,7 +5,8 @@ import { RiUserSmileFill } from 'react-icons/ri';
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { CgArrowsExpandRight} from 'react-icons/cg';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
+import { BsXCircle } from 'react-icons/bs';
+
 
 const CardContentProfile = ({
   thumbnail,
@@ -41,7 +42,6 @@ const CardContentProfile = ({
   const goPost = () => {
     params.idPost = _id;
     navigator(`/getPostByID/${params.idPost}`)
-    dispatch(getPostByID(params.idPost))
   }
 
   return (

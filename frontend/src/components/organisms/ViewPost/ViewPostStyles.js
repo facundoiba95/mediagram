@@ -17,6 +17,12 @@ button {
     width:120px;
     height:30px;
     position: absolute;
+    left: 20px;
+    top:20px;
+    border: none;
+    font-size:1.1rem;
+    border-radius:5px;
+    cursor: pointer;
 }
 `
 
@@ -32,6 +38,7 @@ width:100%;
 max-width:760px;
 height:95vh;
 display: flex;
+position: relative;
 
 
 img {

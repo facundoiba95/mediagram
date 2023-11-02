@@ -134,7 +134,7 @@ const NavbarHeader = () => {
             <p>Mensajes</p>
           </NavbarMenuItemStyles>
           <NavbarMenuItemStyles>
-            <BoxNotificationNavbarMenuStyles onClick={() => setIsOpenNotifications(!isOpenNotifications)}>
+            <BoxNotificationNavbarMenuStyles onClick={() => setIsOpenNotifications(true)}>
               <span>
                 { renderIconNotification() }
               </span>
