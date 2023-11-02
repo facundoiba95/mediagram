@@ -10,7 +10,7 @@ left:0;
 transition: all 0.1s ease-in-out;
 visibility: ${ props => props.isOpen ? 'visible' : 'hidden' };
 opacity: ${ props => props.isOpen ? '1' : '0' };
-z-index:2000;
+z-index:2200;
 
 
 h2 {

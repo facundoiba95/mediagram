@@ -9,6 +9,7 @@ import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 import Loader from '../../molecules/Loaders/Loader/Loader';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
+import ModalInteractionsInfo from '../../molecules/Modals/ModalInteractionsInfo/ModalInteractionsInfo';
 
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
@@ -25,7 +26,7 @@ const ViewPost = () => {
     }
 
     useEffect(() => {
-      // dispatch(validateSession());
+      dispatch(validateSession());
       const handleViewPost = async () => {
         await dispatch(getPostByID(params.idPost));
         setIsOpenViewPost(true);
@@ -38,7 +39,7 @@ const ViewPost = () => {
     const renderPost = () => {
       if(isReadyPost){
       return post.map(item => {
-        const { imgPost, description, counterLikes, counterViews, likedPost } = item;
+        const { imgPost, description, counterLikes, counterViews, likedPost, anonymViews } = item;
         const { username, thumbnail } = item.postedBy;
 
         return (
@@ -73,6 +74,7 @@ const ViewPost = () => {
               thumbnail={thumbnail}
               counterLikes={counterLikes}
               counterViews={counterViews}
+              anonymViews={anonymViews}
               likedPost={likedPost}
             />
             <button onClick={() => goBack()}>Cerrar</button>
@@ -95,6 +97,7 @@ const ViewPost = () => {
       ? <Loader/>
       : <TransitionContainer>
           <ModalAuthWindow/>
+          <ModalInteractionsInfo/>
          { renderPost() }
         </TransitionContainer>
     }

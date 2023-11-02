@@ -6,11 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
     const dispatch = useDispatch();
+    const navigator = useNavigate();
+    const params = useParams();
     const userAuth = useSelector( state => state.authSlices.user );
-    const { setIsOpenModalWindowAuth } = useContext(GlobalContext);
+    const { setIsOpenModalWindowAuth, setIsOpen } = useContext(GlobalContext);
 
     const sendLike = async () => {
         const result = await dispatch(validateSession());
@@ -29,16 +32,28 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
             setIsOpenModalWindowAuth(true)
           return;
         }
-      }
+    }
+
+    const openLikes = () => {
+        params.typeInteraction = 'likes'
+        navigator(`/getPostByID/${params.idPost}/${params.typeInteraction}`);
+        setIsOpen(true);
+    }
+
+    const openViews = () => {
+        params.typeInteraction = 'views'
+        navigator(`/getPostByID/${params.idPost}/${params.typeInteraction}`);
+        setIsOpen(true);
+    }
     
   return (
     <PostInteractionContainerStyles>
         <ListInteractionStyles >
             <ItemInteractionStyles >
-                <FaEye className='iconView'/><h5>{counterViews}</h5>         {/** counterViews */}
+                <FaEye className='iconView' onClick={openViews}/><h5 onClick={openViews}>{counterViews}</h5>         {/** counterViews */}
             </ItemInteractionStyles>
             <ItemInteractionStyles likedPost={likedPost}>
-               <FaHeart className='iconHeart' onClick={sendLike}/><h5>{counterLikes}</h5>     {/** counterLikes */}
+               <FaHeart className='iconHeart' onClick={sendLike}/><h5 onClick={openLikes}>{counterLikes}</h5>     {/** counterLikes */}
             </ItemInteractionStyles>
             <ItemInteractionStyles>
                <BsShareFill className='iconComment'/>

@@ -50,7 +50,7 @@
           - explorar ( ubicaciones, hashtags, otros )
           - viewsInProfile
           - setear quien vio el post, guardando un objeto { imgProfile, _id, username } en propiedad "views".
-
+          - estilos al ModalAuthWindow  
             
        HACIENDO :
        - AddComment
@@ -59,7 +59,7 @@
 
        - likes y views en post, ok
        - manejar errores cuando no se puedan realizar acciones ( likes, comentarios ) por no iniciar sesion.
-       - estilos al ModalAuthWindow
+       - modal de informacion de interacciones(likes, views);
 
 
 

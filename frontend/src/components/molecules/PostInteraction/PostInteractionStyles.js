@@ -44,5 +44,8 @@ gap:8px;
     color: var(--violetpink);
 }
 
+h5 {
+    cursor: pointer;
+}
 
 `

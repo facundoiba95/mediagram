@@ -54,6 +54,10 @@ const postSchema = new Schema({
         type: Number,
         default: 0
     },
+    anonymViews: {
+        type: Number,
+        default: 0
+    },
     imgPost: {
         type: String,
         require: true

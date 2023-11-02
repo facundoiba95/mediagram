@@ -4,6 +4,8 @@ import BarFollowContent from '../../molecules/BarFollowContent/BarFollowContent'
 import ResultFollowContent from '../../molecules/ResultFollowContent/ResultFollowContent'
 
 const FollowContent = () => {
+
+  // MODAL DE BUSQUEDA DE FOLLOWERS Y FOLLOWINGS
   return (
     <FollowContentContainerStyles>
         <BarFollowContent />

@@ -16,6 +16,7 @@ const CommentsInPost = ({
   thumbnail,
   counterViews,
   counterLikes,
+  anonymViews,
   likedPost
 }) => {
     const [ hiddenDescription, setHiddenDescription ] = useState(false);
@@ -60,7 +61,7 @@ const CommentsInPost = ({
         <ValidateSession>
           <PostInteraction 
             counterLikes={counterLikes} 
-            counterViews={counterViews}
+            counterViews={counterViews + anonymViews}
             post={post}
             likedPost={likedPost}
           />

@@ -10,6 +10,23 @@ flex-direction: column;
 gap:10px;
 font-family:'Red Hat Display';
 padding:10px;
+overflow-y: scroll;
+
+small {
+    background-color: transparent;
+    color:white;
+    font-weight:600;
+    display: flex;
+    gap: 5px;
+    :nth-child(1){
+        background-color: transparent;
+    }
+}
+
+.loader {
+    background-color: transparent;
+    margin: 0 auto;
+}
 `
 
 export const ItemFollowContentStyles = styled.li`

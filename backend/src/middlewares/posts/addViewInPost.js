@@ -46,12 +46,6 @@ const addUserVerifed = async (foundPost,token) => {
 }
 
 const addUserAnonymus = async (foundPost) => {
-    const anonymusUser = {
-        username: '',
-        thumbnail:''
-    }
-    
-    foundPost.views.unshift(anonymusUser);
-    foundPost.counterViews = foundPost.views.length;
+    foundPost.anonymViews = foundPost.anonymViews + 1;
     await foundPost.save();
 }
