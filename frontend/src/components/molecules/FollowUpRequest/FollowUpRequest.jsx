@@ -85,12 +85,20 @@ const FollowUpRequest = () => {
         } 
     }
 
+    const renderCounterFollowUpRequestPending = () => {
+        if(listFollowUpRequest && listFollowUpRequest.followUpRequest){
+            return listFollowUpRequest.followUpRequest.filter(item => item.status === 'PENDING').length
+        } else {
+            return '';
+        }
+    }
+
 
   return (
     <FollowUpRequestContainerStyles listFollowUpRequest={listFollowUpRequest && listFollowUpRequest.followUpRequest ? listFollowUpRequest.followUpRequest.length : false}>
         <TitleOfFollowUpRequestStyles>
            <h2>Solicitudes de seguimiento</h2>
-           <p>{ listFollowUpRequest && listFollowUpRequest.followUpRequest ? listFollowUpRequest.followUpRequest.length : '' }</p>
+           <p>{ renderCounterFollowUpRequestPending() }</p>
         </TitleOfFollowUpRequestStyles>
         <FollowUpListStyles listFollowUpRequest={listFollowUpRequest && listFollowUpRequest.length}>
             {

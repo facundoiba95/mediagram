@@ -211,6 +211,7 @@ export const GridTwoContainerStyles = styled.span`
             resize: none;
             padding:5px;
             border-radius:5px;
+            color:white;
         }
 
         textarea:focus {

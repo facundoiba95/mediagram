@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AiOutlineDown, AiOutlineRight } from 'react-icons/ai'
 import { ViewPostCommentsSectionStyles, ViewPostHeadStyles, ViewPostUserInfoHeadStyles } from '../../organisms/ViewPost/ViewPostStyles';
-import { ListCommentsStyles, ViewPostDescriptionStyles, ViewPostHandleActiveDescriptionStyles, WrapperCommentContainerStyles } from './CommentsInPostStyles';
+import { DescriptionPostContainerStyles, ListCommentsStyles, ViewPostDescriptionStyles, ViewPostHandleActiveDescriptionStyles, WrapperCommentContainerStyles } from './CommentsInPostStyles';
 import PostInteraction from '../PostInteraction/PostInteraction';
 import { useNavigate, useParams } from 'react-router-dom';
 import AddComment from '../AddComment/AddComment';
@@ -69,12 +69,17 @@ const CommentsInPost = ({
       </ViewPostHeadStyles>
     <ViewPostDescriptionStyles>
       <ViewPostHandleActiveDescriptionStyles isDescription={isDescription} hiddenDescription={hiddenDescription} onClick={() => setHiddenDescription(!hiddenDescription)}>
-        <AiOutlineRight className='openDescription'/>
-        <AiOutlineDown className='hiddenDescription'/>
-        <small>Descripción</small>
+        <span>
+          <AiOutlineRight className='openDescription'/>
+          <AiOutlineDown className='hiddenDescription'/>
+          <small>Descripción</small>
+        </span>
+        <DescriptionPostContainerStyles hiddenDescription={hiddenDescription}>
+            <p>{description}</p>
+        </DescriptionPostContainerStyles>
       </ViewPostHandleActiveDescriptionStyles>
       <WrapperCommentContainerStyles>
-        <ListCommentsStyles>
+        <ListCommentsStyles comments={post[0].comments}>
           { renderComments() }
         </ListCommentsStyles>
       </WrapperCommentContainerStyles>
