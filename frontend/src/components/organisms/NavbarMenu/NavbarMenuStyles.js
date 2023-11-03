@@ -7,7 +7,7 @@ opacity: ${ props => props.isLogged ? '1' : '0' };
 width:250px;
 height:100%;
 flex-direction:column;
-background-color:var(--light);
+background-color:#111B21;
 position:sticky;
 top:0;
 `
@@ -18,8 +18,10 @@ height:100%;
 display:flex;
 flex-direction:column;
 justify-content:flex-start;
-background-color:var(--light);
+background-color:#111B21;
 padding:10px;
+color:var(--heavyLight);
+gap:5px;
 `
 
 export const NavbarMenuItemStyles = styled.li`
@@ -31,12 +33,19 @@ display:flex;
 justify-content:flex-start;
 align-items:center;
 gap:10px;
-background-color: ${ props => props.isLogout ? '#ffc8dd60' : 'transparent'};
+background-color: transparent;
 border-radius:8px;
 
 .iconNavbar {
     font-size:2rem;
     background-color:transparent;
+    width:50px;
+}
+
+.logout {
+    background-color: transparent;
+    font-size:1.4rem;
+    width:20px;
 }
 
 p{
@@ -45,7 +54,7 @@ p{
 
 &:hover {
     cursor: pointer;
-    background-color: ${ props => props.isLogout ? '#ffc8dd' : 'var(--heavyLight)'};
+    background-color: #80808020;
     border-radius:8px;
     transition:all 0.2s ease-in-out;
 }
@@ -69,8 +78,21 @@ img {
     gap: 10px;
 }
 
+
 &:nth-child(5) {
 justify-content:center;
+}
+
+&:nth-child(8){
+    margin-top:4rem;
+    background-color: #80808080;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height:40px;
+}
+&:nth-child(8):hover{
+    background-color:#F4254680;
 }
 `
 
@@ -83,6 +105,7 @@ justify-content:center;
 align-items:center;
 border-radius:5px;
 gap:40px;
+color:black;
 
 
 .iconNewFollowUpRequest, .iconNotification {

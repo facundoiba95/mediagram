@@ -32,12 +32,12 @@ const ModalSearchUsers = ({ data, message, placeholderValue,type }) => {
         )
       }
       return usersFounded.map(item => {
-        const { username, imgProfile, _id } = item;
+        const { username, thumbnail, _id } = item;
         return (
           <ItemModalSearchUsersStyles data-username={username} onClick={(e) => goToProfile(e)} key={_id}>
             {
-                imgProfile
-                ? <img src={imgProfile} alt="imgProfile" data-username={username}/>
+                thumbnail
+                ? <img src={thumbnail} alt="imgProfile" data-username={username}/>
                 : <RiUserSmileFill className='imgProfile' data-username={username}/>
             }
             <h2 data-username={username}>{ username }</h2>

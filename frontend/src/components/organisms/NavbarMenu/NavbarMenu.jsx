@@ -8,6 +8,7 @@ import { AiFillMessage } from 'react-icons/ai';
 import { IoMdNotifications } from 'react-icons/io';
 import { HiLightBulb } from 'react-icons/hi';
 import { FaUserPlus } from 'react-icons/fa';
+import { TbEyeClosed } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
@@ -154,6 +155,7 @@ const NavbarHeader = () => {
             <p>Perfil</p>
           </NavbarMenuItemStyles>
           <NavbarMenuItemStyles onClick={ () => handleLogout()} isLogout={true}>
+            <TbEyeClosed className='logout'/>
             <p>Cerrar sesión</p>
           </NavbarMenuItemStyles>
       </NavbarMenuListStyles>

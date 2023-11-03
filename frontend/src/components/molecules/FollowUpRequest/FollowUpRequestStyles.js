@@ -46,9 +46,10 @@ height:auto;
 display:flex;
 align-items: center;
 justify-content: center;
-background-color: var(--heavyLight);
 border-radius:10px;
-border:1px solid var(--heavyLight);
+border: 2px solid #80808050;
+color:white;
+padding: 5px;
 
 p {
     font-size: 1.4rem;
