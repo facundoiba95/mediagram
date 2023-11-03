@@ -12,8 +12,6 @@ export const searchUser = async ( req,res ) => {
     try {
         const { valueUser } = req.params;
 
-        if(valueUser.trim().length < 3) return;
-
         const foundUser = await User.find({
             $or: [
                 {username: {$eq: valueUser.trim()}},{username: {$regex: valueUser.trim()}}

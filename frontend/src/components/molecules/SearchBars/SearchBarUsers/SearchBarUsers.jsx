@@ -30,7 +30,6 @@ const SearchBarUsers = ({data, placeholderValue, type}) => {
       setIsLoadingSearch(true);
       const dataFiltered = data.filter(item => item.username.includes(inputSearchBar));
       if(type === 'searchUserDB'){
-        if(inputSearchBar.length > 2)
          dispatch(searchUser(inputSearchBar))
       }
       setIsLoadingSearch(false);

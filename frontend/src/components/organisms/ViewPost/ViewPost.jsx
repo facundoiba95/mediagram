@@ -33,7 +33,7 @@ const ViewPost = () => {
         setIsOpenViewPost(true);
         setIsReadyPost(true)
       }
-      
+
       handleViewPost();
     },[ dispatch, params.idPost ])
 
@@ -94,7 +94,7 @@ const ViewPost = () => {
     const renderModalSearchUsers = () => {
       if(params.typeInteraction === 'views'){
         return (
-          <ModalSearchUsers data={post[0].views} message={`La vieron "${post[0].anonymViews}" cuentas no registradas.`}/>
+          <ModalSearchUsers data={post[0].views} message={`"${post[0].anonymViews}" vistas de cuentas no registradas.`}/>
         )
       } else if(params.typeInteraction === 'likes'){
         return (
