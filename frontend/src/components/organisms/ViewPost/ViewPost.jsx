@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ViewPostBackgroundStyles , ViewPostImageContainerStyles, ViewPostLogosLeftStyles, ViewPostLogosRightStyles, ViewPostWrapperStyles } from './ViewPostStyles'
 import { GlobalContext } from '../../../Context/GlobalContext'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
 import CommentsInPost from '../../molecules/CommentsInPost/CommentsInPost';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,6 @@ import Loader from '../../molecules/Loaders/Loader/Loader';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
-import { BsXCircle } from 'react-icons/bs';
 
 const ViewPost = () => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
@@ -20,6 +19,7 @@ const ViewPost = () => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
+    const location = useLocation();
 
     const goBack = () => {
         setIsOpenViewPost(false);
@@ -33,7 +33,7 @@ const ViewPost = () => {
         setIsOpenViewPost(true);
         setIsReadyPost(true)
       }
-
+      
       handleViewPost();
     },[ dispatch, params.idPost ])
 
