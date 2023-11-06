@@ -27,8 +27,8 @@ const Router = () => {
         <Routes>
           <Route path='/' element={<Home><Feed/></Home>}/>
           <Route path='/register' element={<Home/>}/>
-          <Route path='/getPostByID/:idPost' element={<ViewPost/>}/>
-          <Route path='/getPostByID/:idPost/:typeInteraction' element={<ViewPost/>}/>
+          <Route path='/getPostByID/:idPost' element={<ViewPost><ModalUnauthenticated/></ViewPost>}/>
+          <Route path='/getPostByID/:idPost/:typeInteraction' element={<ViewPost><ModalUnauthenticated/></ViewPost>}/>
           <Route path='/profile/:username' element={<Profile/>}/>
           <Route path='/profile/:username/:typeFollow' element={<Profile/>}/>
           <Route path='/profile/:username/changeImageUser' element={<Profile><ChangeImageUser/></Profile>}/>

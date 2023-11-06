@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPostByID, getPosts } from "../controllers/post.controllers.js";
+import { addComment, handleLikeToPost, createPost, getPosts, getPostByID } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import path,{ dirname } from 'path'
 import { fileURLToPath } from 'url';
@@ -16,6 +16,9 @@ import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
 import isExistLikeInPost from "../middlewares/posts/isExistLikeInPost.js";
 import addViewInPost from "../middlewares/posts/addViewInPost.js";
+import associatePostAndUser from "../middlewares/posts/associatePostAndUser.js";
+import isPrivate from "../middlewares/posts/isPrivate.js";
+import verifyTokenInPost from "../middlewares/auth/verifyTokenInPost.js";
 config();
 
 const router = Router();
@@ -54,7 +57,7 @@ router.use((req, res, next) => {
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
 router.post('/getPosts', getPosts);
-router.get('/getPostByID/:idPost',[ addViewInPost, handleErrors ], getPostByID );
+router.get('/getPostByID/:idPost',[ verifyTokenInPost, associatePostAndUser, isPrivate, addViewInPost, handleErrors ], getPostByID );
 router.post('/verifyUser', verifyUser);
 router.post('/getPostByFollowings', [ getPostByFollowings ]);
 router.post('/addComment', [ validateAuthInPost, validateComment, handleErrors ] , addComment);

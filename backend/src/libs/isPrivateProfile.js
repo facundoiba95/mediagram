@@ -28,7 +28,6 @@ export const restrictFollowUpRequestData = ( foundUser, idUser ) => {
         const foundFollowUpRequest = usr.followUpRequest.filter(request => request.sentBy.find(usr => usr._id.toString() === idUser));
         
         usr.followUpRequest = foundFollowUpRequest;
-        console.log(foundFollowUpRequest);
         return {  ... usr};
     });
 

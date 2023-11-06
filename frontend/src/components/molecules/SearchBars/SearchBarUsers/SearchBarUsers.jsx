@@ -28,9 +28,9 @@ const SearchBarUsers = ({data, placeholderValue, type}) => {
 
     const filterData = () => {
       setIsLoadingSearch(true);
-      const dataFiltered = data.filter(item => item.username.includes(inputSearchBar));
+      const dataFiltered = data.filter(item => item.username.includes(inputSearchBar.trim()));
       if(type === 'searchUserDB'){
-         dispatch(searchUser(inputSearchBar))
+         dispatch(searchUser(inputSearchBar.trim()))
       }
       setIsLoadingSearch(false);
       return dataFiltered;
@@ -38,7 +38,7 @@ const SearchBarUsers = ({data, placeholderValue, type}) => {
 
     useEffect(() => {
       const handleSearch = async () => {
-        if(!inputSearchBar.length){
+        if(!inputSearchBar.trim().length){
           await dispatch(setUserFound([]));
           await dispatch(setUserFound(data));
         } else {

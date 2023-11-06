@@ -27,6 +27,7 @@ color:var(--light);
 
 p {
     font-size:1.5rem;
+    text-align: center;
 }
 
 b {
@@ -40,5 +41,15 @@ span, small, strong, b, p {
 b:hover {
     font-weight: 900;
     color: var(--violetpink);
+}
+
+.iconPrivateAccount {
+    color: crimson;
+    background-color: transparent;
+    margin: 0 auto;
+    margin-bottom:10px;
+    font-size: 4rem;
+    display: flex;
+
 }
 `

@@ -11,11 +11,12 @@ import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
 
-const ViewPost = () => {
+const ViewPost = ({ children }) => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
     const isLoadingPost = useSelector( state => state.postSlices.isLoading );
     const [ isReadyPost, setIsReadyPost ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
+    const statusPost = useSelector( state => state.postSlices.status );
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
@@ -27,7 +28,6 @@ const ViewPost = () => {
     }
 
     useEffect(() => {
-      dispatch(validateSession());
       const handleViewPost = async () => {
         await dispatch(getPostByID(params.idPost));
         setIsOpenViewPost(true);
@@ -109,9 +109,15 @@ const ViewPost = () => {
       isLoadingPost
       ? <Loader/>
       : <TransitionContainer>
-          <ModalAuthWindow/>
-          { renderModalSearchUsers() }
-          { renderPost() }
+          {
+            statusPost !== 200
+            ? <>{children}</>
+            : <>
+               <ModalAuthWindow/>
+               { renderModalSearchUsers() }
+               { renderPost() }
+              </>
+          }
         </TransitionContainer>
     }
     </>

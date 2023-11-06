@@ -5,5 +5,9 @@ export default async ( username,idUser ) => {
     const userAuth = await User.findOne({_id: idUser});
     const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
     
+    if( username === userAuth.username ){
+        return true;
+    };
+
     return isFollowingsUsers;
 }

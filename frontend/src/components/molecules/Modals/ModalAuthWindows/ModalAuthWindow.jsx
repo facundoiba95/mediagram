@@ -7,9 +7,11 @@ import FormLoginWindow from '../../Forms/FormLoginWindow/FormLoginWindow'
 import FormRegisterWindow from '../../Forms/FormRegisterWindow/FormRegisterWindow'
 import { LogoMediagramStyle } from '../../../atoms/LogoMediagram/LogoMediagramStyles'
 import LogoMediagram from '../../../atoms/LogoMediagram/LogoMediagram'
+import { useSelector } from 'react-redux'
 
 const ModalAuthWindow = () => {
   const { isOpenModalWindowAuth, setIsOpenModalWindowAuth, toggleAuth, setToggleAuth } = useContext(GlobalContext);
+  const statusPost = useSelector( state => state.postSlices.status );
 
   const renderAuthForms = () => {
     if(toggleAuth === 'login'){
@@ -26,8 +28,14 @@ const ModalAuthWindow = () => {
           <WelcomeMessageDefaultPageStyles>
             {/* <LogoMediagramStyle>Mediagram</LogoMediagramStyle> */}
             <LogoMediagram/>
-             <h2>Regístrate para explorar al máximo tu mundo!</h2>
-             <h3>Descubre todas las interacciónes dentro de la app y conécta con quién quieras!</h3>
+             {
+              statusPost === 401
+              ? <h2>Este post pertenece a una cuenta privada! Debes enviarle una solicitud de seguimiento para ver su contenido.</h2>
+              : <>
+                  <h2>Regístrate para explorar al máximo tu mundo!</h2>
+                  <h3>Descubre todas las interacciónes dentro de la app y conécta con quién quieras!</h3>
+                </>
+             }
              <button onClick={() => setIsOpenModalWindowAuth(false)}>Cerrar ventana</button>
           </WelcomeMessageDefaultPageStyles>
         </WelcomeContentDefaultPageStyles>

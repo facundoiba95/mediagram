@@ -50,6 +50,8 @@
        - los comentarios se agregan correctamente
        - agregando datos al comentario ( ir al perfil, tiempo de creación )
        - arreglando followUpRequest y renderizado en Feed;
+       - arreglando followUpRequest styles.
+       - restringir post si el usuario tiene cuenta privada y el solicitante no es seguidor.
 
        POR HACER: 
           - crear notificacion a usuarios referTo
@@ -61,7 +63,7 @@
           - estilos al ModalAuthWindow  
             
        HACIENDO :
-       - arreglando followUpRequest styles.
+       
 
 
 
