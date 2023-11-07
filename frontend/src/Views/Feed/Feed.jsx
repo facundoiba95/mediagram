@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { FeedContainerHeaderStyles, FeedContainerNewsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
 import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getPostsOfFollowings } from '../../redux/slices/postSlices/postSlices'
 
 const Feed = () => {
 const dispatch = useDispatch();
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
+const posts = useSelector( state => state.postSlices.post );
 
   useEffect(() => {
     const handleGetPostsByFollowing = async () => {
@@ -25,7 +26,7 @@ const [ isReadyFeed, setIsReadyFeed ] = useState(false);
         </FeedContainerHeaderStyles>
 
         <FeedContainerPostsStyles>
-            <PostsInFeed isReadyFeed={isReadyFeed}/>
+          <PostsInFeed isReadyFeed={isReadyFeed}/>
         </FeedContainerPostsStyles>
 
         <FeedContainerNewsStyles>

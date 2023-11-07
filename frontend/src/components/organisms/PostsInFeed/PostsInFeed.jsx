@@ -4,6 +4,7 @@ import CardPostInFeed from '../../molecules/CardPostInFeed/CardPostInFeed'
 import { useSelector } from 'react-redux';
 import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/SkeletonCardPostFeed';
 import LoaderWidthVw from '../../molecules/Loaders/LoaderWidthVw/LoaderWidthVw';
+import DefaultPageFeed from '../../molecules/DefaultPageFeed/DefaultPageFeed';
 
 const PostsInFeed = ({isReadyFeed}) => {
   const posts = useSelector( state => state.postSlices.post );
@@ -44,7 +45,11 @@ const PostsInFeed = ({isReadyFeed}) => {
 
   return (
     <PostsInFeedContainerStyles>
-        { renderPosts() }
+        {
+          posts.length
+          ? renderPosts()
+          : <DefaultPageFeed/>
+        }
     </PostsInFeedContainerStyles>
     )
 }

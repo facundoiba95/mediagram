@@ -34,23 +34,6 @@ const CardPostInFeed = ({
     navigator(`/getPostByID/${params.idPost}`);
   }
 
-
-  const sendLike = () => {
-      const newLike = {
-          username: userAuth.username,
-          thumbnail: userAuth.thumbnail,
-          _id: userAuth._id,
-          idPost: _id,
-          postedBy: { 
-            username, 
-            thumbnail: imgProfile,
-            _id 
-          }
-      };
-
-      dispatch(handleLikeToPost(newLike));
-  }
-
   return (
     <CardPostInFeedContainerStyles>
         <HeadCardPostInProfileStyles onClick={goToProfile}>

@@ -17,6 +17,7 @@ img {
     height:600px;
     object-fit: cover;
     background-color: transparent;
+    cursor: pointer;
 }
 `
 
@@ -105,8 +106,16 @@ h4 {
     justify-content: flex-start;
     align-items: flex-start;
     gap:10px;
+    
     p {
         background-color: transparent;
+        height:50px;
+        overflow: hidden;
+        white-space: pre;
+    }
+
+    p:hover {
+        cursor: pointer;
     }
 }
 
