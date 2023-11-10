@@ -63,7 +63,7 @@
           - estilos al ModalAuthWindow  
             
        HACIENDO :
-       
+          - mostrando los datos en el post ( referTo, location )
 
 
 

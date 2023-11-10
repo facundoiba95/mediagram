@@ -82,6 +82,14 @@ export const DescriptionContentProfileStyles = styled.span`
         color:var(--light);
     }
 
+    p {
+        width:100%;
+        max-width:280px;
+        overflow:hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
     .containerIconPost{
         background-color:transparent;
         position:absolute;
@@ -92,6 +100,7 @@ export const DescriptionContentProfileStyles = styled.span`
     }
 
     .iconView, .iconHeart, .iconComment{
+        background-color: transparent;
         color: var(--light);
         font-size:1.1rem;        
         cursor: pointer;

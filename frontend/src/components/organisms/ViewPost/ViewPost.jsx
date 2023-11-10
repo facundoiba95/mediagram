@@ -40,7 +40,7 @@ const ViewPost = ({ children }) => {
     const renderPost = () => {
       if(isReadyPost){
       return post.map(item => {
-        const { imgPost, description, counterLikes, counterViews, likedPost, anonymViews } = item;
+        const { imgPost, description, counterLikes, counterViews, likedPost, anonymViews, referTo, location } = item;
         const { username, thumbnail } = item.postedBy;
 
         return (
@@ -77,6 +77,8 @@ const ViewPost = ({ children }) => {
               counterViews={counterViews}
               anonymViews={anonymViews}
               likedPost={likedPost}
+              referTo={referTo}
+              location={location}
             />
             <button onClick={() => goBack()}>Cerrar</button>
           </ViewPostWrapperStyles>

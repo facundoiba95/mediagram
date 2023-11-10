@@ -34,6 +34,7 @@ background-color: var(--lightblack);;
 border-top-right-radius:10px;
 border-top-left-radius:10px;
 color:white;
+
 img {
     width:55px;
     height:55px;
@@ -41,6 +42,12 @@ img {
     border-radius: 50%;
     background-color: transparent;
     cursor: pointer;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
 }
 
 h4 {
@@ -56,6 +63,21 @@ h4 {
     background-color: white;
     border-radius:50%;
     cursor: pointer;
+}
+
+span {
+    display: flex;
+    gap:10px;
+    background-color: transparent;
+
+    small {
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    small:nth-child(1) {
+        font-weight: 600;
+    }
 }
 `
 
@@ -90,7 +112,7 @@ h4 {
     }
 }
 
-.iconView, .iconHeart, .iconComment{
+.iconView, .iconHeart, .iconComment {
     font-size:1.1rem;        
     cursor: pointer;
 }
@@ -130,5 +152,28 @@ small {
     font-weight:900;
     cursor: pointer;
     font-size:1rem;
+}
+
+div:nth-child(4) {
+    h5 {
+        background-color: purple;
+        border-radius:5px;
+        padding:2px 5px;
+        color:white;
+        width: 100%;
+        max-width:300px;
+        white-space: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
+.iconLocation {
+    border-radius:50%;
+    background-color: white;
+    color: purple;
+
 }
 `

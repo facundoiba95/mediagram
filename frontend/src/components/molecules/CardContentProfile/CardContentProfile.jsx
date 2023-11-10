@@ -20,7 +20,6 @@ const CardContentProfile = ({
   const user = useSelector( state => state.userSlices.userFiltered );
   const navigator = useNavigate();
   const params = useParams();
-  const dispatch = useDispatch();
   const { imgProfile } = user[0];
 
   const renderImgProfile = () => {

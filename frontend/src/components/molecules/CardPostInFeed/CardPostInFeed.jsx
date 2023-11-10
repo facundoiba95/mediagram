@@ -5,6 +5,7 @@ import { RiUserSmileFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPostByID, handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
+import { MdLocationOn } from 'react-icons/md';
 
 const CardPostInFeed = ({
   _id,
@@ -15,17 +16,18 @@ const CardPostInFeed = ({
   counterViews,
   counterLikes,
   counterComments,
-  likedPost
+  likedPost,
+  location,
+  referTo
 }) => {
 
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const params = useParams();
-  const userAuth = useSelector( state => state.authSlices.user );
 
-
-  const goToProfile = () => {
-    params.username = username;
+  const goToProfile = (e) => {
+    const valueUsername = e.target.dataset.username;
+    params.username = valueUsername;
     navigator(`/profile/${params.username}`);
 }
   
@@ -34,15 +36,31 @@ const CardPostInFeed = ({
     navigator(`/getPostByID/${params.idPost}`);
   }
 
+  const renderReferTo = () => {
+    return referTo.map(item => {
+      return (
+        <small data-username={item} onClick={(e) => goToProfile(e)}>{`@${item}`}</small>
+      )
+    })
+  }
   return (
     <CardPostInFeedContainerStyles>
-        <HeadCardPostInProfileStyles onClick={goToProfile}>
+        <HeadCardPostInProfileStyles>
           {
             imgProfile
             ? <img src={imgProfile} />
              : <RiUserSmileFill className='imgProfile'/>
           }
-          <h4>{username}</h4>
+          <div>
+            <h4 data-username={username} onClick={(e) => goToProfile(e)}>{username}</h4>
+            <span>
+              {
+                referTo.length
+                ? <><small>Menciones: </small>{ renderReferTo() }</>
+                : <></>
+              }
+            </span>
+          </div>
         </HeadCardPostInProfileStyles>
         <img src={thumbnail} alt="" onClick={goPost} loading='lazy'/>
         <FootCardPostInProfileStyles isDescription={description ? description.length : false} likedPost={likedPost}>
@@ -50,6 +68,11 @@ const CardPostInFeed = ({
             <div><FaEye className='iconView'/><h5>{counterViews}</h5></div>         {/** counterViews */}
             <div><FaHeart className='iconHeart'/><h5>{counterLikes}</h5></div>       {/** counterLikes */}
             <div><FaComment className='iconComment'/><h5>{counterComments}</h5></div>   {/** counterComments */}
+            {
+              location 
+              ? <div><MdLocationOn className='iconLocation'/><h5>{location}</h5></div>
+              : <></>
+            }
           </span>
           <span className='containerDescription' onClick={goPost}>
             {

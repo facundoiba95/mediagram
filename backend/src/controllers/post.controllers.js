@@ -56,7 +56,7 @@ export const getPosts = async ( req,res ) => {
         const dataPostToSend = isUserAuthPost ? userAuth[0] : foundUser[0]; // si es usuario auth, envia toda la data, sino lo maneja foundUser;
 
         const foundPosts = postDatabase.filter(content => dataPostToSend.posts.includes(content._id));
-        if(!foundPosts.length) return res.status(404).json({ error: 'No se encontraron posts!', status:404 });
+        if(!foundPosts.length) return res.status(404).json({ error: 'No se encontraron posts!', status:404, post: [] });
         return res.status(200).json({ message: 'Se encontraron estos posts!', post: foundPosts, status:200 });
 
     } catch (error) {

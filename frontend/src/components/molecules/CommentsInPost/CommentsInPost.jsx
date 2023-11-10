@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { AiOutlineDown, AiOutlineRight } from 'react-icons/ai'
+import { AiOutlineDown, AiOutlineRight } from 'react-icons/ai';
+import { MdLocationOn } from 'react-icons/md';
 import { ViewPostCommentsSectionStyles, ViewPostHeadStyles, ViewPostUserInfoHeadStyles } from '../../organisms/ViewPost/ViewPostStyles';
-import { DescriptionPostContainerStyles, ListCommentsStyles, ViewPostDescriptionStyles, ViewPostHandleActiveDescriptionStyles, WrapperCommentContainerStyles } from './CommentsInPostStyles';
+import { DescriptionPostContainerStyles, ListCommentsStyles, LocationAndReferToDataContainerStyles, ViewPostDescriptionStyles, ViewPostHandleActiveDescriptionStyles, WrapperCommentContainerStyles } from './CommentsInPostStyles';
 import PostInteraction from '../PostInteraction/PostInteraction';
 import { useNavigate, useParams } from 'react-router-dom';
 import AddComment from '../AddComment/AddComment';
@@ -17,15 +18,18 @@ const CommentsInPost = ({
   counterViews,
   counterLikes,
   anonymViews,
-  likedPost
+  likedPost,
+  referTo,
+  location
 }) => {
     const [ hiddenDescription, setHiddenDescription ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
     const navigator = useNavigate();
     const params = useParams();
 
-    const goToProfile = () => {
-      params.username = username;
+    const goToProfile = (e) => {
+      const valueUser = e.target.dataset.username;
+      params.username = valueUser;
       navigator(`/profile/${params.username}`)
     };
 
@@ -47,16 +51,24 @@ const CommentsInPost = ({
       })
     }
 
+    const renderReferTo = () => {
+      return referTo.map(item => {
+        return (
+          <small data-username={item} onClick={(e) => goToProfile(e)}>{`@${item}`}</small>
+        )
+      })
+    }
+
   return (
     <ViewPostCommentsSectionStyles>
       <ViewPostHeadStyles>
-        <ViewPostUserInfoHeadStyles onClick={goToProfile}>
+        <ViewPostUserInfoHeadStyles>
           {
             thumbnail 
-            ? <img src={thumbnail} alt=""/>
-            : <RiUserSmileFill className='imgProfile'/>
+            ? <img src={thumbnail} alt="" data-username={username} onClick={(e) => goToProfile(e)}/>
+            : <RiUserSmileFill className='imgProfile' data-username={username}/>
           }
-          <h3>{username}</h3>
+          <h3 data-username={username} onClick={(e) => goToProfile(e)}>{username}</h3>
         </ViewPostUserInfoHeadStyles>
         <ValidateSession>
           <PostInteraction 
@@ -68,6 +80,10 @@ const CommentsInPost = ({
         </ValidateSession>
       </ViewPostHeadStyles>
     <ViewPostDescriptionStyles>
+      <LocationAndReferToDataContainerStyles>
+        <span><MdLocationOn className='iconLocation'/><h5>{location}</h5></span>
+        <span><small>Menciones: </small> { renderReferTo() }</span>
+      </LocationAndReferToDataContainerStyles>
       <ViewPostHandleActiveDescriptionStyles isDescription={isDescription} hiddenDescription={hiddenDescription} onClick={() => setHiddenDescription(!hiddenDescription)}>
         <span>
           <AiOutlineRight className='openDescription'/>

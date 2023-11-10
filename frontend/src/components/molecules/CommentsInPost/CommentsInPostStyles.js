@@ -41,6 +41,58 @@ small {
 }
 `
 
+export const LocationAndReferToDataContainerStyles = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+gap:10px;
+padding-top:5px;
+
+span {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap:5px;
+
+    h5:nth-child(2) {
+    width: 100%;
+    max-width:300px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    color: white;
+    background-color: purple;
+    padding: 2px 5px;
+    border-radius: 5px;
+    }
+
+    .iconLocation {
+    font-size: 1.2rem;
+    background-color: white;
+    color: purple;
+    border-radius: 50%;
+    }
+
+    small {
+    color: #808080;
+    font-weight:600;  
+    cursor: pointer;
+    }
+
+    small:hover {
+        color:white;
+    }
+
+    small:nth-child(1) {
+        color:white;
+    }
+}
+
+
+`
+
 export const WrapperCommentContainerStyles = styled.div`
 width: 100%;
 height: auto;

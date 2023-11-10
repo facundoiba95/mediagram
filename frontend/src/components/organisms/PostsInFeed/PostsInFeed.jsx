@@ -19,7 +19,17 @@ const PostsInFeed = ({isReadyFeed}) => {
           )
         } else {
           if(!item.foundedPosts) return;
-          const { thumbnail, description ,_id, counterLikes, counterViews, counterComments,likedPost} = item;  
+          const { 
+            thumbnail,
+            description ,
+            _id, 
+            counterLikes, 
+            counterViews, 
+            counterComments, 
+            likedPost, 
+            location,
+            referTo
+          } = item;  
           const { username, imgProfile } = item.foundedPosts;
           return (
             <CardPostInFeed
@@ -31,6 +41,8 @@ const PostsInFeed = ({isReadyFeed}) => {
             counterLikes={counterLikes}
             counterViews={counterViews}
             likedPost={likedPost}
+            location={location}
+            referTo={referTo}
             _id={_id}
             />
           )
