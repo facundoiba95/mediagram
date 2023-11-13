@@ -9,12 +9,16 @@ import { Server as SocketServer } from 'socket.io';
 const app = express();
 export const server = http.createServer(app);
 
-export const io = new SocketServer(server,{
+export const io = new SocketServer(server, {
     cors: {
-        origin: `${process.env.URL_HOST}`
-    }
-})
+        origin: `http://localhost:5173`,
+    },
+    path: process.env.SOCKET_PATH,
+});
 
+io.on('connection', () => {
+    console.log('SE CONECTO EL SOCKET');
+})
 const exceptionPOSTPaths = [
      '/api/mediagram/auth/login',
      '/api/mediagram/auth/register',
