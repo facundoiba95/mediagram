@@ -1,6 +1,6 @@
 import io  from 'socket.io-client';
 
-const socket = io(import.meta.env.VITE_URL_SOCKET, {
+const socket = io('https://vps-3662924-x.dattaweb.com/api/mediagram', {
     auth:{
         token:localStorage.getItem('token'),
     }
