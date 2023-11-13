@@ -7,6 +7,10 @@ font-family: 'Red Hat Display';
 position:absolute;
 left:${ props => props.isOpenNotifications ? '0%' : '-200%' };
 transition:all 0.2s ease-in-out;
+padding: 5px;
+display: flex;
+flex-direction: column;
+gap: 10px;
 
 .iconCloseNotifications {
     position:absolute;
@@ -28,4 +32,49 @@ padding:20px;
 font-weight: 900;
 text-align:center;
 color: white;
+`
+
+export const ItemNotificationContainerStyle = styled.li`
+width: 100%;
+height: 60px;
+color:white;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding:5px 10px;
+cursor: pointer;
+border: 1px solid #80808080;
+border-radius:5px;
+transition: all 0.1s ease-in-out;
+background-color: ${ props => props.status === 'PENDING' ? '#93C43190' : 'transparent' };
+
+span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+
+    p {
+        background-color: transparent;
+    }
+}
+
+.imgProfile {
+    width: 45px;
+    height:45px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: white;
+    color: var(--violetpink);
+}
+
+.imgContent {
+    width: 55px;
+    height: 55px;
+}
+
+&:hover {
+    background-color: #80808020;
+}
 `

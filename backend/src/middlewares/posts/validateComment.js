@@ -20,7 +20,6 @@ export default async ( req, res, next ) => {
 }
 
 const validateLength = ({ content, _idPost, postedBy}) => {
-    console.log(content, _idPost, postedBy);
     if(content || _idPost || postedBy){
         return true;
     } else {

@@ -2,12 +2,13 @@ import cloudinary from 'cloudinary';
 import fs from 'fs-extra';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
 import addPostToUser from '../libs/addPostToUser.js';
 import isPrivateProfile from '../libs/isPrivateProfile.js';
 import addCountersInPost from '../libs/Posts/addCountersInPost.js';
+import addCommentNotification from '../libs/Notifications/Posts/addCommentNotification.js';
 config();
 
 export const createPost = async ( req,res ) => {
@@ -83,6 +84,7 @@ export const addComment = async ( req,res ) => {
         const { username, thumbnail, _id } = req.userAuth;
 
         const newComment = {
+            _id: new mongoose.Types.ObjectId(),
             _idPost: new mongoose.Types.ObjectId(_idPost),
             sender: {
                 username,
@@ -100,15 +102,18 @@ export const addComment = async ( req,res ) => {
         addCommentInPost.counterComments = addCommentInPost.comments.length;
         addCommentInPost.counterLikes = addCommentInPost.likes.length;
         addCommentInPost.counterViews = addCommentInPost.views.length;
-        await addCommentInPost.save();
-           
+        
+        if(username !== postedBy.username){
+            await addCommentNotification( postedBy, addCommentInPost.thumbnail, addCommentInPost._id, newComment._id ,req.userAuth );
+        };
         const addPostedBy = [addCommentInPost._doc].map(item => {
             return {
                 ... item,
                 postedBy
             }
         })
-        
+
+        await addCommentInPost.save();
         return res.status(200).json({ post: addPostedBy, message: 'Added comment!', status:200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "addComment()"',{error: error.message, status: error.status});

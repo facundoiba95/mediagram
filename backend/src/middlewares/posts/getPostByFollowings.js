@@ -1,4 +1,6 @@
+import { io } from "../../app.js";
 import Post from "../../models/Post.js";
+import { getNotifications } from "../../sockets/Notifications/notificationSockets.js";
 
 export default async (req, res, next) => {
     try {
@@ -45,7 +47,7 @@ export default async (req, res, next) => {
             }
             return { ... item};
         })
-
+        
         return res.status(200).json({ post: replacePostToFollowings, status: 200, message: 'Founded posts' })
     } catch (error) {
         console.error('Ocurrio un error en el middleware getPostByFollowings.js. Error: ', error);

@@ -45,7 +45,7 @@ export default async ( req,res, next ) => {
         req.associatePostAndUser = restrictFoundedPost;  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
         next();
     } catch (error) {
-        console.error('Ocurrio un error en el middleware getPostByID. Error: ',{error: error.message, status: error.status});
+        console.error('Ocurrio un error en el middleware associatePostAndUser.js . Error: ',{error: error.message, status: error.status});
         next(error);
     }
 }

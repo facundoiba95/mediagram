@@ -1,6 +1,8 @@
 import Jwt from 'jsonwebtoken';
 import User from "../models/User.js";
+import { getNotifications } from '../sockets/Notifications/notificationSockets.js'
 import { config } from 'dotenv';
+import { io } from '../app.js';
 config();
 
 export const handleLogin = async ( req,res ) => {
@@ -17,7 +19,7 @@ export const handleLogin = async ( req,res ) => {
         const token = Jwt.sign({id: foundUser._id}, process.env.JWT_SECRET,{
             expiresIn: 3000
         });
-
+        
         return res.status(200).json({ isLogged: true, token, status:200, user: foundUser});
     } catch (error) {
         console.error('Ocurrio un error en handleLogin. Error: ', error);

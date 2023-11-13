@@ -39,36 +39,7 @@ const userSchema = new Schema({
     stars:[ Object ],
     likesInProfile:[ Object ],
     greets: [ Object ],
-    notifications: [{
-        _idNotification: {
-            type: mongoose.Types.ObjectId,
-            default: mongoose.Types.ObjectId,
-            unique: true
-        },
-        type: {
-            type: String,
-            enum: [ 'FOLLOWERS', 'POSTS', 'ACTIONS' ],
-            required: true
-        },
-        content: [{
-            type: Object,
-            message: String,
-            required: true
-        }],
-        createdBy: [{
-            type: Object,
-            required: true,
-            _id: mongoose.Types.ObjectId,
-            imgProfile: String,
-            username: String
-        }],
-        status: {
-            type: String,
-            enum: [ 'PENDING','VIEWED' ],
-            default: 'PENDING',
-            required: true
-        },
-    }],
+    notifications: [ mongoose.Types.ObjectId ],
     followUpRequest: [{
         status: {
             type: String,

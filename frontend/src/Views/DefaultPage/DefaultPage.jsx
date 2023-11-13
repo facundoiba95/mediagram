@@ -10,13 +10,12 @@ import imgTwo from '../../assets/tomorrowland.jpg';
 import imgTree from '../../assets/miguelangel.jpg'
 import imgFour from '../../assets/watchingfootball.jpg'
 import { validateSession } from '../../redux/slices/authSlices/authSlices'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DefaultPage = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-  
   return (
    <TransitionContainer>
      <DefaultPageContainerStyles>

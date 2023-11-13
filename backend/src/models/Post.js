@@ -17,8 +17,8 @@ const postSchema = new Schema({
     location: String,
     comments: [{
         _id: {
-            type: Schema.Types.ObjectId,
-            default: () => new mongoose.Types.ObjectId() // genera nuevo ObjectID
+            required: true,
+            type: Schema.Types.ObjectId
         },
         _idPost: Schema.Types.ObjectId,
         sender: {

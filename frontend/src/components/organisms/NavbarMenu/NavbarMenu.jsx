@@ -15,12 +15,14 @@ import { logout } from '../../../redux/slices/authSlices/authSlices';
 import { restartUser, restartUserFiltered, restartUserFound  } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
+import { restartNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const NavbarHeader = () => {
   // states 
   const isLogged = useSelector( state => state.authSlices.isLogged );
   const isLoading = useSelector( state => state.authSlices.isLoading );
   const user = useSelector( state => state.authSlices.user );
+  const notifications = useSelector( state => state.notificationSlices.notifications );
 
   // hooks and tools
   const navigator = useNavigate();
@@ -50,6 +52,7 @@ const NavbarHeader = () => {
       dispatch(restartUserFound());
       dispatch(restartPostsList());
       dispatch(restartUserFiltered());
+      dispatch(restartNotifications());
       navigator('/');
     } else {
       return;
@@ -88,12 +91,11 @@ const NavbarHeader = () => {
   }
 
   const renderIconNotification = () => {
-    if( user ){
-      if(user.notifications){
+      if(notifications){
         return (
           <>
             <IoMdNotifications className='iconNotification'/>
-            <p className='counterNotifications'>{user.notifications.length}</p>
+            <p className='counterNotifications'>{notifications.length}</p>
           </>
         )
       } else {
@@ -104,14 +106,6 @@ const NavbarHeader = () => {
           </>
         )
       }
-     } else {
-      return (
-        <>
-          <IoMdNotifications className='iconNotification'/>
-          <p className='counterNotifications'></p>
-        </>
-      )
-     }
   }
 
   return (
