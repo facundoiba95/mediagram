@@ -1,7 +1,6 @@
 import Notification from "../../models/Notification.js";
 
 export default async ( _idUser ) => {
-    
     try {
         const notificationAndUser = await Notification.aggregate([
             {

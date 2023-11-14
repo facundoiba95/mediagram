@@ -12,6 +12,7 @@ display: flex;
 flex-direction: column;
 gap: 10px;
 
+
 .iconCloseNotifications {
     position:absolute;
     width:70px;
@@ -46,7 +47,7 @@ cursor: pointer;
 border: 1px solid #80808080;
 border-radius:5px;
 transition: all 0.1s ease-in-out;
-background-color: ${ props => props.status === 'PENDING' ? '#93C43190' : 'transparent' };
+background-color: ${ props => props.status === 'PENDING' ? '#93C43199' : 'transparent' };
 
 span {
     display: flex;
@@ -75,6 +76,16 @@ span {
 }
 
 &:hover {
-    background-color: #80808020;
+    font-weight: 900;
 }
+`
+
+export const ListNotificationStyles = styled.ul`
+width: 100%;
+height: 100vh;
+display: flex;
+flex-direction: column;
+gap:10px;
+overflow-y: scroll;
+justify-content: flex-start;
 `

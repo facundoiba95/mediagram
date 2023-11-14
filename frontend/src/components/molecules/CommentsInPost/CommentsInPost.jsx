@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineDown, AiOutlineRight } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 import { ViewPostCommentsSectionStyles, ViewPostHeadStyles, ViewPostUserInfoHeadStyles } from '../../organisms/ViewPost/ViewPostStyles';
 import { DescriptionPostContainerStyles, ListCommentsStyles, LocationAndReferToDataContainerStyles, ViewPostDescriptionStyles, ViewPostHandleActiveDescriptionStyles, WrapperCommentContainerStyles } from './CommentsInPostStyles';
 import PostInteraction from '../PostInteraction/PostInteraction';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AddComment from '../AddComment/AddComment';
 import { useSelector } from 'react-redux';
 import Comentary from '../../atoms/Comentary/Comentary';
@@ -26,6 +26,10 @@ const CommentsInPost = ({
     const post = useSelector( state => state.postSlices.post );
     const navigator = useNavigate();
     const params = useParams();
+    const locationURL = useLocation();
+    const searchParams = new URLSearchParams(locationURL.search);
+    const idComment = searchParams.get('idComment');
+    const valueScrollComment = useRef(0);
 
     const goToProfile = (e) => {
       const valueUser = e.target.dataset.username;
@@ -33,22 +37,44 @@ const CommentsInPost = ({
       navigator(`/profile/${params.username}`)
     };
 
-    const isDescription = 'Con el Fútbol Club Barcelona, al que estuvo ligado más de veinte años, ganó 35 títulos, entre ellos, diez de La Liga, cuatro de la Liga de Campeones de la UEFA y siete de la Copa del Rey.'
+
+    useEffect(() => {
+      post[0].comments.map(item => {
+        const { _id } = item;
+        if(idComment === _id){
+          for (const key in valueScrollComment.current.children) {
+            if (Object.hasOwnProperty.call(valueScrollComment.current.children, key)) {
+              const element = valueScrollComment.current.children[key];
+              
+              if(element.dataset.idcomment === _id){
+                element.id = 'commentSelected';
+                const commentSelected = document.querySelector('#commentSelected');
+                commentSelected.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'end'
+                })
+              }
+            }
+          }
+        }
+      })
+    }, [ valueScrollComment ]);
+
 
     const renderComments = () => {
       return post[0].comments.map(item => {
-        const { content, date } = item;
-
-        const { thumbnail, username, _id } = item.sender;
+        const { content, date, _id } = item;
+        const { thumbnail, username } = item.sender;
         return (
           <Comentary 
           username={username}
           content={content}
           thumbnail={thumbnail}
           createdAt={date}
+          _id={_id}
           />
         )
-      })
+      }).reverse();
     }
 
     const renderReferTo = () => {
@@ -84,7 +110,7 @@ const CommentsInPost = ({
         <span><MdLocationOn className='iconLocation'/><h5>{location}</h5></span>
         <span><small>Menciones: </small> { renderReferTo() }</span>
       </LocationAndReferToDataContainerStyles>
-      <ViewPostHandleActiveDescriptionStyles isDescription={isDescription} hiddenDescription={hiddenDescription} onClick={() => setHiddenDescription(!hiddenDescription)}>
+      <ViewPostHandleActiveDescriptionStyles isDescription={description} hiddenDescription={hiddenDescription} onClick={() => setHiddenDescription(!hiddenDescription)}>
         <span>
           <AiOutlineRight className='openDescription'/>
           <AiOutlineDown className='hiddenDescription'/>
@@ -95,7 +121,7 @@ const CommentsInPost = ({
         </DescriptionPostContainerStyles>
       </ViewPostHandleActiveDescriptionStyles>
       <WrapperCommentContainerStyles>
-        <ListCommentsStyles comments={post[0].comments}>
+        <ListCommentsStyles comments={post[0].comments} ref={valueScrollComment} id='listComments'>
           { renderComments() }
         </ListCommentsStyles>
       </WrapperCommentContainerStyles>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { BoxNotificationNavbarMenuStyles, NavbarMenuContainerStyles, NavbarMenuItemStyles, NavbarMenuListStyles } from './NavbarMenuStyles'
 import LogoMediagram from '../../atoms/LogoMediagram/LogoMediagram'
 import { ImHome3 } from 'react-icons/im';
@@ -20,9 +20,10 @@ import { restartNotifications } from '../../../redux/slices/socketSlices/notific
 const NavbarHeader = () => {
   // states 
   const isLogged = useSelector( state => state.authSlices.isLogged );
-  const isLoading = useSelector( state => state.authSlices.isLoading );
   const user = useSelector( state => state.authSlices.user );
   const notifications = useSelector( state => state.notificationSlices.notifications );
+  const updateNotifications = useRef(false);
+
 
   // hooks and tools
   const navigator = useNavigate();
@@ -30,7 +31,7 @@ const NavbarHeader = () => {
   const params = useParams();
   
   // useContext
-  const { setIsOpen,isOpenSearchBar, setIsOpenSearchBar, isOpenNotifications, setIsOpenNotifications  } = useContext(GlobalContext);
+  const { setIsOpen, setIsOpenNotifications  } = useContext(GlobalContext);
 
   const goToProfile = async () => {
       params.username = user.username;
@@ -90,12 +91,16 @@ const NavbarHeader = () => {
    }
   }
 
+  const openNotifications = () => {
+    setIsOpenNotifications(true);
+  }
+  
   const renderIconNotification = () => {
       if(notifications){
         return (
           <>
             <IoMdNotifications className='iconNotification'/>
-            <p className='counterNotifications'>{notifications.length}</p>
+            <p className='counterNotifications'>{notifications.filter(item => item.status === 'PENDING').length}</p>
           </>
         )
       } else {
@@ -107,6 +112,8 @@ const NavbarHeader = () => {
         )
       }
   }
+
+
 
   return (
     <NavbarMenuContainerStyles isLogged={isLogged}>
@@ -129,7 +136,7 @@ const NavbarHeader = () => {
             <p>Mensajes</p>
           </NavbarMenuItemStyles>
           <NavbarMenuItemStyles>
-            <BoxNotificationNavbarMenuStyles onClick={() => setIsOpenNotifications(true)}>
+            <BoxNotificationNavbarMenuStyles onClick={openNotifications} ref={updateNotifications}>
               <span>
                 { renderIconNotification() }
               </span>

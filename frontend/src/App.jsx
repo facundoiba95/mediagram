@@ -1,7 +1,16 @@
+import { useEffect } from "react";
 import GlobalStyle from "./GlobalStyles"
 import Router from "./routes/Router";
+import { useDispatch, useSelector } from "react-redux";
+import { alertNotification } from "./redux/slices/socketSlices/notificationSlices/notificationSlices";
 
 function App() {
+  const statusNofitication = useSelector( state => state.notificationSlices.status );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(alertNotification());
+  }, [ statusNofitication ]);
   
   return (
     <>

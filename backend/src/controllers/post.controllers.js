@@ -112,7 +112,7 @@ export const addComment = async ( req,res ) => {
                 postedBy
             }
         })
-
+        
         await addCommentInPost.save();
         return res.status(200).json({ post: addPostedBy, message: 'Added comment!', status:200 });
     } catch (error) {

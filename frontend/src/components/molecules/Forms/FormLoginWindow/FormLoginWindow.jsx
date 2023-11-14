@@ -41,7 +41,7 @@ const FormLoginWindow = () => {
     useEffect(() => {
       switch(statusLogin){
         case 200:
-          navigator(`/getPostByID/${params.idPost}`);
+          // navigator(`/getPostByID/${params.idPost}/${params.idComment ? params.idComment : ''}`);  cuando se inicia sesion se vuelve al post que estaba antes!
           setMessageLogin({ error: '', validate: isLogged });
           setIsOpenModalWindowAuth(false)
           // dispatch(restartStatusAuthSlice());

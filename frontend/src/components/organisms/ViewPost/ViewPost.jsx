@@ -20,7 +20,6 @@ const ViewPost = ({ children }) => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    const location = useLocation();
 
     const goBack = () => {
         setIsOpenViewPost(false);
@@ -33,10 +32,12 @@ const ViewPost = ({ children }) => {
         setIsOpenViewPost(true);
         setIsReadyPost(true)
       }
+      
 
       handleViewPost();
     },[ dispatch, params.idPost ])
 
+    
     const renderPost = () => {
       if(isReadyPost){
       return post.map(item => {

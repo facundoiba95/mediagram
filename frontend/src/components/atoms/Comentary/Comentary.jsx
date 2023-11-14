@@ -1,22 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ItemCommentContentStyles, ItemCommentStyles, ItemCommentUserInfoStyles } from './ComentaryStyles'
 import { RiUserSmileFill } from 'react-icons/ri'
 import dateTime from '../../../libs/dateTime'
 import { TbPointFilled } from 'react-icons/tb';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const Comentary = ({content, username, thumbnail, createdAt }) => { 
+const Comentary = ({content, username, thumbnail, createdAt , _id}) => { 
   const navigator = useNavigate();
   const params = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const idComment = searchParams.get('idComment');
 
   const goToProfile = () => {
     params.username = username;
     navigator(`/profile/${params.username}`)
   }
 
+  const isCommentSelected = idComment === _id;
   return (
-    <ItemCommentStyles>
-      <ItemCommentUserInfoStyles onClick={goToProfile}>
+    <ItemCommentStyles isCommentSelected={isCommentSelected} data-idComment={_id}>
+      <ItemCommentUserInfoStyles onClick={goToProfile} isCommentSelected={isCommentSelected}>
         {
           thumbnail
           ? <img src={thumbnail} alt="image user in comment" /> 
@@ -25,8 +29,8 @@ const Comentary = ({content, username, thumbnail, createdAt }) => {
         <h5>{username}</h5>
         <small>{ dateTime(new Date(createdAt))}</small>
       </ItemCommentUserInfoStyles>
-      <ItemCommentContentStyles>
-      <p><TbPointFilled className='divideComment'/>{content}</p>
+      <ItemCommentContentStyles isCommentSelected={isCommentSelected}>
+        <p><TbPointFilled className='divideComment'/>{content}</p>
       </ItemCommentContentStyles>
     </ItemCommentStyles>
     )

@@ -6,6 +6,9 @@ height: auto;
 display: grid;
 grid-template-columns: auto 1fr;
 grid-gap: 15px;
+background-color: ${ props => props.isCommentSelected ? '#93C43150' : 'transparent' };
+padding:2px;
+border-radius:5px;
 `
 
 export const ItemCommentUserInfoStyles = styled.span`
@@ -16,6 +19,7 @@ align-items: center;
 flex-direction: column;
 gap:5px;
 text-align: center;
+background-color: transparent;
 
 img {
     width: 40px;
@@ -29,7 +33,12 @@ img {
 h5 {
     color: white;
     cursor: pointer;
+    background-color: transparent;
 }
+
+small {
+    background-color: transparent;
+};
 
 .imgProfile{
     width:45px;
@@ -46,13 +55,16 @@ width:100%;
 height: auto;
 text-align: start;
 color: var(--heavyLight);
+background-color: transparent;
 
 .divideComment {
     color: #80808090;
     width: auto;
+    background-color: transparent;
 }
 
 p {
+    background-color: transparent;
     font-size:1rem;
     padding-right:10px;
 }

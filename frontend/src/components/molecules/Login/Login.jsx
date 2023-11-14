@@ -11,10 +11,12 @@ import { MoonLoader } from 'react-spinners';
 import { getNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const Login = () => {
+   
     const statusLogin = useSelector( state => state.authSlices.status );
     const errorMessage = useSelector( state => state.authSlices.error );
     const isLoading = useSelector( state => state.authSlices.isLoading );
     const isLogged = useSelector( state => state.authSlices.isLogged );
+    const userAuth = useSelector( state => state.authSlices.user );
     const [ inputUsername, setInputUsername ] = useState('');
     const [ inputPassword, setInputPassword ] = useState('');
     const [ messageLogin, setMessageLogin ] = useState({ error: '', validate: null, type:'' }); 
@@ -29,7 +31,6 @@ const Login = () => {
         }
 
          await dispatch(handleLogin(user));
-         await dispatch(getNotifications());
     }
     
     const handleFunctionRegister = (e) => {

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { ItemNotificationContainerStyle, ListNotificationsContainerStyles, TitleNotificationsStyles } from './ListNotificationsStyles'
+import { ItemNotificationContainerStyle, ListNotificationStyles, ListNotificationsContainerStyles, TitleNotificationsStyles } from './ListNotificationsStyles'
 import FollowUpRequest from '../FollowUpRequest/FollowUpRequest'
 import { AiFillLeftCircle } from 'react-icons/ai';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
+import { getNotifications, setStatusNotification, viewNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 
 const ListNotifications = () => {
@@ -15,14 +15,17 @@ const ListNotifications = () => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
+    const userAuth = useSelector( state => state.authSlices.user );
 
-
-    const openPostNotification = (e) => {
-        const valueNotification = e.target.dataset.idpost;
-        params.idPost = valueNotification;
-        dispatch(getPostByID(valueNotification));
+    const openPostNotification = async (e) => {
+        const idPost = e.target.dataset.idpost;
+        const idContent = e.target.dataset.idcontent;
+        params.idPost = idPost;
         setIsOpenNotifications(!isOpenNotifications);
-        navigator(`/getPostByID/${params.idPost}`)
+        await dispatch(viewNotifications(userAuth._id));
+        await dispatch(getNotifications(userAuth._id))
+        dispatch(setStatusNotification())
+        navigator(`/getPostByID/${params.idPost}/?idComment=${idContent}`);
     };
 
     const renderNotifications = () => {
@@ -31,28 +34,37 @@ const ListNotifications = () => {
         return notifications.map(item => {
             const { type, content, createdBy, status, createdAt } = item;
             return (
-                <ItemNotificationContainerStyle data-idpost={content.idPost} onClick={(e) => openPostNotification(e)} status={status}>
-                    <span data-idpost={content.idPost}>
+                <ItemNotificationContainerStyle data-idcontent={content.idContent} data-idpost={content.idPost} onClick={(e) => openPostNotification(e)} status={status}>
+                    <span data-idpost={content.idPost} data-idcontent={content.idContent}>
                       {
                         createdBy.thumbnail 
-                        ? <img src={ createdBy.thumbnail} alt="img profile user" className='imgProfile' data-idpost={content.idPost}/>
-                        : <RiUserSmileFill className='imgProfile' data-idpost={content.idPost}/> 
+                        ? <img src={ createdBy.thumbnail} alt="img profile user" className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent}/>
+                        : <RiUserSmileFill className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent}/> 
                       }
-                      <p data-idpost={content.idPost}>{ content.message }</p>
+                      <p data-idpost={content.idPost} data-idcontent={content.idContent}>{ content.message }</p>
                     </span>
-                    <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost}/>
+                    <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost} data-idcontent={content.idContent}/>
                 </ItemNotificationContainerStyle>
             )
-        })
+        }).reverse();
     }
+
+    const handleOpenNotifications = async () => {
+      setIsOpenNotifications(!isOpenNotifications);
+      await dispatch(viewNotifications(userAuth._id));
+      await dispatch(getNotifications(userAuth._id))
+    }
+
   return (
     <ListNotificationsContainerStyles isOpenNotifications={isOpenNotifications}>
-        <AiFillLeftCircle className='iconCloseNotifications' onClick={() => setIsOpenNotifications(!isOpenNotifications)}/>
+        <AiFillLeftCircle className='iconCloseNotifications' onClick={handleOpenNotifications}/>
         <TitleNotificationsStyles>
             Notificaciónes
         </TitleNotificationsStyles>
         <FollowUpRequest/>
-        { renderNotifications() }
+        <ListNotificationStyles>
+          { renderNotifications() }
+        </ListNotificationStyles>
     </ListNotificationsContainerStyles>
     )
 }

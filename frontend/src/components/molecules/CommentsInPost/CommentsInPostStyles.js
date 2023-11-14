@@ -95,7 +95,7 @@ span {
 
 export const WrapperCommentContainerStyles = styled.div`
 width: 100%;
-height: auto;
+height: 100%;
 min-height: 40px;
 display:flex;
 justify-content: center;
@@ -105,8 +105,7 @@ color: white;
 
 export const ListCommentsStyles = styled.ul`
 width: 100%;
-height:100%;
-max-height:500px;
+height:400px;
 overflow-y: scroll;
 display: ${ props => props.comments ? 'flex' : 'none' };
 flex-direction: column;

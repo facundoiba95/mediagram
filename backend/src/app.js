@@ -11,14 +11,11 @@ export const server = http.createServer(app);
 
 export const io = new SocketServer(server, {
     cors: {
-        origin: `http://localhost:5173`,
+        origin: process.env.URL_HOST,
     },
     path: process.env.SOCKET_PATH,
 });
 
-io.on('connection', () => {
-    console.log('SE CONECTO EL SOCKET');
-})
 const exceptionPOSTPaths = [
      '/api/mediagram/auth/login',
      '/api/mediagram/auth/register',
@@ -58,7 +55,7 @@ import authRoutes from './routes/auth.routes.js';
 import postRoutes from './routes/post.routes.js';
 import indexRoutes from './routes/index.routes.js';
 import userRoutes from './routes/user.routes.js';
-import { getNotifications } from './sockets/Notifications/notificationSockets.js';
+import { getNotifications, newNotification, viewNotifications } from './sockets/Notifications/notificationSockets.js';
 
 app.use('/', indexRoutes);
 app.use('/api/mediagram/auth/', authRoutes);
@@ -67,7 +64,9 @@ app.use('/api/mediagram/user/', userRoutes);
 
 // websockets
 io.on('connection', (socket) => {
-    getNotifications(socket)
+    getNotifications(socket);
+    viewNotifications(socket);
+    newNotification(socket);
 })
 
 // manejador de errores global

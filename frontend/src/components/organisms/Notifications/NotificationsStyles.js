@@ -12,7 +12,6 @@ visibility: ${ props => props.isOpenNotifications ? 'visible' : 'hidden' };
 opacity: ${ props => props.isOpenNotifications ? '1' : '0' };
 z-index:2000;
 
-
 h2 {
     background-color: transparent;
 }
