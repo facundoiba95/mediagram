@@ -7,6 +7,7 @@ import { handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
+import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
     const dispatch = useDispatch();
@@ -29,7 +30,8 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
                 postedBy: post[0].postedBy
             };
     
-            dispatch(handleLikeToPost(newLike));
+            await dispatch(handleLikeToPost(newLike));
+            await dispatch(setStatusNotification());
         } else {
             setIsOpenModalWindowAuth(true)
           return;

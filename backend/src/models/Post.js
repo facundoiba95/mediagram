@@ -37,6 +37,7 @@ const postSchema = new Schema({
         }
     }],
     likes: [{
+        idLike: mongoose.Types.ObjectId,
         thumbnail: String,
         _id: mongoose.Schema.Types.ObjectId,
         username: String

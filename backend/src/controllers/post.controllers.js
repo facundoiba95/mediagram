@@ -9,6 +9,7 @@ import addPostToUser from '../libs/addPostToUser.js';
 import isPrivateProfile from '../libs/isPrivateProfile.js';
 import addCountersInPost from '../libs/Posts/addCountersInPost.js';
 import addCommentNotification from '../libs/Notifications/Posts/addCommentNotification.js';
+import addLikePostNotification from '../libs/Notifications/Posts/addLikePostNotification.js';
 config();
 
 export const createPost = async ( req,res ) => {
@@ -124,8 +125,10 @@ export const addComment = async ( req,res ) => {
 export const handleLikeToPost = async ( req,res ) => {
     try {
         const { thumbnail, username, _id, idPost, postedBy } = req.body;
+        const userAuth = req.userAuth;
     
         const newLike = {
+            idLike: new mongoose.Types.ObjectId(),
             username,
             thumbnail: thumbnail ? thumbnail : '',
             _id
@@ -140,7 +143,7 @@ export const handleLikeToPost = async ( req,res ) => {
         addLikeToPost.likedPost = true;
 
         await addCountersInPost(addLikeToPost)
-                  
+        await addLikePostNotification(postedBy, addLikeToPost.thumbnail, idPost, userAuth)  
         const addPostedBy = [ addLikeToPost._doc ].map(item => {
             return {
                 ... item,

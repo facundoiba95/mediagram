@@ -1,5 +1,6 @@
 import addCountersInPost from "../../libs/Posts/addCountersInPost.js";
 import Post from "../../models/Post.js";
+import deleteNotificationInUser from "../../libs/Notifications/Posts/deleteNotification.js";
 
 export default async ( req, res, next ) => {
     try {          
@@ -8,7 +9,9 @@ export default async ( req, res, next ) => {
         const isExistLike = foundPost.likes.findIndex(user => user._id == _id );
     
         if(isExistLike !== -1){
-            foundPost.likes.splice(isExistLike, 1);
+            await deleteNotificationInUser(req, postedBy, 'like')
+            await foundPost.likes.splice(isExistLike, 1);
+
             foundPost.likedPost = false;
             
             await addCountersInPost(foundPost)
