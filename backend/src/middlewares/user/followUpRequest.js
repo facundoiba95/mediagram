@@ -6,6 +6,7 @@
 */
 
 import mongoose from "mongoose";
+import followUpRequestNotification from "../../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 
 export default async ( req,res,next ) => {
     try {
@@ -29,7 +30,7 @@ export default async ( req,res,next ) => {
 }
 
 
-const handleFollowUpRequest = async ( userToFollow, newFollower,foundFollowUpRequest ) => {
+const handleFollowUpRequest = async ( userToFollow, newFollower, foundFollowUpRequest ) => {
     const { isPrivate, username } = userToFollow;
 
     if(isPrivate){
@@ -45,6 +46,7 @@ const handleFollowUpRequest = async ( userToFollow, newFollower,foundFollowUpReq
         })
         
         await userToFollow.save();
+        await followUpRequestNotification(userToFollow, newFollower, 'PENDING' );
         return await Promise.reject({ error: `Se envio la solicitud de seguimiento a "${username}"`, status: 201 })
     } else {
         if(foundFollowUpRequest.length) {
@@ -57,7 +59,7 @@ const handleFollowUpRequest = async ( userToFollow, newFollower,foundFollowUpReq
             status: 'ACCEPT',
             sentBy: newFollower
         })
-    
+        await followUpRequestNotification(userToFollow, newFollower.username, 'ACCEPT' );
         await userToFollow.save();
     }
 }

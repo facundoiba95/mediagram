@@ -15,6 +15,8 @@ export default async ({ imgProfile, username, _id, userAuth, userFollower, found
         }
         foundFollowUpRequest.status = 'ACCEPT';
 
+        
+
         userAuth.followers.unshift(addUserRecivedInAuth);
         userFollower.followings.unshift(addUserAuthInRecived);
         await userAuth.save();

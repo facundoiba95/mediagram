@@ -33,19 +33,21 @@ const ListNotifications = () => {
 
         return notifications.map(item => {
             const { type, content, createdBy, status, createdAt } = item;
+           if(type !== 'follower' || content.status === 'ACCEPT' ){
             return (
-                <ItemNotificationContainerStyle data-idcontent={content.idContent} data-idpost={content.idPost} onClick={(e) => openPostNotification(e)} status={status}>
-                    <span data-idpost={content.idPost} data-idcontent={content.idContent}>
-                      {
-                        createdBy.thumbnail 
-                        ? <img src={ createdBy.thumbnail} alt="img profile user" className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent}/>
-                        : <RiUserSmileFill className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent}/> 
-                      }
-                      <p data-idpost={content.idPost} data-idcontent={content.idContent}>{ content.message }</p>
-                    </span>
-                    <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost} data-idcontent={content.idContent}/>
-                </ItemNotificationContainerStyle>
-            )
+              <ItemNotificationContainerStyle data-idcontent={content.idContent} data-idpost={content.idPost} onClick={(e) => openPostNotification(e)} status={status}>
+                  <span data-idpost={content.idPost} data-idcontent={content.idContent}>
+                    {
+                      createdBy.thumbnail 
+                      ? <img src={ createdBy.thumbnail} alt="img profile user" className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent}/>
+                      : <RiUserSmileFill className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent}/> 
+                    }
+                    <p data-idpost={content.idPost} data-idcontent={content.idContent}>{ content.message }</p>
+                  </span>
+                  <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost} data-idcontent={content.idContent}/>
+              </ItemNotificationContainerStyle>
+          )
+           }
         }).reverse();
     }
 

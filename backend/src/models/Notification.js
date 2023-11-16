@@ -12,7 +12,6 @@ const notificationSchema = new Schema({
         imgContent: String,
         idPost: mongoose.Types.ObjectId,
         idContent: mongoose.Types.ObjectId,
-        required: true
     },
     createdBy: {
         type: Object,

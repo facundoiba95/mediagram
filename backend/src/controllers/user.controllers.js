@@ -6,6 +6,7 @@ import generateThumbnail from "../libs/generateThumbnail.js";
 import fs from 'fs-extra';
 import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
+import followUpRequestNotification from "../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 
 
 export const searchUser = async ( req,res ) => {
@@ -104,18 +105,23 @@ export const unfollowUser = async ( req,res ) => {
     try {
         const { username, idFollowUpRequest } = req.body;
 
-        const foundUserFollowing = await User.findOne({_id: req.idUser });
+        const userAuth = req.userAuth;
         const foundUserFollower = await User.findOne({username});
-        const foundFollowUpRequest = foundUserFollower.followUpRequest.find(request => request._id.toString() === idFollowUpRequest.toString());
+        const foundFollowUpRequest = foundUserFollower.followUpRequest.findIndex(request => request._id.toString() === idFollowUpRequest.toString());
 
-        foundUserFollowing.followings =  foundUserFollowing.followings.filter(usr => usr.username !== username);
-        foundUserFollower.followers = foundUserFollower.followers.filter(usr => usr._id.toString() !== req.idUser);
-        foundFollowUpRequest.status = 'REJECTED'
-        
-        await foundUserFollowing.save();
-        await foundUserFollower.save();
+        if(foundFollowUpRequest !== -1){
+            userAuth.followings = userAuth.followings.filter(usr => usr.username !== username);
+            foundUserFollower.followers = foundUserFollower.followers.filter(usr => usr._id.toString() !== req.idUser);
 
-        return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status:200 });
+            foundUserFollower.followUpRequest.splice(foundFollowUpRequest, 1);
+            await followUpRequestNotification({username}, userAuth, 'REJECTED');
+            await userAuth.save();
+            await foundUserFollower.save();
+            return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status:200 });
+        } else {
+            return res.status(404).json({ message: 'FollowUpRequest not found!', status: 404 });
+        }
+
     } catch (error) {
         console.error(error.message);
         return res.status(error.status).json({error: error.message, status: error.status  });
@@ -126,7 +132,7 @@ export const handleIsFollowing = async ( req,res ) => {
     try {
         const { username } = req.body;
         const foundUserRecived = await User.findOne({ username });
-        const userAuth = await User.findOne({_id: req.idUser});
+        const userAuth = req.userAuth;
         const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
         
         if(isFollowingsUsers) return res.status(200).json({ message: 'Is followers users!', isFollowing: isFollowingsUsers, status: 200  });
@@ -146,9 +152,13 @@ export const handleFollowUpRequest = async ( req,res ) => {
 
         if( followUpRequestResult === '5cc07723-451c-418f-b90a-e6b469f1f2b1'){                                // este id significa que SE ACEPTA la solicitud de seguimiento
             await addFollower({imgProfile, username, _id, userAuth, userFollower, foundFollowUpRequest});
+            await followUpRequestNotification(userAuth, {username}, 'ACCEPT');
+            
             return res.status(200).json({message: `You and "${userFollower.username}" are a followers!`, status: 200 });
         } else if( followUpRequestResult === '50d11393-dc3f-4ac4-89a6-143febd2e131' ) {                       // este id significa que NO SE ACEPTA la solicitud de seguimiento
-            await deleteFollowUpRequest( userAuth, idFollowUpRequest, foundFollowUpRequest );
+            await followUpRequestNotification(userAuth, {username}, 'REJECTED');
+            await deleteFollowUpRequest( userAuth, idFollowUpRequest, foundFollowUpRequest );            
+            
             return res.status(200).json({message: `Has been rejected follow up request of "${userFollower.username}"!`, status: 200 });
         } else {
             return res.status(400).json({message: `"followUpRequestResult" is not a Boolean!`, status: 400 });

@@ -1,4 +1,4 @@
-export default async ( userAuth,idFollowUpRequest, foundFollowUpRequest ) => {
+export default async ( userAuth, idFollowUpRequest, foundFollowUpRequest ) => {
     try {
         const indexToDelete = userAuth.followUpRequest.findIndex(request => request._id.toString() === idFollowUpRequest.toString());
         if (indexToDelete !== -1) {

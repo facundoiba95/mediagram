@@ -21,6 +21,7 @@ import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSet
 import { GlobalContext } from '../../../Context/GlobalContext';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 import SkeletonCardContentProfile from '../../molecules/Loaders/SkeletonCardContentProfile/SkeletonCardContentProfile';
+import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -184,7 +185,8 @@ const ProfileHeader = () => {
       await dispatch(validateSession());
       if(isLogged){
       await dispatch(followUser(newFollower));
-      await dispatch(handleIsFollowing(params.username))
+      await dispatch(handleIsFollowing(params.username));
+      await dispatch(setStatusNotification());
       await dispatch(refreshUser(username));
       await dispatch(getPosts(params.username))
       await dispatch(refreshUserAuth());

@@ -9,6 +9,7 @@ import { BsCheckCircle, BsXCircle } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import Loader from '../Loaders/Loader/Loader';
+import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const FollowUpRequest = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const FollowUpRequest = () => {
     const userAuth = useSelector( state => state.authSlices.user );
     const isLoading = useSelector( state => state.authSlices.isLoading );
     const isLoadingUser = useSelector( state => state.userSlices.isLoading );
+    const notifications = useSelector( state => state.notificationSlices.notifications );
     const listFollowUpRequest = userAuth;
 
     const sendRequestFollowUp = async (e) => {
@@ -31,6 +33,7 @@ const FollowUpRequest = () => {
         };
 
         await dispatch(handleFollowUpRequest(dataFollowUpRequest));
+        await dispatch(setStatusNotification());
         await dispatch(refreshUserAuth());
     }
 
@@ -87,7 +90,7 @@ const FollowUpRequest = () => {
 
     const renderCounterFollowUpRequestPending = () => {
         if(listFollowUpRequest && listFollowUpRequest.followUpRequest){
-            return listFollowUpRequest.followUpRequest.filter(item => item.status === 'PENDING').length
+            return notifications.filter(item => item.type === 'follower' && item.content.status === 'PENDING').length
         } else {
             return '';
         }
