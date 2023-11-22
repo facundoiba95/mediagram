@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import Comentary from '../../atoms/Comentary/Comentary';
 import { RiUserSmileFill } from 'react-icons/ri';
 import ValidateSession from '../../Containers/ValidateSession/ValidateSession';
+import { FaComment } from 'react-icons/fa';
 
 const CommentsInPost = ({
   description,
@@ -23,6 +24,7 @@ const CommentsInPost = ({
   location
 }) => {
     const [ hiddenDescription, setHiddenDescription ] = useState(false);
+    const [ hiddenComments, setHiddenComments ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
     const navigator = useNavigate();
     const params = useParams();
@@ -85,9 +87,13 @@ const CommentsInPost = ({
       })
     }
 
+    const hiddenCommentary = () => {
+      setHiddenComments(!hiddenComments)
+    }
+
   return (
     <ViewPostCommentsSectionStyles>
-      <ViewPostHeadStyles>
+      <ViewPostHeadStyles hiddenComments={hiddenComments}>
         <ViewPostUserInfoHeadStyles>
           {
             thumbnail 
@@ -106,12 +112,12 @@ const CommentsInPost = ({
         </ValidateSession>
       </ViewPostHeadStyles>
     <ViewPostDescriptionStyles>
-      <LocationAndReferToDataContainerStyles>
+      <LocationAndReferToDataContainerStyles hiddenComments={hiddenComments}>
         <span><MdLocationOn className='iconLocation'/><h5>{location}</h5></span>
         <span><small>Menciones: </small> { renderReferTo() }</span>
       </LocationAndReferToDataContainerStyles>
-      <ViewPostHandleActiveDescriptionStyles isDescription={description} hiddenDescription={hiddenDescription} onClick={() => setHiddenDescription(!hiddenDescription)}>
-        <span>
+      <ViewPostHandleActiveDescriptionStyles isDescription={description} hiddenDescription={hiddenDescription} >
+        <span onClick={() => setHiddenDescription(!hiddenDescription)}>
           <AiOutlineRight className='openDescription'/>
           <AiOutlineDown className='hiddenDescription'/>
           <small>Descripción</small>
@@ -119,14 +125,18 @@ const CommentsInPost = ({
         <DescriptionPostContainerStyles hiddenDescription={hiddenDescription}>
             <p>{description}</p>
         </DescriptionPostContainerStyles>
+        <span onClick={hiddenCommentary}>
+          <FaComment/>
+          <small>Comentarios: {post[0].comments.length}</small>
+        </span>
       </ViewPostHandleActiveDescriptionStyles>
       <WrapperCommentContainerStyles>
-        <ListCommentsStyles comments={post[0].comments} ref={valueScrollComment} id='listComments'>
+        <ListCommentsStyles comments={post[0].comments} ref={valueScrollComment} id='listComments' hiddenComments={hiddenComments}>
           { renderComments() }
         </ListCommentsStyles>
       </WrapperCommentContainerStyles>
       <ValidateSession>
-        <AddComment/>
+        <AddComment hiddenComments={hiddenComments}/>
       </ValidateSession>
     </ViewPostDescriptionStyles>
   </ViewPostCommentsSectionStyles>

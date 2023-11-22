@@ -16,4 +16,8 @@ backdrop-filter: blur(10px);
 .spinner {
     background-color: transparent;
 }
+
+@media (max-width: 490px) {
+    height:50vh;
+}
 `

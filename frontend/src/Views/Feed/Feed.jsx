@@ -40,8 +40,8 @@ const sound = new Howl({
     tabNotification()
     socket.on('newNotification', (data) => {
       dispatch(getNotifications(userAuth._id));
-      sound.volume(0.1);
-      sound.play();
+      // sound.volume(0.1);
+      // sound.play();
       console.log('NUEVA NOTIFICACION: ', data);
     })
   }, [ stateNotifications ])

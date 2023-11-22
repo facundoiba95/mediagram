@@ -21,12 +21,15 @@ height:50px;
 font-family: 'Leckerli One';
 color: var(--violetpink);
 display:none;
-text-align:center;
+text-align:right;
 background-color:transparent;
 cursor:pointer;
 
 @media (max-width: 1023px) {
     display:block;
+    padding-right:15px;
+    padding-top:15px;
+    padding-bottom: 15px;
 }
 `
 

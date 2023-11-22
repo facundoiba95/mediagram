@@ -31,7 +31,7 @@ const NavbarHeader = () => {
   const params = useParams();
   
   // useContext
-  const { setIsOpen, setIsOpenNotifications  } = useContext(GlobalContext);
+  const { setIsOpen, setIsOpenNotifications, isOpenMenu, setIsOpenMenu  } = useContext(GlobalContext);
 
   const goToProfile = async () => {
       params.username = user.username;
@@ -116,9 +116,9 @@ const NavbarHeader = () => {
 
 
   return (
-    <NavbarMenuContainerStyles isLogged={isLogged}>
+    <NavbarMenuContainerStyles isLogged={isLogged} isOpenMenu={isOpenMenu}>
     <LogoMediagram title={'Mediagram'} />
-      <NavbarMenuListStyles>
+      <NavbarMenuListStyles isOpenMenu={isOpenMenu}>
           <NavbarMenuItemStyles onClick={() => goHome()}>
             <ImHome3 className='iconNavbar'/>
             <p>Inicio</p>

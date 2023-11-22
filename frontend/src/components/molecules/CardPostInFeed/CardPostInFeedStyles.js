@@ -12,12 +12,17 @@ border-top-right-radius:10px;
 border-top-left-radius:10px;
 border-bottom:1px solid #80808080;
 padding-bottom:25px;
+
 img {
     width:100%;
     height:600px;
     object-fit: cover;
     background-color: transparent;
     cursor: pointer;
+}
+
+@media (max-width: 490px) {
+    width:90%;
 }
 `
 
@@ -151,6 +156,7 @@ small {
     transform: translate(-50%, 50%);
     font-weight:900;
     cursor: pointer;
+    padding-top: 10px;
     font-size:1rem;
 }
 
@@ -174,6 +180,13 @@ div:nth-child(4) {
     border-radius:50%;
     background-color: white;
     color: purple;
+
+}
+
+@media (max-width: 490px) {
+    .containerIconPost{
+        flex-wrap: wrap;   
+    }
 
 }
 `

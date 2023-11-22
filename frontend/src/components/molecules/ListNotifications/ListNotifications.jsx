@@ -44,7 +44,11 @@ const ListNotifications = () => {
                     }
                     <p data-idpost={content.idPost} data-idcontent={content.idContent}>{ content.message }</p>
                   </span>
-                  <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost} data-idcontent={content.idContent}/>
+                  {
+                    !content.imgContent
+                    ? <></>
+                    : <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost} data-idcontent={content.idContent}/>
+                  }
               </ItemNotificationContainerStyle>
           )
            }

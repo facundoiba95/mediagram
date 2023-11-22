@@ -10,6 +10,9 @@ grid-template-rows: 235px 1fr;
 color:white;
 font-family: 'Red Hat Display';
 
+@media (max-width: 490px) {
+    grid-template-columns: minmax(350px, 600px);
+}
 `
 
 export const FeedContainerHeaderStyles = styled.header`
@@ -21,7 +24,12 @@ display: flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-/* background-color: var(--heavyLight); */
+
+@media (max-width: 490px) {
+    grid-column: 1/3;
+    grid-row: 1/2;
+    overflow-x: hidden;
+}
 ` 
 
 export const FeedContainerPostsStyles = styled.section`
@@ -42,6 +50,11 @@ border-right:1px solid #80808080;
 div {
     background-color: transparent;
 }
+
+@media (max-width: 490px) {
+    grid-column: 1/3;
+    grid-row: 2/3;
+}
 `
 
 export const FeedContainerNewsStyles = styled.section`
@@ -55,5 +68,9 @@ background-color: transparent;
 
 div {
     background-color: transparent;
+}
+
+@media (max-width: 490px ){
+    display: none;
 }
 `

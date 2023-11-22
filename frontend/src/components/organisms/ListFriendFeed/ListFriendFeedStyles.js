@@ -4,7 +4,10 @@ export const ListFriendFeedContainerStyles = styled.div`
 width:100%;
 max-width:800px;
 height:100%;
-background-color: transparent;
+
+@media (max-width: 490px) {
+    width: 300px;
+}
 `
 
 export const TitleListFriendFeedStyles = styled.h3`
@@ -33,6 +36,8 @@ small {
         visibility: visible;
     }
 }
+
+
 `
 
 export const ListFriendBoxContainerStyles = styled.ul`

@@ -32,6 +32,10 @@ const GlobalStyle = createGlobalStyle`
     background-color: var(--darkgrey);
     height: 7px;
 }
+
+body {
+    overflow-x: hidden;
+}
 `
 
 export default GlobalStyle;

@@ -14,6 +14,7 @@ export const GlobalContextProvider = ({children}) => {
     const [ toggleAuth, setToggleAuth ] = useState('login'); 
     const [ isOpenModalInteractionsInfo, setIsOpenModalInteractionsInfo ] = useState(false);
     const [ isLoadingSearch, setIsLoadingSearch ] = useState(false);
+    
 
     return (
         <GlobalContext.Provider value={{

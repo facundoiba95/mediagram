@@ -62,6 +62,16 @@ overflow:hidden;
     border-radius:5px;
     background-color: white;
 }
+
+@media (max-width: 490px) {
+    grid-template-columns: 1fr;
+
+    .imgOne, .imgTwo,.imgTree, .imgFour {
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
 `
 
 export const WelcomeContentDefaultPageStyles = styled.div`
@@ -80,13 +90,13 @@ h2{
     z-index:2000;
     background-color:transparent;
     padding-top:20px;
+    padding-bottom: 20px;
 }
 
 h3{
     text-align:center;
     font-size:1.3rem;
     background-color:transparent;
-
 }
 `
 
@@ -131,7 +141,15 @@ b {
     background-color: transparent;
 }
 
+@media (max-width: 490px) {
+    ul {
+        display: none;
+    }
 
+    h3 {
+        display: none;
+    }
+}
 `
 
 export const ContainerFormsAuthStyles = styled.div`

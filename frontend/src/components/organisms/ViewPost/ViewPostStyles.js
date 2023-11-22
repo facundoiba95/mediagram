@@ -24,19 +24,33 @@ button {
     border-radius:5px;
     cursor: pointer;
 }
+
+@media (max-width: 490px) {
+    width:100%;
+    height: 100vh;
+    top:0;
+}
 `
 
 export const ViewPostWrapperStyles = styled.div`
 display: flex;
-width:80%;
-height:100vh;
-z-index:2000;
+width: 80%;
+height: 100%;
+z-index: 2000;
+
+@media (max-width: 490px ){
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
 `
 
 export const ViewPostImageContainerStyles = styled.div`
 width:100%;
 max-width:760px;
-height:95vh;
+height:100%;
 display: flex;
 position: relative;
 
@@ -47,6 +61,16 @@ img {
     object-fit: contain;
     padding:0px 30px;
 }
+
+@media (max-width: 490px) {
+    max-height: 400px;
+    img {
+        height: 20rem;
+        transform: scale(1.5);
+        object-fit: contain;
+        margin-bottom:1rem;
+    }
+}
 `
 
 export const ViewPostCommentsSectionStyles = styled.section`
@@ -54,15 +78,29 @@ width:100%;
 max-width:470px;
 height:100vh;
 background-color: transparent;
+
+@media (max-width: 490px) {
+    height:auto;
+    
+    /* display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start; */
+}
 `
 
 export const ViewPostHeadStyles = styled.div`
-width:100%;
-height:90px;
+width: 100%;
+height: 90px;
 display: flex;
 justify-content: flex-start;
 align-items: center;
 color: var(--light);
+
+@media (max-width: 490px) {
+    height:auto;
+    display: ${ props => props.hiddenComments ? 'none' : 'flex' };
+}
 `
 
 export const ViewPostUserInfoHeadStyles = styled.span`
@@ -104,6 +142,10 @@ h1 {
     transform: rotate(-15deg);
 }
 
+@media (max-width: 490px) {
+    display: none;
+}
+
 `
 
 export const ViewPostLogosRightStyles = styled.div`
@@ -121,5 +163,7 @@ h1 {
     filter: blur(6px);
     transform: rotate(-15deg);
 }
-
+@media (max-width: 490px) {
+    display: none;
+}
 `

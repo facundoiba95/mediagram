@@ -10,6 +10,10 @@ justify-content: flex-start;
 align-items: center;
 gap: 20px;
 background-color: transparent;
+
+@media (max-width: 490px) {
+    margin-top: 1rem;
+}
 `
 export const ViewPostHandleActiveDescriptionStyles = styled.span`
 width:100%;
@@ -38,6 +42,10 @@ span {
 }
 small {
     font-weight: 600;
+}
+
+@media (max-width: 490px) {
+    display: flex;
 }
 `
 
@@ -90,6 +98,9 @@ span {
     }
 }
 
+@media (max-width: 490px) {
+    display: ${ props => props.hiddenComments ? 'none' : 'flex' }
+}
 
 `
 
@@ -112,6 +123,12 @@ flex-direction: column;
 align-items: center;
 justify-content: flex-start;
 gap:40px;
+
+@media (max-width: 490px) {
+    height:200px;
+    display: ${ props => props.hiddenComments ? 'flex' : 'none' };
+
+}
 `
 
 export const DescriptionPostContainerStyles = styled.div`

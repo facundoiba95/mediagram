@@ -7,7 +7,7 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 
-const AddComment = () => {
+const AddComment = ({hiddenComments}) => {
   const [ inputComment, setInputComment ] = useState('');
   const dispatch = useDispatch();
   const post = useSelector(state => state.postSlices.post);
@@ -32,7 +32,7 @@ const handleAddComment = async () => {
 }
 
   return (
-      <AddCommentContainerStyles>
+      <AddCommentContainerStyles hiddenComments={hiddenComments}>
           <FormCommentContainerStyle onSubmit={(e) => e.preventDefault()}>
               <textarea type="text" placeholder='Escribe un comentario ...' value={inputComment} onChange={(e) => setInputComment(e.target.value)}/>
               <button className='btnAddComment' onClick={() => handleAddComment()}>Publicar</button>

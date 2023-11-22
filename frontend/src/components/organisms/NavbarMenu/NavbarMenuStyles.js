@@ -10,6 +10,15 @@ flex-direction:column;
 background-color:#111B21;
 position:sticky;
 top:0;
+z-index: 2000;
+
+@media (max-width: 490px) {
+    position: absolute;
+    width:100%;
+    height: ${ props => props.isOpenMenu ? '400px' : '20px'};
+    transition: all 0.2s ease-in-out;
+    left: ${ props => props.isOpenMenu ? '0' : '-85%'};
+}
 `
 
 export const NavbarMenuListStyles = styled.ul`
@@ -22,6 +31,16 @@ background-color:#111B21;
 padding:10px;
 color:var(--heavyLight);
 gap:5px;
+
+@media (max-width: 490px) {
+    transition: all 0.2s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    opacity: ${ props => props.isOpenMenu ? '1' : '0'};
+    visibility: ${ props => props.isOpenMenu ? 'visible' : 'hidden'};
+    align-items: start;
+    justify-content: center;
+}
 `
 
 export const NavbarMenuItemStyles = styled.li`
@@ -93,6 +112,15 @@ justify-content:center;
 }
 &:nth-child(8):hover{
     background-color:#F4254680;
+}
+
+@media (max-width: 490px) {
+    flex-direction: column;
+    height: 100%;
+
+    &:nth-child(8){
+        flex-direction: row;
+    }
 }
 `
 

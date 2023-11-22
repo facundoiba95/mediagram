@@ -13,6 +13,11 @@ display: flex;
 align-self: center;
 justify-content: center;
 gap:40px;
+
+
+@media (max-width: 490px){
+    gap: 20px;
+}
 `
 
 export const ItemInteractionStyles = styled.li`
@@ -52,6 +57,8 @@ position: relative;
 h5 {
     cursor: pointer;
 }
+
+
 
 `
 
