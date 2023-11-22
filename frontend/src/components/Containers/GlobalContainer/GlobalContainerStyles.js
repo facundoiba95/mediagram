@@ -9,14 +9,15 @@ overflow-y: ${ props => props.isLogged ? 'scroll' : 'none'};
 
 @media (max-width: 490px) {
     grid-template-columns: 1fr;
-    /* margin-top: 30px; */
+    height: 100%;
 }
 `
 
 export const GlobalContainerScrollSectionStyle = styled.div`
 width:100%;
-height:100vh;
+height:100%;
 display:flex;
 align-items:flex-start;
 justify-content:space-evenly;
+
 `

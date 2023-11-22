@@ -65,6 +65,7 @@ overflow:hidden;
 
 @media (max-width: 490px) {
     grid-template-columns: 1fr;
+    width: 100%;
 
     .imgOne, .imgTwo,.imgTree, .imgFour {
         display: none;

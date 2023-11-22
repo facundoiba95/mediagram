@@ -7,6 +7,7 @@ height:100%;
 
 @media (max-width: 490px) {
     width: 300px;
+    overflow-x: hidden;
 }
 `
 

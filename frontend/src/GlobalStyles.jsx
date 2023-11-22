@@ -34,8 +34,9 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body {
-    overflow-x: hidden;
+    overflow-y: hidden;
 }
+
 `
 
 export default GlobalStyle;

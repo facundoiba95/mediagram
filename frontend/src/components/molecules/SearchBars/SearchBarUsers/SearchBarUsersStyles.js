@@ -5,13 +5,14 @@ width:${ props => props.isOpen ? '100%' : '5%' };
 height: 80px;
 background-color:#eeeeee30 ;
 border-radius:10px;
-display:flex;
+display: ${ props => props.isOpen ? 'flex' : 'none' };
 justify-content:center;
 align-items:center;
 font-family:'Red Hat Display';
 transition:all 0.3s ease-in-out;
 border:3px solid white;
 border-radius: 10px;
+
 
 input {
     width:100%;

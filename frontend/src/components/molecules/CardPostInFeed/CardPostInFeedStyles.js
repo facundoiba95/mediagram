@@ -188,5 +188,10 @@ div:nth-child(4) {
         flex-wrap: wrap;   
     }
 
+    div:nth-child(4) {
+    h5 {
+        max-width:200px;
+    }
+}
 }
 `

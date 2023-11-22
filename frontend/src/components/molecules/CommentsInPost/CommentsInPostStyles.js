@@ -99,7 +99,11 @@ span {
 }
 
 @media (max-width: 490px) {
-    display: ${ props => props.hiddenComments ? 'none' : 'flex' }
+    display: ${ props => props.hiddenComments ? 'none' : 'flex' };
+
+    h5:nth-child(2) {
+      max-width:200px;
+    }
 }
 
 `
@@ -112,6 +116,9 @@ display:flex;
 justify-content: center;
 align-items: center;
 color: white;
+::-webkit-scrollbar {
+    display: none;
+}
 `
 
 export const ListCommentsStyles = styled.ul`
@@ -124,6 +131,9 @@ align-items: center;
 justify-content: flex-start;
 gap:40px;
 
+::-webkit-scrollbar {
+    display: none;
+}
 @media (max-width: 490px) {
     height:200px;
     display: ${ props => props.hiddenComments ? 'flex' : 'none' };

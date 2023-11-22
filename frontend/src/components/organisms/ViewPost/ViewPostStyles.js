@@ -27,8 +27,10 @@ button {
 
 @media (max-width: 490px) {
     width:100%;
-    height: 100vh;
+    height: 100%;
     top:0;
+
+    overflow-y: scroll;
 }
 `
 
@@ -81,11 +83,6 @@ background-color: transparent;
 
 @media (max-width: 490px) {
     height:auto;
-    
-    /* display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start; */
 }
 `
 
@@ -124,6 +121,10 @@ img{
     border-radius:50%;
     color: var(--violetpink);
     background-color:var(--heavyLight);
+}
+
+@media (max-width: 490px) {
+    justify-content: center;
 }
 `
 export const ViewPostLogosLeftStyles = styled.div`

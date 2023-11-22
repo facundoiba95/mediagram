@@ -113,7 +113,11 @@ const CommentsInPost = ({
       </ViewPostHeadStyles>
     <ViewPostDescriptionStyles>
       <LocationAndReferToDataContainerStyles hiddenComments={hiddenComments}>
-        <span><MdLocationOn className='iconLocation'/><h5>{location}</h5></span>
+        {
+          location 
+          ? <span><MdLocationOn className='iconLocation'/><h5>{location}</h5></span>
+          : <></>
+        }
         <span><small>Menciones: </small> { renderReferTo() }</span>
       </LocationAndReferToDataContainerStyles>
       <ViewPostHandleActiveDescriptionStyles isDescription={description} hiddenDescription={hiddenDescription} >

@@ -8,7 +8,7 @@ const TransitionContainer = ({ children }) => {
     className="box"
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
-    style={{backgroundColor:'transparent'}}
+    style={{ backgroundColor: 'transparent' }}
     >
       {children}
    </motion.div>
