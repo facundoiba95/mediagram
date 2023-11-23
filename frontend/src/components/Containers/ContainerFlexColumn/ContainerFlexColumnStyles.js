@@ -7,4 +7,11 @@ display:flex;
 flex-direction:column;
 justify-content: flex-start;
 align-items: center;
+
+@media (max-width: 490px) {
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+       display: none;
+    }
+}
 `

@@ -133,7 +133,7 @@ th{
 @media (max-width: 490px) {
     .spanMenuSetting {
         top:10px;
-        right:15px;
+        right:20px;
 
         small:nth-child(2) {
             display: none;

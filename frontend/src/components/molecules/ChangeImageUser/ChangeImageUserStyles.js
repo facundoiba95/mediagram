@@ -34,6 +34,10 @@ ul {
         background-color: transparent;
     }
 }
+
+@media (max-width: 490px) {
+    transform: scale(0.9);
+}
 `
 
 export const FormChangeImageUserStyles = styled.form`
@@ -63,6 +67,10 @@ span {
         transform: scale(90%);
     }
 }
+
+@media (max-width: 490px) {
+    flex-direction: column-reverse;
+}
 `
 
 export const ContainerImageUploadStyles = styled.div`
@@ -87,5 +95,14 @@ img {
     width:320px;
     height:320px;
     object-fit:cover;
+}
+
+@media (max-width: 350px) {
+    img {
+      width:300px;
+      height:300px;
+      object-fit:cover;
+    }
+    
 }
 `

@@ -42,6 +42,11 @@ p, h2{
 .iconAddContent{
     font-size:4rem;
 }
+
+@media (max-width: 490px) {
+    display: flex;
+    flex-direction: column;    
+}
 `
 
 export const ListUserSearchedStyles = styled.ul`
@@ -129,8 +134,6 @@ color: black;
 `
 
 export const GridOneContainerStyles = styled.span`
-    grid-row:2/3;
-    grid-column:1/2;
     width:100%;
     height:400px;
     display:flex;
@@ -144,17 +147,51 @@ export const GridOneContainerStyles = styled.span`
         background-color:transparent;
         object-fit:contain;
     }
+
+    .btnSelectedImage {
+        display: none;
+    }
+
+@media (max-width: 490px) {
+    padding: 5px;
+    height: ${ props => props.isSelectedImage ? '250px' : '400px' };
+    gap: 5px;
+
+    .btnSelectedImage {
+        display: block;
+        background-color: yellow;
+        padding: 2px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    img {
+        height: ${ props => props.isSelectedImage ? '200px' : '350px' };
+    }
+}
+
+
+@media (max-width: 351px) {
+    height: ${ props => props.isSelectedImage ? '120px' : '250px' };
+    height: 100%;
+    
+
+    img {
+        height: ${ props => props.isSelectedImage ? '120px' : '250px' };
+    }
+}
 `
 
 export const GridTwoContainerStyles = styled.span`
-    grid-row:2/3;
-    grid-column:2/4;
-    padding-left:10px;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    justify-content:flex-start;
-    gap:10px;
+    grid-row: 2/3;
+    grid-column: 2/4;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
     
     span {
         display:flex;
@@ -247,11 +284,11 @@ export const GridTwoContainerStyles = styled.span`
     p{
         font-weight: 600;
     }
-img {
-  width:50px;
-  height:50px;
-  border-radius: 50%;
-}
+    img {
+      width:50px;
+      height:50px;
+      border-radius: 50%;
+    }
 }
 
 .imgProfile{
@@ -261,6 +298,20 @@ img {
     color: var(--violetpink);
     background-color:var(--heavyLight);
     border-radius:50%;
+}
+
+@media (max-width: 490px) {
+    display: ${ props => props.isSelectedImage ? 'flex' : 'none' };
+
+    .infoUserAuth {
+        display: none;
+    }
+
+    span {
+        textarea {
+          height: 90px;
+        }
+    }
 }
 `
 
@@ -274,6 +325,8 @@ export const ResultLocationContainerStyles = styled.span`
            align-items: flex-start;
            border-radius:5px;
            cursor: pointer;
+           opacity: ${ props => props.isLocation ? '1' : '0' };
+           visibility: ${ props => props.isLocation ? 'visible' : 'hidden' }; 
            
 
            p {
@@ -286,6 +339,8 @@ export const ResultLocationContainerStyles = styled.span`
             overflow: hidden;
             word-break: normal;
            }
+
+
 `
 
 export const ReferToContainerStyles = styled.span`
@@ -308,5 +363,12 @@ cursor: pointer;
     transition: all 0.2s ease-in-out;
     border:3px solid yellow;
     font-weight: 900;
+}
+
+@media (max-width: 490px) {
+    right: 0;
+    top:0;
+    height: 30px;
+    width: 120px;
 }
 `

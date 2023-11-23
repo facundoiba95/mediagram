@@ -9,4 +9,8 @@ font-family:'Red Hat Display';
 font-weight:600;
 padding-bottom: 10px;
 color: var(--light);
+
+@media (max-width: 490px) {
+    text-align: center;
+}
 `

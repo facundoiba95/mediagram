@@ -9,8 +9,19 @@
     padding: 15px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
+
+    
   }
 
   .item{
     background-color: transparent;    
+  }
+
+  @media (max-width: 490px) {
+    .container {
+      margin: 0 auto;
+      width: 300px;
+      overflow-x: scroll;
+
+    }
   }

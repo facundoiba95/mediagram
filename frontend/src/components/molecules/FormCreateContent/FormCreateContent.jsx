@@ -36,6 +36,7 @@ const FormCreateContent = () => {
   // image states
   const [ loadImage, setLoadImage ] = useState(imgAddContent);
   const [ isLoadingChangeImage, setIsLoadingChangeImage ] = useState(false);
+  const [ isSelectedImage, setIsSelectedImage ] = useState(false);
 
 
   // location states
@@ -209,9 +210,9 @@ const FormCreateContent = () => {
   }
 
   return (
-    <CreateContentContainerStyles>
+    <CreateContentContainerStyles isSelectedImage={isSelectedImage}>
         <TransitionContainer>
-            <FormCreateContentContainerStyles onSubmit={(e) => e.preventDefault()} id='formCreateContent' isLoading={!isLoading}>
+            <FormCreateContentContainerStyles onSubmit={(e) => e.preventDefault()} id='formCreateContent' isLoading={!isLoading} isSelectedImage={isSelectedImage}>
             <h2 className='titleCreateContent'>{titleCreateContent[params.typeContent]}</h2>
               {
                 isLoading
@@ -220,11 +221,11 @@ const FormCreateContent = () => {
                 <ModalStatusCreateContent status={status} error={errorMessage}/>
                 :
                 <>
-                <GridOneContainerStyles>
+                <GridOneContainerStyles isSelectedImage={isSelectedImage}>
                 {
                   isLoadingChangeImage 
                   ? <LoaderResponsive /> 
-                  : <img src={loadImage} alt="image create content" />
+                  : <img src={loadImage} alt="image create content" id='img'/>
                 }
                 <input 
                  type="file"
@@ -233,8 +234,9 @@ const FormCreateContent = () => {
                  accept='image/*' 
                  onChange={(e) => handleCompressImage(e)}
                  />
+                 <button onClick={() => setIsSelectedImage(!isSelectedImage)} className='btnSelectedImage'>Elegir imagen</button>
               </GridOneContainerStyles>
-              <GridTwoContainerStyles>
+              <GridTwoContainerStyles isSelectedImage={isSelectedImage}>
                 <span>
                   <span className='infoUserAuth'>
                     {
@@ -255,7 +257,7 @@ const FormCreateContent = () => {
                   placeholder='Agregar ubicación'
                   hidden={isHiddenInputLocation}
                   />
-                  <ResultLocationContainerStyles>
+                  <ResultLocationContainerStyles isLocation={location.length}>
                      { 
                        isLoadingLocation ?
                        <MoonLoader size={10}/>

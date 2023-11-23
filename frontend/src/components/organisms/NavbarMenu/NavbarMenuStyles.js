@@ -18,6 +18,7 @@ z-index: 2000;
     height: ${ props => props.isOpenMenu ? '400px' : '20px'};
     transition: all 0.2s ease-in-out;
     left: ${ props => props.isOpenMenu ? '0' : '-85%'};
+    background-color: transparent;
 }
 `
 

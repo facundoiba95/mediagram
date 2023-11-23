@@ -24,6 +24,14 @@ gap: 10px;
     border-radius:50%;
     padding:10px;
 }
+
+@media (max-width: 490px) {
+    width:100%;
+
+    .iconCloseNotifications {
+        right: -10px;
+    }
+}
 `
 
 export const TitleNotificationsStyles = styled.h2`

@@ -5,11 +5,9 @@ width:100%;
 height:100vh;
 display:grid;
 grid-template-columns: ${ props => props.isLogged ? '250px 1fr' : '1fr'};
-overflow-y: ${ props => props.isLogged && props.isFeed ? 'scroll' : 'none'};
 
 @media (max-width: 490px) {
     grid-template-columns: 1fr;
-    height: 100%;
 }
 `
 
@@ -19,4 +17,6 @@ height:100%;
 display:flex;
 align-items:flex-start;
 justify-content:space-evenly;
+overflow-y: ${ props => props.isLogged && props.isFeed ? 'scroll' : 'none'};
+
 `

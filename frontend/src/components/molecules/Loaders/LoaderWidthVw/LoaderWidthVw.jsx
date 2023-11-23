@@ -6,7 +6,6 @@ import LogoMediagram from '../../../atoms/LogoMediagram/LogoMediagram'
 const LoaderWidthVw = () => {
   return (
     <LoaderWidthVwContainerStyles>
-        <LogoMediagram/>
         <MoonLoader size={60} color='var(--violetpink)'/>
     </LoaderWidthVwContainerStyles>
     )
