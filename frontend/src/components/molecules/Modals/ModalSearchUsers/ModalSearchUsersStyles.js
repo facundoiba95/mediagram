@@ -15,6 +15,11 @@ left: 50%;
 transform: translate(-50%,20%);
 border-radius: 10px;
 background-color: transparent;
+
+@media (max-width: 490px) {
+    transform: scale(0.8);
+    left:0;
+}
 `
 
 export const ListModalSearchUsersStyles = styled.ul`

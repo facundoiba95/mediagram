@@ -44,7 +44,7 @@ const CardContentProfile = ({
   }
 
   return (
-    <CardContentProfileContainerStyles>
+    <CardContentProfileContainerStyles onClick={goPost}>
         <img src={thumbnail} alt="img content profile user" className='imgContent'/>
         <DescriptionContentProfileStyles likedPost={likedPost}>
           { renderImgProfile()  }
@@ -57,7 +57,7 @@ const CardContentProfile = ({
               <FaComment className='iconComment'/>
           </span>
         </DescriptionContentProfileStyles>
-        <div className='overlay' onClick={() => goPost()}>
+        <div className='overlay'>
           <CgArrowsExpandRight className='iconExpandImage'/>
         </div>
     </CardContentProfileContainerStyles>

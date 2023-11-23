@@ -8,7 +8,7 @@ max-height: 200px;
 transition: all 0.2s ease-in-out;
 position: absolute;
 right:30px;
-top:80px;
+top:100px;
 visibility: ${ props => props.isOpenMenuSetting ? 'visible': 'hidden' };
 opacity: ${ props => props.isOpenMenuSetting ? '1': '0' };
 display:flex;
@@ -16,9 +16,15 @@ flex-direction: column;
 background-color:var(--light);
 border-radius:10px;
 padding:5px;
+z-index: 2000;
 
 &:active {
     transform: scale(90%);
+}
+
+@media (max-width: 490px) {
+    right: 15px;
+    top: 60px;
 }
 `
 

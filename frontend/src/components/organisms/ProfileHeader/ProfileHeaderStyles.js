@@ -1,42 +1,59 @@
 import { styled } from "styled-components";
 
 export const ProfileHeaderContainerStyles = styled.div`
-width:100%;
-height:100%;
-border-bottom:1px solid var(--heavyLight);
-font-family:'Red Hat Display';
-display:flex;
-justify-content:flex-start;
-align-items:center;
-gap:80px;
-padding-bottom:30px;
-padding-top:30px;
+width: 100%;
+height: 100%;
+border-bottom: 1px solid var(--heavyLight);
+font-family: 'Red Hat Display';
+display: flex;
+justify-content: flex-start;
+align-items: center;
+gap: 80px;
+padding-bottom: 30px;
+padding-top: 30px;
+
+@media (max-width: 490px) {
+    gap: 20px;
+    font-size: 0.8rem;
+    justify-content: center;
+    flex-direction: column;
+}
 `
 
 export const ImgProfileStyles = styled.div`
-width:180px;
-height:180px;
+width: 180px;
+height: 180px;
 
 img {
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
+width: 100%;
+height: 100%;
+border-radius: 50%;
+object-fit: cover;
 }
 
 .imgProfile{
-    width:180px;
-    height:180px;
+    width: 180px;
+    height: 180px;
     color: var(--violetpink);
-    background-color:var(--heavyLight);
-    border-radius:50%;
+    background-color: var(--heavyLight);
+    border-radius: 50%;
+}
+
+@media (max-width: 490px) {
+    width: 100px;
+    height: 100px;
+
+    .imgProfile {
+        width: 100px;
+        height: 100px;
+    }
 }
 `
 
 export const InfoProfileContainerStyles = styled.span`
 display:flex;
 flex-direction:column;
-gap:10px;
+gap: 10px; 
 
 table{
     text-align:center;
@@ -104,6 +121,26 @@ th{
     color:${ props => props.isOpenMenuSetting ? 'var(--violetpink)' : 'black' };
 }
 
+.iconViews {
+   background-color: white;
+   font-size: 1.5rem;
+   border-radius: 50%;
+   padding:2px;
+   font-weight:600;
+}
+
+
+@media (max-width: 490px) {
+    .spanMenuSetting {
+        top:10px;
+        right:15px;
+
+        small:nth-child(2) {
+            display: none;
+        }
+
+    }
+}
 `
 
 export const ActionProfileContainerStyles = styled.div`
@@ -153,6 +190,7 @@ p {
 .iconStar:active{
     transform: scale(1.5);
 }
+
 small{
     color:var(--light);
     font-weight:600;

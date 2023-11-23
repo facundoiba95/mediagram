@@ -52,6 +52,10 @@ overflow-x: scroll;
 font-family: 'Red Hat Display';
 padding: 5px;
 background-color: transparent;
+
+@media (max-width: 490px) {
+    height: 120px;
+}
 `
 
 export const ListFriendItemStyles = styled.li`
@@ -109,5 +113,12 @@ img {
 
 &:hover {
     transform: scale(1.1);
+}
+
+@media (max-width: 490px) {
+    img {
+        width:60px;
+        height: 60px;
+    }
 }
 `

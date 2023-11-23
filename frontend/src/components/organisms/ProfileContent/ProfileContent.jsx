@@ -1,15 +1,9 @@
 import React, { useContext } from 'react'
 import { MessagePrivateAccountStyles, ProfileContentContainerStyles } from './ProfileContentStyles'
 import CardContentProfile from '../../molecules/CardContentProfile/CardContentProfile'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import ContentIsEmpty from '../../molecules/Modals/ContentIsEmpty/ContentIsEmpty'
-import Skeleton from '@mui/material/Skeleton';
-import { useParams } from 'react-router-dom';
 import { HiOutlineLockClosed } from 'react-icons/hi';
-import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive'
-import Loader from '../../molecules/Loaders/Loader/Loader'
-import { MoonLoader } from 'react-spinners'
-import ContainerBlur from '../../Containers/ContainerBlur/ContainerBlur'
 import { GlobalContext } from '../../../Context/GlobalContext'
 import SkeletonCardPostProfile from '../../molecules/Loaders/SkeletonCardPostProfile/SkeletonCardPostProfile'
 

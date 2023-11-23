@@ -73,15 +73,6 @@ const ProfileHeader = () => {
       }    
     }
 
-    const renderViews = () => {
-      return (
-        <span>
-          <GrOverview className='iconActions'/>
-          {viewsInProfile}
-        </span>
-      )
-    }
-
     const renderNumberCellphone = () => {
       return (
         <span>
@@ -119,6 +110,7 @@ const ProfileHeader = () => {
           <span className='spanMenuSetting' onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting) }>
             <MdSettings className='iconSetting'/>
             <small>Ajustes de usuario.</small>
+            <small></small>
           </span>
         )
       }
@@ -246,9 +238,10 @@ const ProfileHeader = () => {
               isPrivate={isPrivate}
               isUserAuth={isUserAuth}
               />
-              { renderViews() }
-              { renderNumberCellphone() }
-              { renderActions() }
+            
+               <GrOverview className='iconViews'/>
+               {viewsInProfile}
+                        
             </InfoProfileContainerStyles>
           </>
       }

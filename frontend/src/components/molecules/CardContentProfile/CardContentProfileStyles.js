@@ -48,6 +48,20 @@ position: relative;
     cursor: pointer;
     transition:all 0.1s ease-in-out;
 }
+
+@media (max-width: 490px) {
+    height: 100%;
+    padding:0;
+    gap:0;
+
+    .imgContent {
+        height: 100%;
+    }
+
+    &:hover .overlay {
+        display: none;
+    }
+}
 `
 
 export const ThumbnailProfileStyles = styled.span`
@@ -66,6 +80,10 @@ export const ThumbnailProfileStyles = styled.span`
     font-size:2rem;
     color: var(--violetpink);
     background-color:var(--heavyLight);
+}
+
+@media (max-width: 490px) {
+    display: none;
 }
 `
 
@@ -110,4 +128,7 @@ export const DescriptionContentProfileStyles = styled.span`
         color: ${ props => props.likedPost ? 'var(--violetpink)' : 'white' };
     }
 
+@media (max-width: 490px) {
+    display: none;
+}
 `

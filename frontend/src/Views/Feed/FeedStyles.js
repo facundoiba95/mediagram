@@ -11,7 +11,9 @@ font-family: 'Red Hat Display';
 
 @media (max-width: 490px) {
     grid-template-columns: minmax(300px, 600px);
+    grid-template-rows: 200px 1fr;
     overflow-x: hidden;
+   
 }
 `
 

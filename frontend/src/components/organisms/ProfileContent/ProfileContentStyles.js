@@ -8,6 +8,19 @@ grid-template-columns: ${props => props.posts ? 'minmax(280px, 350px) minmax(280
 justify-items: space-between;
 flex-direction:column;
 gap:8px;
+
+@media (max-width: 490px) {
+    grid-template-columns: ${props => props.posts ? 'minmax(70px, 130px) minmax(70px, 130px) minmax(70px, 130px)' : '1fr 1fr'};
+    justify-content: center;
+    gap:5px;
+}
+
+@media (max-width: 376px) {
+    grid-template-columns: ${props => props.posts ? 'minmax(70px, 130px) minmax(70px, 130px)' : '1fr 1fr'};
+    justify-content: center;
+    gap:5px;
+
+}
 `
 
 export const MessagePrivateAccountStyles = styled.span`

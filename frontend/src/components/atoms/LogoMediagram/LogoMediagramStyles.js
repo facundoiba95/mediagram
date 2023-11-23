@@ -17,19 +17,24 @@ cursor:pointer;
 
 export const ThumbnailLogoMediagramStyle = styled.h1`
 width:100%;
-height:50px;
 font-family: 'Leckerli One';
 color: var(--violetpink);
 display:none;
 text-align:right;
 background-color:transparent;
 cursor:pointer;
+height: 40px;
 
-@media (max-width: 1023px) {
-    display:block;
-    padding-right:15px;
-    padding-top:15px;
-    padding-bottom: 15px;
+@media (max-width: 490px) {
+    font-size:1rem;
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 15px 15px 15px 0 ;
+    background-color: white;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    backdrop-filter: blur(5px);
 }
 `
 

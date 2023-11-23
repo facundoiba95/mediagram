@@ -57,4 +57,22 @@ input:focus {
     position:absolute;
     right:-45px;
 }
+
+@media (max-width: 490px) {
+    .iconCloseSearchBar{
+        top: -50px;
+        left: 50%;
+        transform: translate(-50%);
+    }
+}
+
+@media (max-width: 376px) {
+    ::placeholder {
+    width: 100%;
+    max-width:230px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+   }
+}
 `
