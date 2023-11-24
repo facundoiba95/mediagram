@@ -2,6 +2,10 @@ import isFollowing from "../../libs/isFollowing.js";
 
 export default async (req,res,next) => {
     try {
+        console.log('POSTED BY: ', req.associatePostAndUser);
+        console.log('IS LOGGED: ', req.isLogged);
+        console.log('IS PRIVATE: ', req.isPrivateProfile);
+
         const isLogged = req.isLogged;
         const postedBy = req.associatePostAndUser[0].postedBy;
         const isPrivate = req.isPrivateProfile;
@@ -10,7 +14,7 @@ export default async (req,res,next) => {
         if(!isPrivate) return next();
 
         if(isPrivate){
-            if(!isLogged) return await Promise.reject({ error: 'No estas loggeado', status: 401 });
+            if(!isLogged) return await Promise.reject({ error: 'El post pertenece a una cuenta privada.', status: 401 });
 
             if( await isFollowing(postedBy.username, userAuth._id ) ){
                 console.log('si se siguen');

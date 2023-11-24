@@ -57,7 +57,7 @@ router.use((req, res, next) => {
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
 router.post('/getPosts', getPosts);
-router.get('/getPostByID/:idPost',[ verifyTokenInPost, associatePostAndUser, isPrivate, addViewInPost, handleErrors ], getPostByID );
+router.get('/getPostByID/:idPost',[ associatePostAndUser, verifyTokenInPost, isPrivate, addViewInPost ], getPostByID );
 router.post('/verifyUser', verifyUser);
 router.post('/getPostByFollowings', [ getPostByFollowings ]);
 router.post('/addComment', [ validateAuthInPost, validateComment, handleErrors ] , addComment);

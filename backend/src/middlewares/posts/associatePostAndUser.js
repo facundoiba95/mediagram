@@ -34,7 +34,7 @@ export default async ( req,res, next ) => {
 
         req.isPrivateProfile = foundPost[0].postedBy.isPrivate;
 
-        const restrictFoundedPost = foundPost.map(post => {
+        const restrictDataUser = foundPost.map(post => {
             post.postedBy = {
                 username: post.postedBy.username,
                 thumbnail: post.postedBy.thumbnail,
@@ -42,7 +42,8 @@ export default async ( req,res, next ) => {
             return { ... post }
         });
 
-        req.associatePostAndUser = restrictFoundedPost;  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
+        req.associatePostAndUser = restrictDataUser  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
+        
         next();
     } catch (error) {
         console.error('Ocurrio un error en el middleware associatePostAndUser.js . Error: ',{error: error.message, status: error.status});

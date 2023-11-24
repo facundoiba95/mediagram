@@ -40,7 +40,7 @@ export const createPost = async ( req,res ) => {
         await newPost.save();
         await addPostToUser(postBy, newPost._id);
 
-        return res.status(200).json({message: 'El post se creó exitosamente!', status: 200 });
+        return res.status(200).json({message: 'El post se creó exitosamente!', post: [],status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "createPost()"',{error: error.message, status: error.status});
         return res.status(500).json({ error: error.message, status: error.status });

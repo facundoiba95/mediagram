@@ -5,11 +5,14 @@ config();
 
 export default async ( req,res,next ) => {
     try {
+        const isPrivate = req.isPrivateProfile;
+        
+        if(!isPrivate) next();
+        
         const token = req.headers["x-access-token"];
         if (!token || token == 'null'){
             req.isLogged = false;
-            req.error = { error: 'Debes iniciar sesión para continuar.', status: 404 }
-            next();
+            return await Promise.reject({ error: 'No token provided', status: 404 });
         } 
         
         try {
@@ -17,16 +20,14 @@ export default async ( req,res,next ) => {
             const foundUser = await User.findOne({_id: verifyToken.id});
             if(!foundUser){
                 req.isLogged = false;
-                req.error = { error: 'Debes iniciar sesión para continuar.', status: 404 }
-                next();
+                return await Promise.reject({ error: 'Authenticated user not found.', status: 404 });
             }
             req.isLogged = true;
             req.userAuth = foundUser;
             next();
         } catch (error) {
             req.isLogged = false;
-            req.error = { error: 'Debes iniciar sesión para continuar.', status: 404 }
-            next();
+            return await Promise.reject({ error: 'Invalid token', status: 401 });
         }
     } catch (error) {
         console.error('Ocurrio un error en middleware validateAuthInPost.js. Error: ', error);
