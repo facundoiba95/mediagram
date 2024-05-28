@@ -21,7 +21,7 @@
 
      
      ***Actualmente, el proyecto se encuentra en desarrollo, lo cual el diseño responsive y algunas funcionalidades no estan disponibles.*** 
-     <br/>
+
 En el desarrollo de la aplicación, se crearon funcionalidades como:
 <ul>
      <li>Construcción e integración de API REST.</li>
