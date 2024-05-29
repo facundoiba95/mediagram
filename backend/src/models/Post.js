@@ -7,7 +7,8 @@ const postSchema = new Schema({
     },
     postBy: {
         type: Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref: "User"
     },
     referTo: {
         type:[],

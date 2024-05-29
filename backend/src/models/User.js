@@ -21,7 +21,10 @@ const userSchema = new Schema({
     followings: [ Object ],
     followers: [ Object],
     histories:[Object],
-    posts: [ Object ],
+    posts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
     countPosts: {
         type: Number,
         default: 0
@@ -39,7 +42,16 @@ const userSchema = new Schema({
     stars:[ Object ],
     likesInProfile:[ Object ],
     greets: [ Object ],
-    notifications: [ mongoose.Types.ObjectId ],
+    notifications: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Notification'
+    }],
+    listFriend: [{
+        type: Object,
+        imgProfile: String,
+        username: String,
+        _id: mongoose.Types.ObjectId
+    }],
     followUpRequest: [{
         status: {
             type: String,

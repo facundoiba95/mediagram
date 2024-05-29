@@ -4,7 +4,7 @@ export const MenuSettingListStyles = styled.ul`
 width: 100%;
 max-width: 300px;
 height: ${ props => props.isOpenMenuSetting ? '100%': '0%' };
-max-height: 200px;
+max-height: 250px;
 transition: all 0.2s ease-in-out;
 position: absolute;
 right:30px;

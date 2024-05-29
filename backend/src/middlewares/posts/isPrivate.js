@@ -2,10 +2,6 @@ import isFollowing from "../../libs/isFollowing.js";
 
 export default async (req,res,next) => {
     try {
-        console.log('POSTED BY: ', req.associatePostAndUser);
-        console.log('IS LOGGED: ', req.isLogged);
-        console.log('IS PRIVATE: ', req.isPrivateProfile);
-
         const isLogged = req.isLogged;
         const postedBy = req.associatePostAndUser[0].postedBy;
         const isPrivate = req.isPrivateProfile;

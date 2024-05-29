@@ -8,6 +8,7 @@ import { restartStatusUser } from '../../../redux/slices/userSlices/userSlices';
 import { BsFillImageFill, BsFillLockFill, BsFillUnlockFill } from 'react-icons/bs';
 import { MdOutlinePassword } from 'react-icons/md';
 import { GiSettingsKnobs } from 'react-icons/gi';
+import { RiVipCrown2Line } from "react-icons/ri";
 
 
 export const MenuSettingUserAuth = ({isPrivate}) => {
@@ -80,10 +81,16 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
        }
     }
 
+    const goFriendList = () => {
+        navigator(`/profile/${params.username}/listFriend`);
+        setIsOpenMenuSetting(!isOpenMenuSetting);
+    }
+
   return (
     <MenuSettingListStyles isOpenMenuSetting={isOpenMenuSetting}>
-        <MenuSettingItemStyles onClick={() => goChangeImageUser()}><BsFillImageFill className='iconItemMenuSetting'/>Cambiar imagen de perfil</MenuSettingItemStyles>
-        <MenuSettingItemStyles onClick={() => goChangePassword()}><MdOutlinePassword className='iconItemMenuSetting'/>Cambiar contraseña</MenuSettingItemStyles>
+        <MenuSettingItemStyles onClick={goChangeImageUser}><BsFillImageFill className='iconItemMenuSetting'/>Cambiar imagen de perfil</MenuSettingItemStyles>
+        <MenuSettingItemStyles onClick={goChangePassword}><MdOutlinePassword className='iconItemMenuSetting'/>Cambiar contraseña</MenuSettingItemStyles>
+        <MenuSettingItemStyles onClick={goFriendList }><RiVipCrown2Line className='iconItemMenuSetting'/>Lista de amigos</MenuSettingItemStyles>
         { privacityOfAccount() }
         <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting'/>Otros ajustes</MenuSettingItemStyles>
     </MenuSettingListStyles>

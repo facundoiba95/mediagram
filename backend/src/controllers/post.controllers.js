@@ -70,8 +70,6 @@ export const getPosts = async ( req,res ) => {
 export const getPostByID = async ( req,res ) => {
     try {
         const foundedPost = req.associatePostAndUser;
-        console.log(req.isLogged);
-        console.log(req.error);
         return res.status(200).json({ message: 'Founded post!', post: foundedPost, status:200 }); 
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "getPostByID()"',{error: error.message, status: error.status});
@@ -144,6 +142,7 @@ export const handleLikeToPost = async ( req,res ) => {
 
         await addCountersInPost(addLikeToPost)
         await addLikePostNotification(postedBy, addLikeToPost.thumbnail, idPost, userAuth)  
+        
         const addPostedBy = [ addLikeToPost._doc ].map(item => {
             return {
                 ... item,
@@ -155,5 +154,21 @@ export const handleLikeToPost = async ( req,res ) => {
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "addLikeComment()"',{error: error.message, status: error.status});
         return res.status(500).json({error: error.message, status: error.status});
+    }
+}
+
+export const test_getPost = async (req,res) => {
+    try {
+        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+       
+        const PostWithUser = await Post.find({_id: idPost}).populate({
+            path: 'postBy',
+            select: '_id username'
+        })
+        
+    
+        res.status(200).json(PostWithUser)
+    } catch (error) {
+        console.error('Error en test_getPost. Error: ', error)
     }
 }

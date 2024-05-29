@@ -2,7 +2,6 @@ import { Router } from "express";
 import { changePassword, changePrivacityOfAccount, handleLogin, handleRefreshUserAuth, handleRegister, validateSession } from "../controllers/auth.controllers.js";
 import validatePassword from "../middlewares/auth/validatePassword.js";
 import validateInputs from "../middlewares/auth/validateInputs.js";
-import associateNotificationAndUser from "../middlewares/posts/associateNotificationAndUser.js";
 
 const router = Router();
 

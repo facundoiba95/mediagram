@@ -6,6 +6,7 @@ import ContentIsEmpty from '../../molecules/Modals/ContentIsEmpty/ContentIsEmpty
 import { HiOutlineLockClosed } from 'react-icons/hi';
 import { GlobalContext } from '../../../Context/GlobalContext'
 import SkeletonCardPostProfile from '../../molecules/Loaders/SkeletonCardPostProfile/SkeletonCardPostProfile'
+import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive'
 
 
 const ProfileContent = () => {
@@ -13,17 +14,15 @@ const ProfileContent = () => {
   const userAuth = useSelector( state => state.authSlices.user );
   const user = useSelector( state => state.userSlices.userFiltered );
   const posts = useSelector( state => state.postSlices.post );
-  const isLoading = useSelector( state => state.postSlices.isLoading );
+  const isLoadingPost = useSelector( state => state.postSlices.isLoading );
   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
   const isFollowing = useSelector( state => state.userSlices.isFollowing );
   const isUserAuth = user.some(usr => usr.username === userAuth.username);
 
-  const { isOpen, setIsOpen } = useContext( GlobalContext );
-
   const renderContentProfile = () => {
     return posts.map(item => {
       const { thumbnail, description, postBy, likes, comments, typePost,_id,likedPost } = item;
-      if(isLoading || isLoadingAuth){
+      if(isLoadingPost){
         return (
           <SkeletonCardPostProfile />
           )
@@ -46,12 +45,18 @@ const ProfileContent = () => {
   }
 
   const renderPrivateAccountMessage = () => {
-    return (
-      <MessagePrivateAccountStyles>
-        <HiOutlineLockClosed className='iconPrivateAccount'/>
-        <h2>Esta cuenta es privada. Envíale una solicitud de seguimiento.</h2>
-      </MessagePrivateAccountStyles>
-    )
+    if(isLoadingPost && isLoadingAuth){
+      return (
+        <LoaderResponsive/>
+      )
+    } else {
+      return (
+        <MessagePrivateAccountStyles>
+          <HiOutlineLockClosed className='iconPrivateAccount'/>
+          <h2>Esta cuenta es privada. Envíale una solicitud de seguimiento.</h2>
+        </MessagePrivateAccountStyles>
+      )
+    }
   }
 
 

@@ -73,11 +73,13 @@ const Profile = ({ children }) => {
           { renderModalSearchUsers() }
           <ProfileHeader />
           {
-            location.pathname === `/profile/${params.username}/changeImageUser`
+              location.pathname === `/profile/${params.username}/changeImageUser`
               ? <>{children}</>
               : location.pathname === `/profile/${params.username}/changePassword`
-                ? <>{children}</>
-                : <ProfileContent />
+              ? <>{children}</>
+              : location.pathname === `/profile/${params.username}/listFriend`
+              ? <>{children}</>
+              : <ProfileContent />
           }
         </ProfileContainerStyles>
       )

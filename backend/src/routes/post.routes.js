@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPosts, getPostByID } from "../controllers/post.controllers.js";
+import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import path,{ dirname } from 'path'
 import { fileURLToPath } from 'url';
@@ -62,5 +62,5 @@ router.post('/verifyUser', verifyUser);
 router.post('/getPostByFollowings', [ getPostByFollowings ]);
 router.post('/addComment', [ validateAuthInPost, validateComment, handleErrors ] , addComment);
 router.post('/handleLikeToPost', [ validateAuthInPost, isExistLikeInPost, handleErrors ], handleLikeToPost );
-
+router.get('/getPost/:idPost', test_getPost);
 export default router;

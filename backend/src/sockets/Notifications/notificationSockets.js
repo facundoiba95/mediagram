@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import associateNotificationAndUser from "../../middlewares/posts/associateNotificationAndUser.js"
+import associateNotificationAndUser from "../../libs/Posts/associateNotificationAndUser.js"
 import Notifications from '../../models/Notification.js';
 
 export const getNotifications = ( socket ) => {

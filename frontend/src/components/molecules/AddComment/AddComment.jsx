@@ -6,7 +6,6 @@ import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
-
 const AddComment = ({hiddenComments}) => {
   const [ inputComment, setInputComment ] = useState('');
   const dispatch = useDispatch();

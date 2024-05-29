@@ -7,7 +7,7 @@ export default async ( req,res,next ) => {
     try {
         const isPrivate = req.isPrivateProfile;
         
-        if(!isPrivate) next();
+        if(!isPrivate) return next();
         
         const token = req.headers["x-access-token"];
         if (!token || token == 'null'){

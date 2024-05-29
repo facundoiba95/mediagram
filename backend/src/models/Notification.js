@@ -18,7 +18,8 @@ const notificationSchema = new Schema({
         required: true,
         _id: mongoose.Types.ObjectId,
         thumbnail: String,
-        username: String
+        username: String,
+        ref: 'User'
     },
     status: {
         type: String,

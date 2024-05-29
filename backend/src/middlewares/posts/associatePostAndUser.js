@@ -4,45 +4,17 @@ import Post from "../../models/Post.js";
 export default async ( req,res, next ) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
-        const foundPost = await Post.aggregate([
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: '_id',
-                    foreignField: 'posts',
-                    as: 'postedBy',  // guarda los USUARIOS relacionados con los posts
-                    let: {
-                        idPostUser: '$_id' // referencia al _id de coleccion POST
-                    },
-                    pipeline: [
-                        {
-                            $match: {
-                                $expr: {
-                                    $in: ['$$idPostUser', [idPost] ]  // obtiene el post solicitado
-                                }
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                $unwind: '$postedBy'
-            }
-        ]);
+        
+        const foundPost = await Post.find({_id: idPost}).populate({
+            path: 'postBy',
+            select: 'username thumbnail imgProfile isPrivate'
+        })
 
         if(!foundPost.length) return await Promise.reject({ error: 'Post not found', status: 404 });
 
-        req.isPrivateProfile = foundPost[0].postedBy.isPrivate;
+        req.isPrivateProfile = foundPost[0].isPrivate;
 
-        const restrictDataUser = foundPost.map(post => {
-            post.postedBy = {
-                username: post.postedBy.username,
-                thumbnail: post.postedBy.thumbnail,
-            }
-            return { ... post }
-        });
-
-        req.associatePostAndUser = restrictDataUser  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
+        req.associatePostAndUser = foundPost  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
         
         next();
     } catch (error) {

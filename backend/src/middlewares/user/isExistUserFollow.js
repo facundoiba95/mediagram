@@ -3,7 +3,6 @@ import User from "../../models/User.js";
 export default async ( req,res,next ) => {
     try {
         const { username } = req.body;
-        console.log('USER FOLLOWER',username);
 
         const foundUserFollowing = req.userAuth;
         const foundUserFollower = await User.findOne({username});
