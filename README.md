@@ -13,7 +13,15 @@
        <li>Agregar una ubicación geográfica en las publicaciones.</li>
        <li>Mencionar otros usuarios en cada publicación.</li>
      </ul>
-     ***Actualmente, el proyecto se encuentra en desarrollo, lo cual el diseño responsive y algunas funcionalidades no estan disponibles.*** <br/><br/>
+
+<p>Puedes utilizar esta cuenta para probar la aplicación: </p>
+    <p><b>Username:</b> joa</p>
+    <p><b>Password:</b> joa</p>
+<p>Sino, regístrate y accede con tu cuenta.</p>
+
+     
+     ***Actualmente, el proyecto se encuentra en desarrollo, lo cual el diseño responsive y algunas funcionalidades no estan disponibles.*** 
+
 En el desarrollo de la aplicación, se crearon funcionalidades como:
 <ul>
      <li>Construcción e integración de API REST.</li>
@@ -44,6 +52,7 @@ Inlcuye tecnologias, librerias y herramientas como:
      <li>Nodemailer</li>
      <li>Atomic Design</li>
 </ul>
+
 
 Desarrollado por: ***Facundo Ibañez Gambarte***.
 
