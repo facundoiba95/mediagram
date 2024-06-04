@@ -12,7 +12,7 @@ import { TbEyeClosed } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { restartUser, restartUserFiltered, restartUserFound  } from '../../../redux/slices/userSlices/userSlices';
+import { restartUser, restartUserSelected, restartUserFound  } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 import { restartNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
@@ -43,7 +43,7 @@ const NavbarHeader = () => {
   }
 
   const goHome = () => {
-    navigator('/')
+    navigator('/feed')
   }
 
   const handleLogout = () => {
@@ -52,7 +52,7 @@ const NavbarHeader = () => {
       dispatch(restartUser());
       dispatch(restartUserFound());
       dispatch(restartPostsList());
-      dispatch(restartUserFiltered());
+      dispatch(restartUserSelected());
       dispatch(restartNotifications());
       navigator('/');
     } else {

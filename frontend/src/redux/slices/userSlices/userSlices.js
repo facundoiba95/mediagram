@@ -14,7 +14,7 @@ const initialState = {
     status: null,
     user: [],
     userFound: [],
-    userFiltered: [],
+    userSelected: [],
     isLoading: false
 }
 
@@ -225,8 +225,8 @@ const userSlices = createSlice({
             state.error = null;
             state.message = null;
         },
-        restartUserFiltered: ( state,action )=> {
-            state.userFiltered = [];
+        restartUserSelected: ( state,action )=> {
+            state.userSelected = [];
             state.error = null;
             state.message = null;
         },
@@ -264,7 +264,7 @@ export const {
     restartUser, 
     listSearchFollow, 
     setIsLoadingUser, 
-    restartUserFiltered,
+    restartUserSelected,
     restartStatusUser,
     restartUserSlice 
 } = userSlices.actions;

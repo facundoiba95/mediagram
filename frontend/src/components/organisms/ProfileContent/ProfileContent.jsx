@@ -12,20 +12,19 @@ import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderRes
 const ProfileContent = () => {
   // states
   const userAuth = useSelector( state => state.authSlices.user );
-  const user = useSelector( state => state.userSlices.userFiltered );
+  const { userSelected } = useSelector( state => state.userSlices );
   const posts = useSelector( state => state.postSlices.post );
   const isLoadingPost = useSelector( state => state.postSlices.isLoading );
   const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
-  const isFollowing = useSelector( state => state.userSlices.isFollowing );
-  const isUserAuth = user.some(usr => usr.username === userAuth.username);
+  const isLoadingUser = useSelector( state => state.userSlices.isLoading );
+  const { isFollowing } = useSelector( state => state.userSlices );
+  const isUserAuth = userSelected.some(usr => usr.username === userAuth.username);
 
   const renderContentProfile = () => {
     return posts.map(item => {
       const { thumbnail, description, postBy, likes, comments, typePost,_id,likedPost } = item;
-      if(isLoadingPost){
-        return (
-          <SkeletonCardPostProfile />
-          )
+      if(isLoadingPost || isLoadingUser){
+        return (<SkeletonCardPostProfile />)
       } else {
         return (
           <CardContentProfile 
@@ -45,7 +44,7 @@ const ProfileContent = () => {
   }
 
   const renderPrivateAccountMessage = () => {
-    if(isLoadingPost && isLoadingAuth){
+    if(isLoadingUser){
       return (
         <LoaderResponsive/>
       )
@@ -60,18 +59,25 @@ const ProfileContent = () => {
   }
 
 
-  // re ver este bloque, buscar manera de hacerlo mejor.
-  const handleViewPrivateAccountContent = () => {   
-    if(user[0].isPrivate){
-      if( isFollowing && posts ) return (<>{ renderContentProfile() }</>);
-      if( isFollowing && !posts ) return (<ContentIsEmpty/>);
-      if( !isFollowing && isUserAuth && posts) return (<>{ renderContentProfile() }</>);
-      if( !isFollowing && isUserAuth && !posts ) return (<ContentIsEmpty/>); 
-      if( !isFollowing ) return (<>{ renderPrivateAccountMessage() }</>);
-    } else if(!user[0].isPrivate && posts){
-      return (<>{renderContentProfile()}</>)
-    } else if( !user[0].isPrivate && !posts ) return (<ContentIsEmpty/>)
-  }
+  const handleViewPrivateAccountContent = () => {
+    const { isPrivate } = userSelected[0];
+  
+    const renderEmptyContent = () => {
+      return <ContentIsEmpty />;
+    };
+  
+    if (isPrivate) {
+      if (!isFollowing) {
+        return renderPrivateAccountMessage();
+      } else if (!isUserAuth) {
+        return renderEmptyContent();
+      } else {
+        return posts.length ? renderContentProfile() : renderEmptyContent();
+      }
+    } else {
+      return posts.length ? renderContentProfile() : renderEmptyContent();
+    }
+  };
 
   return (
     <ProfileContentContainerStyles posts={posts}>
@@ -83,3 +89,4 @@ const ProfileContent = () => {
 }
 
 export default ProfileContent
+

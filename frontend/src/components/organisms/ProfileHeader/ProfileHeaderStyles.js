@@ -53,7 +53,8 @@ object-fit: cover;
 export const InfoProfileContainerStyles = styled.span`
 display:flex;
 flex-direction:column;
-gap: 10px; 
+gap: 20px; 
+position: relative;
 
 table{
     text-align:center;
@@ -82,6 +83,30 @@ th{
     }
 }
 
+.containerInfoListFriends {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    gap: 10px;
+    
+
+    .iconListFriends {
+    display: ${props => props.isListFriends ? 'block' : 'none'};
+    font-size: 2rem;
+    color: white;
+    background-color: crimson;
+    border-radius: 50%;
+}
+
+small {
+    text-align: center;
+    color: white;
+    font-weight:600;
+}
+}
+
+
 .icon{
     background-color: transparent;
     font-size:1.4rem;
@@ -90,7 +115,7 @@ th{
 
 .spanMenuSetting {
     position:absolute;
-    right:30px;
+    right:0px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -116,9 +141,9 @@ th{
 .iconSetting {
     background-color: var(--heavyLight);
     font-size:1.8rem;
-    transform: ${ props => props.isOpenMenuSetting ? 'rotate(180deg)' : 'rotate(0deg)' };
+    transform: ${props => props.isOpenMenuSetting ? 'rotate(180deg)' : 'rotate(0deg)'};
     transition: all 0.2s ease-in-out;
-    color:${ props => props.isOpenMenuSetting ? 'var(--violetpink)' : 'black' };
+    color:${props => props.isOpenMenuSetting ? 'var(--violetpink)' : 'black'};
 }
 
 .iconViews {

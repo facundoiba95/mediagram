@@ -42,7 +42,7 @@ const ViewPost = ({ children }) => {
       if(isReadyPost){
       return post.map(item => {
         const { imgPost, description, counterLikes, counterViews, likedPost, anonymViews, referTo, location } = item;
-        const { username, thumbnail } = item.postedBy;
+        const { username, thumbnail } = item.postBy;
 
         return (
           <ViewPostBackgroundStyles isOpenViewPost={ isOpenViewPost }>

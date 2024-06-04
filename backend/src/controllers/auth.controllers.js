@@ -1,8 +1,7 @@
 import Jwt from 'jsonwebtoken';
 import User from "../models/User.js";
-import { getNotifications } from '../sockets/Notifications/notificationSockets.js'
 import { config } from 'dotenv';
-import { io } from '../app.js';
+import mongoose from 'mongoose';
 config();
 
 export const handleLogin = async ( req,res ) => {
@@ -14,6 +13,7 @@ export const handleLogin = async ( req,res ) => {
         if(!foundUser) return res.status(404).json({ message: 'This user is not exist!', status: 404, isLogged: false });
 
         const matchPassword = await User.comparePassword(password.trim(), foundUser.password);
+        
         if(!matchPassword) return res.status(401).json({ isLogged: false, token: null, status:401, message: 'Invalid Password'});
          
         const token = Jwt.sign({id: foundUser._id}, process.env.JWT_SECRET,{
@@ -32,7 +32,7 @@ export const handleRegister = async ( req,res ) => {
         const { username, password, email } = req.body;
         const isExistUser = await User.findOne({ $or: [{ username }, { email }] });
     
-        if(isExistUser) return res.status(409).json({ message: 'This user or email is already exist!', status: 409 });
+        if(isExistUser) return res.status(409).json({ message: 'El usuario o el email ya estan registrados!', status: 409 });
 
             const newUser = new User({
                 username: username.trim(), 
@@ -102,6 +102,24 @@ export const validateSession = async ( req,res ) => {
         });
     } catch (error) {
         console.error('Ocurrio un error en validateSession(). auth.controllers.js. Error: ', error.error);
+        return res.status(error.status).json({ error: error.error, status: error.status, isLogged: error.isLogged});
+    }
+}
+
+export const updateCloseList = async (req,res) => {
+    try {
+        const userAuth = req.userAuth;
+        const listRecived = req.body;
+        const parseToObjectId = listRecived.map(ids => {
+            ids = new mongoose.Types.ObjectId(ids);
+            return ids;
+        })
+
+        userAuth.closeList = parseToObjectId;
+        await userAuth.save();
+        res.status(200).json({user: userAuth, status: 200, message: 'Se actualizo la lista de amigos.'})
+    } catch (error) {
+        console.error('Ocurrio un error en updateCloseList(). auth.controllers.js. Error: ', error.error);
         return res.status(error.status).json({ error: error.error, status: error.status });
     }
 }

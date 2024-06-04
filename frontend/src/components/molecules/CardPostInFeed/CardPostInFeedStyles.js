@@ -147,7 +147,7 @@ h4 {
 }
 
 small {
-    display: ${ props => props.isDescription ? 'none' : 'block' };
+    display: block;
     background-color: transparent;
     text-align: center;
     position: absolute;

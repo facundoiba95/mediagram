@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useSelector } from 'react-redux';
-import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 
 const InfoProfileHeader = ({     
      isPrivate,
@@ -18,6 +17,8 @@ const InfoProfileHeader = ({
     const isLoading = useSelector( state => state.userSlices.isLoading );
 
 
+    const goHomeProfile = () => navigator(`/profile/${params.username}`);
+
 const handleOpenFollowContent = (e) => {
     const typeFollow = e.target.dataset.typefollow;
     setIsOpen(true);
@@ -27,10 +28,10 @@ const handleOpenFollowContent = (e) => {
 
     const renderInfo = () => {
       if( isPrivate ){
-        if( isFollowing || !isFollowing && isUserAuth ){
+        if( isFollowing || isUserAuth ){
           return (
             <>
-              <th>Publicaciónes</th>
+              <th onClick={goHomeProfile}>Publicaciónes</th>
               <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
               <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th> 
             </>
@@ -38,7 +39,7 @@ const handleOpenFollowContent = (e) => {
         } else {
              return (
               <>
-                <th><p>Publicaciónes</p></th>
+                <th onClick={goHomeProfile}><p>Publicaciónes</p></th>
                 <th><p>Seguidores</p></th>
                 <th><p>Siguiendo</p></th> 
               </>
@@ -47,7 +48,7 @@ const handleOpenFollowContent = (e) => {
     } else {
      return (
       <>
-        <th>Publicaciónes</th>
+        <th onClick={goHomeProfile}>Publicaciónes</th>
         <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
         <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th> 
       </>
@@ -68,18 +69,10 @@ const handleOpenFollowContent = (e) => {
   return (
     <table>
     <tr>
-      {
-        isLoading
-        ? <LoaderResponsive/>
-        : renderInfo() 
-      }
+      {renderInfo()}
     </tr>
     <tr>
-      {
-        isLoading
-        ? <LoaderResponsive/>
-        : renderDataFollowers()
-      }
+      {renderDataFollowers()}
     </tr>
     </table>
   )

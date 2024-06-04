@@ -6,19 +6,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ProfileContent from '../../components/organisms/ProfileContent/ProfileContent'
 import LoaderWidthVw from '../../components/molecules/Loaders/LoaderWidthVw/LoaderWidthVw'
-import { getPosts } from '../../redux/slices/postSlices/postSlices'
-import { handleIsFollowing, selectUser } from '../../redux/slices/userSlices/userSlices'
-import { restartStatusAuthSlice, validateSession } from '../../redux/slices/authSlices/authSlices'
+import { getPosts, restartPostsList } from '../../redux/slices/postSlices/postSlices'
+import { handleIsFollowing, restartUserSlice, selectUser } from '../../redux/slices/userSlices/userSlices'
+import { resetStateAuth, restartStatusAuthSlice, validateSession } from '../../redux/slices/authSlices/authSlices'
 import ModalSearchUsers from '../../components/molecules/Modals/ModalSearchUsers/ModalSearchUsers'
 import { GlobalContext } from '../../Context/GlobalContext'
 
 const Profile = ({ children }) => {
   // states
-  const isLogged = useSelector(state => state.authSlices.isLogged);
+  const {isLogged} = useSelector(state => state.authSlices);
   const isLoadingAuth = useSelector(state => state.authSlices.isLoading);
   const isLoading = useSelector(state => state.userSlices.isLoading);
   const [ isReadyProfile, setIsReadyProfile ] = useState(false);
-  const user = useSelector( state => state.userSlices.userFiltered );
+  const { userSelected } = useSelector( state => state.userSlices );
 
   // useContext 
   const { isOpen } = useContext(GlobalContext);
@@ -50,17 +50,17 @@ const Profile = ({ children }) => {
     }
 
     handleConectProfile();
-  }, [ dispatch, params.username ]);
+  }, [ dispatch, params.username, isLogged ]);
 
 
   const renderModalSearchUsers = () => {
     if(params.typeFollow === 'followers'){
       return (
-          <ModalSearchUsers isOpen={isOpen} data={user[0].followers} placeholderValue={placeholderValue[params.typeFollow]}/>
+          <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followers} placeholderValue={placeholderValue[params.typeFollow]}/>
       )
   } else if(params.typeFollow === 'followings'){
       return (
-          <ModalSearchUsers isOpen={isOpen} data={user[0].followings} placeholderValue={placeholderValue[params.typeFollow]}/>
+          <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followings} placeholderValue={placeholderValue[params.typeFollow]}/>
       )        
   }
   }
@@ -77,7 +77,7 @@ const Profile = ({ children }) => {
               ? <>{children}</>
               : location.pathname === `/profile/${params.username}/changePassword`
               ? <>{children}</>
-              : location.pathname === `/profile/${params.username}/listFriend`
+              : location.pathname === `/profile/${params.username}/closeList`
               ? <>{children}</>
               : <ProfileContent />
           }

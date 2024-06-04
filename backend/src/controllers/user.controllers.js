@@ -29,6 +29,7 @@ export const searchUser = async ( req,res ) => {
             histories:0,
             viewsInProfile:0,
             followUpRequest:0,
+            closeList:0,
             createdAt:0,
             updatedAt:0
         })
@@ -49,10 +50,10 @@ export const selectUser = async ( req,res ) => {
         const foundUserAuth = await User.find({ _id: req.idUser},{password:0 });
 
         if(foundUser[0].username === foundUserAuth[0].username && foundUserAuth[0]._id == req.idUser){
-            return res.status(200).json({ message:'user auth selected!', status:200, userFiltered: foundUserAuth, isFollowing: true });
+            return res.status(200).json({ message:'user auth selected!', status:200, userSelected: foundUserAuth, isFollowing: true });
         }  
 
-        return res.status(200).json({ message:'users searched selected!', status:200, userFiltered: foundUser });
+        return res.status(200).json({ message:'users searched selected!', status:200, userSelected: foundUser });
 
     } catch (error) {
         console.error('Ocurrio un error en selectUser(). user.controllers.js', error.message);
@@ -103,17 +104,25 @@ export const followUser = async ( req,res ) => {
 
 export const unfollowUser = async ( req,res ) => {
     try {
-        const { username, idFollowUpRequest } = req.body;
+        const { username } = req.body;
 
         const userAuth = req.userAuth;
+        const idAuth = req.idUser;
+        const idFollowUpRequest = new mongoose.Types.ObjectId(req.body.idFollowUpRequest);
         const foundUserFollower = await User.findOne({username});
-        const foundFollowUpRequest = foundUserFollower.followUpRequest.findIndex(request => request._id.toString() === idFollowUpRequest.toString());
+        
+        const findIndexFollowUpRequest = foundUserFollower.followUpRequest.findIndex(request => request._id.equals(idFollowUpRequest));
 
-        if(foundFollowUpRequest !== -1){
+        if(findIndexFollowUpRequest !== -1){
+            // borrar seguidor en usuario autenticado
             userAuth.followings = userAuth.followings.filter(usr => usr.username !== username);
-            foundUserFollower.followers = foundUserFollower.followers.filter(usr => usr._id.toString() !== req.idUser);
 
-            foundUserFollower.followUpRequest.splice(foundFollowUpRequest, 1);
+            // borrar seguidor en usuario recibido
+            foundUserFollower.followers = foundUserFollower.followers.filter(usr => !usr._id.equals(idAuth));
+            foundUserFollower.closeList = foundUserFollower.closeList.filter(usr => !usr.equals(idAuth))
+
+            foundUserFollower.followUpRequest.splice(findIndexFollowUpRequest, 1);
+
             await followUpRequestNotification({username}, userAuth, 'REJECTED');
             await userAuth.save();
             await foundUserFollower.save();
@@ -135,8 +144,8 @@ export const handleIsFollowing = async ( req,res ) => {
         const userAuth = req.userAuth;
         const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
         
-        if(isFollowingsUsers) return res.status(200).json({ message: 'Is followers users!', isFollowing: isFollowingsUsers, status: 200  });
-        return res.status(401).json({ message: `You are a not follower to user "${ username }"`, isFollowing:  isFollowingsUsers, status: 401 });
+        if(isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor de ${username}!`, isFollowing: isFollowingsUsers, status: 200  });
+        return res.status(401).json({ message: `No eres seguidor de "${ username }"`, isFollowing:  isFollowingsUsers, status: 401 });
     } catch (error) {
         console.error(error.message);
         return res.status(error.status).json({error: error.message, status: error.status  });
@@ -154,12 +163,12 @@ export const handleFollowUpRequest = async ( req,res ) => {
             await addFollower({imgProfile, username, _id, userAuth, userFollower, foundFollowUpRequest});
             await followUpRequestNotification(userAuth, {username}, 'ACCEPT');
             
-            return res.status(200).json({message: `You and "${userFollower.username}" are a followers!`, status: 200 });
+            return res.status(200).json({message: `Tu y "${userFollower.username}" se siguen!`, status: 200 });
         } else if( followUpRequestResult === '50d11393-dc3f-4ac4-89a6-143febd2e131' ) {                       // este id significa que NO SE ACEPTA la solicitud de seguimiento
             await followUpRequestNotification(userAuth, {username}, 'REJECTED');
             await deleteFollowUpRequest( userAuth, idFollowUpRequest, foundFollowUpRequest );            
             
-            return res.status(200).json({message: `Has been rejected follow up request of "${userFollower.username}"!`, status: 200 });
+            return res.status(200).json({message: `Ha sido rechazada la solicitud de seguimiento del usuario: "${userFollower.username}"!`, status: 200 });
         } else {
             return res.status(400).json({message: `"followUpRequestResult" is not a Boolean!`, status: 400 });
         }
@@ -184,12 +193,16 @@ export const verifyUser = async ( req,res ) => {
 export const changeImgProfile = async ( req,res ) => {
     try {
         const userAuth = req.userAuth;
-        const result = await cloudinary.v2.uploader.upload(req.file.path); // subir archivo original
+        const result = await cloudinary.v2.uploader.upload(req.file.path,{
+            folder: 'mediagram/users'
+        }); // subir archivo original
         userAuth.imgProfile = `${result.secure_url}`;// guarda la ruta de archivo original
 
         await generateThumbnail(req,res);
         const thumbnailPath = `${req.file.path}`; // Ruta para la miniatura
-        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailPath}-thumbnail.jpeg`); // subir archivo miniatura
+        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailPath}-thumbnail.jpeg`,{
+            folder: 'mediagram/users'
+        }); // subir archivo miniatura
         userAuth.thumbnail = `${resultThumbnail.secure_url}`;// guarda la ruta de la miniatura
 
 

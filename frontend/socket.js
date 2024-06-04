@@ -6,7 +6,4 @@ const socket = io(`${import.meta.env.VITE_URL_SOCKET}`, {
     },
 });
 
-console.log(socket);
-
-
 export default socket;

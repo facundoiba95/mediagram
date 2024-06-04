@@ -23,7 +23,7 @@ const CardTypeContent = ({ handleFunction, type }) => {
   }, [ params.typeContent ]);
 
     const renderType = () => {
-        if(type === 'post') {
+        if(type === 'POST') {
             return (
                 <ContentTypeStyles type={type} onClick={() => goToTypeContent()}>
                   <BsFillClipboardHeartFill className='iconType'/>
@@ -31,7 +31,7 @@ const CardTypeContent = ({ handleFunction, type }) => {
                   <p>Se guardará en tu perfil y se mostrará a todos tus seguidores.</p>
                 </ContentTypeStyles>
             )
-        } else if( type === 'fastPost' ){
+        } else if( type === 'FASTPOST' ){
             return (
                 <ContentTypeStyles type={type} onClick={() => goToTypeContent()}>
                   <Ri24HoursFill className='iconType'/>
@@ -39,11 +39,11 @@ const CardTypeContent = ({ handleFunction, type }) => {
                   <p>Se mostrará en el Feed de tus seguidores durante 24hs.</p>
                 </ContentTypeStyles>
             )
-        } else if( type === 'closeFriend' ){
+        } else if( type === 'EXCLUSIVEPOST' ){
             return (
                 <ContentTypeStyles type={type} onClick={() => goToTypeContent()}>
                   <RiChatPrivateFill className='iconType'/>
-                  <h3>Lista de amigos.</h3>
+                  <h3>Publicación exclusiva.</h3>
                   <p>Se mostrará unicamente en la lista de amigos que elijas.</p>
                 </ContentTypeStyles>
             )

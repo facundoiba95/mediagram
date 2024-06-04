@@ -1,13 +1,16 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ItemInteractionStyles, ListInteractionStyles, PostInteractionContainerStyles, SharePostContainerStyles } from './PostInteractionStyles'
 import{ FaComment, FaEye, FaHeart } from 'react-icons/fa';
 import { BsShareFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
+import { deletePost, handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { MdDeleteForever } from "react-icons/md";
+import useIsAdmin from '../../../Hooks/useIsAdmin';
+import { refreshUser } from '../../../redux/slices/userSlices/userSlices';
 
 const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
     const dispatch = useDispatch();
@@ -17,7 +20,9 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
     const { setIsOpenModalWindowAuth, setIsOpen } = useContext(GlobalContext);
     const [ openMessage, setOpenMessage ] = useState(false);
     const [ openShareURL, setOpenShareURL ] = useState(false);
-
+    const isAdmin = useIsAdmin({dataRecived: post[0].postBy._id, dataAuth: userAuth._id});
+   
+    
     const sendLike = async () => {
         const result = await dispatch(validateSession());
         
@@ -27,7 +32,7 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
                 thumbnail: userAuth.thumbnail,
                 _id: userAuth._id,
                 idPost: post[0]._id,
-                postedBy: post[0].postedBy
+                postBy: post[0].postBy
             };
     
             await dispatch(handleLikeToPost(newLike));
@@ -39,13 +44,13 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
     }
 
     const openLikes = () => {
-        params.typeInteraction = 'likes'
+        params.typeInteraction = 'likes';
         navigator(`/getPostByID/${params.idPost}/${params.typeInteraction}`);
         setIsOpen(true);
     }
 
     const openViews = () => {
-        params.typeInteraction = 'views'
+        params.typeInteraction = 'views';
         navigator(`/getPostByID/${params.idPost}/${params.typeInteraction}`);
         setIsOpen(true);
     }
@@ -75,10 +80,22 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
 
         setTimeout(() => {
             setOpenMessage(false);
-            setOpenShareURL(false)
+            setOpenShareURL(false);
         }, 3000);
     }
     
+    const handleDeletePost = () => {
+        if(window.confirm('Desea eliminar este post?')) {
+            params.username = userAuth.username;
+            (async () => {
+                await dispatch(deletePost(post[0]._id));
+                navigator(`/profile/${params.username}`);
+            })()
+        } else {
+            return;
+        }
+    }
+
   return (
     <PostInteractionContainerStyles>
         <ListInteractionStyles >
@@ -96,6 +113,14 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
                 : <></>
                }
             </ItemInteractionStyles>
+            {
+                isAdmin
+                ? <ItemInteractionStyles>
+                    <MdDeleteForever onClick={handleDeletePost} className='iconDeletePost'/>
+                </ItemInteractionStyles>
+                : <></>
+            }
+
         </ListInteractionStyles>
     </PostInteractionContainerStyles>
     )

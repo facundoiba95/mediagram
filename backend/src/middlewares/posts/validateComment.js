@@ -1,13 +1,13 @@
 export default async ( req, res, next ) => {
     try {
-        const { content, _idPost, postedBy } = req.body;
+        const { content, _idPost, postBy } = req.body;
         const { username, _id } = req.userAuth;
 
         if(!username || !_id){
             return await Promise.reject({ error: 'Debes iniciar sesión para continuar.', status: 401 });
         }
 
-        if(validateLength({content,_idPost,postedBy})){
+        if(validateLength({content,_idPost,postBy})){
             next()
         } else {
             return await Promise.reject({ error: 'Missing fields to complete!', status: 404 });
@@ -19,8 +19,8 @@ export default async ( req, res, next ) => {
     }
 }
 
-const validateLength = ({ content, _idPost, postedBy}) => {
-    if(content || _idPost || postedBy){
+const validateLength = ({ content, _idPost, postBy}) => {
+    if(content || _idPost || postBy){
         return true;
     } else {
         return false;

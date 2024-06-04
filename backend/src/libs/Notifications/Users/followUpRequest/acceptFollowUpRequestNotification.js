@@ -1,8 +1,8 @@
 import foundNotification from "../../foundNotification.js";
 
-export default async (postedBy, userAuth, type) => {
+export default async (postBy, userAuth, type) => {
     try {
-        const notification = await foundNotification(postedBy.username, userAuth, type);
+        const notification = await foundNotification(postBy.username, userAuth, type);
 
         notification.foundNotification.content = {
             status: 'ACCEPT',

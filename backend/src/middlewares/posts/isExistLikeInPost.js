@@ -4,13 +4,13 @@ import deleteNotification from "../../libs/Notifications/deleteNotification.js";
 
 export default async ( req, res, next ) => {
     try {          
-        const { idPost, _id, postedBy } = req.body; 
+        const { idPost, _id, postBy } = req.body; 
         const foundPost = await Post.findById(idPost);
         const isExistLike = foundPost.likes.findIndex(user => user._id == _id );
         const userAuth = req.userAuth;
     
         if(isExistLike !== -1){
-            await deleteNotification( userAuth, postedBy.username, 'like')
+            await deleteNotification( userAuth, postBy.username, 'like')
             await foundPost.likes.splice(isExistLike, 1);
 
             foundPost.likedPost = false;
@@ -20,7 +20,7 @@ export default async ( req, res, next ) => {
             const addPostedBy = [foundPost._doc].map(item => {
                 return {
                     ... item,
-                    postedBy
+                    postBy
                 }
             })
         

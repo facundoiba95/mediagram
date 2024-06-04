@@ -17,7 +17,7 @@ const CardContentProfile = ({
   likedPost,
   description
 }) => {
-  const user = useSelector( state => state.userSlices.userFiltered );
+  const user = useSelector( state => state.userSlices.userSelected );
   const navigator = useNavigate();
   const params = useParams();
   const { imgProfile } = user[0];

@@ -42,7 +42,6 @@ const sound = new Howl({
       dispatch(getNotifications(userAuth._id));
       // sound.volume(0.1);
       // sound.play();
-      console.log('NUEVA NOTIFICACION: ', data);
     })
   }, [ stateNotifications ])
 

@@ -1,14 +1,16 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Route } from 'react-router-dom'
-import Home from '../../../Views/Home/Home';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 
-const ProtectRoutes = ({path, element}) => {
-    const isLogged = useSelector( state => state.authSlices.isLogged );
-    
-  return (
-    <Route path={ isLogged ? path : '/' } element={ isLogged ? element : <Home/> } />
-    )
-}
+const ProtectedRoutes = ({ children, redirectTo, isLogged }) => {
+  if (isLogged) {
+    return children;
+  }
 
-export default ProtectRoutes
+  return (<Navigate to={redirectTo} />)
+};
+
+
+
+export default ProtectedRoutes;

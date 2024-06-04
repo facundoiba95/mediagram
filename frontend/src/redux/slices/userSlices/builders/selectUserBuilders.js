@@ -8,7 +8,7 @@ export default ( builders, selectUser ) => {
             state.isLoading = false;
             state.error = action.payload.message;
             state.status = action.payload.status;
-            state.userFiltered = action.payload.userFiltered;
+            state.userSelected = action.payload.userSelected;
     })
     builders.addCase( selectUser.pending, ( state, action ) => {
         state.isLoading = true;

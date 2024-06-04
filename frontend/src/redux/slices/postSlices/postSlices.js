@@ -102,7 +102,7 @@ export const getPostByID = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en getPostsByID, postSlices');
+            console.error('Ocurrio un error en getPostsByID, postSlices', error);
             alert('Ocurrio un error en getPostsByID, postSlices');
         }
     }
@@ -126,7 +126,7 @@ export const addComment = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en addComment, postSlices');
+            console.error('Ocurrio un error en addComment, postSlices', error);
             alert('Ocurrio un error en addComment, postSlices');
         }
     }
@@ -150,12 +150,34 @@ export const handleLikeToPost = createAsyncThunk(
             const res = await req.json();
             return res;
         } catch (error) {
-            console.error('Ocurrio un error en addLikeToPost, postSlices');
+            console.error('Ocurrio un error en addLikeToPost, postSlices', error);
             alert('Ocurrio un error en addLikeToPost, postSlices');
         }
     }
 )
 
+export const deletePost = createAsyncThunk(
+    'deletePost/postSlices',
+    async (idPost) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/deletePost/${idPost}`, {
+                method: "DELETE",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en deletePost, postSlices', error);
+            alert('Ocurrio un error en deletePost, postSlices');
+        }
+    }
+)
 const postSlices = createSlice({
     name: 'postSlices',
     initialState,
@@ -164,7 +186,7 @@ const postSlices = createSlice({
             state.status = null;
         },
         restartPostsList: ( state ) => {
-            return initialState;
+            return { ... initialState};
         }
     },
     extraReducers: ( builders ) => {

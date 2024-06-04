@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 // loaders
-import LoaderCreatePost from '../Loaders/LoaderCreatePost/LoaderCreatePost';
-import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
+import LoaderCreatePost from '../../Loaders/LoaderCreatePost/LoaderCreatePost';
+import LoaderResponsive from '../../Loaders/LoaderResponsive/LoaderResponsive';
 import { MoonLoader } from 'react-spinners';
 
 // icons
@@ -17,15 +17,15 @@ import Compressor from 'compressorjs';
 
 // styles
 import { ButtonCreateContentStyles, CreateContentContainerStyles, FormCreateContentContainerStyles, GridOneContainerStyles, GridTwoContainerStyles, ItemRefersToStyles, ItemUserSearchedStyles, ListRefersToStyles, ListUserSearchedStyles, ReferToContainerStyles, ResultLocationContainerStyles } from './FormCreateContentStyles'
-import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
-import ModalStatusCreateContent from '../Modals/ModalStatusCreateContent/ModalStatusCreateContent';
-import imgAddContent from '../../../assets/addContentMediagram.png';
+import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
+import ModalStatusCreateContent from '../../Modals/ModalStatusCreateContent/ModalStatusCreateContent';
+import imgAddContent from '../../../../assets/addContentMediagram.png';
 
 // reducers and actions
-import { createPost, restarStatusPost } from '../../../redux/slices/postSlices/postSlices';
-import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
-import { getLocationByCity, resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
-import { restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
+import { createPost, restarStatusPost } from '../../../../redux/slices/postSlices/postSlices';
+import { restartUserFound, searchUser } from '../../../../redux/slices/userSlices/userSlices';
+import { getLocationByCity, resetStateLocation } from '../../../../redux/slices/locationSlices/locationSlices';
+import { restartStatusAuthSlice, validateSession } from '../../../../redux/slices/authSlices/authSlices';
 
 
 const FormCreateContent = () => {
@@ -70,9 +70,9 @@ const FormCreateContent = () => {
   }, [])
 
   const titleCreateContent = {
-    post: 'Publicación.',
-    fastPost: 'Publicación rápida.',
-    closeFriend: 'Lista de amigos.'
+    POST: 'Publicación.',
+    FASTPOST: 'Publicación rápida.',
+    EXCLUSIVEPOST: 'Publicación exclusiva.'
   }
 
   const searchLocation = (e) => {
@@ -186,7 +186,7 @@ const FormCreateContent = () => {
   }
 
   const renderDescription = () => {
-    if(locationRouterDom.pathname === '/createContent/fastPost'){
+    if(locationRouterDom.pathname === '/createContent/FASTPOST'){
       return (
         <></>
       )

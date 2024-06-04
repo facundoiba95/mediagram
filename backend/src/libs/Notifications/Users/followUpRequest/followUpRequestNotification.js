@@ -2,17 +2,17 @@ import deleteNotification from "../../deleteNotification.js";
 import createFollowUpNotification from "./createFollowUpNotification.js";
 import acceptFollowUpRequestNotification from "./acceptFollowUpRequestNotification.js";
 
-export default async ( postedBy, userAuth, status ) => {
+export default async ( postBy, userAuth, status ) => {
     try {
         switch (status){
             case "PENDING":
-                await createFollowUpNotification( userAuth, postedBy.username, 'follower', status );
+                await createFollowUpNotification( userAuth, postBy.username, 'follower', status );
                 break;
             case "REJECTED":
-                await deleteNotification( userAuth, postedBy.username, 'follower' );
+                await deleteNotification( userAuth, postBy.username, 'follower' );
                 break;
             case "ACCEPT":
-                await acceptFollowUpRequestNotification( postedBy, userAuth, 'follower' );
+                await acceptFollowUpRequestNotification( postBy, userAuth, 'follower' );
                 break;
             default:
                 break;

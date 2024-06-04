@@ -38,7 +38,8 @@ app.use(express.json());
 // middleware para verificar token en todas las solicitudes POST, con lista de excepciones.
 app.use( async ( req,res,next ) => {
     if(exceptionPOSTPaths.find(item => item === req.path)) return next();
-    if(req.method !== 'POST'){
+    let method = {POST: 'POST',DELETE: 'DELETE'}
+    if(!method[req.method]){
         next();
     } else {
         try {

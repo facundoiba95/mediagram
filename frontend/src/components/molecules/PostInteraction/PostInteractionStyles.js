@@ -54,6 +54,12 @@ position: relative;
     color: ${ props => props.openShareURL ? 'var(--violetpink)' : '' };
 }
 
+.iconDeletePost {
+    color: crimson;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
 h5 {
     cursor: pointer;
 }

@@ -11,27 +11,27 @@ import { GiSettingsKnobs } from 'react-icons/gi';
 import { RiVipCrown2Line } from "react-icons/ri";
 
 
-export const MenuSettingUserAuth = ({isPrivate}) => {
-    const { isOpenMenuSetting, setIsOpenMenuSetting  } = useContext( GlobalContext );
+export const MenuSettingUserAuth = ({ isPrivate }) => {
+    const { isOpenMenuSetting, setIsOpenMenuSetting } = useContext(GlobalContext);
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
-    const isLogged = useSelector( state => state.authSlices.isLogged );
+    const isLogged = useSelector(state => state.authSlices.isLogged);
 
 
     const privacityOfAccount = () => {
-       return (
-        isPrivate
-        ? <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillUnlockFill className='iconItemMenuSetting'/>Cambiar a <b>Cuenta Pública</b></MenuSettingItemStyles>
-        : <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillLockFill className='iconItemMenuSetting'/>Cambiar a <b>Cuenta Privada</b></MenuSettingItemStyles>
-       )
+        return (
+            isPrivate
+                ? <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillUnlockFill className='iconItemMenuSetting' />Cambiar a <b>Cuenta Pública</b></MenuSettingItemStyles>
+                : <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillLockFill className='iconItemMenuSetting' />Cambiar a <b>Cuenta Privada</b></MenuSettingItemStyles>
+        )
     }
 
     const handleChangePrivacityOfAccount = async () => {
         await dispatch(validateSession());
-        if(isLogged){
-            if(isPrivate) {
-                if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PÚBLICA"?')){
+        if (isLogged) {
+            if (isPrivate) {
+                if (window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PÚBLICA"?')) {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
                     await dispatch(changePrivacityOfAccount(false));
                     await alert('Tu cuenta es PÚBLICA.');
@@ -40,9 +40,9 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
                     return;
                 }
-                
+
             } else {
-                if(window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PRIVADA"?')){
+                if (window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PRIVADA"?')) {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
                     await dispatch(changePrivacityOfAccount(true));
                     await alert('Tu cuenta es PRIVADA.');
@@ -53,46 +53,46 @@ export const MenuSettingUserAuth = ({isPrivate}) => {
                 }
             }
         } else {
-           navigator('/')
+            navigator('/')
         }
     }
 
     const goChangeImageUser = async () => {
         dispatch(validateSession());
-        if(isLogged){
-        dispatch(restartStatusUser());
-        dispatch(restartStatusAuthSlice());
-        setIsOpenMenuSetting(!isOpenMenuSetting);
-        await navigator(`/profile/${params.username}/changeImageUser`);
+        if (isLogged) {
+            dispatch(restartStatusUser());
+            dispatch(restartStatusAuthSlice());
+            setIsOpenMenuSetting(!isOpenMenuSetting);
+            await navigator(`/profile/${params.username}/changeImageUser`);
         } else {
-        navigator('/')
+            navigator('/')
         }
     }
 
     const goChangePassword = async () => {
         await dispatch(validateSession());
-       if(isLogged){
-        setIsOpenMenuSetting(!isOpenMenuSetting);
-        dispatch(restartStatusUser());
-        dispatch(restartStatusAuthSlice());
-        await navigator(`/profile/${params.username}/changePassword`);
-       } else {
-        navigator('/')
-       }
+        if (isLogged) {
+            setIsOpenMenuSetting(!isOpenMenuSetting);
+            dispatch(restartStatusUser());
+            dispatch(restartStatusAuthSlice());
+            await navigator(`/profile/${params.username}/changePassword`);
+        } else {
+            navigator('/')
+        }
     }
 
     const goFriendList = () => {
-        navigator(`/profile/${params.username}/listFriend`);
+        navigator(`/profile/${params.username}/closeList`);
         setIsOpenMenuSetting(!isOpenMenuSetting);
     }
 
-  return (
-    <MenuSettingListStyles isOpenMenuSetting={isOpenMenuSetting}>
-        <MenuSettingItemStyles onClick={goChangeImageUser}><BsFillImageFill className='iconItemMenuSetting'/>Cambiar imagen de perfil</MenuSettingItemStyles>
-        <MenuSettingItemStyles onClick={goChangePassword}><MdOutlinePassword className='iconItemMenuSetting'/>Cambiar contraseña</MenuSettingItemStyles>
-        <MenuSettingItemStyles onClick={goFriendList }><RiVipCrown2Line className='iconItemMenuSetting'/>Lista de amigos</MenuSettingItemStyles>
-        { privacityOfAccount() }
-        <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting'/>Otros ajustes</MenuSettingItemStyles>
-    </MenuSettingListStyles>
-  )
+    return (
+        <MenuSettingListStyles isOpenMenuSetting={isOpenMenuSetting}>
+            <MenuSettingItemStyles onClick={goChangeImageUser}><BsFillImageFill className='iconItemMenuSetting' />Cambiar imagen de perfil</MenuSettingItemStyles>
+            <MenuSettingItemStyles onClick={goChangePassword}><MdOutlinePassword className='iconItemMenuSetting' />Cambiar contraseña</MenuSettingItemStyles>
+            <MenuSettingItemStyles onClick={goFriendList}><RiVipCrown2Line className='iconItemMenuSetting' />Lista de amigos</MenuSettingItemStyles>
+            {privacityOfAccount()}
+            <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting' />Otros ajustes</MenuSettingItemStyles>
+        </MenuSettingListStyles>
+    )
 }

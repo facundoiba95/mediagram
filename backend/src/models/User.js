@@ -5,22 +5,46 @@ const userSchema = new Schema({
     username: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        minLength: 4,
+        validate: 
+        {
+          validator: function(password) {
+            return /^[a-zA-Z0-9]+$/.test(password); // Expresión regular para permitir solo letras y números
+          },
+          message: props => `${props.value} no es un nombre de usuario válido. El nombre de usuario solo puede contener letras y números.`
+        }
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minLength: 8,
+        trim: true,
+        validate: [
+            {
+              validator: function(password) {
+                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$-_!%*?&])[A-Za-z\d@$!%-_*?&]{8,}$/.test(password); // mayuscula, minuscula, 8 caracteres, caracter especial
+              },
+              message: `La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.`
+            }
+          ]
     },
-    email:{
+    email: {
         type: String,
         unique: true,
         required: true
     },
-    imgProfile: String,
-    thumbnail: String,
+    imgProfile: {
+        type: String,
+        default: ''
+    },
+    thumbnail: {
+        type: String,
+        default: ''
+    },
     followings: [ Object ],
     followers: [ Object],
-    histories:[Object],
+    histories: [Object],
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
@@ -37,7 +61,10 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
-    isPrivate: Boolean,
+    isPrivate: {
+        type: Boolean,
+        default: false
+    },
     viewsInProfile: [ Object ],
     stars:[ Object ],
     likesInProfile:[ Object ],
@@ -46,7 +73,7 @@ const userSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Notification'
     }],
-    listFriend: [{
+    closeList: [{
         type: Object,
         imgProfile: String,
         username: String,

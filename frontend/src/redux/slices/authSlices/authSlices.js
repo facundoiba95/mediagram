@@ -6,6 +6,7 @@ import changePrivacityOfAccountBuilders from "./authBuilders/changePrivacityOfAc
 import changePasswordBuilders from "./authBuilders/changePasswordBuilders";
 import validateSessionBuilders from "./authBuilders/validateSessionBuilders";
 import socket from "../../../../socket";
+import updateListFriendsBuilders from "./authBuilders/updateListFriendsBuilders";
 
 const initialState = {
     error: null,
@@ -151,6 +152,32 @@ export const validateSession = createAsyncThunk(
     }
 )
 
+
+export const updateCloseList = createAsyncThunk(
+    'updateCloseList/authSlices',
+    async (listFriends) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/updateCloseList`, {
+                method: "POST",
+                mode:'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(listFriends)
+            })
+            
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en updateCloseList, userSlices. Error: ', error);
+            alert('Ocurrio un error en updateCloseList, userSlices. Error: ', error); 
+        }
+    }
+)
+
+
 const authSlices = createSlice({
     name:'authSlices',
     initialState,
@@ -173,6 +200,7 @@ const authSlices = createSlice({
         changePrivacityOfAccountBuilders( builders, changePrivacityOfAccount );
         changePasswordBuilders( builders, changePassword );
         validateSessionBuilders( builders, validateSession );
+        updateListFriendsBuilders( builders, updateCloseList );
     }
 });
 

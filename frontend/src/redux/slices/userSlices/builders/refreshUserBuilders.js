@@ -10,7 +10,7 @@ export default ( builders, refreshUser ) => {
             state.status = action.payload.status;
             state.message = action.payload.message;
             state.userFound = action.payload.user;
-            state.userFiltered = action.payload.user;
+            state.userSelected = action.payload.user;
     })
     builders.addCase( refreshUser.pending, ( state, action ) => {
         state.isLoading = true;

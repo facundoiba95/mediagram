@@ -29,8 +29,6 @@ const ListNotifications = () => {
     };
 
     const renderNotifications = () => {
-        if (!notifications) return;
-
         return notifications.map(item => {
             const { type, content, createdBy, status, createdAt } = item;
            if(type !== 'follower' || content.status === 'ACCEPT' ){

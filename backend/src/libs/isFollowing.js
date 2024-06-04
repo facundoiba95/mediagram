@@ -1,13 +1,10 @@
 import User from "../models/User.js";
 
-export default async ( username,idUser ) => {
-    const foundUserRecived = await User.findOne({ username });
-    const userAuth = await User.findOne({_id: idUser});
+// @param usernameRecived = String
+// @param idUserAuth = mongoose.Types.ObjectId
+export default async ( usernameRecived, idUserAuth ) => {
+    const foundUserRecived = await User.findOne({ username: usernameRecived });
+    const userAuth = await User.findOne({_id: idUserAuth});
     const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
-    
-    if( username === userAuth.username ){
-        return true;
-    };
-
     return isFollowingsUsers;
 }

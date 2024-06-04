@@ -10,7 +10,10 @@ const notificationSchema = new Schema({
         type: Object,
         message: String,
         imgContent: String,
-        idPost: mongoose.Types.ObjectId,
+        idPost: {
+            type: mongoose.Types.ObjectId,
+            ref: 'Post'
+        },
         idContent: mongoose.Types.ObjectId,
     },
     createdBy: {

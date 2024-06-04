@@ -1,6 +1,4 @@
-import { io } from "../../app.js";
 import Post from "../../models/Post.js";
-import { getNotifications } from "../../sockets/Notifications/notificationSockets.js";
 
 export default async (req, res, next) => {
     try {

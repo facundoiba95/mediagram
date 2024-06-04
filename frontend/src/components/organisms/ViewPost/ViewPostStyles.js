@@ -97,6 +97,8 @@ color: var(--light);
 @media (max-width: 490px) {
     height:auto;
     display: ${ props => props.hiddenComments ? 'none' : 'flex' };
+    margin-top: 2rem;
+
 }
 `
 

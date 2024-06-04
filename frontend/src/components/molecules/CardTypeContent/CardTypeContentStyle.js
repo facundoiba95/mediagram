@@ -8,7 +8,7 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items: center;
-background-color:${ props => props.type === 'post' ? '#b5e48c' : props.type === 'fastPost' ? '#d9ed92' : props.type === 'closeFriend' ? '#48cae4' : ''};
+background-color:${ props => props.type === 'POST' ? '#b5e48c' : props.type === 'FASTPOST' ? '#d9ed92' : props.type === 'EXCLUSIVEPOST' ? '#48cae4' : ''};
 font-family: 'Red Hat Display';
 border-radius:10px;
 padding:8px;
@@ -30,20 +30,20 @@ export const ContentTypeStyles = styled.div`
     display:flex;
     gap:10px;
     flex-direction:column;
-    background-color:${ props => props.type === 'post' ? '#b5e48c' : props.type === 'fastPost' ? '#d9ed92' : props.type === 'closeFriend' ? '#48cae4' : ''};
+    background-color:${ props => props.type === 'POST' ? '#b5e48c' : props.type === 'FASTPOST' ? '#d9ed92' : props.type === 'EXCLUSIVEPOST' ? '#48cae4' : ''};
 
     h3{
-       background-color:${ props => props.type === 'post' ? '#b5e48c' : props.type === 'fastPost' ? '#d9ed92' : props.type === 'closeFriend' ? '#48cae4' : ''};
+       background-color:${ props => props.type === 'POST' ? '#b5e48c' : props.type === 'FASTPOST' ? '#d9ed92' : props.type === 'EXCLUSIVEPOST' ? '#48cae4' : ''};
     } 
 
     p{
-      background-color:${ props => props.type === 'post' ? '#b5e48c' : props.type === 'fastPost' ? '#d9ed92' : props.type === 'closeFriend' ? '#48cae4' : ''};
+      background-color:${ props => props.type === 'POST' ? '#b5e48c' : props.type === 'FASTPOST' ? '#d9ed92' : props.type === 'EXCLUSIVEPOST' ? '#48cae4' : ''};
     }
 
     .iconType{
       font-size:2.5rem;
       text-align:center;
       width:100%;
-      background-color:${ props => props.type === 'post' ? '#b5e48c' : props.type === 'fastPost' ? '#d9ed92' : props.type === 'closeFriend' ? '#48cae4' : ''};
+      background-color:${ props => props.type === 'POST' ? '#b5e48c' : props.type === 'FASTPOST' ? '#d9ed92' : props.type === 'EXCLUSIVEPOST' ? '#48cae4' : ''};
     }
 `

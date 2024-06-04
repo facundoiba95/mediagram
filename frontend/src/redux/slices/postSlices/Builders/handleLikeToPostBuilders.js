@@ -11,7 +11,5 @@ export default ( builders, handleLikeToPost ) => {
             state.error = action.payload.error;
             state.post = action.payload.post;
     })
-    builders.addCase( handleLikeToPost.pending, ( state, action ) => {
-        state.isLoading = true;
-})
+    
 }

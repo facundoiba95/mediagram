@@ -22,6 +22,10 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 import SkeletonCardContentProfile from '../../molecules/Loaders/SkeletonCardContentProfile/SkeletonCardContentProfile';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { IoHeartCircle } from "react-icons/io5";
+import ImgProfile from '../../atoms/ImgProfile/ImgProfile';
+import ButtonMenuProfile from '../../atoms/ButtonMenuProfile/ButtonMenuProfile';
+import ButtonFollow from '../../atoms/ButtonResponsive/ButtonFollow';
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -30,152 +34,90 @@ const ProfileHeader = () => {
   const navigator = useNavigate();
 
   // states redux Toolkit
-  const userAuth = useSelector( state => state.authSlices.user );
-  const isLogged = useSelector( state => state.authSlices.isLogged );
-  const user = useSelector( state => state.userSlices.userFiltered );
-  const isFollowing = useSelector( state => state.userSlices.isFollowing ); // debe manejarse desde el backend
-  const isLoading = useSelector( state => state.userSlices.isLoading );
-  const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
-  const isUserAuth = userAuth.username === user[0].username;
-
+  const userAuth = useSelector(state => state.authSlices.user);
+  const isLogged = useSelector(state => state.authSlices.isLogged);
+  const { userSelected } = useSelector(state => state.userSlices);
+  const isFollowing = useSelector(state => state.userSlices.isFollowing); // debe manejarse desde el backend
+  const isLoading = useSelector(state => state.userSlices.isLoading);
+  const isLoadingAuth = useSelector(state => state.authSlices.isLoading);
+  const isUserAuth = userAuth.username === userSelected[0].username;
+  const existInListFriends = userAuth.closeList.some(usr => usr === userSelected[0]._id);
   // useContext 
-  const { isOpenMenuSetting, setIsOpenMenuSetting } = useContext( GlobalContext );
+  const { isOpenMenuSetting } = useContext(GlobalContext);
 
-    const {
-       username,
-       isPrivate, 
-       countFollowings, 
-       countFollowers, 
-       countPosts, 
-       imgProfile,
-       thumbnail, 
-       viewsInProfile, 
-       numberCellphone,
-       stars,
-       likesInProfile,
-       greets,
-       followUpRequest
-      } = user[0];
+  const {
+    username,
+    isPrivate,
+    countFollowings,
+    countFollowers,
+    countPosts,
+    imgProfile,
+    thumbnail,
+    viewsInProfile,
+    numberCellphone,
+    stars,
+    likesInProfile,
+    greets,
+    followUpRequest
+  } = userSelected[0];
 
-    const renderImgProfile = () => {
-      if(imgProfile.length){
-        return( 
-          <ImgProfileStyles>
-            <img src={thumbnail} alt="" />
-          </ImgProfileStyles>
-        )
-      } else {
-        return (
-          <ImgProfileStyles>
-            <RiUserSmileFill className='imgProfile'/>
-          </ImgProfileStyles>
-        )
-      }    
-    }
 
-    const renderNumberCellphone = () => {
-      return (
-        <span>
-          <MdOutlineSmartphone className='iconActions'/>
-          <p>{numberCellphone}</p>
-        </span>
-      )
-    }
-
-    const renderActions = () => {
-      return (
-        <ActionProfileContainerStyles>
-          <span>
-            <PiHandWavingBold className='iconGreet'/>
-            <small>Dejar saludo</small>
-            <p>{greets.length}</p>
-          </span>
-          <span>
-            <RiStarSmileFill className='iconStar'/>
-            <small>Dar estrella</small>
-            <p>{stars.length}</p>
-          </span>
-          <span>
-            <AiFillLike className='iconLike'/>
-            <small>Me gusta este perfil</small>
-            <p>{likesInProfile.length}</p>
-          </span>
-        </ActionProfileContainerStyles>
-      )
-    }
-
-    const renderButtonFollow = () => {
-      if(user[0]._id === userAuth._id){
-        return (
-          <span className='spanMenuSetting' onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting) }>
-            <MdSettings className='iconSetting'/>
-            <small>Ajustes de usuario.</small>
-            <small></small>
-          </span>
-        )
-      }
-      if(isFollowing || followUpRequest.length){
-        if(followUpRequest.length){
-            if(followUpRequest[0].status === 'PENDING'){
-              return (
-               <ButtonResponsive 
-                id={followUpRequest[0]._id} 
-                title={`Pendiente`} 
-                icon={<FaUserClock 
-                data-id={followUpRequest[0]._id} 
-                className='icon'/>}/>
-              )
-            } else if(followUpRequest[0].status === 'REJECTED') {
-              return (
-                <ButtonResponsive 
-                title={`Seguir`} 
-                icon={<BsFillPersonCheckFill 
-                className='icon' />} 
-                handleFunction={() => handleFollowUser()}
-                id={followUpRequest[0]._id}/>
-              )
-            } else if(followUpRequest[0].status === 'ACCEPT') {
-              return (
-                <ButtonResponsive 
-                title={`Siguiendo`} 
-                icon={<BsFillPersonCheckFill 
-                className='icon' />} 
-                handleFunction={(e) => handleUnfollowUser(e)}
-                id={followUpRequest[0]._id}/>
-              )
-            }
-      } else {
-        return (
-          <ButtonResponsive  
-            title={`Seguir`} 
-            icon={<IoMdPersonAdd 
-            className='icon' 
-            />} 
-            handleFunction={() => handleFollowUser()}/>
-        )
-      }} else {
-        return (
-          <ButtonResponsive  
-            title={`Seguir`} 
-            icon={<IoMdPersonAdd 
-            className='icon' 
-            />} 
-            handleFunction={() => handleFollowUser()}/>
-        )
-      }
+  const renderNumberCellphone = () => {
+    return (
+      <span>
+        <MdOutlineSmartphone className='iconActions' />
+        <p>{numberCellphone}</p>
+      </span>
+    )
   }
 
-    const handleFollowUser = async () => {
-      const { imgProfile, username, _id, } = user[0];
+  const renderActions = () => {
+    return (
+      <ActionProfileContainerStyles>
+        <span>
+          <PiHandWavingBold className='iconGreet' />
+          <small>Dejar saludo</small>
+          <p>{greets.length}</p>
+        </span>
+        <span>
+          <RiStarSmileFill className='iconStar' />
+          <small>Dar estrella</small>
+          <p>{stars.length}</p>
+        </span>
+        <span>
+          <AiFillLike className='iconLike' />
+          <small>Me gusta este perfil</small>
+          <p>{likesInProfile.length}</p>
+        </span>
+      </ActionProfileContainerStyles>
+    )
+  }
 
-      const newFollower = {
-        imgProfile,
-        username,
-        _id
-      };
+  const renderButtonHeadProfile = () => {
+    if (userSelected[0]._id === userAuth._id) {
+      return (<ButtonMenuProfile />)
+    } else {
+      return (
+        <ButtonFollow
+          followUpRequest={followUpRequest}
+          isFollowing={isFollowing}
+          handleFollowUser={handleFollowUser}
+          handleUnfollowUser={handleUnfollowUser}
+        />)
+    }
+  }
 
-      await dispatch(validateSession());
-      if(isLogged){
+  const handleFollowUser = async () => {
+    const { imgProfile, username, _id, } = userSelected[0];
+
+    const newFollower = {
+      imgProfile,
+      username,
+      _id
+    };
+
+    await dispatch(validateSession());
+    if (isLogged) {
       await dispatch(followUser(newFollower));
       await dispatch(handleIsFollowing(params.username));
       await dispatch(setStatusNotification());
@@ -183,73 +125,86 @@ const ProfileHeader = () => {
       await dispatch(getPosts(params.username))
       await dispatch(refreshUserAuth());
       dispatch(restartStatusAuthSlice());
+    } else {
+      dispatch(restartStatusAuthSlice())
+      navigator('/')
+    }
+  }
+
+  const handleUnfollowUser = async (e) => {
+    const { _id, username } = userSelected[0];
+    const dataToUnfollow = {
+      username,
+      idFollowUpRequest: e.target.dataset.id
+    };
+
+    await dispatch(validateSession());
+
+    if (isLogged) {
+      if (e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
+      if (window.confirm(`Dejar de seguir a "${username}"`)) {
+        await dispatch(unfollowUser(dataToUnfollow));
+        await dispatch(refreshUser(username));
+        await dispatch(refreshUserAuth());
+        await dispatch(handleIsFollowing(params.username))
+        dispatch(restartStatusAuthSlice());
       } else {
-        dispatch(restartStatusAuthSlice())
-        navigator('/')
+        return;
       }
+    } else {
+      navigator('/')
     }
 
-    const handleUnfollowUser = async (e) => {
-      const { _id, username } = user[0];
-      const dataToUnfollow = {
-        username,
-        idFollowUpRequest: e.target.dataset.id
-      };
+  }
 
-      await dispatch(validateSession());
 
-      if(isLogged) {
-        if(window.confirm(`Dejar de seguir a "${username}"`)){
-          if(e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
-            await dispatch(unfollowUser(dataToUnfollow));
-            await dispatch(refreshUser(username));
-            await dispatch(refreshUserAuth());
-            await dispatch(handleIsFollowing(params.username))
-            dispatch(restartStatusAuthSlice());
-        } else {
-          return;
-        }
-      } else {
-        navigator('/')
-      }
-      
+  const renderIconListFriends = () => {
+    if (existInListFriends) {
+      return (
+        <span className='containerInfoListFriends'>
+          <IoHeartCircle className='iconListFriends' />
+          <small>En lista de amigos</small>
+        </span>
+      )
     }
+  }
 
   return (
     <>
-    {
-      isLogged ?
-      <ProfileHeaderContainerStyles>
-      <MenuSettingUserAuth isPrivate={isPrivate}/>
       {
-        isLoading || isLoadingAuth
-        ? <SkeletonCardContentProfile/>
-        : <>
-            { renderImgProfile() }
-            <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting}>
-              <span className='title'>
-                <p>{username}</p>
-                { renderButtonFollow() }
-              </span>
-              <InfoProfileHeader 
-              countPosts={countPosts}
-              countFollowings={countFollowings}
-              countFollowers={countFollowers}
-              isPrivate={isPrivate}
-              isUserAuth={isUserAuth}
-              />
-            
-               <GrOverview className='iconViews'/>
-               {viewsInProfile}
-                        
-            </InfoProfileContainerStyles>
-          </>
+        isLogged ?
+          <ProfileHeaderContainerStyles>
+            <MenuSettingUserAuth isPrivate={isPrivate} />
+            {
+              isLoading || isLoadingAuth
+                ? <SkeletonCardContentProfile />
+                : <>
+                  <ImgProfile imgProfile={imgProfile} thumbnail={thumbnail} />
+                  <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting} isListFriends={existInListFriends}>
+                    <span className='title'>
+                      <p>{username}</p>
+                      {renderButtonHeadProfile()}
+                    </span>
+                    <InfoProfileHeader
+                      countPosts={countPosts}
+                      countFollowings={countFollowings}
+                      countFollowers={countFollowers}
+                      isPrivate={isPrivate}
+                      isUserAuth={isUserAuth}
+                    />
+
+                    <GrOverview className='iconViews' />
+                    {renderIconListFriends()}
+                    {viewsInProfile}
+
+                  </InfoProfileContainerStyles>
+                </>
+            }
+          </ProfileHeaderContainerStyles>
+          : <ModalUnauthenticated />
       }
-    </ProfileHeaderContainerStyles>
-    : <ModalUnauthenticated />
-    }
     </>
-    )
+  )
 }
 
 export default ProfileHeader

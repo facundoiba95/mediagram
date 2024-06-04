@@ -3,7 +3,7 @@ import isFollowing from "../../libs/isFollowing.js";
 export default async (req,res,next) => {
     try {
         const isLogged = req.isLogged;
-        const postedBy = req.associatePostAndUser[0].postedBy;
+        const postedBy = req.associatePostAndUser[0].postBy;
         const isPrivate = req.isPrivateProfile;
         const userAuth = req.userAuth;
 

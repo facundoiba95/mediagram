@@ -4,6 +4,7 @@ const postSchema = new Schema({
     typePost: {
         require: true,
         type: String,
+        enum: ["POST", "FASTPOST", "EXCLUSIVEPOST"]
     },
     postBy: {
         type: Schema.Types.ObjectId,

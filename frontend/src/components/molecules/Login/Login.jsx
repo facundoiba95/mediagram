@@ -41,7 +41,7 @@ const Login = () => {
     useEffect(() => {
       switch(statusLogin){
         case 200:
-          navigator('/')
+          navigator('/feed')
           setMessageLogin({ error: '', validate: isLogged });
           dispatch(restartStatusAuthSlice());
           break;

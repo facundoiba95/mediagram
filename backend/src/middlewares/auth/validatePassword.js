@@ -17,8 +17,8 @@ export default async ( req,res,next ) => {
                 return await Promise.reject({ error: 'Debes incluir un número.', status: 400 });
             } else if(whiteSpace.test(password)) {
                 return await Promise.reject({ error: 'No puedes incluir espacios.', status: 400 });
-            } else if(password.length < 6) {
-                return await Promise.reject({ error: 'La contraseña debe tener al menos 6 caracteres.', status: 400 });
+            } else if(password.length < 8) {
+                return await Promise.reject({ error: 'La contraseña debe tener al menos 8 caracteres.', status: 400 });
             };
     
             next();

@@ -16,7 +16,7 @@ const handleAddComment = async () => {
   const comment = {
       content: inputComment,
       _idPost: post[0]._id,
-      postedBy: post[0].postedBy
+      postBy: post[0].postBy
   }
 
   const result = await dispatch(validateSession());
