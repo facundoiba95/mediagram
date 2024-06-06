@@ -7,8 +7,8 @@ const SkeletonCardContentProfile = () => {
     <SkeletonCardContentProfileContainerStyles>
         <Skeleton variant='circular' width={200} height={200} animation='wave'/>
         <span>
-            <Skeleton width={300} height={30} variant='rounded'/>
-            <Skeleton width={300} height={150} variant='rounded'/>
+            <Skeleton width={350} height={30} variant='rounded'/>
+            <Skeleton width={350} height={150} variant='rounded'/>
         </span>
     </SkeletonCardContentProfileContainerStyles>
     )

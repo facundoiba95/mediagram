@@ -21,7 +21,7 @@ const Profile = ({ children }) => {
   const { userSelected } = useSelector( state => state.userSlices );
 
   // useContext 
-  const { isOpen } = useContext(GlobalContext);
+  const { isOpen,setOpenLoader } = useContext(GlobalContext);
 
   // hooks and tools
   const navigator = useNavigate();
@@ -50,6 +50,7 @@ const Profile = ({ children }) => {
     }
 
     handleConectProfile();
+    
   }, [ dispatch, params.username, isLogged ]);
 
 
@@ -91,9 +92,7 @@ const Profile = ({ children }) => {
   return (
     <TransitionContainer>
       {
-        isLoading || isLoadingAuth
-          ? <LoaderWidthVw />
-          : renderProfile()
+        renderProfile() 
       }
     </TransitionContainer>
   )

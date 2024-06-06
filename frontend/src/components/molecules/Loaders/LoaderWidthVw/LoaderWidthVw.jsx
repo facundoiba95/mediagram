@@ -1,7 +1,6 @@
 import React from 'react'
 import { LoaderWidthVwContainerStyles } from './LoaderWidthVwStyles'
 import { MoonLoader } from 'react-spinners'
-import LogoMediagram from '../../../atoms/LogoMediagram/LogoMediagram'
 
 const LoaderWidthVw = () => {
   return (

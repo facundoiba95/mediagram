@@ -7,6 +7,10 @@ display: flex;
 flex-direction: column;
 font-family:'Red Hat Display';
 gap: 20px;
+
+p {
+    color: white;
+}
 `
 export const HeadSectionListFriendStyles = styled.span`
 height: 70px;

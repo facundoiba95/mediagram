@@ -14,13 +14,14 @@ const CardContentProfile = ({
   postBy,
   likes,
   _id,
-  likedPost,
   description
 }) => {
   const user = useSelector( state => state.userSlices.userSelected );
+  const userAuth = useSelector( state => state.authSlices.user );
   const navigator = useNavigate();
   const params = useParams();
   const { imgProfile } = user[0];
+  const isLike = likes.some(usr => usr._id == userAuth._id)
 
   const renderImgProfile = () => {
     if(imgProfile.length){
@@ -46,7 +47,7 @@ const CardContentProfile = ({
   return (
     <CardContentProfileContainerStyles onClick={goPost}>
         <img src={thumbnail} alt="img content profile user" className='imgContent'/>
-        <DescriptionContentProfileStyles likedPost={likedPost}>
+        <DescriptionContentProfileStyles isLike={isLike}>
           { renderImgProfile()  }
           <span>
             <p>{description ? description : <></>}</p>

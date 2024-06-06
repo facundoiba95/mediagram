@@ -16,14 +16,16 @@ const CardPostInFeed = ({
   counterViews,
   counterLikes,
   counterComments,
-  likedPost,
+  likes,
   location,
   referTo
 }) => {
-
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const params = useParams();
+  const userAuth = useSelector(state => state.authSlices.user);
+  const isLike = likes.some(usr => usr._id == userAuth._id)
+
 
   const goToProfile = (e) => {
     const valueUsername = e.target.dataset.username;
@@ -63,7 +65,7 @@ const CardPostInFeed = ({
           </div>
         </HeadCardPostInProfileStyles>
         <img src={thumbnail} alt="" onClick={goPost} loading='lazy'/>
-        <FootCardPostInProfileStyles isDescription={description ? description.length : false} likedPost={likedPost}>
+        <FootCardPostInProfileStyles isDescription={description ? description.length : false} isLike={isLike}>
           <span className='containerIconPost' onClick={goPost}>
             <div><FaEye className='iconView'/><h5>{counterViews}</h5></div>         {/** counterViews */}
             <div><FaHeart className='iconHeart'/><h5>{counterLikes}</h5></div>       {/** counterLikes */}

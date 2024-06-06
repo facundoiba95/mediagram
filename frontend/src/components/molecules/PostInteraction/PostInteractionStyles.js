@@ -30,7 +30,7 @@ gap:8px;
 position: relative;
 
 .iconHeart {
-    color:${ props => props.likedPost == true ? 'var(--violetpink)' : 'white' };
+    color:${ props => props.isLike == true ? 'var(--violetpink)' : 'white' };
 }
 
 .iconComment, .iconHeart, .iconView {

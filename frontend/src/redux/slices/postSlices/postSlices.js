@@ -5,6 +5,7 @@ import getPostsOfFollowingsBuilders from "./Builders/getPostsOfFollowingsBuilder
 import getPostByIDBuilders from "./Builders/getPostByIDBuilders";
 import addCommentBuilders from "./Builders/addCommentBuilders";
 import handleLikeToPostBuilders from "./Builders/handleLikeToPostBuilders";
+import addReferToBuilders from "./Builders/addReferToBuilders";
 
 const initialState = {
     error: null,
@@ -132,6 +133,29 @@ export const addComment = createAsyncThunk(
     }
 )
 
+export const addReferTo = createAsyncThunk(
+    'addReferTo/postSlices',
+    async (listReferTo) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/addComment`,{
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(listReferTo)
+            })
+
+            const res = await req.json();
+            return res;
+            } catch (error) {
+            console.error('Ocurrio un error en addReferTo, postSlices. Error: ', error);
+            alert('Ocurrio un error en addReferTo, postSlices');
+        }
+    }
+)
 export const handleLikeToPost = createAsyncThunk(
     'handleLikeToPost/postSlices',
     async (post) => {
@@ -187,6 +211,10 @@ const postSlices = createSlice({
         },
         restartPostsList: ( state ) => {
             return { ... initialState};
+        },
+        restartPostState: ( state ) => {
+            state.post = [];
+            state.status = null;
         }
     },
     extraReducers: ( builders ) => {
@@ -196,8 +224,9 @@ const postSlices = createSlice({
         getPostByIDBuilders( builders, getPostByID );
         addCommentBuilders( builders, addComment );
         handleLikeToPostBuilders( builders, handleLikeToPost );
+        addReferToBuilders( builders, addReferTo );
     }
 })
 
-export const { restarStatusPost, restartPostsList } = postSlices.actions;
+export const { restarStatusPost, restartPostsList,restartPostState } = postSlices.actions;
 export default postSlices.reducer;

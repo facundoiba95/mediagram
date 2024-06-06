@@ -125,7 +125,7 @@ export const DescriptionContentProfileStyles = styled.span`
     }
 
     .iconHeart {
-        color: ${ props => props.likedPost ? 'var(--violetpink)' : 'white' };
+        color: ${ props => props.isLike ? 'var(--violetpink)' : 'white' };
     }
 
 @media (max-width: 490px) {

@@ -18,7 +18,8 @@ const FollowUpRequest = () => {
     const isLoading = useSelector(state => state.authSlices.isLoading);
     const isLoadingUser = useSelector(state => state.userSlices.isLoading);
     const notifications = useSelector(state => state.notificationSlices.notifications);
-
+    const existPending_followUpRequest = userAuth.followUpRequest.some(request => request.status === 'PENDING');
+   
     const sendRequestFollowUp = async (e) => {
         const dataFollowUpRequest = {
             username: e.target.dataset.username,
@@ -41,7 +42,7 @@ const FollowUpRequest = () => {
     }
 
     const renderFollowUpRequestList = () => {
-        if (userAuth.followUpRequest.length) {
+        if (existPending_followUpRequest) {
             return userAuth.followUpRequest.filter(request => request.status === 'PENDING').map(request => {
                 const { username, imgProfile, _id } = request.sentBy[0];
                 return (

@@ -1,23 +1,38 @@
 import React, { useEffect } from 'react'
 import { ListFriendBoxContainerStyles, ListFriendFeedContainerStyles, ListFriendItemStyles, TitleListFriendFeedStyles } from './ListFriendFeedStyles'
 import data from '../../dataTestUsers';
+import { useSelector } from 'react-redux';
+import { RiUserSmileFill } from 'react-icons/ri'
+import { MessageNotFollowUpRequestStyles } from '../../molecules/FollowUpRequest/FollowUpRequestStyles';
 
 
 const ListFriendFeed = () => {
-  const first10Users = data.slice(0,10);
+  const { closeList } = useSelector(state => state.userSlices);
 
   const renderItems = () => {
-    return first10Users.map(item => {
-        return (
-          <ListFriendItemStyles isNewAdded={ item.isNewAdded }>
-            <img src={item.imgProfile} alt="imgProfile user to closeFriend" />
-            <h4>{item.username}</h4>
-            <p className='unviewedPostCounter'>2</p>
-            <small className='isNewAdded'>New!</small>
-          </ListFriendItemStyles>
-        )
-      })
-}
+    if(!closeList.length){
+      return (
+        <MessageNotFollowUpRequestStyles>
+          <p style={{textAlign: 'center'}}>Aún no tienes publicaciones exlusivas.</p>
+        </MessageNotFollowUpRequestStyles>
+      )
+    }
+    return closeList.map(item => {
+      const { thumbnail, username, _id, posts } = item;
+      return (
+        <ListFriendItemStyles data-id={_id}>
+          {
+            thumbnail 
+            ? <img src={thumbnail} alt="imgProfile user to closeFriend" />
+            : <RiUserSmileFill className='iconDefaultProfile'/>
+          }
+          <h4>{username}</h4>
+          <p className='unviewedPostCounter'>{posts.length}</p>
+          <small className='isNewAdded'>New!</small>
+        </ListFriendItemStyles>
+      )
+    })
+  }
 
 
   return (
@@ -26,11 +41,11 @@ const ListFriendFeed = () => {
         Lista de amigos.
         <small>Estas cuentas te agregaron a su lista de amigos.</small>
       </TitleListFriendFeedStyles>
-        <ListFriendBoxContainerStyles>
-          { renderItems() }
-        </ListFriendBoxContainerStyles>
+      <ListFriendBoxContainerStyles>
+        {renderItems()}
+      </ListFriendBoxContainerStyles>
     </ListFriendFeedContainerStyles>
-    )
+  )
 }
 
 export default ListFriendFeed

@@ -3,7 +3,7 @@ import mongoose, { Schema, model } from 'mongoose';
 const notificationSchema = new Schema({
     type: {
         type: String,
-        enum: [ 'comment', 'like', 'actions', 'follower' ],
+        enum: [ 'comment', 'like', 'actions', 'follower', 'referTo' ],
         required: true
     },
     content: {

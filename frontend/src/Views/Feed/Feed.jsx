@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FeedContainerHeaderStyles, FeedContainerNewsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
 import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
@@ -8,13 +8,18 @@ import { getNotifications } from '../../redux/slices/socketSlices/notificationSl
 import socket from '../../../socket'
 import { Howl, Howler } from 'howler';
 import songNotification from '../../assets/sound4.mp3';
+import { getCloseList } from '../../redux/slices/userSlices/userSlices'
+import { GlobalContext } from '../../Context/GlobalContext'
+import { useLocation } from 'react-router-dom'
 
 const Feed = () => {
 const dispatch = useDispatch();
+const { setOpenLoader } = useContext(GlobalContext);
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
 const userAuth = useSelector( state => state.authSlices.user );
 const notifications = useSelector( state => state.notificationSlices.notifications );
 const stateNotifications = useSelector( state => state.notificationSlices.state );
+
 const sound = new Howl({
   src:[songNotification],
   volume: 0.1
@@ -27,6 +32,7 @@ const sound = new Howl({
     }
     tabNotification()
     handleGetPostsByFollowing();
+    dispatch(getCloseList())
    }, [ dispatch ]);
 
 
@@ -47,6 +53,7 @@ const sound = new Howl({
 
   useEffect(() => {
     dispatch(getNotifications(userAuth._id));
+    setOpenLoader(false);
   }, [])
 
    

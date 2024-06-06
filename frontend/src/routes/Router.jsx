@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
 import Home from '../Views/Home/Home';
 import GlobalContainer from '../components/Containers/GlobalContainer/GlobalContainer';
@@ -19,19 +19,22 @@ import { validateSession } from '../redux/slices/authSlices/authSlices';
 import ProtectedRoutes from '../components/Containers/ProtectRoutes/ProtectRoutes';
 import Register from '../components/molecules/Register/Register';
 import FormAuth from '../components/organisms/FormAuth/FormAuth';
+import GlobalLoader from '../components/molecules/Loaders/GlobalLoader/GlobalLoader';
+import { GlobalContext } from '../Context/GlobalContext';
 
 const Router = () => {
   const params = useParams();
   const userFound = useSelector(state => state.userSlices.userFound);
   const { isLogged } = useSelector(state => state.authSlices);
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
     dispatch(validateSession());
   }, [dispatch]);
 
   return (
     <BrowserRouter>
+    <GlobalLoader/>
       <GlobalContainer>
         <ModalSearchUsers data={userFound} type={'searchUserDB'} />
         <Notifications />

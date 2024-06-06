@@ -117,7 +117,7 @@ const NavbarHeader = () => {
 
   return (
     <NavbarMenuContainerStyles isLogged={isLogged} isOpenMenu={isOpenMenu}>
-    <LogoMediagram title={'Mediagram'} />
+    <LogoMediagram title={'Mediagram'}/>
       <NavbarMenuListStyles isOpenMenu={isOpenMenu}>
           <NavbarMenuItemStyles onClick={() => goHome()}>
             <ImHome3 className='iconNavbar'/>

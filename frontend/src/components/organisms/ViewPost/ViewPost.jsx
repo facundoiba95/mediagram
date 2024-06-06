@@ -41,7 +41,8 @@ const ViewPost = ({ children }) => {
     const renderPost = () => {
       if(isReadyPost){
       return post.map(item => {
-        const { imgPost, description, counterLikes, counterViews, likedPost, anonymViews, referTo, location } = item;
+        const { imgPost, description, counterLikes, counterViews, likes,anonymViews, referTo, location } = item;
+        
         const { username, thumbnail } = item.postBy;
 
         return (
@@ -77,7 +78,7 @@ const ViewPost = ({ children }) => {
               counterLikes={counterLikes}
               counterViews={counterViews}
               anonymViews={anonymViews}
-              likedPost={likedPost}
+              likes={likes}
               referTo={referTo}
               location={location}
             />

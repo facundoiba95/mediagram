@@ -7,6 +7,7 @@ import selectUserBuilders from './builders/selectUserBuilders';
 import handleIsFollowingBuilders from './builders/handleIsFollowingBuilders';
 import handleFollowUpRequestBuilders from './builders/handleFollowUpRequestBuilders';
 import changeImgProfileBuilders from './builders/changeImgProfileBuilders';
+import getCloseListBuilders from './builders/getCloseListBuilders';
 
 const initialState = {
     error: null,
@@ -15,6 +16,7 @@ const initialState = {
     user: [],
     userFound: [],
     userSelected: [],
+    closeList: [],
     isLoading: false
 }
 
@@ -22,10 +24,10 @@ export const searchUser = createAsyncThunk(
     'searchUser/userSlices',
     async (valueUser) => {
         try {
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/searchUser/${valueUser}`,{
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/searchUser/${valueUser}`, {
                 method: "GET",
                 mode: 'cors',
-                headers:{
+                headers: {
                     "Content-Type": "application/json"
                 }
             })
@@ -70,7 +72,7 @@ export const followUser = createAsyncThunk(
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/followUser`, {
                 method: "POST",
-                mode:'cors',
+                mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
@@ -92,7 +94,7 @@ export const unfollowUser = createAsyncThunk(
     async (dataUnfollow) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/unfollowUser`,{
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/unfollowUser`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
@@ -116,18 +118,18 @@ export const refreshUser = createAsyncThunk(
     async (username) => {
         try {
             const token = localStorage.getItem('token');
-            const usernameSelected = {username}
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/verifyUser` , {
+            const usernameSelected = { username }
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/verifyUser`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
-                  "Content-Type" : "application/json",
-                  "x-access-token": `${token}`
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
                 },
                 body: JSON.stringify(usernameSelected)
-              })
-              const res = await req.json();
-              return res;
+            })
+            const res = await req.json();
+            return res;
         } catch (error) {
             console.error('Ocurrio un error en refreshUser, userSlices. Error: ', error);
             alert('Ocurrio un error en refreshUser, userSlices. Error: ', error);
@@ -137,7 +139,7 @@ export const refreshUser = createAsyncThunk(
 
 export const handleIsFollowing = createAsyncThunk(
     'handleIsFollowing/userSlices',
-    async ( username ) => {
+    async (username) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing`, {
@@ -146,8 +148,8 @@ export const handleIsFollowing = createAsyncThunk(
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
-                }, 
-                body: JSON.stringify({username})
+                },
+                body: JSON.stringify({ username })
             });
 
             const res = await req.json();
@@ -164,9 +166,9 @@ export const handleFollowUpRequest = createAsyncThunk(
     async (dataFollowUpRequest) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleFollowUpRequest` , {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleFollowUpRequest`, {
                 method: "POST",
-                mode:'cors',
+                mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
@@ -189,7 +191,7 @@ export const changeImgProfile = createAsyncThunk(
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/changeImgProfile`, {
                 method: "POST",
-                mode:'cors',
+                mode: 'cors',
                 headers: {
                     "x-access-token": `${token}`
                 },
@@ -205,68 +207,90 @@ export const changeImgProfile = createAsyncThunk(
     }
 )
 
+export const getCloseList = createAsyncThunk(
+    'getCloseList/userSlices',
+    async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getCloseList`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "x-access-token": `${token}`
+                }
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getCloseList, userSlices. Error: ', error);
+            alert('Ocurrio un error en getCloseList, userSlices. Error: ', error);
+        }
+    }
+)
 const userSlices = createSlice({
     name: 'userSlice',
     initialState,
     reducers: {
-        setUser: ( state, action ) => {
+        setUser: (state, action) => {
             state.user = action.payload;
         },
-        setUserFound: ( state, action ) => {
+        setUserFound: (state, action) => {
             state.userFound = action.payload
         },
-        restartUserFound: ( state,action ) => {
+        restartUserFound: (state, action) => {
             state.userFound = [];
             state.error = null;
             state.message = null;
         },
-        restartUser: ( state, action ) => {
+        restartUser: (state, action) => {
             state.user = [];
             state.error = null;
             state.message = null;
         },
-        restartUserSelected: ( state,action )=> {
+        restartUserSelected: (state, action) => {
             state.userSelected = [];
             state.error = null;
             state.message = null;
         },
-        listSearchFollow: ( state,action ) => {
+        listSearchFollow: (state, action) => {
             state.userFound = action.payload;
             state.message = 'Search user follows list'
         },
-        setIsLoadingUser: ( state,action ) => {
+        setIsLoadingUser: (state, action) => {
             state.isLoading = action.payload;
         },
-        restartStatusUser: ( state, action ) => {
+        restartStatusUser: (state, action) => {
             state.status = null;
             state.message = null;
         },
-        restartUserSlice: ( state ) => {
+        restartUserSlice: (state) => {
             return initialState;
         }
     },
-    extraReducers: ( builders ) => {
-        searchUserBuilders( builders, searchUser );
-        followUserBuilders( builders, followUser );
-        refreshUserBuilders( builders, refreshUser );
-        unfollowUserBuilders( builders, unfollowUser );
-        selectUserBuilders( builders, selectUser );
-        handleIsFollowingBuilders( builders, handleIsFollowing );
-        handleFollowUpRequestBuilders( builders, handleFollowUpRequest );
-        changeImgProfileBuilders( builders, changeImgProfile );
+    extraReducers: (builders) => {
+        searchUserBuilders(builders, searchUser);
+        followUserBuilders(builders, followUser);
+        refreshUserBuilders(builders, refreshUser);
+        unfollowUserBuilders(builders, unfollowUser);
+        selectUserBuilders(builders, selectUser);
+        handleIsFollowingBuilders(builders, handleIsFollowing);
+        handleFollowUpRequestBuilders(builders, handleFollowUpRequest);
+        changeImgProfileBuilders(builders, changeImgProfile);
+        getCloseListBuilders( builders, getCloseList )
     }
 });
 
-export const { 
+export const {
     setUser,
-    setUserFound, 
-    restartUserFound, 
-    restartUser, 
-    listSearchFollow, 
-    setIsLoadingUser, 
+    setUserFound,
+    restartUserFound,
+    restartUser,
+    listSearchFollow,
+    setIsLoadingUser,
     restartUserSelected,
     restartStatusUser,
-    restartUserSlice 
+    restartUserSlice
 } = userSlices.actions;
 
 export default userSlices.reducer;

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import User from "../models/User.js"
-import isFollowing from "./isFollowing.js";
+import User from "../../models/User.js"
+import isFollowing from "../../libs/isFollowing.js";
 
 // @params users = [Object]
 // @params idUserAuth = ObjectId
@@ -30,12 +30,14 @@ const restrictDataUsersPrivateAccount = (users, idUserAuth) => {
 
 // @params userRecived = [Object]
 // @params idUserAuth = ObjectId
+// esta funcion no tiene el nombre corrrecto segun lo que realiza
 export const restrictFollowUpRequestData = (userRecived, idUserAuth) => {
     const restrictFollowUpRequests = userRecived.map(usr => {
         const foundFollowUpRequest = usr.followUpRequest.filter(request => request.sentBy.some(usr => usr._id.equals(idUserAuth)));
 
         if(!usr._id.equals(idUserAuth)){
             usr.closeList = [];
+            usr.notifications = [];
         }
 
         usr.followUpRequest = foundFollowUpRequest;
@@ -47,27 +49,39 @@ export const restrictFollowUpRequestData = (userRecived, idUserAuth) => {
 
 // @params usernameRecived = String
 // @params idUserAuth = ObjectId
-export default async (usernameRecived, idUserAuth) => {
+export default async ( req, res, next ) => {
+    const usernameRecived = req.body.username;
+    const idUserAuth = req.idUser;
+
     try {
         const userRecived = await User.find({ username: usernameRecived }, { password: 0, createdAt: 0, updatedAt: 0 });
         const idUserRecived = new mongoose.Types.ObjectId(userRecived[0]._id);
 
         if (idUserRecived.equals(idUserAuth)) {
             console.log('Peticion de usuario autenticado.')
-            return restrictFollowUpRequestData(userRecived, idUserAuth);  // devuelve datos sin restricciones
+            req.userSelected = restrictFollowUpRequestData(userRecived, idUserAuth); // devuelve datos sin restricciones
+            req.privateAccount = false;
+            return  next()
         } else if (userRecived[0].isPrivate == true) {
             if (await isFollowing(usernameRecived, idUserAuth)) {
                 console.log('Cuenta privada, pero se siguen mutuamente. Data sin restringir');
-                return restrictFollowUpRequestData(userRecived, idUserAuth);  // devuelve datos sin restricciones
+                req.userSelected = restrictFollowUpRequestData(userRecived, idUserAuth);
+                req.privateAccount = false;
+                return next()  // devuelve datos sin restricciones
             } else {
                 console.log(`Cuenta privada. El usuario autenticado no sigue al usuario "${usernameRecived}". Data restringida`);
-                return restrictDataUsersPrivateAccount(userRecived, idUserAuth); // devuelve datos restringidos.
+                req.userSelected = restrictDataUsersPrivateAccount(userRecived, idUserAuth); // devuelve datos restringidos.
+                req.privateAccount = true;
+                return next()
             }
         } else if (userRecived[0].isPrivate == false) {
             console.log('No tiene cuenta privada, Data sin restringir.');
-            return await restrictFollowUpRequestData(userRecived, idUserAuth);
+            req.userSelected = await restrictFollowUpRequestData(userRecived, idUserAuth);
+            req.privateAccount = false;
+            return next();
         }
     } catch (error) {
         console.error('Ocurrio un error en el modulo isPrivateProfile.js. Bloque trycatch. Error: ', error);
+        next(error)
     }
 }

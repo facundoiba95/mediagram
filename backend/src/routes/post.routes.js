@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost } from "../controllers/post.controllers.js";
+import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import path,{ dirname } from 'path'
 import { fileURLToPath } from 'url';
@@ -10,7 +10,6 @@ import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
 import { verifyUser } from "../controllers/user.controllers.js";
-import getPostByFollowings from "../middlewares/posts/getPostByFollowings.js";
 import validateComment from "../middlewares/posts/validateComment.js";
 import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
@@ -18,7 +17,8 @@ import isExistLikeInPost from "../middlewares/posts/isExistLikeInPost.js";
 import addViewInPost from "../middlewares/posts/addViewInPost.js";
 import associatePostAndUser from "../middlewares/posts/associatePostAndUser.js";
 import isPrivate from "../middlewares/posts/isPrivate.js";
-import verifyTokenInPost from "../middlewares/auth/verifyTokenInPost.js";
+import postByFollowings from "../middlewares/posts/postByFollowings.js";
+import isPrivateProfile from "../middlewares/user/isPrivateProfile.js";
 config();
 
 const router = Router();
@@ -56,10 +56,11 @@ router.use((req, res, next) => {
 });
 
 router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
-router.post('/getPosts', getPosts);
-router.get('/getPostByID/:idPost',[ associatePostAndUser, verifyTokenInPost, isPrivate, addViewInPost ], getPostByID );
+router.post('/getPosts',[ isPrivateProfile ], getPosts);
+router.get('/getPostByID/:idPost',[ associatePostAndUser, isPrivate, addViewInPost ], getPostByID );
 router.post('/verifyUser', verifyUser);
-router.post('/getPostByFollowings', [ getPostByFollowings ]);
+router.post('/getPostByFollowings', [ postByFollowings ], getPostByFollowings);
+router.post('/getPostsByCloseList', [ postByFollowings ], getPostsByCloseList);
 router.post('/addComment', [ validateAuthInPost, validateComment, handleErrors ] , addComment);
 router.post('/handleLikeToPost', [ validateAuthInPost, isExistLikeInPost, handleErrors ], handleLikeToPost );
 router.get('/getPost/:idPost', test_getPost);

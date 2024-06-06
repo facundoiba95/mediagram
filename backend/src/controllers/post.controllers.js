@@ -6,17 +6,22 @@ import mongoose, { mongo } from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
 import addPostToUser from '../libs/addPostToUser.js';
-import isPrivateProfile from '../libs/isPrivateProfile.js';
+
 import addCountersInPost from '../libs/Posts/addCountersInPost.js';
 import addCommentNotification from '../libs/Notifications/Posts/addCommentNotification.js';
 import addLikePostNotification from '../libs/Notifications/Posts/addLikePostNotification.js';
+import handleRestrictPosts from '../libs/Posts/handleRestrictPosts.js';
+import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
 config();
+
+export const EXCLUIVE_POST = "EXCLUSIVEPOST";
 
 export const createPost = async (req, res) => {
     try {
         const { location, description, typePost } = req.body;
         const referTo = JSON.parse(req.body.referTo);
         const postBy = new mongoose.Types.ObjectId(req.body.postBy);
+        const userAuth = req.userAuth;
 
         const newPost = new Post({
             typePost,
@@ -43,6 +48,7 @@ export const createPost = async (req, res) => {
         await fs.unlink(req.file.path); // elimina archivo local original
         await newPost.save();
         await addPostToUser(postBy, newPost._id);
+        await referToNotification(newPost.thumbnail, newPost._id, userAuth,referTo)
 
         return res.status(200).json({ message: 'El post se creó exitosamente!', post: [], status: 200 });
     } catch (error) {
@@ -53,17 +59,13 @@ export const createPost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
     try {
-        const { username } = req.body;
+        const foundUser = req.userSelected;
+        const idAuth = req.idUser;
 
-        const foundUser = await isPrivateProfile(username, req.idUser);
-        const userAuth = await User.find({ _id: req.idUser });
-        const postDatabase = await Post.find();
-        const isUserAuthPost = userAuth[0].username === foundUser[0].username;
-        const dataPostToSend = isUserAuthPost ? userAuth[0] : foundUser[0]; // si es usuario auth, envia toda la data, sino lo maneja foundUser;
+        const getPosts = await handleRestrictPosts(foundUser, idAuth)
 
-        const foundPosts = postDatabase.filter(content => dataPostToSend.posts.includes(content._id));
-        if (!foundPosts.length) return res.status(404).json({ error: 'No se encontraron posts!', status: 404, post: [] });
-        return res.status(200).json({ message: 'Se encontraron estos posts!', post: foundPosts, status: 200 });
+        if (!getPosts.length) return res.status(404).json({ error: 'No se encontraron posts!', status: 404, post: [] });
+        return res.status(200).json({ message: 'Se encontraron estos posts!', post: getPosts, status: 200 });
 
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "getPosts()"', { error: error.message, status: error.status });
@@ -78,6 +80,28 @@ export const getPostByID = async (req, res) => {
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "getPostByID()"', { error: error.message, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });
+    }
+}
+
+export const getPostByFollowings = async ( req,res ) => {
+    try {
+        const postByFollowings = req.postByFollowings;
+        const exclude_ExclusivePosts = postByFollowings.filter(post => post.typePost !== EXCLUIVE_POST)
+
+        return res.status(200).json({ post: exclude_ExclusivePosts, status: 200, message: 'Founded posts' })
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "getPostsByFollowings()"', { error: error.message, status: error.status });
+        return res.status(500).json({ error: error.message, status: error.status });
+    }
+}
+
+export const getPostsByCloseList = async ( req,res ) => {
+    try {
+        const postByFollowings = req.postByFollowings;
+
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "getPostsByCloseList()"', { error: error.message, status: error.status });
+        res.status(500).json({ error: error.message, status: error.status });
     }
 }
 
@@ -130,7 +154,6 @@ export const handleLikeToPost = async (req, res) => {
         const userAuth = req.userAuth;
 
         const newLike = {
-            idLike: new mongoose.Types.ObjectId(),
             username,
             thumbnail: thumbnail ? thumbnail : '',
             _id
@@ -142,8 +165,6 @@ export const handleLikeToPost = async (req, res) => {
             { new: true }
         )
 
-        addLikeToPost.likedPost = true;
-
         await addCountersInPost(addLikeToPost)
         await addLikePostNotification(postBy, addLikeToPost.thumbnail, idPost, userAuth)
 
@@ -154,13 +175,12 @@ export const handleLikeToPost = async (req, res) => {
             }
         })
 
-        return res.status(200).json({ post: addPostedBy, message: 'Added like!', status: 200 });
+        return res.status(200).json({ post: addPostedBy, message: 'Like added!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "handleLikePost()"', { error: error.message, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });
     }
 }
-
 
 export const deletePost = async (req, res) => {
     try {
@@ -206,7 +226,6 @@ export const deletePost = async (req, res) => {
         res.status(error.status).json({ error: error.message, status: error.status })
     }
 }
-
 
 export const test_getPost = async (req, res) => {
     try {

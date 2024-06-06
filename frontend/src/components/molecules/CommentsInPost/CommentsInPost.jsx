@@ -19,7 +19,7 @@ const CommentsInPost = ({
   counterViews,
   counterLikes,
   anonymViews,
-  likedPost,
+  likes,
   referTo,
   location
 }) => {
@@ -81,8 +81,9 @@ const CommentsInPost = ({
 
     const renderReferTo = () => {
       return referTo.map(item => {
+        const { username, _id } = item;
         return (
-          <small data-username={item} onClick={(e) => goToProfile(e)}>{`@${item}`}</small>
+          <small data-username={username} onClick={(e) => goToProfile(e)}>{`@${username}`}</small>
         )
       })
     }
@@ -107,7 +108,7 @@ const CommentsInPost = ({
             counterLikes={counterLikes} 
             counterViews={counterViews + anonymViews}
             post={post}
-            likedPost={likedPost}
+            likes={likes}
           />
         </ValidateSession>
       </ViewPostHeadStyles>

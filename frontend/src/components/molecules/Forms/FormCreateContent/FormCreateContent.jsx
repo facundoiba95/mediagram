@@ -22,10 +22,11 @@ import ModalStatusCreateContent from '../../Modals/ModalStatusCreateContent/Moda
 import imgAddContent from '../../../../assets/addContentMediagram.png';
 
 // reducers and actions
-import { createPost, restarStatusPost } from '../../../../redux/slices/postSlices/postSlices';
+import { addReferTo, createPost, restarStatusPost } from '../../../../redux/slices/postSlices/postSlices';
 import { restartUserFound, searchUser } from '../../../../redux/slices/userSlices/userSlices';
 import { getLocationByCity, resetStateLocation } from '../../../../redux/slices/locationSlices/locationSlices';
 import { restartStatusAuthSlice, validateSession } from '../../../../redux/slices/authSlices/authSlices';
+import { setStatusNotification } from '../../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 
 const FormCreateContent = () => {
@@ -34,33 +35,33 @@ const FormCreateContent = () => {
   const locationRouterDom = useLocation();
 
   // image states
-  const [ loadImage, setLoadImage ] = useState(imgAddContent);
-  const [ isLoadingChangeImage, setIsLoadingChangeImage ] = useState(false);
-  const [ isSelectedImage, setIsSelectedImage ] = useState(false);
+  const [loadImage, setLoadImage] = useState(imgAddContent);
+  const [isLoadingChangeImage, setIsLoadingChangeImage] = useState(false);
+  const [isSelectedImage, setIsSelectedImage] = useState(false);
 
 
   // location states
-  const [ locationSelected, setLocationSelected ] = useState('');
-  const [ isHiddenInputLocation, setIsHiddenInputLocation ] = useState(false); 
-  const [ inputCity, setInputCity ] = useState('');
+  const [locationSelected, setLocationSelected] = useState('');
+  const [isHiddenInputLocation, setIsHiddenInputLocation] = useState(false);
+  const [inputCity, setInputCity] = useState('');
   // location redux states
-  const location = useSelector( state => state.locationSlices.location );
-  const errorLocation = useSelector( state => state.locationSlices.location.error );
-  const isLoadingLocation = useSelector( state => state.locationSlices.isLoading );
+  const location = useSelector(state => state.locationSlices.location);
+  const errorLocation = useSelector(state => state.locationSlices.location.error);
+  const isLoadingLocation = useSelector(state => state.locationSlices.isLoading);
 
   // referTo states
-  const [ inputReferTo, setInputReferTo ] = useState('');
-  const [ listReferTo, setListReferTo ] = useState([]);
+  const [inputReferTo, setInputReferTo] = useState('');
+  const [listReferTo, setListReferTo] = useState([]);
 
   // user states
-  const userAuth = useSelector( state => state.authSlices.user );
-  const user = useSelector( state => state.userSlices.userFound );
-  const isLogged = useSelector( state => state.authSlices.isLogged );
+  const userAuth = useSelector(state => state.authSlices.user);
+  const user = useSelector(state => state.userSlices.userFound);
+  const isLogged = useSelector(state => state.authSlices.isLogged);
 
   // post states
-  const isLoading = useSelector( state => state.postSlices.isLoading );
-  const status = useSelector( state => state.postSlices.status );
-  const errorMessage = useSelector( state => state.postSlices.error );
+  const isLoading = useSelector(state => state.postSlices.isLoading);
+  const status = useSelector(state => state.postSlices.status);
+  const errorMessage = useSelector(state => state.postSlices.error);
 
 
   useEffect(() => {
@@ -92,22 +93,22 @@ const FormCreateContent = () => {
   }
 
   const renderLocation = () => {
-    if(location.error == null){
+    if (location.error == null) {
       return location.map(item => {
         return (
           <>
-          <p onClick={() => handleSelectLocation() }>
-            <MdLocationOn className='iconLocation'/>
-            {item.direccion}
-          </p>
-           <FaWindowClose className='iconDeleteLocationSelected' onClick={() => handleRestartLocationSelected()}/> 
+            <p onClick={() => handleSelectLocation()}>
+              <MdLocationOn className='iconLocation' />
+              {item.direccion}
+            </p>
+            <FaWindowClose className='iconDeleteLocationSelected' onClick={() => handleRestartLocationSelected()} />
           </>
 
         )
       })
     } else {
       return (
-        <p><MdWrongLocation className='iconLocation'/>{errorLocation}</p>
+        <p><MdWrongLocation className='iconLocation' />{errorLocation}</p>
       )
     }
   }
@@ -118,31 +119,31 @@ const FormCreateContent = () => {
 
     let list = new DataTransfer(); // nueva lista de FileList, se envia al backend
     new Compressor(img.files[0], {
-      quality: 0.8, 
+      quality: 0.8,
       success: (compressedResult) => {
-        if(compressedResult.size > 10485760) { // limite de tamaño de archivo que soporta Cloudinary
+        if (compressedResult.size > 10485760) { // limite de tamaño de archivo que soporta Cloudinary
           setIsLoadingChangeImage(false);
           alert('Debes subir imagenes menores a 10Mb')
           img.value = '';
           return;
-         } else {
+        } else {
           setLoadImage(URL.createObjectURL(e.target.files[0]));
           let file = new File([compressedResult], compressedResult.name);
           list.items.add(file);
           const myListFiles = list.files;
           img.files = myListFiles;
           setIsLoadingChangeImage(false);
-         }   
+        }
       }
-    }); 
-    }
+    });
+  }
 
   const handleSearchUser = (e) => {
     e.preventDefault();
     const valueInputUser = e.target.value;
     setInputReferTo(valueInputUser);
 
-    if(valueInputUser.length > 3){
+    if (valueInputUser.length > 3) {
       dispatch(searchUser(valueInputUser));
       // setListUsers(dataTestUsers.filter(item => item.username.includes(valueInputUser)))
     } else {
@@ -154,9 +155,24 @@ const FormCreateContent = () => {
   const renderListUserSearched = () => {
     return user.map(item => {
       return (
-        <ItemUserSearchedStyles onClick={(e) => handleSelectReferTo(e)} data-username={item.username}>
-          <img src={item.imgProfile} alt="" data-username={item.username}/>
-          <p data-username={item.username}>{item.username}<RiUserFollowFill className='iconFriends' data-username={item.username}/></p>
+        <ItemUserSearchedStyles
+          onClick={(e) => handleSelectReferTo(e)}
+          data-username={item.username}
+          data-id={item._id}
+          data-thumbnail={item.thumbnail}>
+          <img src={item.imgProfile} alt=""
+            data-username={item.username}
+            data-id={item._id}
+            data-thumbnail={item.thumbnail}
+          />
+          <p data-username={item.username} data-id={item._id} data-thumbnail={item.thumbnail}>
+            {item.username}
+            <RiUserFollowFill className='iconFriends'
+              data-username={item.username}
+              data-id={item._id}
+              data-thumbnail={item.thumbnail}
+            />
+          </p>
         </ItemUserSearchedStyles>
       )
     })
@@ -164,29 +180,49 @@ const FormCreateContent = () => {
 
   const handleSelectReferTo = (e) => {
     const usernameSelected = e.target.dataset.username;
-    setListReferTo([ ... listReferTo, usernameSelected]);
+    const idUserSelected = e.target.dataset.id;
+    const thumbnailUserSelected = e.target.dataset.thumbnail;
+
+    const newReferTo = {
+      username: usernameSelected,
+      thumbnail: thumbnailUserSelected,
+      _id: idUserSelected
+    }
+
+    setListReferTo([...listReferTo, newReferTo]);
     dispatch(restartUserFound())
     setInputReferTo('');
   }
 
   const handleDeleteReferTo = (e) => {
     const usernameSelected = e.target.dataset.username;
-    setListReferTo(listReferTo.filter(item => item !== usernameSelected))
+    setListReferTo(listReferTo.filter(item => item.username !== usernameSelected))
   }
 
   const renderReferTo = () => {
     return listReferTo.map(item => {
       return (
-        <ItemRefersToStyles data-username={item}>
-          <p data-username={item}>{item}</p>
-          <FaWindowClose className='iconDeleteReferTo' data-username={item} onClick={(e) => handleDeleteReferTo(e)}/>
+        <ItemRefersToStyles
+          data-username={item.username}
+          data-id={item._id}
+          data-thumbnail={item.thumbnail}>
+          <p data-username={item.username}
+            data-id={item._id}
+            data-thumbnail={item.thumbnail}>
+            {item.username}
+          </p>
+          <FaWindowClose
+            className='iconDeleteReferTo'
+            data-username={item.username}
+            data-id={item._id}
+            data-thumbnail={item.thumbnail} onClick={(e) => handleDeleteReferTo(e)} />
         </ItemRefersToStyles>
       )
     })
   }
 
   const renderDescription = () => {
-    if(locationRouterDom.pathname === '/createContent/FASTPOST'){
+    if (locationRouterDom.pathname === '/createContent/FASTPOST') {
       return (
         <></>
       )
@@ -202,100 +238,103 @@ const FormCreateContent = () => {
   const handleCreatePost = async (e) => {
     e.preventDefault();
     await dispatch(validateSession());
-    if(isLogged){
+    if (isLogged) {
       const formCreateContent = document.getElementById('formCreateContent');
       await dispatch(createPost(formCreateContent));
+      if (listReferTo.length) {
+        dispatch(setStatusNotification())
+      }
       dispatch(restartStatusAuthSlice());
     }
   }
 
   return (
     <CreateContentContainerStyles isSelectedImage={isSelectedImage}>
-        <TransitionContainer>
-            <FormCreateContentContainerStyles onSubmit={(e) => e.preventDefault()} id='formCreateContent' isLoading={!isLoading} isSelectedImage={isSelectedImage}>
-            <h2 className='titleCreateContent'>{titleCreateContent[params.typeContent]}</h2>
-              {
-                isLoading
-                ? <LoaderCreatePost/>
-                : status !== null ?
-                <ModalStatusCreateContent status={status} error={errorMessage}/>
+      <TransitionContainer>
+        <FormCreateContentContainerStyles onSubmit={(e) => e.preventDefault()} id='formCreateContent' isLoading={!isLoading} isSelectedImage={isSelectedImage}>
+          <h2 className='titleCreateContent'>{titleCreateContent[params.typeContent]}</h2>
+          {
+            isLoading
+              ? <LoaderCreatePost />
+              : status !== null ?
+                <ModalStatusCreateContent status={status} error={errorMessage} />
                 :
                 <>
-                <GridOneContainerStyles isSelectedImage={isSelectedImage}>
-                {
-                  isLoadingChangeImage 
-                  ? <LoaderResponsive /> 
-                  : <img src={loadImage} alt="image create content" id='img'/>
-                }
-                <input 
-                 type="file"
-                 name="imgPost" 
-                 id="imgPost"
-                 accept='image/*' 
-                 onChange={(e) => handleCompressImage(e)}
-                 />
-                 <button onClick={() => setIsSelectedImage(!isSelectedImage)} className='btnSelectedImage'>Elegir imagen</button>
-              </GridOneContainerStyles>
-              <GridTwoContainerStyles isSelectedImage={isSelectedImage}>
-                <span>
-                  <span className='infoUserAuth'>
+                  <GridOneContainerStyles isSelectedImage={isSelectedImage}>
                     {
-                      userAuth.imgProfile 
-                      ? <img src={userAuth.imgProfile} alt="img profile" />
-                      : <RiUserSmileFill className='imgProfile'/>
+                      isLoadingChangeImage
+                        ? <LoaderResponsive />
+                        : <img src={loadImage} alt="image create content" id='img' />
                     }
-                   <p>{userAuth.username}</p>
-                  </span>
-                  { renderDescription() }
-                </span>
-                <span>
-                  <input 
-                  type="text" 
-                  value={inputCity} 
-                  onChange={(e) => setInputCity(e.target.value)} 
-                  className='inputText' 
-                  placeholder='Agregar ubicación'
-                  hidden={isHiddenInputLocation}
-                  />
-                  <ResultLocationContainerStyles isLocation={location.length}>
-                     { 
-                       isLoadingLocation ?
-                       <MoonLoader size={10}/>
-                       : renderLocation()
-                     }
-                  </ResultLocationContainerStyles>
-                  <button onClick={(e) => searchLocation(e)} className='btnSearchLocation' hidden={isHiddenInputLocation}>Buscar ubicación</button>
-                </span>
-                <ReferToContainerStyles>
-                  <input 
-                  type="text"
-                  value={inputReferTo}
-                  onChange={(e) => handleSearchUser(e)}
-                  placeholder='Mencionar'
-                   />
-                  <ListUserSearchedStyles isExistUserSearched={user.length}>
-                    { renderListUserSearched() }
-                  </ListUserSearchedStyles>
-                  <ListRefersToStyles>
-                    { renderReferTo() }
-                  </ListRefersToStyles>
-                </ReferToContainerStyles>
-              </GridTwoContainerStyles>
-              <ButtonCreateContentStyles onClick={(e) => handleCreatePost(e)}>
-                {'Crear contenido'}
-              </ButtonCreateContentStyles>
-                
-                </>
-                
-              }
+                    <input
+                      type="file"
+                      name="imgPost"
+                      id="imgPost"
+                      accept='image/*'
+                      onChange={(e) => handleCompressImage(e)}
+                    />
+                    <button onClick={() => setIsSelectedImage(!isSelectedImage)} className='btnSelectedImage'>Elegir imagen</button>
+                  </GridOneContainerStyles>
+                  <GridTwoContainerStyles isSelectedImage={isSelectedImage}>
+                    <span>
+                      <span className='infoUserAuth'>
+                        {
+                          userAuth.imgProfile
+                            ? <img src={userAuth.imgProfile} alt="img profile" />
+                            : <RiUserSmileFill className='imgProfile' />
+                        }
+                        <p>{userAuth.username}</p>
+                      </span>
+                      {renderDescription()}
+                    </span>
+                    <span>
+                      <input
+                        type="text"
+                        value={inputCity}
+                        onChange={(e) => setInputCity(e.target.value)}
+                        className='inputText'
+                        placeholder='Agregar ubicación'
+                        hidden={isHiddenInputLocation}
+                      />
+                      <ResultLocationContainerStyles isLocation={location.length}>
+                        {
+                          isLoadingLocation ?
+                            <MoonLoader size={10} />
+                            : renderLocation()
+                        }
+                      </ResultLocationContainerStyles>
+                      <button onClick={(e) => searchLocation(e)} className='btnSearchLocation' hidden={isHiddenInputLocation}>Buscar ubicación</button>
+                    </span>
+                    <ReferToContainerStyles>
+                      <input
+                        type="text"
+                        value={inputReferTo}
+                        onChange={(e) => handleSearchUser(e)}
+                        placeholder='Mencionar'
+                      />
+                      <ListUserSearchedStyles isExistUserSearched={user.length}>
+                        {renderListUserSearched()}
+                      </ListUserSearchedStyles>
+                      <ListRefersToStyles>
+                        {renderReferTo()}
+                      </ListRefersToStyles>
+                    </ReferToContainerStyles>
+                  </GridTwoContainerStyles>
+                  <ButtonCreateContentStyles onClick={(e) => handleCreatePost(e)}>
+                    {'Crear contenido'}
+                  </ButtonCreateContentStyles>
 
-              {/* Inputs hidden para backend */ }
-              <input type="text" name='referTo' value={JSON.stringify(listReferTo)}  hidden/>
-              <input type="text" name='location' value={locationSelected} hidden/>
-              <input type="text" name='typePost' value={params.typeContent} hidden/>
-              <input type="text" name='postBy' value={userAuth._id} hidden/>
-            </FormCreateContentContainerStyles>
-        </TransitionContainer>
+                </>
+
+          }
+
+          {/* Inputs hidden para backend */}
+          <input type="text" name='referTo' value={JSON.stringify(listReferTo)} hidden />
+          <input type="text" name='location' value={locationSelected} hidden />
+          <input type="text" name='typePost' value={params.typeContent} hidden />
+          <input type="text" name='postBy' value={userAuth._id} hidden />
+        </FormCreateContentContainerStyles>
+      </TransitionContainer>
     </CreateContentContainerStyles>
   )
 }

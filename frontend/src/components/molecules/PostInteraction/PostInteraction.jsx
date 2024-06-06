@@ -10,17 +10,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { MdDeleteForever } from "react-icons/md";
 import useIsAdmin from '../../../Hooks/useIsAdmin';
-import { refreshUser } from '../../../redux/slices/userSlices/userSlices';
 
-const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
+const PostInteraction = ({ counterViews, counterLikes, post, likes }) => {
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
     const userAuth = useSelector( state => state.authSlices.user );
+    const { isLogged } = useSelector(state => state.authSlices);
+    
     const { setIsOpenModalWindowAuth, setIsOpen } = useContext(GlobalContext);
     const [ openMessage, setOpenMessage ] = useState(false);
     const [ openShareURL, setOpenShareURL ] = useState(false);
-    const isAdmin = useIsAdmin({dataRecived: post[0].postBy._id, dataAuth: userAuth._id});
+    const isAdmin = isLogged ? useIsAdmin({dataRecived: post[0].postBy._id, dataAuth: userAuth._id}) : false;
+    const isLike = isLogged ? likes.some(usr => usr._id == userAuth._id) : false;
    
     
     const sendLike = async () => {
@@ -100,10 +102,10 @@ const PostInteraction = ({ counterViews, counterLikes, post, likedPost }) => {
     <PostInteractionContainerStyles>
         <ListInteractionStyles >
             <ItemInteractionStyles >
-                <FaEye className='iconView' onClick={openViews}/><h5 onClick={openViews}>{counterViews}</h5>         {/** counterViews */}
+                <FaEye className='iconView' onClick={openViews}/><h5 onClick={openViews}>{counterViews}</h5>
             </ItemInteractionStyles>
-            <ItemInteractionStyles likedPost={likedPost}>
-               <FaHeart className='iconHeart' onClick={sendLike}/><h5 onClick={openLikes}>{counterLikes}</h5>     {/** counterLikes */}
+            <ItemInteractionStyles isLike={isLike}>
+               <FaHeart className='iconHeart' onClick={sendLike}/><h5 onClick={openLikes}>{counterLikes}</h5>
             </ItemInteractionStyles>
             <ItemInteractionStyles openShareURL={openShareURL}>
                <BsShareFill className='iconComment' onClick={() => setOpenShareURL(!openShareURL)}/>

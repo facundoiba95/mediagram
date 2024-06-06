@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, unfollowUser } from '../controllers/user.controllers.js';
+import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser } from '../controllers/user.controllers.js';
 import isExistUserFollow from '../middlewares/user/isExistUserFollow.js';
 import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
@@ -11,6 +11,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import cloudinary from 'cloudinary';
 import { config } from "dotenv";
+import isPrivateProfile from '../middlewares/user/isPrivateProfile.js';
+import filterPost_closeList from '../middlewares/posts/filterPost_closeList.js';
 config();
 
 const router = Router();
@@ -50,10 +52,10 @@ router.use((req, res, next) => {
 router.get('/searchUser/:valueUser', searchUser);
 router.post('/followUser' , [ isExistUserFollow, followUpRequest ] , followUser);
 router.post('/unfollowUser', unfollowUser);
-router.post('/selectUser', selectUser);
+router.post('/selectUser',[ isPrivateProfile, filterPost_closeList ], selectUser);
 router.post('/handleIsFollowing', handleIsFollowing );
 router.post('/handleFollowUpRequest', [ isExistUserFollow ], handleFollowUpRequest);
 router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile ], changeImgProfile );
-
+router.post('/getCloseList', getCloseList);
 
 export default router;

@@ -12,8 +12,6 @@ export default async ( req, res, next ) => {
         if(isExistLike !== -1){
             await deleteNotification( userAuth, postBy.username, 'like')
             await foundPost.likes.splice(isExistLike, 1);
-
-            foundPost.likedPost = false;
             
             await addCountersInPost(foundPost)
             

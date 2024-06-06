@@ -74,10 +74,8 @@ const userSchema = new Schema({
         ref: 'Notification'
     }],
     closeList: [{
-        type: Object,
-        imgProfile: String,
-        username: String,
-        _id: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
     }],
     followUpRequest: [{
         status: {

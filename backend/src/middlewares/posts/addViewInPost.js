@@ -1,25 +1,26 @@
-import Jwt from 'jsonwebtoken';
-import User from '../../models/User.js';
-import Post from '../../models/Post.js';
-import mongoose from 'mongoose';
-
-export default async ( req,res,next ) => {
+export default async (req, res, next) => {
     try {
-        const token = req.headers["x-access-token"];
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
-        const foundPost = await Post.findById(idPost);
+        const isPrivateProfile = req.isPrivateProfile; // Boolean
+        const foundPost = req.associatePostAndUser; // [ Object ]
+        const { isUserAuth, userAuth, isLogged } = req.validation;
 
-        if (!token || token == 'null'){
-            await addUserAnonymus(foundPost);
-            next();
-        } else {
-            try {
-                await addUserVerifed(foundPost, token);
-                next();
-            } catch (error) {
+        const keepAddView = () => foundPost[0].views.some(usr => usr._id.equals(userAuth._id));
+
+        if (!isPrivateProfile) {
+            if (!isLogged) {
                 await addUserAnonymus(foundPost);
-                next();
+                return next();
+            } else if (isUserAuth) {
+                return next();
+            } else {
+                if (keepAddView()) return next();
+                await addUserVerifed(foundPost, userAuth);
+                return next();
             }
+        } else {
+            if (keepAddView()) return next()
+            await addUserVerifed(foundPost, userAuth);
+            return next();
         }
     } catch (error) {
         console.error('Ocurrio un error en middleware addViewInPost.js. Error: ', error);
@@ -27,25 +28,23 @@ export default async ( req,res,next ) => {
     }
 }
 
-const addUserVerifed = async (foundPost,token) => {
-    const verifyToken = Jwt.verify(token, process.env.JWT_SECRET);
-    const foundUser = await User.findOne({_id: verifyToken.id});
-    if(!foundUser) return await Promise.reject({ error: 'Estas intentando accedes con un token invalido!', status: 404 });
-    
-    
+// @params foundPost = [Object]
+// @params userAuth = Object
+const addUserVerifed = async (foundPost, userAuth) => {
     const newViewer = {
-        username: foundUser.username,
-        thumbnail: foundUser.thumbnail,
-        _id: foundUser._id
+        username: userAuth.username,
+        thumbnail: userAuth.thumbnail,
+        _id: userAuth._id
     };
 
-        
-    foundPost.views.unshift(newViewer);
-    foundPost.counterViews = foundPost.views.length;
-    await foundPost.save();
+    foundPost[0].views.unshift(newViewer);
+    foundPost[0].counterViews = foundPost[0].views.length;
+    await foundPost[0].save();
 }
 
+
+// @params foundPost = [Object]
 const addUserAnonymus = async (foundPost) => {
-    foundPost.anonymViews = foundPost.anonymViews + 1;
-    await foundPost.save();
+    foundPost[0].anonymViews = foundPost[0].anonymViews + 1;
+    await foundPost[0].save();
 }

@@ -11,7 +11,10 @@ background-color:transparent;
 cursor:pointer;
 
 @media (min-width: 1023px) {
-    display:block;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
 }
 `
 

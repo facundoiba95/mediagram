@@ -6,6 +6,7 @@ import TransitionContainer from '../../Containers/TransitionContainer/Transition
 import { IoHeartCircle } from "react-icons/io5";
 import { updateCloseList } from '../../../redux/slices/authSlices/authSlices'
 import { RiUserSmileFill } from 'react-icons/ri'
+import { MessageNotFollowUpRequestStyles } from '../../molecules/FollowUpRequest/FollowUpRequestStyles'
 
 const ListFriendProfile = () => {
   const { user } = useSelector(state => state.authSlices);
@@ -18,6 +19,13 @@ const ListFriendProfile = () => {
   const [ hiddenBtnUpdateList, setHiddenBtnUpdateList ] = useState(true);
   
   const renderFollowers = () => {
+    if(!userFound.length) {
+      return (
+        <MessageNotFollowUpRequestStyles>
+          <p>Aún no tienes seguidores.</p>
+        </MessageNotFollowUpRequestStyles>
+      )
+    }
     return userFound.map(usr => {
       const { imgProfile, username, _id } = usr;
       const isUserSelected = newListFriends.some(user => user === _id);
@@ -69,6 +77,7 @@ const ListFriendProfile = () => {
           <h2>Lista de amigos</h2>
           <button onClick={sendNewList} hidden={hiddenBtnUpdateList}>Actualizar lista</button>
         </HeadSectionListFriendStyles>
+        <p>Al crear una <b>Publicación exclusiva</b>, solamente estas cuentas podran ver el contenido.</p>
         <SearchBarFollowers data={followers} placeholder={'Buscar en seguidores'} />
         <ListFollowersStyles>
           {renderFollowers()}

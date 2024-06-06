@@ -1,24 +1,28 @@
 import mongoose from "mongoose";
 import Post from "../../models/Post.js";
+import verifyToken_Post from "../../libs/verifyToken_Post.js";
 
 export default async ( req,res, next ) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+        const token = req.headers["x-access-token"];
         
-        const foundPost = await Post.find({_id: idPost}).populate({
+        const postByUser = await Post.find({_id: idPost}).populate({
             path: 'postBy',
-            select: 'username thumbnail imgProfile isPrivate'
+            select: 'username thumbnail imgProfile isPrivate _id'
         })
 
-        if(!foundPost.length) return await Promise.reject({ error: 'Post not found', status: 404 });
+        if(!postByUser.length) return await Promise.reject({ error: 'Post not found', status: 404 });
 
-        req.isPrivateProfile = foundPost[0].isPrivate;
-
-        req.associatePostAndUser = foundPost  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
+        req.isPrivateProfile = postByUser[0].postBy.isPrivate;
+        req.idPostBy = postByUser[0].postBy._id;
+        req.associatePostAndUser = postByUser  // se envia el post encontrado al siguiente middleware o controlador en el objeto "req" ;
         
+        req.validation = await verifyToken_Post(token, req.idPostBy );
+
         next();
     } catch (error) {
-        console.error('Ocurrio un error en el middleware associatePostAndUser.js . Error: ',{error: error.message, status: error.status});
+        console.error('Ocurrio un error en el middleware associatePostAndUser.js . Error: ',{error: error.error, status: error.status});
         next(error);
     }
 }

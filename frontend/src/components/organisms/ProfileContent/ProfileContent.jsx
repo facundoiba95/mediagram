@@ -22,7 +22,7 @@ const ProfileContent = () => {
 
   const renderContentProfile = () => {
     return posts.map(item => {
-      const { thumbnail, description, postBy, likes, comments, typePost,_id,likedPost } = item;
+      const { thumbnail, description, postBy, likes, comments, typePost,_id } = item;
       if(isLoadingPost || isLoadingUser){
         return (<SkeletonCardPostProfile />)
       } else {
@@ -34,7 +34,6 @@ const ProfileContent = () => {
           likes={likes}
           comments={comments}
           typePost={typePost}
-          likedPost={likedPost}
           _id={_id}
           key={_id}
           />
@@ -44,18 +43,12 @@ const ProfileContent = () => {
   }
 
   const renderPrivateAccountMessage = () => {
-    if(isLoadingUser){
-      return (
-        <LoaderResponsive/>
-      )
-    } else {
-      return (
+    return (
         <MessagePrivateAccountStyles>
           <HiOutlineLockClosed className='iconPrivateAccount'/>
           <h2>Esta cuenta es privada. Envíale una solicitud de seguimiento.</h2>
         </MessagePrivateAccountStyles>
       )
-    }
   }
 
 
@@ -65,12 +58,12 @@ const ProfileContent = () => {
     const renderEmptyContent = () => {
       return <ContentIsEmpty />;
     };
-  
+    
+    if(isUserAuth) return posts.length ? renderContentProfile() : renderEmptyContent();
+
     if (isPrivate) {
       if (!isFollowing) {
         return renderPrivateAccountMessage();
-      } else if (!isUserAuth) {
-        return renderEmptyContent();
       } else {
         return posts.length ? renderContentProfile() : renderEmptyContent();
       }

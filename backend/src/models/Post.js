@@ -39,12 +39,10 @@ const postSchema = new Schema({
         }
     }],
     likes: [{
-        idLike: mongoose.Types.ObjectId,
         thumbnail: String,
         _id: mongoose.Schema.Types.ObjectId,
         username: String
     }],
-    likedPost: Boolean,
     counterLikes: {
         type: Number,
         default: 0

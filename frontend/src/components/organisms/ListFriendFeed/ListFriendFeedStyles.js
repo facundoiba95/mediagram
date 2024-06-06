@@ -47,7 +47,6 @@ height: 170px;
 display: flex;
 justify-content: flex-start;
 align-items: center;
-gap: 10px;
 overflow-x: scroll;
 font-family: 'Red Hat Display';
 padding: 5px;
@@ -60,6 +59,7 @@ background-color: transparent;
 
 export const ListFriendItemStyles = styled.li`
 width:100%;
+max-width:150px;
 height: auto;
 display:flex;
 flex-direction: column;
@@ -69,12 +69,14 @@ padding: 8px;
 border-radius: 5px;
 cursor: pointer;
 transition: all 0.1s ease-in-out;
-background-color: ${ props => props.isNewAdded ? 'yellowgreen' : 'transparent' };
+background-color: ${props => props.isNewAdded ? 'yellowgreen' : 'transparent'};
 position: relative;
 gap:5px;
 
 h4 {
-background-color: transparent;
+    font-size:1.2rem;
+    font-weight: 900;
+    background-color: transparent;
 }
 
 img {
@@ -84,10 +86,18 @@ img {
     background-color: transparent;
 }
 
+.iconDefaultProfile {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    color: var(--violetpink);
+    border-radius: 50%;
+}
+
 .unviewedPostCounter {
     position: absolute;
-    top:20px;
-    right:5px;
+    top:10px;
+    right:10px;
     padding:2px;
     border-radius: 50%;
     width:20px;
@@ -95,10 +105,11 @@ img {
     text-align: center;
     background-color:yellow;
     font-weight: 900;
+    color: black;
 }
 
 .isNewAdded {
-    display: ${ props => props.isNewAdded ? 'block':'none' };
+    display: ${props => props.isNewAdded ? 'block' : 'none'};
     position: absolute;
     top:-5px;
     right:50%;
@@ -112,7 +123,7 @@ img {
 
 
 &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 @media (max-width: 490px) {
