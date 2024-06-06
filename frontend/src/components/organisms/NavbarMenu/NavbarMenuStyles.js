@@ -15,10 +15,11 @@ z-index: 2000;
 @media (max-width: 490px) {
     position: absolute;
     width:100%;
-    height: ${ props => props.isOpenMenu ? '400px' : '20px'};
+    height: ${ props => props.isOpenMenu ? '100vh' : '20px'};
     transition: all 0.2s ease-in-out;
     left: ${ props => props.isOpenMenu ? '0' : '-85%'};
     background-color: transparent;
+    backdrop-filter: blur(10px);
 }
 `
 
@@ -41,6 +42,7 @@ gap:5px;
     visibility: ${ props => props.isOpenMenu ? 'visible' : 'hidden'};
     align-items: start;
     justify-content: center;
+    height: 350px;
 }
 `
 

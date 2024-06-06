@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ListFriendBoxContainerStyles, ListFriendFeedContainerStyles, ListFriendItemStyles, TitleListFriendFeedStyles } from './ListFriendFeedStyles'
 import data from '../../dataTestUsers';
 import { useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri'
 import { MessageNotFollowUpRequestStyles } from '../../molecules/FollowUpRequest/FollowUpRequestStyles';
+import { GlobalContext } from '../../../Context/GlobalContext';
 
 
 const ListFriendFeed = () => {
   const { closeList } = useSelector(state => state.userSlices);
+  const { topScroll } = useContext(GlobalContext);
 
   const renderItems = () => {
     if(!closeList.length){
@@ -20,7 +22,7 @@ const ListFriendFeed = () => {
     return closeList.map(item => {
       const { thumbnail, username, _id, posts } = item;
       return (
-        <ListFriendItemStyles data-id={_id}>
+        <ListFriendItemStyles data-id={_id} existPost={posts.length}>
           {
             thumbnail 
             ? <img src={thumbnail} alt="imgProfile user to closeFriend" />
@@ -37,11 +39,11 @@ const ListFriendFeed = () => {
 
   return (
     <ListFriendFeedContainerStyles>
-      <TitleListFriendFeedStyles>
+      <TitleListFriendFeedStyles topScroll={topScroll}>
         Lista de amigos.
         <small>Estas cuentas te agregaron a su lista de amigos.</small>
       </TitleListFriendFeedStyles>
-      <ListFriendBoxContainerStyles>
+      <ListFriendBoxContainerStyles topScroll={topScroll}>
         {renderItems()}
       </ListFriendBoxContainerStyles>
     </ListFriendFeedContainerStyles>

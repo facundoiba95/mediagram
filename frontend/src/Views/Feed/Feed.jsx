@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FeedContainerHeaderStyles, FeedContainerNewsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
 import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
@@ -10,16 +10,15 @@ import { Howl, Howler } from 'howler';
 import songNotification from '../../assets/sound4.mp3';
 import { getCloseList } from '../../redux/slices/userSlices/userSlices'
 import { GlobalContext } from '../../Context/GlobalContext'
-import { useLocation } from 'react-router-dom'
 
 const Feed = () => {
 const dispatch = useDispatch();
-const { setOpenLoader } = useContext(GlobalContext);
+const { setOpenLoader, topScroll, setTopScroll  } = useContext(GlobalContext);
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
 const userAuth = useSelector( state => state.authSlices.user );
 const notifications = useSelector( state => state.notificationSlices.notifications );
 const stateNotifications = useSelector( state => state.notificationSlices.state );
-
+const containerPostRef = useRef(null);
 const sound = new Howl({
   src:[songNotification],
   volume: 0.1
@@ -56,14 +55,26 @@ const sound = new Howl({
     setOpenLoader(false);
   }, [])
 
+
+  // manejar scroll para animacion de ListFriends
+  useEffect(() => {
+    const handleScroll = () => containerPostRef.current.scrollTop !== 0 ? setTopScroll(false) : setTopScroll(true)
+    const container = containerPostRef.current;
+    
+    container.addEventListener('scroll', handleScroll);
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [containerPostRef]);
    
   return (
-    <FeedContainerStyles>
-        <FeedContainerHeaderStyles>
+    <FeedContainerStyles topScroll={topScroll}>
+        <FeedContainerHeaderStyles >
             <ListFriendFeed/>
         </FeedContainerHeaderStyles>
 
-        <FeedContainerPostsStyles>
+        <FeedContainerPostsStyles ref={containerPostRef}>
           <PostsInFeed isReadyFeed={isReadyFeed}/>
         </FeedContainerPostsStyles>
 

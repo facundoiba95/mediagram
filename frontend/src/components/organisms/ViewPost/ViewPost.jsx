@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ViewPostBackgroundStyles , ViewPostImageContainerStyles, ViewPostLogosLeftStyles, ViewPostLogosRightStyles, ViewPostWrapperStyles } from './ViewPostStyles'
+import { ContainerQuitViewPostStyles, ViewPostBackgroundStyles , ViewPostImageContainerStyles,ViewPostWrapperStyles } from './ViewPostStyles'
 import { GlobalContext } from '../../../Context/GlobalContext'
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
 import CommentsInPost from '../../molecules/CommentsInPost/CommentsInPost';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
 import Loader from '../../molecules/Loaders/Loader/Loader';
-import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const ViewPost = ({ children }) => {
     const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
@@ -47,27 +47,11 @@ const ViewPost = ({ children }) => {
 
         return (
           <ViewPostBackgroundStyles isOpenViewPost={ isOpenViewPost }>
-          <ViewPostLogosLeftStyles>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          </ViewPostLogosLeftStyles>
-          <ViewPostLogosRightStyles>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          <h1>Mediagram</h1>
-          </ViewPostLogosRightStyles>
           <ViewPostWrapperStyles>
+            <ContainerQuitViewPostStyles>
+              <IoMdArrowRoundBack className='iconQuitPost' onClick={() => goBack()}/>
+              <h3 onClick={() => goBack()}>Atrás</h3>
+            </ContainerQuitViewPostStyles>
             <ViewPostImageContainerStyles>
               <img src={ imgPost } alt="image post" loading='lazy'/>
             </ViewPostImageContainerStyles>
@@ -82,7 +66,6 @@ const ViewPost = ({ children }) => {
               referTo={referTo}
               location={location}
             />
-            <button onClick={() => goBack()}>Cerrar</button>
           </ViewPostWrapperStyles>
         </ViewPostBackgroundStyles>
         )

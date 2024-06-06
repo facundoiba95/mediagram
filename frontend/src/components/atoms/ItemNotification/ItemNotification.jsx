@@ -9,7 +9,7 @@ import { getNotifications, setStatusNotification, viewNotifications } from '../.
 const ItemNotification = ({
     type, content, createdBy, status, createdAt
 }) => {
-    const { isOpenNotifications, setIsOpenNotifications } = useContext(GlobalContext);
+    const { setIsOpenMenu,isOpenMenu,isOpenNotifications, setIsOpenNotifications } = useContext(GlobalContext);
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
@@ -47,6 +47,7 @@ const ItemNotification = ({
     }
 
     const openNotification = (e) => {
+        setIsOpenMenu(false)
         switch (type) {
             case "comment":
                 goComment(e)

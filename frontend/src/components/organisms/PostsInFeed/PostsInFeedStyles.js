@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 
 export const PostsInFeedContainerStyles = styled.section`
-width:100%;
-height:100%;
-display:flex;
-flex-direction: column;
-justify-content:flex-start;
-align-items: center;
-gap: 50px;
-background-color: transparent;
-padding-bottom:20px;
-padding-top: 20px;
+  width: 100%;
+  height: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+  background-color: transparent;
+  padding-bottom: 20px;
+  padding-top: 20px;
+
+  @media (max-width: 490px) {
+    padding-top: 10px;
+    gap: 25px;
+  }
 `
 
 export const TitlePostsInFeedStyles = styled.h3`

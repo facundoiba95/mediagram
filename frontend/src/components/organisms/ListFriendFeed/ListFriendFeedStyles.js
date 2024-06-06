@@ -7,7 +7,7 @@ height:100%;
 
 @media (max-width: 490px) {
     width: 300px;
-    overflow-x: hidden;
+    overflow-x: hidden;    
 }
 `
 
@@ -26,7 +26,6 @@ small {
     padding:2px 5px 2px 5px;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease-in-out;
     top:-5px;
     border-radius: 5px;
 }
@@ -38,7 +37,17 @@ small {
     }
 }
 
-
+@media (max-width: 490px) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    top:${props => props.topScroll ? '0px' : '-40px'};
+    transition: all 200ms ease-in-out;
+    margin-top: ${props => props.topScroll ? '0px' : '-20px'};
+    height: ${props => props.topScroll ? '40px' : '0px'}; 
+    max-height:40px;
+    overflow: hidden;
+}
 `
 
 export const ListFriendBoxContainerStyles = styled.ul`
@@ -53,7 +62,8 @@ padding: 5px;
 background-color: transparent;
 
 @media (max-width: 490px) {
-    height: 120px;
+    overflow-y: hidden;
+    height: 100px;
 }
 `
 
@@ -82,8 +92,10 @@ h4 {
 img {
     width:100px;
     height:100px;
-    border-radius: 50%;
     background-color: transparent;
+    background: linear-gradient(to right, var(--violetpink), white) border-box;
+    border: 4px solid transparent;
+    border-radius: 50%;
 }
 
 .iconDefaultProfile {
@@ -127,9 +139,26 @@ img {
 }
 
 @media (max-width: 490px) {
+    gap: 0px;
+    background-color: transparent;
+    width: auto;
+
     img {
-        width:60px;
-        height: 60px;
+        width:70px;
+        height: 70px;
     }
+
+    h4 {
+        font-size:1rem;
+    }
+
+    .unviewedPostCounter {
+    position: absolute;
+    top:10px;
+    right:15px;
+    width: 15px;
+    height: 15px;
+    padding: 0px;
+}
 }
 `

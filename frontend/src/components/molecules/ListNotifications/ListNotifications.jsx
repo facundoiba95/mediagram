@@ -9,7 +9,8 @@ import ItemNotification from '../../atoms/ItemNotification/ItemNotification';
 
 
 const ListNotifications = () => {
-  const { isOpenNotifications, setIsOpenNotifications } = useContext(GlobalContext);
+
+  const { setIsOpenMenu,isOpenMenu,isOpenNotifications, setIsOpenNotifications } = useContext(GlobalContext);
   const notifications = useSelector(state => state.notificationSlices.notifications);
   const dispatch = useDispatch();
   const userAuth = useSelector(state => state.authSlices.user);

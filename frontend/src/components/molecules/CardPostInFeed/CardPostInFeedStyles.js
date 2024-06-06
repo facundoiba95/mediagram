@@ -16,13 +16,19 @@ padding-bottom:25px;
 img {
     width:100%;
     height:600px;
-    object-fit: cover;
     background-color: transparent;
+    object-fit: contain;
     cursor: pointer;
 }
 
 @media (max-width: 490px) {
     width:90%;
+    background-color: black;
+
+    img {
+        height: 350px;
+        background-color: black;
+    }
 }
 `
 
@@ -109,7 +115,6 @@ h4 {
         justify-content: center;
         align-items: center;
         gap:5px;
-        background-color: transparent;
     }
 
     h5{
@@ -123,11 +128,11 @@ h4 {
 }
 
 .iconHeart {
-    color: ${ props => props.isLike ? 'var(--violetpink)' : 'white' };
+    color: ${props => props.isLike ? 'var(--violetpink)' : 'white'};
 }
 
 .containerDescription {
-    display:${ props => props.isDescription ? 'flex' : 'none' };
+    display:${props => props.isDescription ? 'flex' : 'none'};
     padding: 2px 10px;
     background-color: transparent;
     justify-content: flex-start;
@@ -160,10 +165,11 @@ small {
     font-size:1rem;
 }
 
-div:nth-child(4) {
+.containerLocation {
+    background-color: purple;
+    border-radius:5px;
+
     h5 {
-        background-color: purple;
-        border-radius:5px;
         padding:2px 5px;
         color:white;
         width: 100%;
@@ -180,15 +186,22 @@ div:nth-child(4) {
     border-radius:50%;
     background-color: white;
     color: purple;
-
 }
 
 @media (max-width: 490px) {
+    height: auto;
+    max-height: none;
+    
     .containerIconPost{
         flex-wrap: wrap;   
     }
 
-    div:nth-child(4) {
+    .containerLocation {
+        font-size:0.9rem;
+        .iconLocation{
+            width: 25px;
+            height: 20px;
+        }
     h5 {
         max-width:200px;
     }

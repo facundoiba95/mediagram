@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
 export const ViewPostBackgroundStyles = styled.div`
-display: ${ props => props.isOpenViewPost ? 'flex' : 'none' };
+display: ${props => props.isOpenViewPost ? 'flex' : 'none'};
 width:100vw;
 height:100vh;
-z-index:2100;
+z-index: 2100;
 backdrop-filter: blur(10px);
 position: absolute;
 left:0;
 justify-content: center;
 font-family: 'Red Hat Display';
 overflow:hidden;
+background-color: transparent;
 
 button {
     background-color: yellow;
@@ -27,9 +28,8 @@ button {
 
 @media (max-width: 490px) {
     width:100%;
-    height: 100%;
-    top:0;
-
+    height: 100vh;
+    top: 0px;
     overflow-y: scroll;
 }
 `
@@ -42,7 +42,6 @@ z-index: 2000;
 
 @media (max-width: 490px ){
     flex-direction: column;
-    gap: 20px;
     width: 100%;
     align-items: flex-start;
     justify-content: flex-start;
@@ -52,25 +51,25 @@ z-index: 2000;
 export const ViewPostImageContainerStyles = styled.div`
 width:100%;
 max-width:760px;
-height:100%;
+height: 100%;
 display: flex;
 position: relative;
 
-
 img {
     width:100%;
-    height:auto;
+    height: auto;
     object-fit: contain;
     padding:0px 30px;
+    margin: 0 auto;
 }
 
 @media (max-width: 490px) {
-    max-height: 400px;
     img {
-        height: 20rem;
-        transform: scale(1.5);
-        object-fit: contain;
-        margin-bottom:1rem;
+        background-color: black;
+        /* height: 100%; */
+        height: 25rem; 
+        padding: 0;
+        aspect-ratio: 2/1;
     }
 }
 `
@@ -96,7 +95,7 @@ color: var(--light);
 
 @media (max-width: 490px) {
     height:auto;
-    display: ${ props => props.hiddenComments ? 'none' : 'flex' };
+    display: ${props => props.hiddenComments ? 'none' : 'flex'};
     margin-top: 2rem;
 
 }
@@ -166,7 +165,35 @@ h1 {
     filter: blur(6px);
     transform: rotate(-15deg);
 }
+
 @media (max-width: 490px) {
     display: none;
+}
+`
+export const ContainerQuitViewPostStyles = styled.div`
+    width: auto;
+    position: absolute;
+    top: 0px;
+    padding: 10px;
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 2000;
+    font-size: 1rem;
+    gap: 10px;
+
+h3, .iconQuitPost {
+    cursor: pointer;
+}
+
+.iconQuitPost {
+    font-size: 1.5rem;
+    font-weight:900;
+}
+
+@media (max-width: 490px) {
+    width: 100%;
+    position: sticky;
 }
 `

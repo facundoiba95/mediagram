@@ -10,10 +10,11 @@ color:white;
 font-family: 'Red Hat Display';
 
 @media (max-width: 490px) {
+    transition: all 200ms ease-in-out;
     grid-template-columns: minmax(300px, 600px);
-    grid-template-rows: 200px 1fr;
+    grid-template-rows: ${props => props.topScroll ? "150px 1fr" : "100px 1fr"};
     overflow-x: hidden;
-   
+    background-color: transparent;
 }
 `
 
@@ -31,8 +32,11 @@ justify-content:center;
     grid-column: 1/4;
     grid-row: 1/2;
     overflow-x: hidden;
+    -webkit-box-shadow: 0px 20px 9px -5px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 0px 20px 9px -5px rgba(66, 68, 90, 1);
+    box-shadow: 0px 20px 9px -5px rgba(66, 68, 90, 1);
 }
-` 
+`
 
 export const FeedContainerPostsStyles = styled.section`
 width:100%;
@@ -42,7 +46,7 @@ grid-row: 1/3;
 display:flex;
 flex-direction:column;
 align-items: center;
-justify-content: center;
+justify-content: flex-start;
 overflow-y: scroll;
 border-right:1px solid #80808080;
 
@@ -56,6 +60,8 @@ div {
 @media (max-width: 490px) {
     grid-column: 1/3;
     grid-row: 2/3;
+    height: 90vh;
+    justify-content: flex-start;
 }
 `
 
