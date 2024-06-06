@@ -15,8 +15,8 @@
      </ul>
 
 <p>Puedes utilizar esta cuenta para probar la aplicación: </p>
-    <p><b>Username:</b> joa</p>
-    <p><b>Password:</b> joa</p>
+    <p><b>Username:</b> user</p>
+    <p><b>Password:</b> User_123</p>
 <p>Sino, regístrate y accede con tu cuenta.</p>
 
      
