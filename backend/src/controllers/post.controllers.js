@@ -19,9 +19,11 @@ export const EXCLUIVE_POST = "EXCLUSIVEPOST";
 export const createPost = async (req, res) => {
     try {
         const { location, description, typePost } = req.body;
-        const referTo = JSON.parse(req.body.referTo);
-        const postBy = new mongoose.Types.ObjectId(req.body.postBy);
-        const userAuth = req.userAuth;
+        const referTo = JSON.parse(req.body.referTo); // [Object]
+        const tags = JSON.parse(req.body.tags); // [Object]
+        const shareInExplore = req.body.shareInExplore === 'true'; // Boolean
+        const postBy = new mongoose.Types.ObjectId(req.body.postBy); // ObjectId
+        const userAuth = req.userAuth; // Object
 
         const newPost = new Post({
             typePost,
@@ -30,6 +32,13 @@ export const createPost = async (req, res) => {
             description,
             location
         });
+
+        if (!userAuth.isPrivate && shareInExplore) {
+            if(!tags.length) return res.status(404).json({message: 'Debes incluir tags en tu publicación.', status: 404});
+            const idsTags = tags.map( tag => new mongoose.Types.ObjectId(tag._id));
+            newPost.tags = idsTags;
+            newPost.shareInExplore = shareInExplore;
+        }
 
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
             folder: 'mediagram/posts'
@@ -83,7 +92,7 @@ export const getPostByID = async (req, res) => {
     }
 }
 
-export const getPostByFollowings = async ( req,res ) => {
+export const getPostByFollowings = async (req, res) => {
     try {
         const postByFollowings = req.postByFollowings;
         const exclude_ExclusivePosts = postByFollowings.filter(post => post.typePost !== EXCLUIVE_POST)
@@ -95,7 +104,7 @@ export const getPostByFollowings = async ( req,res ) => {
     }
 }
 
-export const getPostsByCloseList = async ( req,res ) => {
+export const getPostsByCloseList = async (req, res) => {
     try {
         const postByFollowings = req.postByFollowings;
 
@@ -236,13 +245,26 @@ export const test_getPost = async (req, res) => {
             select: '_id username'
         })
 
-
         res.status(200).json(PostWithUser)
     } catch (error) {
         console.error('Error en test_getPost. Error: ', error)
     }
 }
 
+export const visiblePosts = async (req,res) => {
+    try {
+        const { nameTag } = req.query;
+        const tagsFound = req.tagsFound;
+        const postsFound = req.postsFound;
+
+        if(!tagsFound.length || !postsFound.length) return res.status(404).json({message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: tagsFound });
+
+        res.status(200).json({message: `Se encontraron posts con el tag: '${nameTag}'`,post: postsFound});
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "visiblePosts()"', { error: error.message, status: error.status });
+        return res.status(500).json({ error: error.message, status: error.status });
+    }
+}
 
 
 

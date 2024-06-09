@@ -22,11 +22,11 @@ const FollowUpRequest = () => {
    
     const sendRequestFollowUp = async (e) => {
         const dataFollowUpRequest = {
-            username: e.target.dataset.username,
-            idFollowUpRequest: e.target.dataset.idfollowuprequest,
-            followUpRequestResult: e.target.dataset.result,
-            imgProfile: e.target.dataset.imgprofile,
-            _id: e.target.dataset.id
+            username: e.currentTarget.dataset.username,
+            idFollowUpRequest: e.currentTarget.dataset.idfollowuprequest,
+            followUpRequestResult: e.currentTarget.dataset.result,
+            imgProfile: e.currentTarget.dataset.imgprofile,
+            _id: e.currentTarget.dataset.id
         };
 
         await dispatch(handleFollowUpRequest(dataFollowUpRequest));
@@ -35,7 +35,7 @@ const FollowUpRequest = () => {
     }
 
     const goToProfile = (e) => {
-        const valueUser = e.target.dataset.username;
+        const valueUser = e.currentTarget.dataset.username;
         params.username = valueUser;
         setIsOpenNotifications(false);
         navigator(`/profile/${params.username}`)

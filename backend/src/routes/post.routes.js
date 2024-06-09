@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings } from "../controllers/post.controllers.js";
+import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts } from "../controllers/post.controllers.js";
 import multer from 'multer';
-import path,{ dirname } from 'path'
+import path, { dirname } from 'path'
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -19,6 +19,8 @@ import associatePostAndUser from "../middlewares/posts/associatePostAndUser.js";
 import isPrivate from "../middlewares/posts/isPrivate.js";
 import postByFollowings from "../middlewares/posts/postByFollowings.js";
 import isPrivateProfile from "../middlewares/user/isPrivateProfile.js";
+import searchTags from "../middlewares/tags/searchTags.js";
+import associateTagsByPosts from "../middlewares/posts/associateTagsByPosts.js";
 config();
 
 const router = Router();
@@ -30,21 +32,22 @@ cloudinary.config({
 })
 
 const storage = multer.diskStorage({
-    destination:(req,files,cb) => {
+  destination: (req, files, cb) => {
     cb(null, files = path.join(__dirname)) // guardar las imagenes en este directorio.
   },
-    filename:(req,files,cb) => {
+  filename: (req, files, cb) => {
     cb(null, files.originalname); //Agregar extension de archivo de imagen.
   }
 });
 
-const upload = multer({storage: storage,
-    fileFilter: (req, files, cb) => {
-    if (!files.originalname.match(/\.(jpeg|gif|tif||tiff|heif|eps|ai|pdf|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
-    return cb(new Error('Error en el tipo de archivo.'));
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, files, cb) => {
+    if (!files.originalname.match(/\.(jpeg|jfif|gif|tif||tiff|heif|eps|ai|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
+      return cb({error: 'Formato de imagen no compatible.', status: 415});
     }
     cb(null, true);
-    }
+  }
 });
 
 router.use((req, res, next) => {
@@ -55,14 +58,15 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post('/createPost', upload.single('imgPost'), [ verifyExistImage, verifySizeFile ], createPost);
-router.post('/getPosts',[ isPrivateProfile ], getPosts);
-router.get('/getPostByID/:idPost',[ associatePostAndUser, isPrivate, addViewInPost ], getPostByID );
+router.post('/createPost', upload.single('imgPost'), [verifyExistImage, verifySizeFile], createPost);
+router.post('/getPosts', [isPrivateProfile], getPosts);
+router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
 router.post('/verifyUser', verifyUser);
-router.post('/getPostByFollowings', [ postByFollowings ], getPostByFollowings);
-router.post('/getPostsByCloseList', [ postByFollowings ], getPostsByCloseList);
-router.post('/addComment', [ validateAuthInPost, validateComment, handleErrors ] , addComment);
-router.post('/handleLikeToPost', [ validateAuthInPost, isExistLikeInPost, handleErrors ], handleLikeToPost );
+router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
+router.post('/getPostsByCloseList', [postByFollowings], getPostsByCloseList);
+router.post('/addComment', [validateAuthInPost, validateComment, handleErrors], addComment);
+router.post('/handleLikeToPost', [validateAuthInPost, isExistLikeInPost, handleErrors], handleLikeToPost);
 router.get('/getPost/:idPost', test_getPost);
 router.delete('/deletePost/:idPost', deletePost);
+router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts)
 export default router;

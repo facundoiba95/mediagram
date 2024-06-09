@@ -1,12 +1,12 @@
 import React from 'react'
 import { WrapperFlexColumnStyle } from './ContainerFlexColumnStyles'
 
-const ContainerFlexColumn = ({children}) => {
+const ContainerFlexColumn = ({ children }) => {
   return (
     <WrapperFlexColumnStyle>
-        {children}
+      {children}
     </WrapperFlexColumnStyle>
-      )
+  )
 }
 
 export default ContainerFlexColumn

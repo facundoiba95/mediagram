@@ -34,10 +34,10 @@ const ListFriendProfile = () => {
         <ItemFollowerStyles data-id={_id} onClick={(e) => addFriendToList(e)} isSelected={isUserSelected}>
           {
             imgProfile
-            ? <img src={imgProfile} alt="" data-id={_id} />
-            : <RiUserSmileFill data-id={_id} className='iconUserDefault'/>
+            ? <img src={imgProfile} alt="" />
+            : <RiUserSmileFill className='iconUserDefault'/>
           }
-          <h3 data-id={_id}>{username}</h3>
+          <h3>{username}</h3>
           <IoHeartCircle className='iconUserSelected'/>
         </ItemFollowerStyles>
       )
@@ -46,7 +46,7 @@ const ListFriendProfile = () => {
 
 
   const addFriendToList = (e) => {
-    const idUserSelected = e.target.dataset.id;
+    const idUserSelected = e.currentTarget.dataset.id;
     const isAddedinList = newListFriends.some(usr => usr === idUserSelected);
 
     setNewListFriends(() => {

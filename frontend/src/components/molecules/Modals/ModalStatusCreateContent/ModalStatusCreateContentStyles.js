@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 export const ModalStatusCreateContentBoxStyles = styled.div`
 width:100%;
@@ -8,8 +8,9 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 gap:10px;
+background-color:transparent;
 
-h2{
+p {
     background-color:transparent;
     font-size:1.8rem;
 }

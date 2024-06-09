@@ -14,12 +14,12 @@ const FollowUpRequestItem = ({
     return (
         <FollowUpItemStyles key={_id}>
             <span data-username={username}>
-                <small data-username={username} onClick={(e) => goToProfile(e)}>Ver pefil</small>
-                <p data-username={username} onClick={(e) => goToProfile(e)}>{username}</p>
+                <small onClick={(e) => goToProfile(e)}>Ver pefil</small>
+                <p onClick={(e) => goToProfile(e)}>{username}</p>
                 {
                     imgProfile
-                        ? <img src={imgProfile} alt="image user follow up request" data-username={username} onClick={(e) => goToProfile(e)} />
-                        : <RiUserSmileFill className='imgProfile' data-username={username} />
+                        ? <img src={imgProfile} alt="image user follow up request" onClick={(e) => goToProfile(e)} />
+                        : <RiUserSmileFill className='imgProfile' />
                 }
             </span>
             <ContainerButtonsFollowUpRequestStyles>

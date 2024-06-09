@@ -32,7 +32,7 @@ const ModalStatusCreateContent = ({status, error}) => {
         return (
             <>
              <MdError className='animate__animated animate__heartBeat iconStatusContent'/>
-             <h2>Error {status}! {error}</h2>
+             <p>Error {status}: <b>{error}</b></p>
              <span>
                 <button onClick={() => dispatch(restarStatusPost())}>Verificar datos</button>
              </span>

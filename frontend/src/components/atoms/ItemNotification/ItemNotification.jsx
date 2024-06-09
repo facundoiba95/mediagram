@@ -22,7 +22,7 @@ const ItemNotification = ({
     }
 
     const goPost = async (e) => {
-        const idPost = e.target.dataset.idpost;
+        const idPost = e.currentTarget.dataset.idpost;
         params.idPost = idPost;
         setIsOpenNotifications(!isOpenNotifications);
         await handleViewNotification()
@@ -30,8 +30,8 @@ const ItemNotification = ({
     };
 
     const goComment = async (e) => {
-        const idPost = e.target.dataset.idpost;
-        const idContent = e.target.dataset.idcontent;
+        const idPost = e.currentTarget.dataset.idpost;
+        const idContent = e.currentTarget.dataset.idcontent;
         params.idPost = idPost;
         setIsOpenNotifications(!isOpenNotifications);
         await handleViewNotification()
@@ -39,7 +39,7 @@ const ItemNotification = ({
     }
 
     const goProfile = async (e) => {
-        const username = e.target.dataset.username;
+        const username = e.currentTarget.dataset.username;
         params.username = username;
         await handleViewNotification();
         setIsOpenNotifications(!isOpenNotifications);
@@ -69,15 +69,15 @@ const ItemNotification = ({
     const ItemNotification_post = () => {
         return (
             <ItemNotificationContainerStyle data-idcontent={content.idContent} data-idpost={content.idPost} onClick={(e) => openNotification(e)} status={status}>
-                <span data-idpost={content.idPost} data-idcontent={content.idContent}>
+                <span>
                     {
                         createdBy.thumbnail
-                            ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent} />
-                            : <RiUserSmileFill className='imgProfile' data-idpost={content.idPost} data-idcontent={content.idContent} />
+                            ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile'/>
+                            : <RiUserSmileFill className='imgProfile' />
                     }
-                    <p data-idpost={content.idPost} data-idcontent={content.idContent}>{content.message}</p>
+                    <p>{content.message}</p>
                 </span>
-                <img src={content.imgContent} alt="img content in notification" className='imgContent' data-idpost={content.idPost} data-idcontent={content.idContent} />
+                <img src={content.imgContent} alt="img content in notification" className='imgContent'/>
             </ItemNotificationContainerStyle>
         )
     }
@@ -85,13 +85,13 @@ const ItemNotification = ({
     const ItemNotification_follower = () => {
         return (
             <ItemNotificationContainerStyle onClick={(e) => openNotification(e)} status={status} data-username={createdBy.username}>
-                <span data-username={createdBy.username}>
+                <span>
                     {
                         createdBy.thumbnail
-                            ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile' data-username={createdBy.username} />
-                            : <RiUserSmileFill className='imgProfile' data-username={createdBy.username} />
+                            ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile' />
+                            : <RiUserSmileFill className='imgProfile' />
                     }
-                    <p data-username={createdBy.username}>{content.message}</p>
+                    <p>{content.message}</p>
                 </span>
             </ItemNotificationContainerStyle>
         )

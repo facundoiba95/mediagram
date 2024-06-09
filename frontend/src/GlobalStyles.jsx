@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #80808080;
     height: 7px;
     width:13px;
+    display: none;
 }
 
 ::-webkit-scrollbar-thumb {

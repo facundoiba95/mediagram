@@ -16,6 +16,14 @@ const postSchema = new Schema({
         default: [],
     },
     description: String,
+    tags: [{
+        type: Schema.Types.ObjectId,
+        default: null
+    }],
+    shareInExplore: {
+        type: Boolean,
+        default: false
+    },
     location: String,
     comments: [{
         _id: {

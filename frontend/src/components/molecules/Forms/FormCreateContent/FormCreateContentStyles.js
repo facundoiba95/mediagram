@@ -45,7 +45,10 @@ p, h2{
 
 @media (max-width: 490px) {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;  
+    justify-content: flex-start;  
+    height: 100%;
+    background-color: red;
 }
 `
 
@@ -62,8 +65,8 @@ top: 40px;
 gap:5px;
 background-color:var(--lightblack);
 padding:5px;
-visibility:${ props => props.isExistUserSearched ? 'visible' : 'hidden'};
-opacity:${ props => props.isExistUserSearched ? '1' : '0'};
+visibility:${props => props.isExistUserSearched ? 'visible' : 'hidden'};
+opacity:${props => props.isExistUserSearched ? '1' : '0'};
 transition:all 0.2s ease-in-out;
 `
 
@@ -128,6 +131,7 @@ padding:2px;
 gap:10px;
 font-weight: 600;
 color: black;
+
 .iconDeleteReferTo{
     color: crimson;
 }
@@ -135,7 +139,7 @@ color: black;
 
 export const GridOneContainerStyles = styled.span`
     width:100%;
-    height:400px;
+    height:auto;
     display:flex;
     flex-direction:column;
     align-items: center;
@@ -154,7 +158,7 @@ export const GridOneContainerStyles = styled.span`
 
 @media (max-width: 490px) {
     padding: 5px;
-    height: ${ props => props.isSelectedImage ? '250px' : '400px' };
+    height: 100%;
     gap: 5px;
 
     .btnSelectedImage {
@@ -167,18 +171,16 @@ export const GridOneContainerStyles = styled.span`
     }
 
     img {
-        height: ${ props => props.isSelectedImage ? '200px' : '350px' };
+        height: ${props => props.isSelectedImage ? '100px' : '350px'};
+        width: ${props => props.isSelectedImage ? '100px' : '350px'};
     }
 }
 
 
 @media (max-width: 351px) {
-    height: ${ props => props.isSelectedImage ? '120px' : '250px' };
-    height: 100%;
     
-
     img {
-        height: ${ props => props.isSelectedImage ? '120px' : '250px' };
+        height: ${props => props.isSelectedImage ? '120px' : '250px'};
     }
 }
 `
@@ -301,7 +303,7 @@ export const GridTwoContainerStyles = styled.span`
 }
 
 @media (max-width: 490px) {
-    display: ${ props => props.isSelectedImage ? 'flex' : 'none' };
+    display: ${props => props.isSelectedImage ? 'flex' : 'none'};
 
     .infoUserAuth {
         display: none;
@@ -325,8 +327,8 @@ export const ResultLocationContainerStyles = styled.span`
            align-items: flex-start;
            border-radius:5px;
            cursor: pointer;
-           opacity: ${ props => props.isLocation ? '1' : '0' };
-           visibility: ${ props => props.isLocation ? 'visible' : 'hidden' }; 
+           opacity: ${props => props.isLocation ? '1' : '0'};
+           visibility: ${props => props.isLocation ? 'visible' : 'hidden'}; 
            
 
            p {

@@ -4,6 +4,7 @@ import userSlices from '../slices/userSlices/userSlices';
 import locationSlices from '../slices/locationSlices/locationSlices';
 import postSlices from '../slices/postSlices/postSlices';
 import notificationSlices from '../slices/socketSlices/notificationSlices/notificationSlices';
+import tagSlices from '../slices/tagSlices/tagSlices';
 
 const store = configureStore({
     reducer:{
@@ -11,7 +12,8 @@ const store = configureStore({
         userSlices: userSlices,
         locationSlices: locationSlices,
         postSlices: postSlices,
-        notificationSlices: notificationSlices
+        notificationSlices: notificationSlices,
+        tagSlices: tagSlices
     }
 });
 

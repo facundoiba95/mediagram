@@ -28,7 +28,7 @@ const CardPostInFeed = ({
 
 
   const goToProfile = (e) => {
-    const valueUsername = e.target.dataset.username;
+    const valueUsername = e.currentTarget.dataset.username;
     params.username = valueUsername;
     navigator(`/profile/${params.username}`);
   }

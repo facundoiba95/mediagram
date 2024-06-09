@@ -56,12 +56,14 @@ import authRoutes from './routes/auth.routes.js';
 import postRoutes from './routes/post.routes.js';
 import indexRoutes from './routes/index.routes.js';
 import userRoutes from './routes/user.routes.js';
+import tagsRoutes from './routes/tags.routes.js';
 import { getNotifications, newNotification, viewNotifications } from './sockets/Notifications/notificationSockets.js';
 
 app.use('/', indexRoutes);
 app.use('/api/mediagram/auth/', authRoutes);
 app.use('/api/mediagram/post/', postRoutes);
 app.use('/api/mediagram/user/', userRoutes);
+app.use('/api/mediagram/tags', tagsRoutes);
 
 // websockets
 io.on('connection', (socket) => {

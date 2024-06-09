@@ -45,28 +45,28 @@ const FormRegisterWindow = () => {
       }
   
   const handleValidateUsername = (e) => {
-      const inputValue = e.target.value;
+      const inputValue = e.currentTarget.value;
       setInputUsername(inputValue);
       const result = validateUsername(inputValue);
       setIsValidate(result);
   }
   
   const handleValidatePassword = (e) => {
-      const inputValue = e.target.value;
+      const inputValue = e.currentTarget.value;
       setInputPassword(inputValue);
       const result = validatePassword(inputValue, repeatPassword);
       setIsValidate(result);
   };
 
   const handleRepeatPassword = (e) => {
-      const inputValue = e.target.value;
+      const inputValue = e.currentTarget.value;
       setRepeatPassword(inputValue);
       const result = validatePassword(inputPassword, inputValue);
       setIsValidate(result);
   }
 
   const handleValidateEmail = (e) => {
-      const inputValue = e.target.value;
+      const inputValue = e.currentTarget.value;
       setInputEmail(inputValue);
       const result = validateEmail(inputValue);
       setIsValidate(result);

@@ -21,20 +21,21 @@ import Register from '../components/molecules/Register/Register';
 import FormAuth from '../components/organisms/FormAuth/FormAuth';
 import GlobalLoader from '../components/molecules/Loaders/GlobalLoader/GlobalLoader';
 import { GlobalContext } from '../Context/GlobalContext';
+import Explore from '../Views/Explore/Explore';
 
 const Router = () => {
   const params = useParams();
   const userFound = useSelector(state => state.userSlices.userFound);
   const { isLogged } = useSelector(state => state.authSlices);
   const dispatch = useDispatch();
- 
+
   useEffect(() => {
     dispatch(validateSession());
   }, [dispatch]);
 
   return (
     <BrowserRouter>
-    <GlobalLoader/>
+      <GlobalLoader />
       <GlobalContainer>
         <ModalSearchUsers data={userFound} type={'searchUserDB'} />
         <Notifications />
@@ -49,7 +50,12 @@ const Router = () => {
               <Feed />
             </ProtectedRoutes>
           } />
-          <Route path='/register' element={<DefaultPage/>} />
+          <Route path='/explore' element={
+            <ProtectedRoutes redirectTo={'/'} isLogged={isLogged}>
+              <Explore/>
+            </ProtectedRoutes>
+          } />
+          <Route path='/register' element={<DefaultPage />} />
           <Route path='/getPostByID/:idPost' element={<ViewPost><ModalUnauthenticated /></ViewPost>} />
           <Route path='/getPostByID/:idPost/:typeInteraction' element={<ViewPost><ModalUnauthenticated /></ViewPost>} />
           <Route path='/profile/:username' element={<Profile />} />

@@ -9,7 +9,7 @@ import { SearchBarUserContainerStyles } from './SearchBarUsersStyles'
 
 const SearchBarUsers = ({data, placeholderValue, type}) => {
     const [ inputSearchBar, setInputSearchBar ] = useState('');
-    const { isOpen, setIsOpen, setIsLoadingSearch } = useContext(GlobalContext);
+    const { isOpen, setIsOpen, setIsOpenMenu,setIsLoadingSearch } = useContext(GlobalContext);
     const navigator = useNavigate();
 
     const dispatch = useDispatch();

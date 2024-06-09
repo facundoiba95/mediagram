@@ -14,7 +14,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
 import { restartUser, restartUserSelected, restartUserFound } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { restartPostsList } from '../../../redux/slices/postSlices/postSlices';
+import { restartPostState, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 import { restartNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const NavbarHeader = () => {
@@ -60,6 +60,17 @@ const NavbarHeader = () => {
     })
 
     navigator('/feed')
+  }
+
+  const goExplore = () => {
+    dispatch(restartPostState())
+    setIsOpenMenu(false);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+
+    navigator('/explore')
   }
 
   const handleLogout = () => {
@@ -143,7 +154,7 @@ const NavbarHeader = () => {
           <BiSolidSearchAlt2 className='iconNavbar' onClick={() => setIsOpen(true)} />
           <p onClick={() => setIsOpen(true)}>Buscar</p>
         </NavbarMenuItemStyles>
-        <NavbarMenuItemStyles>
+        <NavbarMenuItemStyles onClick={goExplore}>
           <MdExplore className='iconNavbar' />
           <p>Explorar</p>
         </NavbarMenuItemStyles>

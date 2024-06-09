@@ -34,7 +34,7 @@ const CommentsInPost = ({
     const valueScrollComment = useRef(0);
 
     const goToProfile = (e) => {
-      const valueUser = e.target.dataset.username;
+      const valueUser = e.currentTarget.dataset.username;
       params.username = valueUser;
       navigator(`/profile/${params.username}`)
     };

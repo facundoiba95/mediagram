@@ -4,18 +4,18 @@ import TransitionContainer from '../../components/Containers/TransitionContainer
 import { TitleCreateContentStyles } from './CreateContentStyles'
 import ContainerGridFramer from '../../components/Containers/ContainerGridFramer/ContainerGridFramer'
 import CardTypeContent from '../../components/molecules/CardTypeContent/CardTypeContent'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { restarStatusPost } from '../../redux/slices/postSlices/postSlices'
-import ModalUnauthenticated from '../../components/molecules/Modals/ModalUnauthenticated/ModalUnauthenticated'
+import { FASTPOST, POST, EXCLUSIVEPOST } from '../../libs/typePost'
 
 const CreateContent = ({ children }) => {
-  const contenido = [
-    <CardTypeContent type={'POST'} />,
-    <CardTypeContent type={'FASTPOST'} />,
-    <CardTypeContent type={'EXCLUSIVEPOST'} />
-  ];
-
   const dispatch = useDispatch();
+
+  const contenido = [
+    <CardTypeContent type={POST} />,
+    <CardTypeContent type={FASTPOST} />,
+    <CardTypeContent type={EXCLUSIVEPOST} />
+  ];
 
   useEffect(() => {
     dispatch(restarStatusPost())

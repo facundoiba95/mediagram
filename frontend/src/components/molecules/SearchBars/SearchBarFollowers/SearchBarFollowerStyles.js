@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ContainerSearchBarFollowerStyles = styled.span`
+export const ContainerSearchBarStyles = styled.span`
 width: 100%;
 max-width: 500px;
 position: relative;
@@ -18,7 +18,7 @@ position: relative;
     transform: translate(0%, -50%);
 }
 `
-export const InputSearchFollowerStyles = styled.input`
+export const InputSearchBarStyles = styled.input`
 width:100%;
 height: 50px;
 background-color:#eeeeee30;

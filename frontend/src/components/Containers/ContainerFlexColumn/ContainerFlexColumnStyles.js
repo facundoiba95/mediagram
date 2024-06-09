@@ -6,12 +6,7 @@ height: 100%;
 display:flex;
 flex-direction:column;
 justify-content: flex-start;
-align-items: center;
-
-@media (max-width: 490px) {
-    overflow-y: scroll;
-    ::-webkit-scrollbar {
-       display: none;
-    }
-}
+align-items: flex-start;
+max-width: 1200px;
+overflow-y: auto;
 `

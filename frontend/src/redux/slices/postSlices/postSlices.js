@@ -6,6 +6,7 @@ import getPostByIDBuilders from "./Builders/getPostByIDBuilders";
 import addCommentBuilders from "./Builders/addCommentBuilders";
 import handleLikeToPostBuilders from "./Builders/handleLikeToPostBuilders";
 import addReferToBuilders from "./Builders/addReferToBuilders";
+import getVisiblePostsBuilders from "./Builders/getVisiblePostsBuilders";
 
 const initialState = {
     error: null,
@@ -13,7 +14,7 @@ const initialState = {
     isLoading: false,
     isLogged: false,
     status: null,
-    post:[],
+    post: [],
 }
 
 export const createPost = createAsyncThunk(
@@ -23,8 +24,8 @@ export const createPost = createAsyncThunk(
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/createPost`, {
                 method: "POST",
-                mode:'cors',
-                headers:{
+                mode: 'cors',
+                headers: {
                     "x-access-token": `${token}`
                 },
                 body: new FormData(post)
@@ -43,13 +44,13 @@ export const getPosts = createAsyncThunk(
     'getPosts/postSlices',
     async (username) => {
         try {
-            const usernameValue = {username}
+            const usernameValue = { username }
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPosts`,{
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPosts`, {
                 method: "POST",
-                mode:'cors',
+                mode: 'cors',
                 headers: {
-                    "Content-Type":"application/json",
+                    "Content-Type": "application/json",
                     "x-access-token": `${token}`
                 },
                 body: JSON.stringify(usernameValue)
@@ -68,15 +69,15 @@ export const getPostsOfFollowings = createAsyncThunk(
     async () => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByFollowings` , {
-              method: 'POST',
-              mode: 'cors',
-              headers: {
-                "Content-Type": "application/json",
-                "x-access-token": `${token}`
-              }
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByFollowings`, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
             });
-        
+
             const res = await req.json();
             return res;
         } catch (error) {
@@ -91,9 +92,9 @@ export const getPostByID = createAsyncThunk(
     async (idPost) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByID/${idPost}`,{
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByID/${idPost}`, {
                 method: "GET",
-                mode:'cors',
+                mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
@@ -138,7 +139,7 @@ export const addReferTo = createAsyncThunk(
     async (listReferTo) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/addComment`,{
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/addComment`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
@@ -150,7 +151,7 @@ export const addReferTo = createAsyncThunk(
 
             const res = await req.json();
             return res;
-            } catch (error) {
+        } catch (error) {
             console.error('Ocurrio un error en addReferTo, postSlices. Error: ', error);
             alert('Ocurrio un error en addReferTo, postSlices');
         }
@@ -202,31 +203,47 @@ export const deletePost = createAsyncThunk(
         }
     }
 )
+
+export const getVisiblePosts = createAsyncThunk(
+    'getVisiblePosts/postSlices',
+    async (nameTag) => {
+        try {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/visiblePosts?nameTag=${nameTag}`);
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getVisiblePgetVisiblePosts, postSlices. Error: ', error);
+            alert('Ocurrio un error en getVisiblePgetVisiblePosts, postSlices');
+        }
+    }
+)
+
 const postSlices = createSlice({
     name: 'postSlices',
     initialState,
     reducers: {
-        restarStatusPost: ( state,action ) => {
+        restarStatusPost: (state, action) => {
             state.status = null;
         },
-        restartPostsList: ( state ) => {
-            return { ... initialState};
+        restartPostsList: (state) => {
+            return { ...initialState };
         },
-        restartPostState: ( state ) => {
+        restartPostState: (state) => {
             state.post = [];
             state.status = null;
         }
     },
-    extraReducers: ( builders ) => {
-        createPostBuilders( builders, createPost );
-        getPostsBuilders( builders, getPosts );
-        getPostsOfFollowingsBuilders( builders, getPostsOfFollowings );
-        getPostByIDBuilders( builders, getPostByID );
-        addCommentBuilders( builders, addComment );
-        handleLikeToPostBuilders( builders, handleLikeToPost );
-        addReferToBuilders( builders, addReferTo );
+    extraReducers: (builders) => {
+        createPostBuilders(builders, createPost);
+        getPostsBuilders(builders, getPosts);
+        getPostsOfFollowingsBuilders(builders, getPostsOfFollowings);
+        getPostByIDBuilders(builders, getPostByID);
+        addCommentBuilders(builders, addComment);
+        handleLikeToPostBuilders(builders, handleLikeToPost);
+        addReferToBuilders(builders, addReferTo);
+        getVisiblePostsBuilders(builders, getVisiblePosts);
     }
 })
 
-export const { restarStatusPost, restartPostsList,restartPostState } = postSlices.actions;
+export const { restarStatusPost, restartPostsList, restartPostState } = postSlices.actions;
 export default postSlices.reducer;

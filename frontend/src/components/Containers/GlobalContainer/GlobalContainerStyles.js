@@ -18,5 +18,4 @@ display:flex;
 align-items:flex-start;
 justify-content:space-evenly;
 overflow-y: ${ props => props.isLogged && props.isFeed ? 'scroll' : 'none'};
-
 `

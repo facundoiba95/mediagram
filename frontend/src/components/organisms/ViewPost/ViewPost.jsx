@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
 import CommentsInPost from '../../molecules/CommentsInPost/CommentsInPost';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostByID } from '../../../redux/slices/postSlices/postSlices';
+import { getPostByID, restarStatusPost } from '../../../redux/slices/postSlices/postSlices';
 import Loader from '../../molecules/Loaders/Loader/Loader';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
@@ -23,6 +23,7 @@ const ViewPost = ({ children }) => {
 
     const goBack = () => {
         setIsOpenViewPost(false);
+        dispatch(restarStatusPost())
         navigator(-1);
     }
 

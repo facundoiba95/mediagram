@@ -16,6 +16,13 @@ export const GlobalContextProvider = ({children}) => {
     const [ isLoadingSearch, setIsLoadingSearch ] = useState(false);
     const [ openLoader, setOpenLoader ] = useState(false);
     const [ topScroll, setTopScroll ] = useState(true);
+    const [isSelectedImage, setIsSelectedImage] = useState(false);
+    const [locationSelected, setLocationSelected] = useState('');
+    const [listReferTo, setListReferTo] = useState([]);
+    const [ switchChecked, setSwitchChecked ] = useState(false);
+
+
+
 
     return (
         <GlobalContext.Provider value={{
@@ -31,7 +38,11 @@ export const GlobalContextProvider = ({children}) => {
             isOpenModalInteractionsInfo, setIsOpenModalInteractionsInfo,
             isLoadingSearch, setIsLoadingSearch,
             openLoader, setOpenLoader,
-            topScroll, setTopScroll 
+            topScroll, setTopScroll,
+            isSelectedImage, setIsSelectedImage,
+            locationSelected, setLocationSelected,
+            listReferTo, setListReferTo,
+            switchChecked, setSwitchChecked
         }}>
             {children}
         </GlobalContext.Provider>
