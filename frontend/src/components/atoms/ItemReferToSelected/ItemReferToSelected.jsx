@@ -9,14 +9,13 @@ const ItemReferToSelected = ({
     handleDeleteReferTo
 }) => {
     return (
-        <ItemRefersToStyles
-            data-username={username}
-            data-id={_id}
-            data-thumbnail={thumbnail}>
+        <ItemRefersToStyles>
             <p>{username}</p>
             <FaWindowClose
                 className='iconDeleteReferTo'
-                onClick={(e) => handleDeleteReferTo(e)} />
+                data-username={username}
+                onClick={(e) => handleDeleteReferTo(e)}
+            />
         </ItemRefersToStyles>
     )
 }

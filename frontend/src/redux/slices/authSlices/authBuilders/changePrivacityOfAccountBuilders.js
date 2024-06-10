@@ -8,6 +8,7 @@ export default ( builders, changePrivacityOfAccount ) => {
             state.isLoading = false;
             state.status = action.payload.status;
             state.message = action.payload.message;
+            state.user = action.payload.user;
     })
     builders.addCase( changePrivacityOfAccount.pending, ( state, action ) => {
         state.isLoading = true;

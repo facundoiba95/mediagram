@@ -125,7 +125,7 @@ export const unfollowUser = async (req, res) => {
             await followUpRequestNotification({ username }, userAuth, 'REJECTED');
             await userAuth.save();
             await foundUserFollower.save();
-            return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status: 200 });
+            return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status: 200,  });
         } else {
             return res.status(404).json({ message: 'FollowUpRequest not found!', status: 404 });
         }
@@ -139,9 +139,10 @@ export const unfollowUser = async (req, res) => {
 export const handleIsFollowing = async (req, res) => {
     try {
         const { username } = req.body;
-        const foundUserRecived = await User.findOne({ username });
+        // const foundUserRecived = await User.findOne({ username });
         const userAuth = req.userAuth;
-        const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
+        
+        const isFollowingsUsers = userAuth.followings.some(usr => usr.username === userAuth.username);
 
         if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor de ${username}!`, isFollowing: isFollowingsUsers, status: 200 });
         return res.status(401).json({ message: `No eres seguidor de "${username}"`, isFollowing: isFollowingsUsers, status: 401 });

@@ -11,12 +11,13 @@ import { GiSettingsKnobs } from 'react-icons/gi';
 import { RiVipCrown2Line } from "react-icons/ri";
 
 
-export const MenuSettingUserAuth = ({ isPrivate }) => {
+export const MenuSettingUserAuth = () => {
     const { isOpenMenuSetting, setIsOpenMenuSetting } = useContext(GlobalContext);
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
-    const isLogged = useSelector(state => state.authSlices.isLogged);
+    const {isLogged, user} = useSelector(state => state.authSlices);
+    const isPrivate = user.isPrivate;
 
 
     const privacityOfAccount = () => {

@@ -11,10 +11,12 @@ const PostsInExplore = () => {
   const { nameTag } = useSelector(state => state.tagSlices);
   const [sectionCard, setSectionCard] = useState([]);
 
+  // minimo de letras para realizar la busqueda
   useEffect(() => {
     if (nameTag.length >= 3) dispatch(getVisiblePosts(nameTag));
   }, [nameTag, dispatch]);
 
+  // separacion de los posts
   useEffect(() => {
     if (post.length > 0) {
       const relatedPosts = post[0].relatedPosts;

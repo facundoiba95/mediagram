@@ -10,6 +10,7 @@ const PostInExploreSection = ({ posts, index }) => {
             return (
                 <CardPostInExplore
                     key={index}
+                    posts={posts}
                     title={`CARD ${index}`}
                     heightCard={index % 5 == 0}
                     tags={tags}
@@ -24,7 +25,7 @@ const PostInExploreSection = ({ posts, index }) => {
     }
 
     return (
-        <ContainerPostInExploreSectionStyles index={index}>
+        <ContainerPostInExploreSectionStyles index={index} posts={posts.length}>
             {renderCards()}
         </ContainerPostInExploreSectionStyles>
     )

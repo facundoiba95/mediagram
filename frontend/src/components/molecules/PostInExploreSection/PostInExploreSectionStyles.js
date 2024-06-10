@@ -4,23 +4,80 @@ export const ContainerPostInExploreSectionStyles = styled.section`
 width: 100%;
 height: auto;
 display: grid;
-grid-template-columns: minmax(280px, 320px) minmax(280px, 320px) 1fr;
-grid-template-rows: 320px 320px;
+grid-template-columns: ${props => {
+        switch (props.posts) {
+            case 1:
+                return "minmax(auto, 500px)"
+            case 2:
+                return "auto auto"
+            case 3:
+                return "1fr 1fr 1fr"
+            case 4:
+                return "1fr 1fr 1fr 1fr"
+            case 5:
+                return "minmax(280px, 320px) minmax(280px, 320px) auto"
+        }
+    }};
+
+grid-template-rows: ${props => {
+        switch (props.posts) {
+            case 1:
+                return "1fr"
+            case 2 || 3:
+                return "300px";
+            case 4:
+                return "80vh"
+            case 5:
+                return "300px 300px"
+        }
+    }};
+
+
 gap: 5px;
-direction: ${props => props.index % 2 != 0 ? 'rtl' : 'normal'};
+direction: ${props => props.index % 2 != 0};
+
 font-family: 'Red Hat Display';
+
+:first-child {
+    grid-column: ${props => {
+        switch (props.posts) {
+            case !5:
+                return "100%"
+            case 5:
+                return "3/3"
+        }
+    }};
+    grid-row:  ${props => {
+        switch (props.posts) {
+            case  !5:
+                return "100%"
+            case 5:
+                return "1/3"
+        }
+    }};
+}
+
+@media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    direction: ltr;
+    padding: 5px;
+
+    :first-child {
+        grid-column: auto;
+        grid-row: auto;
+    }
+}
 
 @media (max-width: 490px) {
     grid-template-columns: 1fr;
-    padding: 5px;
+    grid-template-rows: 1fr;
 }
 `
 
 export const CardPostInExploreStyles = styled.div`
 width: 100%;
 height: 100%;
-grid-row: ${props => props.heightCard ? '1/3' : ''};
-grid-column: ${props => props.heightCard ? '3/3' : ''};
 position: relative;
 
 img {
@@ -70,8 +127,34 @@ img {
 }
 
 @media (max-width: 490px) {
+    min-height: 90vh;
+
     .overflow {
-        display: none;
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        height: auto;
+        flex-direction: row;
+        gap: 10px;
+        background-color: #00000080;
+        justify-content: flex-end;
+        padding: 5px 10px 5px 0px;
+
+        span {
+            gap: 5px;
+        }
     }
 }
 `
+
+
+// ${props => {
+//     switch (props.posts) {
+//         case 1 || 2 || 3 || 4:
+//             return "ltr"
+//         case 5:
+//             if (props.index % 2 != 0) {
+//                 return "rtl"
+//             }
+//     }
+// }};

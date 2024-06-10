@@ -11,6 +11,7 @@ const CardPostInExplore = ({
   tags,
   counterLikes,
   counterViews,
+  posts,
   _id
 }) => {
   const navigator = useNavigate();
@@ -27,7 +28,7 @@ const CardPostInExplore = ({
   }
 
   return (
-    <CardPostInExploreStyles heightCard={heightCard} data-id={_id} onClick={goPost}>
+    <CardPostInExploreStyles heightCard={heightCard} posts={posts.length} data-id={_id} onClick={goPost}>
       <span className='overflow' >
         <span><FaHeart className='iconHeart' />{counterLikes}</span>
         <span><FaEye className='iconView' />{counterViews}</span>

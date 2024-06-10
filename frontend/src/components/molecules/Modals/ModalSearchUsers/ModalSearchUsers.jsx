@@ -25,6 +25,7 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type }) => {
 
 
   const renderUserFounded = () => {
+    if(!isOpen) return;
     if (!usersFounded.length) {
       return (
         <ItemModalSearchUsersStyles>

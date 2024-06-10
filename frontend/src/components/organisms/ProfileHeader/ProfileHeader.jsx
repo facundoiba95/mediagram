@@ -10,7 +10,7 @@ import { IoMdPersonAdd } from 'react-icons/io';
 import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
 import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { FaUserClock } from 'react-icons/fa';
-import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
+import { followUser, handleIsFollowing, refreshUser, restartUserFound, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
 import { refreshUserAuth, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
@@ -141,7 +141,7 @@ const ProfileHeader = () => {
     await dispatch(validateSession());
 
     if (isLogged) {
-      if (e.currentTarget.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
+      if (e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
       if (window.confirm(`Dejar de seguir a "${username}"`)) {
         await dispatch(unfollowUser(dataToUnfollow));
         await dispatch(refreshUser(username));
@@ -174,7 +174,7 @@ const ProfileHeader = () => {
       {
         isLogged ?
           <ProfileHeaderContainerStyles>
-            <MenuSettingUserAuth isPrivate={isPrivate} />
+            <MenuSettingUserAuth/>
             {
               isLoading || isLoadingAuth
                 ? <SkeletonCardContentProfile />

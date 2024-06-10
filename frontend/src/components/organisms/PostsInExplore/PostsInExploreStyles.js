@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const WrapperPostsInExploreStyles = styled.section`
 width: 100%;
-height: 85vh;
+height: 82vh;
 color: white;
 display: flex;
 flex-direction: column;

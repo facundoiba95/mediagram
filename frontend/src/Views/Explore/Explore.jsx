@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ContainerFlexColumn from '../../components/Containers/ContainerFlexColumn/ContainerFlexColumn'
 import TitleBold from '../../components/atoms/TitleBold/TitleBold'
 import SearchBarTags from '../../components/molecules/SearchBars/SearchBarTags/SearchBarTags'

@@ -9,7 +9,6 @@ import cloudinary from 'cloudinary';
 import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
-import { verifyUser } from "../controllers/user.controllers.js";
 import validateComment from "../middlewares/posts/validateComment.js";
 import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
@@ -61,7 +60,6 @@ router.use((req, res, next) => {
 router.post('/createPost', upload.single('imgPost'), [verifyExistImage, verifySizeFile], createPost);
 router.post('/getPosts', [isPrivateProfile], getPosts);
 router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
-router.post('/verifyUser', verifyUser);
 router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
 router.post('/getPostsByCloseList', [postByFollowings], getPostsByCloseList);
 router.post('/addComment', [validateAuthInPost, validateComment, handleErrors], addComment);
