@@ -7,46 +7,66 @@ display:flex;
 flex-direction:column;
 justify-content:flex-start;
 align-items:flex-start;
-padding-bottom:15px;
 gap:10px;
-background-color:var(--lightblack);
-border-bottom-left-radius:10px;
-border-bottom-right-radius:10px;
 font-family: 'Red Hat Display';
 position: relative;
+overflow: hidden;
+text-overflow: ellipsis;
 
-.overlay{
-    position:absolute;
-    width:100%;
-    height:300px;
-    background-color:transparent;
-    opacity:0;
-    visibility:hidden;
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1500;
+    background-color: transparent;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    span {
+        display: flex;
+        align-items: center;
+        font-size: 1.3rem;
+        font-weight: 900;
+        background-color: transparent;
+        color: white;
+        gap: 5px;
+    }
+
+    .containerIconPost {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
     
-    .iconExpandImage{
-        background-color:transparent;
-        color:white;
-        font-weight:900;
-        font-size:2rem;
+    .iconView, .iconHeart, .iconComment{
+        background-color: transparent;
+        color: var(--light);
+        font-size:1.1rem;        
+        cursor: pointer;
+    }
+
+    .iconHeart {
+        color: ${props => props.isLike ? 'var(--violetpink)' : 'white'};
     }
 }
 
 .imgContent{
     width:100%;
-    height:300px;
+    height:100%;
+    aspect-ratio: 1/1;
     object-fit:cover;
 }
 
-&:hover .overlay{
-    backdrop-filter: blur(2px);
-    opacity:1;
-    visibility:visible;
+&:hover .overlay {
+    backdrop-filter: blur(5px);
+    background-color: #00000050;
+    opacity: 1;
+    visibility: visible;
     cursor: pointer;
-    transition:all 0.1s ease-in-out;
 }
 
 @media (max-width: 490px) {
@@ -62,73 +82,4 @@ position: relative;
         display: none;
     }
 }
-`
-
-export const ThumbnailProfileStyles = styled.span`
-  img{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background-color: transparent;
-    margin-left:5px;
-}
-
-.imgProfile{
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    font-size:2rem;
-    color: var(--violetpink);
-    background-color:var(--heavyLight);
-}
-
-@media (max-width: 490px) {
-    display: none;
-}
-`
-
-export const DescriptionContentProfileStyles = styled.span`
-    width:100%;
-    background-color: transparent;
-    display:flex;
-    align-items: center;
-    gap:8px;
-    font-weight:300;
-
-    span, p{
-        background-color: transparent;
-        color:var(--light);
-    }
-
-    p {
-        width:100%;
-        max-width:280px;
-        overflow:hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    .containerIconPost{
-        background-color:transparent;
-        position:absolute;
-        display:flex;
-        right:10px;
-        bottom:10px;
-        gap:10px;
-    }
-
-    .iconView, .iconHeart, .iconComment{
-        background-color: transparent;
-        color: var(--light);
-        font-size:1.1rem;        
-        cursor: pointer;
-    }
-
-    .iconHeart {
-        color: ${ props => props.isLike ? 'var(--violetpink)' : 'white' };
-    }
-
-@media (max-width: 490px) {
-    display: none;
-}
-`
+`;

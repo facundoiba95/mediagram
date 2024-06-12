@@ -4,21 +4,24 @@ export const ProfileContentContainerStyles = styled.section`
 width:100%;
 height:100%;
 display:${ props => props.posts.length ? 'grid' : 'flex' };
-grid-template-columns: ${props => props.posts.length ? 'minmax(280px, 350px) minmax(280px, 350px) minmax(280px, 350px)' : '1fr'};
+grid-template-columns: ${props => props.posts.length ? '1fr 1fr 1fr' : '1fr'};
 justify-items: space-between;
 flex-direction: column;
-gap:8px;
+gap:5px;
+
+@media (max-width: 1024px) {
+    grid-template-columns: ${props => props.posts.length ? '1fr 1fr' : '1fr'};
+}
 
 @media (max-width: 490px) {
-    grid-template-columns: ${props => props.posts ? 'minmax(70px, 130px) minmax(70px, 130px) minmax(70px, 130px)' : '1fr 1fr'};
+    grid-template-columns: ${props => props.posts ? '1fr 1fr 1fr' : '1fr 1fr'};
     justify-content: center;
-    gap:5px;
+    gap:2px;
 }
 
 @media (max-width: 376px) {
-    grid-template-columns: ${props => props.posts ? 'minmax(70px, 130px) minmax(70px, 130px)' : '1fr 1fr'};
+    grid-template-columns: ${props => props.posts ? '1fr 1fr' : '1fr 1fr'};
     justify-content: center;
-    gap:5px;
 }
 `
 

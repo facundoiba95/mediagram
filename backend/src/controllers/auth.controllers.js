@@ -2,6 +2,7 @@ import Jwt from 'jsonwebtoken';
 import User from "../models/User.js";
 import { config } from 'dotenv';
 import mongoose from 'mongoose';
+import changeShareInExplore from '../libs/Posts/changeShareInExplore.js';
 config();
 
 export const handleLogin = async ( req,res ) => {
@@ -68,6 +69,11 @@ export const changePrivacityOfAccount = async ( req,res ) => {
         const { condition } = req.body;
         const userAuth = req.userAuth;
         userAuth.isPrivate = condition;
+        
+        if(userAuth.isPrivate) {
+            await changeShareInExplore(userAuth._id)
+        }
+
         await userAuth.save();
         return res.status(200).json({ message: `Privacity is changed. isPrivate: "${userAuth.isPrivate}"`, status: 200, user: userAuth});
     } catch (error) {

@@ -11,31 +11,29 @@ import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderRes
 
 const ProfileContent = () => {
   // states
-  const userAuth = useSelector( state => state.authSlices.user );
-  const { userSelected } = useSelector( state => state.userSlices );
-  const posts = useSelector( state => state.postSlices.post );
-  const isLoadingPost = useSelector( state => state.postSlices.isLoading );
-  const isLoadingAuth = useSelector( state => state.authSlices.isLoading );
-  const isLoadingUser = useSelector( state => state.userSlices.isLoading );
-  const { isFollowing } = useSelector( state => state.userSlices );
+  const userAuth = useSelector(state => state.authSlices.user);
+  const { userSelected } = useSelector(state => state.userSlices);
+  const posts = useSelector(state => state.postSlices.post);
+  const isLoadingPost = useSelector(state => state.postSlices.isLoading);
+  const isLoadingUser = useSelector(state => state.userSlices.isLoading);
+  const { isFollowing } = useSelector(state => state.userSlices);
   const isUserAuth = userSelected.some(usr => usr.username === userAuth.username);
 
   const renderContentProfile = () => {
     return posts.map(item => {
-      const { thumbnail, description, postBy, likes, comments, typePost,_id } = item;
-      if(isLoadingPost || isLoadingUser){
+      const { thumbnail, likes, _id, counterViews, counterLikes, counterComments } = item;
+      if (isLoadingPost || isLoadingUser) {
         return (<SkeletonCardPostProfile />)
       } else {
         return (
-          <CardContentProfile 
-          thumbnail={thumbnail}
-          description={description}
-          postBy={postBy}
-          likes={likes}
-          comments={comments}
-          typePost={typePost}
-          _id={_id}
-          key={_id}
+          <CardContentProfile
+            thumbnail={thumbnail}
+            likes={likes}
+            _id={_id}
+            counterComments={counterComments}
+            counterLikes={counterLikes}
+            counterViews={counterViews}
+            key={_id}
           />
         )
       }
@@ -44,22 +42,22 @@ const ProfileContent = () => {
 
   const renderPrivateAccountMessage = () => {
     return (
-        <MessagePrivateAccountStyles>
-          <HiOutlineLockClosed className='iconPrivateAccount'/>
-          <h2>Esta cuenta es privada. Envíale una solicitud de seguimiento.</h2>
-        </MessagePrivateAccountStyles>
-      )
+      <MessagePrivateAccountStyles>
+        <HiOutlineLockClosed className='iconPrivateAccount' />
+        <h2>Esta cuenta es privada. Envíale una solicitud de seguimiento.</h2>
+      </MessagePrivateAccountStyles>
+    )
   }
 
 
   const handleViewPrivateAccountContent = () => {
     const { isPrivate } = userSelected[0];
-  
+
     const renderEmptyContent = () => {
       return <ContentIsEmpty />;
     };
-    
-    if(isUserAuth) return posts.length ? renderContentProfile() : renderEmptyContent();
+
+    if (isUserAuth) return posts.length ? renderContentProfile() : renderEmptyContent();
 
     if (isPrivate) {
       if (!isFollowing) {
@@ -75,10 +73,10 @@ const ProfileContent = () => {
   return (
     <ProfileContentContainerStyles posts={posts}>
       {
-        handleViewPrivateAccountContent()  
+        handleViewPrivateAccountContent()
       }
     </ProfileContentContainerStyles>
-    )
+  )
 }
 
 export default ProfileContent

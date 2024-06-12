@@ -40,17 +40,19 @@ export const createPost = async (req, res) => {
             newPost.shareInExplore = shareInExplore;
         }
 
+        // ARCHIVO ORIGINAL
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
-            folder: 'mediagram/posts'
-        }); // subir archivo original
-        newPost.imgPost = `${result.secure_url}`;// guarda la ruta de archivo original
+            folder: 'mediagram/posts' // directorio en cloudinary
+        }); 
+        newPost.imgPost = `${result.secure_url}`;
 
+        // THUMBNAIL
         await generateThumbnail(req, res);
         const thumbnailPath = `${req.file.path}`; // Ruta para la miniatura
         const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailPath}-thumbnail.jpeg`, {
-            folder: 'mediagram/posts'
-        }); // subir archivo miniatura
-        newPost.thumbnail = `${resultThumbnail.secure_url}`;// guarda la ruta de la miniatura
+            folder: 'mediagram/posts' // directorio de cloudinary
+        }); 
+        newPost.thumbnail = `${resultThumbnail.secure_url}`;
 
 
         await fs.unlink(`${thumbnailPath}-thumbnail.jpeg`)   // elimina archivo local de miniatura  
@@ -257,7 +259,7 @@ export const visiblePosts = async (req,res) => {
         const tagsFound = req.tagsFound;
         const postsFound = req.postsFound;
 
-        if(!tagsFound.length || !postsFound.length) return res.status(404).json({message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: tagsFound });
+        if(!tagsFound.length || !postsFound.length) return res.status(404).json({message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: postsFound })
 
         res.status(200).json({message: `Se encontraron posts con el tag: '${nameTag}'`,post: postsFound});
     } catch (error) {

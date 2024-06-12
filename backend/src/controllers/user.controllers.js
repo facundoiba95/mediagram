@@ -139,10 +139,8 @@ export const unfollowUser = async (req, res) => {
 export const handleIsFollowing = async (req, res) => {
     try {
         const { username } = req.body;
-        // const foundUserRecived = await User.findOne({ username });
         const userAuth = req.userAuth;
-        
-        const isFollowingsUsers = userAuth.followings.some(usr => usr.username === userAuth.username);
+        const isFollowingsUsers = userAuth.followings.some(usr => usr.username === username);
 
         if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor de ${username}!`, isFollowing: isFollowingsUsers, status: 200 });
         return res.status(401).json({ message: `No eres seguidor de "${username}"`, isFollowing: isFollowingsUsers, status: 401 });

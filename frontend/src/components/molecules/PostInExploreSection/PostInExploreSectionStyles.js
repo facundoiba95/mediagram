@@ -87,7 +87,7 @@ img {
     border-radius: 5px;
 }
 
-.overflow {
+.overlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -118,7 +118,7 @@ img {
     }
 }
 
-&:hover .overflow {
+&:hover .overlay {
     backdrop-filter: blur(5px);
     background-color: #00000050;
     opacity: 1;
@@ -129,7 +129,7 @@ img {
 @media (max-width: 490px) {
     min-height: 90vh;
 
-    .overflow {
+    .overlay {
         display: flex;
         opacity: 1;
         visibility: visible;

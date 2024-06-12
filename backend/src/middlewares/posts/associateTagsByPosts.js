@@ -1,29 +1,54 @@
-import Post from "../../models/Post.js";
 import Tags from "../../models/Tags.js";
 
-export default async (req,res,next) => {
+export default async (req, res, next) => {
     try {
         const tagsFound = req.tagsFound;
 
-        if(!tagsFound.length) return next();
-        
+        if (!tagsFound.length) return next();
+
         const idsTags = tagsFound.map(tag => tag._id);
 
         const tagsByPost = await Tags.aggregate([
-            // Etapa 1: filtrar los tags encontrados anteriormente
-            { 
-                $match: { _id: { $in: idsTags} } 
-            }, 
-            // Etapa 2: relacionar los posts.tags con Tags._id y guardarlos en esta variable
+            // etapa 1: filtrar los tags encontrados anteriormente
+            {
+                $match: {
+                    _id: { $in: idsTags }
+                }
+            },
+            // etapa 2: relacionar los posts.tags con Tags._id y guardarlos en esta variable
             {
                 $lookup: {
                     from: 'posts',
-                    localField: '_id', 
+                    localField: '_id',
                     foreignField: 'tags',
-                    as: 'relatedPosts' 
+                    as: 'relatedPosts'
                 }
             },
-            // Etapa 3: Enviar solamente estos campos al cliente
+            // etapa 3: desenredar el array relatedPosts
+            {
+                $unwind: '$relatedPosts'
+            },
+            // etapa 4: obtener los posts que se puedan compartir. Cuentas publicas.
+            {
+                $match: {
+                    'relatedPosts.shareInExplore': true
+                }
+            },
+            // etapa 5: ordenar de mayor a menor cantidad de vistas
+            {
+                $sort: {
+                    'relatedPosts.counterViews': -1
+                }
+            },
+            // etapa 6: volver a agrupar
+            {
+                $group: {
+                    _id: '$_id',
+                    name: { $first: '$name' },
+                    relatedPosts: { $push: '$relatedPosts' }
+                }
+            },
+            // etapa 7: seleccionar campos
             {
                 $project: {
                     _id: 1,

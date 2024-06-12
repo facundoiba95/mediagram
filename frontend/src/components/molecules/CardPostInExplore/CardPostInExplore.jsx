@@ -4,11 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaEye, FaHeart } from 'react-icons/fa';
 
 const CardPostInExplore = ({
-  title,
   heightCard,
   thumbnail,
-  postBy,
-  tags,
   counterLikes,
   counterViews,
   posts,
@@ -29,7 +26,7 @@ const CardPostInExplore = ({
 
   return (
     <CardPostInExploreStyles heightCard={heightCard} posts={posts.length} data-id={_id} onClick={goPost}>
-      <span className='overflow' >
+      <span className='overlay' >
         <span><FaHeart className='iconHeart' />{counterLikes}</span>
         <span><FaEye className='iconView' />{counterViews}</span>
       </span>
