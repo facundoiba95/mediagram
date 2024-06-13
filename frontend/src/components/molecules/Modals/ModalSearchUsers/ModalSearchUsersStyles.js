@@ -15,6 +15,21 @@ left: 50%;
 transform: translate(-50%,20%);
 border-radius: 10px;
 background-color: transparent;
+font-family: "Red Hat Display";
+
+.iconCloseSearchBar{
+    font-size:2.2rem;
+    padding:2px;
+    cursor: pointer;
+    color: white;
+    background-color: transparent;
+}
+
+p, i, b{
+    color: white;
+    background-color: transparent;
+}
+
 
 @media (max-width: 490px) {
     transform: scale(0.8);

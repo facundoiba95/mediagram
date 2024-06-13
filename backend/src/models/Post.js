@@ -18,7 +18,8 @@ const postSchema = new Schema({
     description: String,
     tags: [{
         type: Schema.Types.ObjectId,
-        default: null
+        default: null,
+        ref: 'Tags'
     }],
     shareInExplore: {
         type: Boolean,

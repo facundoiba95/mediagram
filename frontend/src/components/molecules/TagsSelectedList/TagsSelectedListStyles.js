@@ -7,4 +7,6 @@ height: auto;
 display: ${props => props.isHidden ? 'flex' : 'none'};
 flex-wrap: wrap;
 gap: 10px;
+padding: 10px;
+background-color: transparent;
 `

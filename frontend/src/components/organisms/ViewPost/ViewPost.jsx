@@ -10,9 +10,10 @@ import Loader from '../../molecules/Loaders/Loader/Loader';
 import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWindow';
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import ModalAddTags from '../../molecules/Modals/ModalAddTags/ModalAddTags';
 
 const ViewPost = ({ children }) => {
-    const { isOpenViewPost, setIsOpenViewPost } = useContext(GlobalContext);
+    const { isOpenViewPost, setIsOpenViewPost, isOpenAddTags, setIsOpenAddTags } = useContext(GlobalContext);
     const isLoadingPost = useSelector( state => state.postSlices.isLoading );
     const [ isReadyPost, setIsReadyPost ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
@@ -24,6 +25,7 @@ const ViewPost = ({ children }) => {
     const goBack = () => {
         setIsOpenViewPost(false);
         dispatch(restarStatusPost())
+        setIsOpenAddTags(false)
         navigator(-1);
     }
 
@@ -102,6 +104,7 @@ const ViewPost = ({ children }) => {
             ? <>{children}</>
             : <>
                <ModalAuthWindow/>
+               <ModalAddTags/>
                { renderModalSearchUsers() }
                { renderPost() }
               </>

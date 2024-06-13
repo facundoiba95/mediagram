@@ -3,8 +3,8 @@ import { LoaderCreatePostContainerStyles } from '../../Loaders/LoaderCreatePost/
 import { ModalStatusCreateContentBoxStyles } from './ModalStatusCreateContentStyles'
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { MdError } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { restarStatusPost } from '../../../../redux/slices/postSlices/postSlices';
 import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
 import('animate.css');
@@ -13,12 +13,17 @@ import('animate.css');
 const ModalStatusCreateContent = ({status, error}) => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
+    const { user } = useSelector(state => state.authSlices);
+    const params = useParams();
     
     const isSuccessfullyContent = () => {
+        params.username = user.username;
+        
         setTimeout(() => {
-           navigator('/feed')
+           navigator(`/profile/${params.username}`)
            dispatch(restarStatusPost())
-        }, 3000)
+        }, 3000);
+
         return (
             <>
               <BsPatchCheckFill className='animate__animated animate__heartBeat iconStatusContent'/>

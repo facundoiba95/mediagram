@@ -1,34 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ItemInteractionStyles, ListInteractionStyles, PostInteractionContainerStyles, SharePostContainerStyles } from './PostInteractionStyles'
-import{ FaComment, FaEye, FaHeart } from 'react-icons/fa';
-import { BsShareFill } from 'react-icons/bs';
+import React, { useContext } from 'react'
+import { ItemInteractionStyles, ListInteractionStyles, PostInteractionContainerStyles } from './PostInteractionStyles'
+import { FaEye, FaHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePost, handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
+import { handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
-import { MdDeleteForever } from "react-icons/md";
 import useIsAdmin from '../../../Hooks/useIsAdmin';
+import MenuViewPost from '../MenuViewPost/MenuViewPost';
 
 const PostInteraction = ({ counterViews, counterLikes, post, likes }) => {
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
-    const userAuth = useSelector( state => state.authSlices.user );
+    const userAuth = useSelector(state => state.authSlices.user);
     const { isLogged } = useSelector(state => state.authSlices);
-    
     const { setIsOpenModalWindowAuth, setIsOpen } = useContext(GlobalContext);
-    const [ openMessage, setOpenMessage ] = useState(false);
-    const [ openShareURL, setOpenShareURL ] = useState(false);
-    const isAdmin = isLogged ? useIsAdmin({dataRecived: post[0].postBy._id, dataAuth: userAuth._id}) : false;
     const isLike = isLogged ? likes.some(usr => usr._id == userAuth._id) : false;
-   
-    
+    const isAdmin = isLogged ? useIsAdmin({ dataRecived: post[0].postBy._id, dataAuth: userAuth._id }) : false;
+
+
     const sendLike = async () => {
         const result = await dispatch(validateSession());
-        
-        if(await result.payload.status === 200){
+
+        if (await result.payload.status === 200) {
             const newLike = {
                 username: userAuth.username,
                 thumbnail: userAuth.thumbnail,
@@ -36,12 +32,12 @@ const PostInteraction = ({ counterViews, counterLikes, post, likes }) => {
                 idPost: post[0]._id,
                 postBy: post[0].postBy
             };
-    
+
             await dispatch(handleLikeToPost(newLike));
             await dispatch(setStatusNotification());
         } else {
             setIsOpenModalWindowAuth(true)
-          return;
+            return;
         }
     }
 
@@ -56,75 +52,24 @@ const PostInteraction = ({ counterViews, counterLikes, post, likes }) => {
         navigator(`/getPostByID/${params.idPost}/${params.typeInteraction}`);
         setIsOpen(true);
     }
-    
-    const renderBoxShareURLPost = () => {
-        return (
-            <SharePostContainerStyles openMessage={openMessage}>
-            <p>Copia este enlace para compartir:</p>
-            <span>
-              <input type='text' value={ window.location.href} id='URLPost'/>
-              <button className='btnCopyURL' onClick={sharePostURL}>Copiar</button>
-            </span>
-            {
-                openMessage
-                ? <small className='messageShareURLPost'>Se copió la URL del post!</small>
-                : <></>
-            }
-           </SharePostContainerStyles>
-        )
-    }
 
-    const sharePostURL = () => {
-        const URLPost = document.getElementById('URLPost');
-        URLPost.select();
-        document.execCommand('copy');
-        setOpenMessage(true);
-
-        setTimeout(() => {
-            setOpenMessage(false);
-            setOpenShareURL(false);
-        }, 3000);
-    }
-    
-    const handleDeletePost = () => {
-        if(window.confirm('Desea eliminar este post?')) {
-            params.username = userAuth.username;
-            (async () => {
-                await dispatch(deletePost(post[0]._id));
-                navigator(`/profile/${params.username}`);
-            })()
-        } else {
-            return;
-        }
-    }
-
-  return (
-    <PostInteractionContainerStyles>
-        <ListInteractionStyles >
-            <ItemInteractionStyles >
-                <FaEye className='iconView' onClick={openViews}/><h5 onClick={openViews}>{counterViews}</h5>
-            </ItemInteractionStyles>
-            <ItemInteractionStyles isLike={isLike}>
-               <FaHeart className='iconHeart' onClick={sendLike}/><h5 onClick={openLikes}>{counterLikes}</h5>
-            </ItemInteractionStyles>
-            <ItemInteractionStyles openShareURL={openShareURL}>
-               <BsShareFill className='iconComment' onClick={() => setOpenShareURL(!openShareURL)}/>
-               {
-                openShareURL
-                ? renderBoxShareURLPost()
-                : <></>
-               }
-            </ItemInteractionStyles>
-            {
-                isAdmin
-                ? <ItemInteractionStyles>
-                    <MdDeleteForever onClick={handleDeletePost} className='iconDeletePost'/>
+    return (
+        <PostInteractionContainerStyles> 
+            <ListInteractionStyles >
+                <ItemInteractionStyles >
+                    <FaEye className='iconView' onClick={openViews} /><h5 onClick={openViews}>{counterViews}</h5>
                 </ItemInteractionStyles>
-                : <></>
-            }
-
-        </ListInteractionStyles>
-    </PostInteractionContainerStyles>
+                <ItemInteractionStyles isLike={isLike}>
+                    <FaHeart className='iconHeart' onClick={sendLike} /><h5 onClick={openLikes}>{counterLikes}</h5>
+                </ItemInteractionStyles>
+                <MenuViewPost
+                    post={post}
+                    isAdmin={isAdmin}
+                    userAuth={userAuth}
+                    isPrivate={userAuth.isPrivate}
+                />
+            </ListInteractionStyles>
+        </PostInteractionContainerStyles>
     )
 }
 

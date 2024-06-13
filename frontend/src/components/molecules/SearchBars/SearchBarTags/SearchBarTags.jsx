@@ -12,7 +12,6 @@ const SearchBarTags = ({ placeholder, hidden}) => {
     
     useEffect(() => {
         if (nameTag.length >= 3) dispatch(searchTags(nameTag));
-        // if(!switchChecked) dispatch(resetTagState());
     }, [nameTag, switchChecked])
 
     return (

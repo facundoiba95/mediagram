@@ -119,7 +119,6 @@ export const refreshUser = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const usernameSelected = { username }
-            console.log(usernameSelected);
 
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/verifyUser`, {
                 method: "POST",

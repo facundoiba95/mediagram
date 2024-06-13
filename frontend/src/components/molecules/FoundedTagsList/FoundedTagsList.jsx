@@ -4,7 +4,7 @@ import ItemTagsFounded from '../../atoms/ItemTagsFounded/ItemTagsFounded'
 import ItemCreateTag from '../../atoms/ItemCreateTag/ItemCreateTag'
 import { GlobalContext } from '../../../Context/GlobalContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { addTagToList, removeTagToList } from '../../../redux/slices/tagSlices/tagSlices'
+import { addTagToList } from '../../../redux/slices/tagSlices/tagSlices'
 
 const FoundedTagsList = ({ tags, nameTag }) => {
   const { switchChecked } = useContext(GlobalContext);
@@ -19,14 +19,7 @@ const FoundedTagsList = ({ tags, nameTag }) => {
     dispatch(addTagToList(newTag))
   }
 
-  const removeTag = (e) => {
-    const id = e.currentTarget.dataset.id;
-    dispatch(removeTagToList(id))
-  }
-
-  const renderTags = () => {
-    if (!switchChecked) return (<></>)
-    
+  const renderTags = () => {    
       if (!tags.length && nameTag.length >= 3) {
       return (<ItemCreateTag tag={nameTag} />)
     }
@@ -35,7 +28,7 @@ const FoundedTagsList = ({ tags, nameTag }) => {
       const { _id, name } = tag;
       const isSelected = listTags.some(tag => tag._id === _id)
       return (
-        <ItemTagsFounded name={name} _id={_id} addTag={addTag} removeTag={removeTag} isSelected={isSelected}/>
+        <ItemTagsFounded name={name} _id={_id} addTag={addTag} isSelected={isSelected}/>
       )
     })
   }

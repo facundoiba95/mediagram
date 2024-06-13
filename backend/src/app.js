@@ -63,7 +63,7 @@ app.use('/', indexRoutes);
 app.use('/api/mediagram/auth/', authRoutes);
 app.use('/api/mediagram/post/', postRoutes);
 app.use('/api/mediagram/user/', userRoutes);
-app.use('/api/mediagram/tags', tagsRoutes);
+app.use('/api/mediagram/tags/', tagsRoutes);
 
 // websockets
 io.on('connection', (socket) => {

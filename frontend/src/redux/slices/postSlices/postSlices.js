@@ -7,6 +7,7 @@ import addCommentBuilders from "./Builders/addCommentBuilders";
 import handleLikeToPostBuilders from "./Builders/handleLikeToPostBuilders";
 import addReferToBuilders from "./Builders/addReferToBuilders";
 import getVisiblePostsBuilders from "./Builders/getVisiblePostsBuilders";
+import updateTagsInPostBuilders from "./Builders/updateTagsInPostBuilders";
 
 const initialState = {
     error: null,
@@ -218,6 +219,28 @@ export const getVisiblePosts = createAsyncThunk(
     }
 )
 
+export const updateTagsInPost = createAsyncThunk(
+    'updateTags/postSlices',
+    async (tags) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/updateTags/${tags.idPost}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(tags)
+            });
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrió un error en updateTags, postSlices. Error: ', error);
+            alert('Ocurrió un error en updateTags, postSlices.');
+        }
+    }
+)
+
 const postSlices = createSlice({
     name: 'postSlices',
     initialState,
@@ -242,6 +265,7 @@ const postSlices = createSlice({
         handleLikeToPostBuilders(builders, handleLikeToPost);
         addReferToBuilders(builders, addReferTo);
         getVisiblePostsBuilders(builders, getVisiblePosts);
+        updateTagsInPostBuilders(builders, updateTagsInPost);
     }
 })
 

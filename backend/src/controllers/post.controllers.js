@@ -238,6 +238,28 @@ export const deletePost = async (req, res) => {
     }
 }
 
+export const updateTagsInPost = async (req,res) => {
+    try {
+        const { tags } = req.body;
+        const { idPost } = req.params;
+
+        await Post.findByIdAndUpdate(
+            idPost,
+            { 
+                tags: tags,
+                shareInExplore: true
+            },
+            { new: true }
+        )
+
+        res.status(200).json({message: 'Se actualizo correctamente la lista de tags.', status: 200});
+        
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "updateTagsInPost()"', { error: error.message, status: error.status });
+        res.status(error.status).json({ error: error.message, status: error.status })
+    }
+}
+     
 export const test_getPost = async (req, res) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
@@ -259,7 +281,7 @@ export const visiblePosts = async (req,res) => {
         const tagsFound = req.tagsFound;
         const postsFound = req.postsFound;
 
-        if(!tagsFound.length || !postsFound.length) return res.status(404).json({message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: postsFound })
+        if(!tagsFound.length || !postsFound.length) return res.status(404).json({message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: [] })
 
         res.status(200).json({message: `Se encontraron posts con el tag: '${nameTag}'`,post: postsFound});
     } catch (error) {

@@ -9,6 +9,7 @@ justify-content: center;
 align-items: center;
 font-size:1.5rem;
 gap:20px;
+text-align: center;
 
 .iconZzz {
     font-size:3rem;

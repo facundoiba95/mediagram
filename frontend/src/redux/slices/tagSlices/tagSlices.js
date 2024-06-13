@@ -59,14 +59,17 @@ const tagSlices = createSlice({
         resetTagState: (state, action) => {
             return { ...initialState };
         },
+        setListTags: (state, action) => {
+            state.listTags = action.payload;
+        },
         addTagToList: (state, action) => {
-            if(!action.payload) return;
+            if (!action.payload) return;
             const existTagInList = state.listTags.some(tag => tag._id === action.payload._id);
             if (existTagInList) return;
             state.listTags = [...state.listTags, action.payload]
             state.nameTag = '';
         },
-        removeTagToList: (state,action) => {
+        removeTagToList: (state, action) => {
             state.listTags = state.listTags.filter(tag => tag._id !== action.payload);
         }
     },
@@ -76,5 +79,5 @@ const tagSlices = createSlice({
     }
 })
 
-export const { setNameTag, resetTagState, addTagToList, removeTagToList } = tagSlices.actions;
+export const { setNameTag, resetTagState, addTagToList, setListTags, removeTagToList } = tagSlices.actions;
 export default tagSlices.reducer;

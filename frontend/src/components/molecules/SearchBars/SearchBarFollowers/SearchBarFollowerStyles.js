@@ -4,6 +4,7 @@ export const ContainerSearchBarStyles = styled.span`
 width: 100%;
 max-width: 500px;
 position: relative;
+background-color: transparent;
 
 .iconSearch {
     font-size:2.5rem;
