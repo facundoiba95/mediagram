@@ -11,6 +11,7 @@ export const GlobalContextProvider = ({children}) => {
     const [ isOpenMenuSetting, setIsOpenMenuSetting ] = useState(false); 
     const [ isOpenAddTags, setIsOpenAddTags ] = useState(false);
     const [ isOpenViewPost, setIsOpenViewPost ] = useState(false); 
+    const [ isOpenImageProfile, setIsOpenImageProfile ] = useState(false); 
     const [ isOpenModalWindowAuth, setIsOpenModalWindowAuth ] = useState(false);
     const [ toggleAuth, setToggleAuth ] = useState('login'); 
     const [ isOpenModalInteractionsInfo, setIsOpenModalInteractionsInfo ] = useState(false);
@@ -44,7 +45,8 @@ export const GlobalContextProvider = ({children}) => {
             locationSelected, setLocationSelected,
             listReferTo, setListReferTo,
             switchChecked, setSwitchChecked,
-            isOpenAddTags, setIsOpenAddTags
+            isOpenAddTags, setIsOpenAddTags,
+            isOpenImageProfile, setIsOpenImageProfile
         }}>
             {children}
         </GlobalContext.Provider>

@@ -11,17 +11,18 @@ import { handleIsFollowing, restartUserSlice, selectUser } from '../../redux/sli
 import { resetStateAuth, restartStatusAuthSlice, validateSession } from '../../redux/slices/authSlices/authSlices'
 import ModalSearchUsers from '../../components/molecules/Modals/ModalSearchUsers/ModalSearchUsers'
 import { GlobalContext } from '../../Context/GlobalContext'
+import ImageViewer from '../../components/molecules/ImageViewer/ImageViewer'
 
 const Profile = ({ children }) => {
   // states
-  const {isLogged} = useSelector(state => state.authSlices);
+  const { isLogged } = useSelector(state => state.authSlices);
   const isLoadingAuth = useSelector(state => state.authSlices.isLoading);
   const isLoading = useSelector(state => state.userSlices.isLoading);
-  const [ isReadyProfile, setIsReadyProfile ] = useState(false);
-  const { userSelected } = useSelector( state => state.userSlices );
+  const [isReadyProfile, setIsReadyProfile] = useState(false);
+  const { userSelected } = useSelector(state => state.userSlices);
 
   // useContext 
-  const { isOpen,setOpenLoader } = useContext(GlobalContext);
+  const { isOpen, setOpenLoader } = useContext(GlobalContext);
 
   // hooks and tools
   const navigator = useNavigate();
@@ -32,7 +33,7 @@ const Profile = ({ children }) => {
   const placeholderValue = {
     followers: `Buscar seguidores de ${params.username}`,
     followings: `Buscar a quién sigue ${params.username}`
-}
+  }
 
 
   useEffect(() => {
@@ -50,37 +51,37 @@ const Profile = ({ children }) => {
     }
 
     handleConectProfile();
-    
-  }, [ dispatch, params.username, isLogged ]);
+
+  }, [dispatch, params.username, isLogged]);
 
 
   const renderModalSearchUsers = () => {
-    if(params.typeFollow === 'followers'){
+    if (params.typeFollow === 'followers') {
       return (
-          <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followers} placeholderValue={placeholderValue[params.typeFollow]}/>
+        <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followers} placeholderValue={placeholderValue[params.typeFollow]} />
       )
-  } else if(params.typeFollow === 'followings'){
+    } else if (params.typeFollow === 'followings') {
       return (
-          <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followings} placeholderValue={placeholderValue[params.typeFollow]}/>
-      )        
-  }
+        <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followings} placeholderValue={placeholderValue[params.typeFollow]} />
+      )
+    }
   }
 
 
   const renderProfile = () => {
-    if (isLogged === true && isReadyProfile ) {
+    if (isLogged === true && isReadyProfile) {
       return (
         <ProfileContainerStyles>
-          { renderModalSearchUsers() }
+          {renderModalSearchUsers()}
           <ProfileHeader />
           {
-              location.pathname === `/profile/${params.username}/changeImageUser`
+            location.pathname === `/profile/${params.username}/changeImageUser`
               ? <>{children}</>
               : location.pathname === `/profile/${params.username}/changePassword`
-              ? <>{children}</>
-              : location.pathname === `/profile/${params.username}/closeList`
-              ? <>{children}</>
-              : <ProfileContent />
+                ? <>{children}</>
+                : location.pathname === `/profile/${params.username}/closeList`
+                  ? <>{children}</>
+                  : <ProfileContent />
           }
         </ProfileContainerStyles>
       )
@@ -91,8 +92,9 @@ const Profile = ({ children }) => {
 
   return (
     <TransitionContainer>
+      <ImageViewer image={userSelected[0] ? userSelected[0].imgProfile : [] } />
       {
-        renderProfile() 
+        renderProfile()
       }
     </TransitionContainer>
   )
