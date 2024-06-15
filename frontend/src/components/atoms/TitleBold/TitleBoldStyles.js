@@ -5,6 +5,7 @@ width: auto;
 height: auto;
 font-family: 'Wix Madefor Text';
 color: white;
+padding: 10px;
 
 h1 {
     font-size: 3rem;

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { ImageViewerContainerStyles } from './ImageViewerStyles'
-import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { GlobalContext } from '../../../Context/GlobalContext'
 
 const ImageViewer = ({ image }) => {

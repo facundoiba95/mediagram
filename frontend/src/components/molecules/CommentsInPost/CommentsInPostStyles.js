@@ -57,32 +57,36 @@ flex-direction: column;
 gap:10px;
 padding-top:5px;
 
-span {
+.containerLocation {
     width: 100%;
-    height: auto;
+    max-width: 300px;
+    background-color: purple;
+    border-radius:5px;
     display: flex;
     align-items: center;
-    gap:5px;
 
-    h5:nth-child(2) {
-    width: 100%;
-    max-width:300px;
-    white-space: nowrap;
-    overflow:hidden;
-    text-overflow: ellipsis;
-    color: white;
-    background-color: purple;
-    padding: 2px 5px;
-    border-radius: 5px;
+    h5 {
+        padding:2px 5px;
+        color:white;
+        width: 100%;
+        max-width:300px;
+        white-space: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        background-color: transparent;
     }
+}
 
-    .iconLocation {
-    font-size: 1.2rem;
+.iconLocation {
+    border-radius:50%;
     background-color: white;
     color: purple;
-    border-radius: 50%;
-    }
+}
 
+.containerReferTo {
+    display: ${props => props.referTo ? 'block' : 'none'};
     small {
     color: #808080;
     font-weight:600;  
@@ -98,14 +102,6 @@ span {
     }
 }
 
-@media (max-width: 490px) {
-    display: ${ props => props.hiddenComments ? 'none' : 'flex' };
-
-    h5:nth-child(2) {
-      max-width:200px;
-    }
-}
-
 `
 
 export const WrapperCommentContainerStyles = styled.div`
@@ -116,6 +112,7 @@ display:flex;
 justify-content: center;
 align-items: center;
 color: white;
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -123,12 +120,12 @@ color: white;
 
 export const ListCommentsStyles = styled.ul`
 width: 100%;
-height:400px;
+height: 400px;
 overflow-y: scroll;
-display: ${ props => props.comments ? 'flex' : 'none' };
+display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: flex-start;
+justify-content: ${ props => props.comments ? 'flex-start' : 'center'};
 gap:40px;
 
 ::-webkit-scrollbar {
@@ -136,8 +133,6 @@ gap:40px;
 }
 @media (max-width: 490px) {
     height:200px;
-    display: ${ props => props.hiddenComments ? 'flex' : 'none' };
-
 }
 `
 

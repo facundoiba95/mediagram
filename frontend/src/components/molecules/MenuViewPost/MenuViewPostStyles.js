@@ -7,7 +7,6 @@ display: flex;
 flex-direction: column;
 gap: 10px;
 position: relative;
-background-color: red;
 
 .iconMenuViewPost {
     font-size: 1.5rem;

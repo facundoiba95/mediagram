@@ -23,8 +23,8 @@ export const MenuSettingUserAuth = () => {
     const privacityOfAccount = () => {
         return (
             isPrivate
-                ? <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillUnlockFill className='iconItemMenuSetting' />Cambiar a <b>Cuenta Pública</b></MenuSettingItemStyles>
-                : <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillLockFill className='iconItemMenuSetting' />Cambiar a <b>Cuenta Privada</b></MenuSettingItemStyles>
+                ? <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillUnlockFill className='iconItemMenuSetting' />Cambiar a<b>Cuenta Pública</b></MenuSettingItemStyles>
+                : <MenuSettingItemStyles onClick={() => handleChangePrivacityOfAccount()}><BsFillLockFill className='iconItemMenuSetting' />Cambiar a<b>Cuenta Privada</b></MenuSettingItemStyles>
         )
     }
 
@@ -93,7 +93,8 @@ export const MenuSettingUserAuth = () => {
             <MenuSettingItemStyles onClick={goChangePassword}><MdOutlinePassword className='iconItemMenuSetting' />Cambiar contraseña</MenuSettingItemStyles>
             <MenuSettingItemStyles onClick={goFriendList}><RiVipCrown2Line className='iconItemMenuSetting' />Lista de amigos</MenuSettingItemStyles>
             {privacityOfAccount()}
-            <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting' />Otros ajustes</MenuSettingItemStyles>
+            {/* <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting' />Otros ajustes</MenuSettingItemStyles> */}
+            <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}>Cerrar</MenuSettingItemStyles>
         </MenuSettingListStyles>
     )
 }

@@ -22,9 +22,17 @@ z-index: 2000;
     transform: scale(90%);
 }
 
+:nth-child(5) {
+    background-color: #dc143c;
+    font-weight: 900;
+}
+
 @media (max-width: 490px) {
-    right: 15px;
-    top: 60px;
+    height: auto;
+    max-height: none;
+    right: 50%;
+    top: 200px;
+    transform: translate(50%);
 }
 `
 
@@ -48,6 +56,7 @@ gap: 10px;
 b {
     background-color:transparent;
 }
+
 .iconItemMenuSetting {
     background-color:transparent;
     font-size:1.4rem;

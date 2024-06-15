@@ -64,10 +64,10 @@ img {
 }
 
 @media (max-width: 490px) {
+    min-height: 90vh;
     img {
         background-color: black;
-        /* height: 100%; */
-        height: 25rem; 
+        height: 100%;
         padding: 0;
         aspect-ratio: 2/1;
     }
@@ -77,7 +77,7 @@ img {
 export const ViewPostCommentsSectionStyles = styled.section`
 width:100%;
 max-width:470px;
-height:100vh;
+height: 100%;
 background-color: transparent;
 
 @media (max-width: 490px) {
@@ -95,9 +95,7 @@ color: var(--light);
 
 @media (max-width: 490px) {
     height:auto;
-    display: ${props => props.hiddenComments ? 'none' : 'flex'};
     margin-top: 2rem;
-
 }
 `
 

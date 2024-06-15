@@ -5,7 +5,6 @@ width: 100%;
 height: 100px;
 
 @media (max-width: 490px) {
-    display: ${ props => props.hiddenComments ? 'block' : 'none' };
     height: 80px;
 }
 `

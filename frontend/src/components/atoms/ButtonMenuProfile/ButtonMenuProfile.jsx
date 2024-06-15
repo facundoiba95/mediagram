@@ -9,7 +9,6 @@ const ButtonMenuProfile = () => {
         <span className='spanMenuSetting' onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}>
             <MdSettings className='iconSetting' />
             <small>Ajustes de usuario.</small>
-            <small></small>
         </span>
     )
 }

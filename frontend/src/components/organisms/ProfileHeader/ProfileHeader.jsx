@@ -174,7 +174,7 @@ const ProfileHeader = () => {
       {
         isLogged ?
           <ProfileHeaderContainerStyles>
-            <MenuSettingUserAuth/>
+            <MenuSettingUserAuth />
             {
               isLoading || isLoadingAuth
                 ? <SkeletonCardContentProfile />
