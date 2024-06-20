@@ -125,7 +125,7 @@ export const unfollowUser = async (req, res) => {
             await followUpRequestNotification({ username }, userAuth, 'REJECTED');
             await userAuth.save();
             await foundUserFollower.save();
-            return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status: 200,  });
+            return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status: 200, });
         } else {
             return res.status(404).json({ message: 'FollowUpRequest not found!', status: 404 });
         }
@@ -219,17 +219,17 @@ export const getCloseList = async (req, res) => {
         const idAuth = req.idUser;
 
         let closeList = await User.find({ closeList: idAuth }).select('_id username thumbnail posts');
-        const postIds = closeList.flatMap(user => user.posts);
 
-        const found_EXCLUSIVEPOST = await Post.find({ _id: { $in: postIds }, typePost: 'EXCLUSIVEPOST'}).select('_id postBy views');
+        const found_EXCLUSIVEPOST = await Post.find({ _id: { $in: closeList.flatMap(user => user.posts) }, typePost: 'EXCLUSIVEPOST' }).select('_id postBy views imgPost');
 
-        
         closeList = closeList.filter(usr => {
-            if (!usr.posts.length) return;
+            if (!found_EXCLUSIVEPOST.length) {
+                usr.posts = [];
+                return usr;
+            }
 
-            found_EXCLUSIVEPOST.forEach(post => {
-                if (post.postBy.equals(usr._id)) usr.posts = post;
-            })
+            usr.posts = found_EXCLUSIVEPOST.filter(post => post.postBy.equals(usr._id));
+
             return usr;
         })
 

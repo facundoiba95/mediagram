@@ -4,6 +4,7 @@ import { GlobalContext } from '../../../Context/GlobalContext'
 
 const ContainerBlur = ({children}) => {
     const { isOpen } = useContext( GlobalContext );
+    
   return (
     <ContainerBlurWrapperStyles isOpen={isOpen}>
       { children }

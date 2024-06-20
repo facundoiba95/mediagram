@@ -27,4 +27,16 @@ h2 {
     width:10px;
     background-color:white;
 }
+
+.iconClose {
+    font-size:2.2rem;
+    padding:2px;
+    cursor: pointer;
+    color: white;
+    background-color: transparent;
+    position: absolute;
+    right:10px;
+    top: 20px;
+    z-index: 1500;
+}
 `

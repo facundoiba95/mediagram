@@ -18,6 +18,7 @@ import { validateSession } from '../redux/slices/authSlices/authSlices';
 import ProtectedRoutes from '../components/Containers/ProtectRoutes/ProtectRoutes';
 import GlobalLoader from '../components/molecules/Loaders/GlobalLoader/GlobalLoader';
 import Explore from '../Views/Explore/Explore';
+import ViewerHistory from '../components/organisms/ViewerHistory/ViewerHistory';
 
 const Router = () => {
   const params = useParams();
@@ -77,6 +78,11 @@ const Router = () => {
             </ProtectedRoutes>
           } />
           <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent} /></CreateContent>} />
+          <Route path='/history' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+              <ViewerHistory/>
+            </ProtectedRoutes>
+          } />
           <Route path='/unauthorized' element={<ModalUnauthenticated />} />
         </Routes>
       </GlobalContainer>

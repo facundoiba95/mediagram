@@ -22,7 +22,7 @@ export const GlobalContextProvider = ({children}) => {
     const [locationSelected, setLocationSelected] = useState('');
     const [listReferTo, setListReferTo] = useState([]);
     const [ switchChecked, setSwitchChecked ] = useState(false);
-
+    const [ isOpenHistory, setIsOpenHistory ] = useState(false);
 
 
 
@@ -46,7 +46,8 @@ export const GlobalContextProvider = ({children}) => {
             listReferTo, setListReferTo,
             switchChecked, setSwitchChecked,
             isOpenAddTags, setIsOpenAddTags,
-            isOpenImageProfile, setIsOpenImageProfile
+            isOpenImageProfile, setIsOpenImageProfile,
+            isOpenHistory, setIsOpenHistory
         }}>
             {children}
         </GlobalContext.Provider>

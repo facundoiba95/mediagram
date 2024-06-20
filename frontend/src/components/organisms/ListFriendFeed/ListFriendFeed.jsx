@@ -5,11 +5,19 @@ import { useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri'
 import { MessageNotFollowUpRequestStyles } from '../../molecules/FollowUpRequest/FollowUpRequestStyles';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const ListFriendFeed = () => {
   const { closeList } = useSelector(state => state.userSlices);
-  const { topScroll } = useContext(GlobalContext);
+  const { topScroll, isOpenHistory, setIsOpenHistory} = useContext(GlobalContext);
+  const navigator = useNavigate();
+  const params = useParams();
+
+  const goToHistory = () => {
+    setIsOpenHistory(!isOpenHistory);
+    navigator(`/history`)
+  }
 
   const renderItems = () => {
     if(!closeList.length){
@@ -21,8 +29,9 @@ const ListFriendFeed = () => {
     }
     return closeList.map(item => {
       const { thumbnail, username, _id, posts } = item;
+
       return (
-        <ListFriendItemStyles data-id={_id} existPost={posts.length}>
+        <ListFriendItemStyles data-id={_id} existPost={posts.length} onClick={goToHistory}>
           {
             thumbnail 
             ? <img src={thumbnail} alt="imgProfile user to closeFriend" />

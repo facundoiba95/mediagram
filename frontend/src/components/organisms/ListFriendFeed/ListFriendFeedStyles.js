@@ -68,10 +68,10 @@ background-color: transparent;
 `
 
 export const ListFriendItemStyles = styled.li`
-width:100%;
-max-width:150px;
+width: 100%;
+max-width: 150px;
 height: auto;
-display:flex;
+display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
@@ -133,18 +133,18 @@ img {
     padding:2px 3px 2px 3px;
 }
 
-
-&:hover {
-    transform: scale(1.05);
-}
-
 @media (max-width: 490px) {
     gap: 0px;
     background-color: transparent;
     width: auto;
-
+    
     img {
         width:70px;
+        height: 70px;
+    }
+
+    .iconDefaultProfile {
+        width: 70px;
         height: 70px;
     }
 
