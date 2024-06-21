@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
@@ -36,12 +36,12 @@ const ProfileHeader = () => {
   // states redux Toolkit
   const userAuth = useSelector(state => state.authSlices.user);
   const isLogged = useSelector(state => state.authSlices.isLogged);
-  const { userSelected } = useSelector(state => state.userSlices);
+  const { userSelected, closeList } = useSelector(state => state.userSlices);
   const isFollowing = useSelector(state => state.userSlices.isFollowing); // debe manejarse desde el backend
   const isLoading = useSelector(state => state.userSlices.isLoading);
   const isLoadingAuth = useSelector(state => state.authSlices.isLoading);
   const isUserAuth = userAuth.username === userSelected[0].username;
-  const existInListFriends = userAuth.closeList.some(usr => usr === userSelected[0]._id);
+  const existInListFriends = closeList.some(usr => usr._id == userSelected[0]._id);
   // useContext 
   const { isOpenMenuSetting } = useContext(GlobalContext);
 

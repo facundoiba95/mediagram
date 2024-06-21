@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ContainerShareInExploreStyles = styled.div`
 width: 100%;
 height: auto;
-display: ${props => !props.isPrivate ? 'flex' : 'none'};
+display: ${props => !props.isPrivate && props.typeContent ? 'flex' : 'none'};
 flex-direction: column;
 gap:5px;
 background-color: transparent;
