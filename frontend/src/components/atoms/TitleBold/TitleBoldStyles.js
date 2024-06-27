@@ -8,12 +8,14 @@ color: white;
 padding: 10px;
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 @media (max-width: 490px) {
     padding: 10px;
+
     h1 {
+        text-align: center;
         font-size: 2.5rem;
     }
 }

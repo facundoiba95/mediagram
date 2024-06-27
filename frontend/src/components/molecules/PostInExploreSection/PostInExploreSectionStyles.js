@@ -15,7 +15,7 @@ grid-template-columns: ${props => {
             case 4:
                 return "1fr 1fr 1fr 1fr"
             case 5:
-                return "minmax(280px, 320px) minmax(280px, 320px) auto"
+                return "minmax(230px, 280px) minmax(230px, 280px) auto"
         }
     }};
 
@@ -28,7 +28,7 @@ grid-template-rows: ${props => {
             case 4:
                 return "80vh"
             case 5:
-                return "300px 300px"
+                return "230px 230px"
         }
     }};
 

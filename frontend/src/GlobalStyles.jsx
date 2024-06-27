@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
         --heavyLight: #F6FFF8;
         --darkgrey:rgba(255, 255, 255, 0.2);
         --lightblack: #80808020;
+        --green: #53FC18;    
     }
 
     ::-webkit-scrollbar {

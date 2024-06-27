@@ -7,7 +7,6 @@ import FoundedTagsList from '../FoundedTagsList/FoundedTagsList';
 import TagsSelectedList from '../TagsSelectedList/TagsSelectedList';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useParams } from 'react-router-dom';
-import { EXCLUSIVEPOST } from '../../../libs/typePost';
 
 const ShareInExplore = () => {
   const { user } = useSelector(state => state.authSlices);

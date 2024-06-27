@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import GlobalContainer from '../components/Containers/GlobalContainer/GlobalContainer';
 import Profile from '../Views/Profile/Profile';
 import CreateContent from '../Views/CreateContent/CreateContent';
@@ -24,11 +24,7 @@ const Router = () => {
   const params = useParams();
   const userFound = useSelector(state => state.userSlices.userFound);
   const { isLogged } = useSelector(state => state.authSlices);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(validateSession());
-  }, [dispatch]);
+  
 
   return (
     <BrowserRouter>

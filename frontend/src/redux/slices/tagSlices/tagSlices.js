@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import searchTagsBuilders from "./tagBuilders/searchTagsBuilders";
 import createTagBuilders from "./tagBuilders/createTagBuilders";
+import getTrendTagsBuilders from "./tagBuilders/getTrendTagsBuilders";
 
 const initialState = {
     tags: [],
@@ -9,6 +10,7 @@ const initialState = {
     isLoading: false,
     error: null,
     message: null,
+    trendTags: [],
     listTags: []
 }
 
@@ -49,6 +51,20 @@ export const createTag = createAsyncThunk(
     }
 );
 
+export const getTrendTags = createAsyncThunk(
+    'getTrendTags/tagSlices',
+    async () => {
+        try {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}tags/getTrendTags`);
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrió un error en getTrendTags, tagSlices. Error: ', error);
+            alert('Ocurrió un error en getTrendTags, tagSlices.');
+        }
+    }
+)
+
 const tagSlices = createSlice({
     name: 'tagSlices',
     initialState,
@@ -76,6 +92,7 @@ const tagSlices = createSlice({
     extraReducers: (builders) => {
         searchTagsBuilders(builders, searchTags);
         createTagBuilders(builders, createTag);
+        getTrendTagsBuilders(builders, getTrendTags);
     }
 })
 

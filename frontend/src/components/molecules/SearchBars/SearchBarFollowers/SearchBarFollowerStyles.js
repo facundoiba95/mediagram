@@ -21,6 +21,7 @@ background-color: transparent;
 `
 export const InputSearchBarStyles = styled.input`
 width:100%;
+max-width: 500px;
 height: 50px;
 background-color:#eeeeee30;
 border-radius:10px;

@@ -31,10 +31,11 @@ const NavbarHeader = () => {
   const params = useParams();
 
   // useContext
-  const { setIsOpen, setIsOpenNotifications, isOpenMenu, setIsOpenMenu } = useContext(GlobalContext);
+  const { setIsOpen, setIsOpenNotifications, isOpenMenu, setIsOpenMenu, isOpenTrendTags, setIsOpenTrendTags  } = useContext(GlobalContext);
 
   const goToProfile = async () => {
     setIsOpenMenu(false);
+    setIsOpenTrendTags(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -45,6 +46,7 @@ const NavbarHeader = () => {
 
   const goCreateContent = () => {
     setIsOpenMenu(false);
+    setIsOpenTrendTags(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -54,6 +56,7 @@ const NavbarHeader = () => {
 
   const goHome = () => {
     setIsOpenMenu(false);
+    setIsOpenTrendTags(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -65,6 +68,7 @@ const NavbarHeader = () => {
   const goExplore = () => {
     dispatch(restartPostState())
     setIsOpenMenu(false);
+    setIsOpenTrendTags(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -120,6 +124,7 @@ const NavbarHeader = () => {
 
   const openNotifications = () => {
     setIsOpenNotifications(true);
+    setIsOpenTrendTags(false)
   }
 
   const renderIconNotification = () => {

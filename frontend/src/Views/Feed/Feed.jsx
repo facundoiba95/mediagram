@@ -10,6 +10,7 @@ import { Howl, Howler } from 'howler';
 import songNotification from '../../assets/sound4.mp3';
 import { getCloseList } from '../../redux/slices/userSlices/userSlices'
 import { GlobalContext } from '../../Context/GlobalContext'
+import { validateSession } from '../../redux/slices/authSlices/authSlices'
 
 const Feed = () => {
 const dispatch = useDispatch();
@@ -23,6 +24,11 @@ const sound = new Howl({
   src:[songNotification],
   volume: 0.1
 })
+
+
+useEffect(() => {
+  dispatch(validateSession());
+}, []);
 
   useEffect(() => {
     const handleGetPostsByFollowing = async () => {

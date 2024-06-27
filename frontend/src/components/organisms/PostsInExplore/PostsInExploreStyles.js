@@ -10,7 +10,6 @@ justify-content: flex-start;
 align-items: center;
 overflow-y: auto;
 padding-bottom: 20px;
-margin-top: 1rem;
 gap: 5px;
 `
 
