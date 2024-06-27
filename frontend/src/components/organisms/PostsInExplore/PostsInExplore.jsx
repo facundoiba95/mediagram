@@ -10,11 +10,12 @@ const PostsInExplore = () => {
   const { post, isLoading } = useSelector(state => state.postSlices);
   const { nameTag, trendTags } = useSelector(state => state.tagSlices);
   const [sectionCard, setSectionCard] = useState([]);
+  const name = trendTags[0] ? trendTags[0].name : ""
 
   // minimo de letras para realizar la busqueda
   useEffect(() => {
     if (nameTag.length >= 3) dispatch(getVisiblePosts(nameTag));
-    if (!nameTag.length) dispatch(getVisiblePosts(trendTags[0].name));
+    if (!nameTag.length) dispatch(getVisiblePosts(name));
   }, [nameTag, dispatch]);
 
   // separacion de los posts
