@@ -8,6 +8,7 @@ import handleIsFollowingBuilders from './builders/handleIsFollowingBuilders';
 import handleFollowUpRequestBuilders from './builders/handleFollowUpRequestBuilders';
 import changeImgProfileBuilders from './builders/changeImgProfileBuilders';
 import getCloseListBuilders from './builders/getCloseListBuilders';
+import getTrendUsersBuilders from './builders/getTrendUsersBuilders';
 
 const initialState = {
     error: null,
@@ -17,6 +18,7 @@ const initialState = {
     userFound: [],
     userSelected: [],
     closeList: [],
+    trendUsers: [],
     isLoading: false
 }
 
@@ -229,6 +231,21 @@ export const getCloseList = createAsyncThunk(
         }
     }
 )
+
+export const getTrendUsers = createAsyncThunk(
+    'getTrendUsers/userSlices',
+    async () => {
+        try {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getTrendUsers`);
+            const res = await req.json();
+
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getTrendUsers, userSlices. Error: ', error);
+            alert('Ocurrio un error en getTrendUsers, userSlices. Error: ', error);
+        }
+    }
+)
 const userSlices = createSlice({
     name: 'userSlice',
     initialState,
@@ -278,7 +295,8 @@ const userSlices = createSlice({
         handleIsFollowingBuilders(builders, handleIsFollowing);
         handleFollowUpRequestBuilders(builders, handleFollowUpRequest);
         changeImgProfileBuilders(builders, changeImgProfile);
-        getCloseListBuilders( builders, getCloseList )
+        getCloseListBuilders(builders, getCloseList)
+        getTrendUsersBuilders(builders, getTrendUsers);
     }
 });
 

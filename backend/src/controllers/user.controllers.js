@@ -7,6 +7,7 @@ import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
 import followUpRequestNotification from "../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 import Post from "../models/Post.js";
+import addViewInProfile from "../libs/Users/addViewInProfile.js";
 
 
 export const searchUser = async (req, res) => {
@@ -47,13 +48,11 @@ export const selectUser = async (req, res) => {
         const foundUser = req.userSelected;
         const foundUserAuth = [req.userAuth];
         const idAuth = req.idUser;
+        const isUserAuth = foundUser[0]._id.equals(idAuth);
 
-        if (foundUser[0]._id.equals(idAuth)) {
-            return res.status(200).json({ message: 'User auth selected!', status: 200, userSelected: foundUserAuth, isFollowing: true });
-        }
+        if (isUserAuth) return res.status(200).json({ message: 'User auth selected!', status: 200, userSelected: foundUserAuth, isFollowing: true });
 
         return res.status(200).json({ message: 'User found!', status: 200, userSelected: foundUser });
-
     } catch (error) {
         console.error('Ocurrio un error en selectUser(). user.controllers.js', error.message);
         res.status(500).json({ error: error.message, status: 500 });
@@ -236,6 +235,19 @@ export const getCloseList = async (req, res) => {
         res.status(200).json({ closeList, status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en getCloseList(). user.controllers.js', error.message);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}
+
+export const getTrendUsers = async (req,res) => {
+    try {
+        const foundUsers = await User.find().sort({counterViews: -1 }).limit(6).select("_id thumbnail username counterViews");
+        
+        if(!foundUsers.length) return res.status(404).json({trendUsers: [], status: 404, message: "No se encontraron usuarios en tendencia."});
+
+        res.status(200).json({trendUsers: foundUsers, status: 200, message: "Se encontraros usuarios en tendencia."})
+    } catch (error) {
+        console.error('Ocurrio un error en getTrendUsers(). user.controllers.js', error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
     }
 }

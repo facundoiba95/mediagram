@@ -26,6 +26,7 @@ import { IoHeartCircle } from "react-icons/io5";
 import ImgProfile from '../../atoms/ImgProfile/ImgProfile';
 import ButtonMenuProfile from '../../atoms/ButtonMenuProfile/ButtonMenuProfile';
 import ButtonFollow from '../../atoms/ButtonResponsive/ButtonFollow';
+import { FaEye } from "react-icons/fa";
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -53,7 +54,7 @@ const ProfileHeader = () => {
     countPosts,
     imgProfile,
     thumbnail,
-    viewsInProfile,
+    counterViews,
     numberCellphone,
     stars,
     likesInProfile,
@@ -61,15 +62,6 @@ const ProfileHeader = () => {
     followUpRequest
   } = userSelected[0];
 
-
-  const renderNumberCellphone = () => {
-    return (
-      <span>
-        <MdOutlineSmartphone className='iconActions' />
-        <p>{numberCellphone}</p>
-      </span>
-    )
-  }
 
   const renderActions = () => {
     return (
@@ -193,10 +185,11 @@ const ProfileHeader = () => {
                       isUserAuth={isUserAuth}
                     />
 
-                    <GrOverview className='iconViews' />
+                    <span className='containerViews'>
+                      <FaEye className='iconViews'/>
+                      <b>{counterViews}</b>
+                    </span>
                     {renderIconListFriends()}
-                    {viewsInProfile}
-
                   </InfoProfileContainerStyles>
                 </>
             }

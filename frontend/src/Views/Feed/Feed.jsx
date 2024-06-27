@@ -26,10 +26,6 @@ const sound = new Howl({
 })
 
 
-useEffect(() => {
-  dispatch(validateSession());
-}, []);
-
   useEffect(() => {
     const handleGetPostsByFollowing = async () => {
       await dispatch(getPostsOfFollowings());

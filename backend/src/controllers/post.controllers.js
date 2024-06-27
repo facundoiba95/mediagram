@@ -290,13 +290,14 @@ export const visiblePosts = async (req,res) => {
     }
 }
 
+export const getTrendPosts = async (req,res) => {
+    try {
+        const foundPosts = await Post.find({shareInExplore: true}).sort({counterViews: -1}).limit(4).select("_id thumbnail counterLikes counterViews postBy");
+        if(!foundPosts.length) return res.status(404).json({message: "No se encontraron posts!", trendPosts: [], status: 404});
 
-
-
-
-// userAuth.posts = userAuth.posts.filter(post => !post.equals(idPost));
-
-// userAuth.save();
-// await cloudinary.v2.uploader.destroy(req.file.path,{
-//     folder: 'mediagram/posts'
-// });
+        res.status(200).json({trendPosts: foundPosts, status: 200, message: "Se encontraron trend Posts!"})
+    } catch (error) {
+        console.error('Ocurrio un error en getTrendPosts(). post.controllers.js', error.message);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}

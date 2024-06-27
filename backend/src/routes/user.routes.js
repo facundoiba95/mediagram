@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, verifyUser } from '../controllers/user.controllers.js';
+import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, verifyUser, getTrendUsers } from '../controllers/user.controllers.js';
 import isExistUserFollow from '../middlewares/user/isExistUserFollow.js';
 import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
@@ -58,5 +58,6 @@ router.post('/handleFollowUpRequest', [ isExistUserFollow ], handleFollowUpReque
 router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile ], changeImgProfile );
 router.post('/getCloseList', getCloseList);
 router.post('/verifyUser', [isPrivateProfile], verifyUser);
+router.get('/getTrendUsers', getTrendUsers);
 
 export default router;

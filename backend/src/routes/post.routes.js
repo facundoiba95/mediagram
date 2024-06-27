@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost } from "../controllers/post.controllers.js";
+import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url';
@@ -67,5 +67,6 @@ router.post('/handleLikeToPost', [validateAuthInPost, isExistLikeInPost, handleE
 router.get('/getPost/:idPost', test_getPost);
 router.delete('/deletePost/:idPost', deletePost);
 router.put('/updateTags/:idPost', updateTagsInPost);
-router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts)
+router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts);
+router.get('/getTrendPosts', getTrendPosts);
 export default router;

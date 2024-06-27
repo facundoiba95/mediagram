@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const TrendTagsContainerStyles = styled.div`
 width: 100%;
-height: 100%;
+height: auto;
 color: white;
 font-family: "Red Hat Display";
 padding: 10px 10px 0 10px;
@@ -12,27 +12,22 @@ h2 {
     align-items: center;
     font-style: italic;
 }
-
-@media (max-width: 1024px) {
-    position: absolute;
-    transition: all 200ms ease-in-out;
-    z-index: 1500;
-    opacity: ${ props => props.isOpenTrendTags ? "1" : "0" };
-    visibility: ${ props => props.isOpenTrendTags ? "visible" : "hidden" };
-    
-    h2 {
-        text-align: center;
-        justify-content: center;
-    }
-}
 `
 
 export const TrendTagsListStyles = styled.ul`
-width: 100%;
+width: 100%; 
 height: 100%;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
+
+@media (max-width: 490px) {
+    display: ${props => props.isTrendUsers ? 'grid' : 'flex'};
+    gap: ${props => props.isTrendUsers ? "5px" : '0px'};
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-content: center;
+}
 `
 
 export const TrendTagsItemStyles = styled.li`
@@ -63,14 +58,15 @@ b, p, .tagIcon, .rankIcon, .countTag{
 }
 
 &:hover {
-    background-color: #80808080;
+    background-color: #80808020;
     cursor: pointer;
 }
 
 @media (max-width: 490px) {
+    
     &:hover {
-    background-color: transparent;
-    cursor: normal;
-}
+      background-color: transparent;
+      cursor: normal;
+    }
 }
 `

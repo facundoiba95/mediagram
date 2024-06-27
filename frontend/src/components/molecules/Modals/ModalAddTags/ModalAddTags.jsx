@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ContainerBlurWrapperStyles } from '../../../Containers/ContainerBlur/ContainerBlurStyles'
 import { ModalSearchUsersContainerStyles } from '../ModalSearchUsers/ModalSearchUsersStyles'
 import SearchBarTags from '../../SearchBars/SearchBarTags/SearchBarTags'
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GlobalContext } from '../../../../Context/GlobalContext'
 import TagsSelectedList from '../../TagsSelectedList/TagsSelectedList'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { addTagToList, resetTagState, setListTags } from '../../../../redux/slices/tagSlices/tagSlices'
+import { resetTagState, setListTags } from '../../../../redux/slices/tagSlices/tagSlices'
 import ButtonResponsive from '../../../atoms/ButtonResponsive/ButtonResponsive'
 import { updateTagsInPost } from '../../../../redux/slices/postSlices/postSlices'
 import { useParams } from 'react-router-dom'
@@ -18,7 +18,7 @@ const ModalAddTags = () => {
     const { tags, nameTag, listTags } = useSelector(state => state.tagSlices);
     const {  isOpenAddTags, setIsOpenAddTags  } = useContext(GlobalContext);
     const { post } = useSelector(state => state.postSlices);
-    const tagsInPost = post[0].tags;
+    const tagsInPost = post[0] ? post[0].tags : [];
 
     const handleCloseModal = () => {
         setIsOpenAddTags(!isOpenAddTags)

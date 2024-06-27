@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "../../models/User.js"
 import isFollowing from "../../libs/isFollowing.js";
+import addViewInProfile from "../../libs/Users/addViewInProfile.js";
 
 // @params users = [Object]
 // @params idUserAuth = ObjectId
@@ -67,6 +68,7 @@ export default async ( req, res, next ) => {
                 console.log('Cuenta privada, pero se siguen mutuamente. Data sin restringir');
                 req.userSelected = restrictFollowUpRequestData(userRecived, idUserAuth);
                 req.privateAccount = false;
+                await addViewInProfile(userRecived, idUserAuth)
                 return next()  // devuelve datos sin restricciones
             } else {
                 console.log(`Cuenta privada. El usuario autenticado no sigue al usuario "${usernameRecived}". Data restringida`);
@@ -78,6 +80,7 @@ export default async ( req, res, next ) => {
             console.log('No tiene cuenta privada, Data sin restringir.');
             req.userSelected = await restrictFollowUpRequestData(userRecived, idUserAuth);
             req.privateAccount = false;
+            await addViewInProfile(userRecived, idUserAuth)
             return next();
         }
     } catch (error) {

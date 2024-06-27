@@ -65,7 +65,14 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    viewsInProfile: [ Object ],
+    viewsInProfile: [{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    counterViews: {
+        type: Number,
+        default: 0
+    },
     stars:[ Object ],
     likesInProfile:[ Object ],
     greets: [ Object ],

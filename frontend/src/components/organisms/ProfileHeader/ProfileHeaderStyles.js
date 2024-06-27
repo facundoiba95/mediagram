@@ -148,11 +148,18 @@ small {
 }
 
 .iconViews {
-   background-color: white;
-   font-size: 1.5rem;
+   font-size: 1.3rem;
    border-radius: 50%;
    padding:2px;
    font-weight:600;
+}
+
+.containerViews {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    color: white;
 }
 
 

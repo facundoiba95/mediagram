@@ -7,7 +7,7 @@ import { getTrendTags } from '../../../redux/slices/tagSlices/tagSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 
 const TrendTags = () => {
-  const { isOpenTrendTags, setIsOpenTrendTags } = useContext(GlobalContext);
+  const { isOpenTrendTags } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const { trendTags } = useSelector(state => state.tagSlices);
 
@@ -28,7 +28,6 @@ const TrendTags = () => {
 
   return (
     <TrendTagsContainerStyles isOpenTrendTags={isOpenTrendTags}>
-      <h2> #Tendencias </h2>
       <TrendTagsListStyles>
         {renderItems()}
       </TrendTagsListStyles>

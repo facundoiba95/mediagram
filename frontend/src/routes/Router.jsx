@@ -22,10 +22,14 @@ import ViewerHistory from '../components/organisms/ViewerHistory/ViewerHistory';
 
 const Router = () => {
   const params = useParams();
+  const dispatch = useDispatch();
   const userFound = useSelector(state => state.userSlices.userFound);
   const { isLogged } = useSelector(state => state.authSlices);
   
-
+  useEffect(() => {
+    dispatch(validateSession());
+  }, []);
+  
   return (
     <BrowserRouter>
       <GlobalLoader />

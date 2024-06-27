@@ -8,6 +8,7 @@ import handleLikeToPostBuilders from "./Builders/handleLikeToPostBuilders";
 import addReferToBuilders from "./Builders/addReferToBuilders";
 import getVisiblePostsBuilders from "./Builders/getVisiblePostsBuilders";
 import updateTagsInPostBuilders from "./Builders/updateTagsInPostBuilders";
+import getTrendPostsBuilders from "./Builders/getTrendPostsBuilders";
 
 const initialState = {
     error: null,
@@ -15,6 +16,7 @@ const initialState = {
     isLoading: false,
     isLogged: false,
     status: null,
+    trendPosts: [],
     post: [],
 }
 
@@ -241,6 +243,20 @@ export const updateTagsInPost = createAsyncThunk(
     }
 )
 
+export const getTrendPosts = createAsyncThunk(
+    'getTrendPosts/postSlices',
+    async () => {
+        try {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getTrendPosts`)
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrió un error en getTrendPosts, postSlices. Error: ', error);
+            alert('Ocurrió un error en getTrendPosts, postSlices.');
+        }
+    }
+)
+
 const postSlices = createSlice({
     name: 'postSlices',
     initialState,
@@ -266,6 +282,7 @@ const postSlices = createSlice({
         addReferToBuilders(builders, addReferTo);
         getVisiblePostsBuilders(builders, getVisiblePosts);
         updateTagsInPostBuilders(builders, updateTagsInPost);
+        getTrendPostsBuilders(builders, getTrendPosts);
     }
 })
 

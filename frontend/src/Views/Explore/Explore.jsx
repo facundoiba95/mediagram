@@ -6,12 +6,11 @@ import PostsInExplore from '../../components/organisms/PostsInExplore/PostsInExp
 import { useDispatch, useSelector } from 'react-redux'
 import { restartPostsList } from '../../redux/slices/postSlices/postSlices'
 import ContainerExploreSection from '../../components/Containers/ContainerExploreSection/ContainerExploreSection'
-import TrendTags from '../../components/molecules/TrendTags/TrendTags'
 import TrendMessage from '../../components/atoms/TrendMessage/TrendMessage'
-import { ExploreContainerStyles } from './ExploreStyles'
 import { ContainerExploreChildrens } from '../../components/Containers/ContainerExploreSection/ContainerExploreSectionStyles'
 import { FaHashtag } from 'react-icons/fa'
 import { GlobalContext } from '../../Context/GlobalContext'
+import Trends from '../../components/organisms/Trends/Trends'
 
 const Explore = () => {
     const { trendTags } = useSelector(state => state.tagSlices);
@@ -26,29 +25,16 @@ const Explore = () => {
 
     return (
         <ContainerExploreSection>
-            <ContainerExploreChildrens>
+            <ContainerExploreChildrens isOpenTrendTags={true}>
                 <TitleBold title={'Explorar'} />
                 <SearchBarTags placeholder={'Busca temas de tu interés'} hidden={false} />
                 <TrendMessage message={name} />
                 <PostsInExplore />
             </ContainerExploreChildrens>
-            <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)}/>
-            <TrendTags />
+            <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)} />
+            <Trends />
         </ContainerExploreSection>
     )
 }
 
 export default Explore
-
-
-// return (
-//     <ContainerExploreSection>
-//         <TitleBold title={'Explorar'} />
-//         <span>
-//             <SearchBarTags placeholder={'Busca temas de tu interés'} hidden={false} />
-//             <TrendMessage message={trendTags[0].name} />
-//             <PostsInExplore />
-//         </span>
-//         <TrendTags />
-//     </ContainerExploreSection>
-// )
