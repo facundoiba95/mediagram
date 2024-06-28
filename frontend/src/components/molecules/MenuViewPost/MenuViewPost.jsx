@@ -4,20 +4,21 @@ import { ItemInteractionStyles, SharePostContainerStyles } from '../PostInteract
 import { BsShareFill } from 'react-icons/bs';
 import { MdDeleteForever } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deletePost } from '../../../redux/slices/postSlices/postSlices';
 import { MenuViewPostContainerStyles, MenuViewPostListStyles } from './MenuViewPostStyles';
 import { FaTags } from "react-icons/fa6";
 import { GlobalContext } from '../../../Context/GlobalContext';
 
-const MenuViewPost = ({ post, userAuth, isAdmin, isPrivate }) => {
+const MenuViewPost = ({ post, userAuth, isAdmin }) => {
     const params = useParams();
     const dispatch = useDispatch();
     const navigator = useNavigate();
-    const [ hiddenMenu, setHiddenMenu ] = useState(true);
+    const [hiddenMenu, setHiddenMenu] = useState(true);
     const [openMessage, setOpenMessage] = useState(false);
     const [openShareURL, setOpenShareURL] = useState(false);
-    const {  isOpenAddTags, setIsOpenAddTags  } = useContext(GlobalContext);
+    const { isOpenAddTags, setIsOpenAddTags } = useContext(GlobalContext);
+    const isPrivate = userAuth ? userAuth.isPrivate : true;
 
     const handleDeletePost = () => {
         if (window.confirm('Desea eliminar este post?')) {
@@ -65,7 +66,7 @@ const MenuViewPost = ({ post, userAuth, isAdmin, isPrivate }) => {
 
     return (
         <MenuViewPostContainerStyles>
-            <CiMenuKebab className='iconMenuViewPost' onClick={() => setHiddenMenu(!hiddenMenu)}/>
+            <CiMenuKebab className='iconMenuViewPost' onClick={() => setHiddenMenu(!hiddenMenu)} />
             <MenuViewPostListStyles hiddenMenu={hiddenMenu}>
                 <ItemInteractionStyles openShareURL={openShareURL}>
                     <BsShareFill className='iconComment' onClick={() => setOpenShareURL(!openShareURL)} />
@@ -84,8 +85,8 @@ const MenuViewPost = ({ post, userAuth, isAdmin, isPrivate }) => {
                 }
                 {
                     isAdmin && !isPrivate
-                    ? <FaTags className='iconTags' onClick={() => setIsOpenAddTags(!isOpenAddTags)}/>
-                    : <></>
+                        ? <FaTags className='iconTags' onClick={() => setIsOpenAddTags(!isOpenAddTags)} />
+                        : <></>
                 }
             </MenuViewPostListStyles>
         </MenuViewPostContainerStyles>

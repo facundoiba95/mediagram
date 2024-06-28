@@ -66,7 +66,6 @@ const PostInteraction = ({ counterViews, counterLikes, post, likes }) => {
                     post={post}
                     isAdmin={isAdmin}
                     userAuth={userAuth}
-                    isPrivate={userAuth.isPrivate}
                 />
             </ListInteractionStyles>
         </PostInteractionContainerStyles>

@@ -38,7 +38,7 @@ const addUserVerifed = async (foundPost, userAuth) => {
     };
 
     foundPost[0].views.unshift(newViewer);
-    foundPost[0].counterViews = foundPost[0].views.length;
+    foundPost[0].counterViews = foundPost[0].views.length + foundPost[0].anonymViews;
     await foundPost[0].save();
 }
 
@@ -46,5 +46,7 @@ const addUserVerifed = async (foundPost, userAuth) => {
 // @params foundPost = [Object]
 const addUserAnonymus = async (foundPost) => {
     foundPost[0].anonymViews = foundPost[0].anonymViews + 1;
+    foundPost[0].counterViews = foundPost[0].counterViews + 1;
+
     await foundPost[0].save();
 }

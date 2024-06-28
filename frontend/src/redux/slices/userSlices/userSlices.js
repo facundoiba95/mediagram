@@ -283,7 +283,7 @@ const userSlices = createSlice({
             state.message = null;
         },
         restartUserSlice: (state) => {
-            return initialState;
+            return { ... initialState};
         }
     },
     extraReducers: (builders) => {

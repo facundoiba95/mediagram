@@ -5,7 +5,6 @@ import refreshUserAuthBuilders from "./authBuilders/refreshUserAuthBuilders";
 import changePrivacityOfAccountBuilders from "./authBuilders/changePrivacityOfAccountBuilders";
 import changePasswordBuilders from "./authBuilders/changePasswordBuilders";
 import validateSessionBuilders from "./authBuilders/validateSessionBuilders";
-import socket from "../../../../socket";
 import updateListFriendsBuilders from "./authBuilders/updateListFriendsBuilders";
 
 const initialState = {
@@ -187,10 +186,10 @@ const authSlices = createSlice({
         },
         logout: ( state ) => {
             localStorage.removeItem('token');
-            return initialState;
+            return { ... initialState};
         },
         resetStateAuth: ( state ) => {
-            return initialState;
+            return { ... initialState};
         }   
     },
     extraReducers: ( builders ) => {

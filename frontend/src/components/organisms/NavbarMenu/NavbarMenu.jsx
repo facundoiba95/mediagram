@@ -12,10 +12,11 @@ import { TbEyeClosed } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { logout } from '../../../redux/slices/authSlices/authSlices';
-import { restartUser, restartUserSelected, restartUserFound } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostState, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
 import { restartNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { resetTagState } from '../../../redux/slices/tagSlices/tagSlices';
+import { resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
 
 const NavbarHeader = () => {
   // states 
@@ -80,11 +81,10 @@ const NavbarHeader = () => {
   const handleLogout = () => {
     if (window.confirm('Desea cerrar sesión?')) {
       dispatch(logout());
-      dispatch(restartUser());
-      dispatch(restartUserFound());
       dispatch(restartPostsList());
-      dispatch(restartUserSelected());
       dispatch(restartNotifications());
+      dispatch(resetStateLocation());
+      dispatch(resetTagState());
       navigator('/');
     } else {
       return;

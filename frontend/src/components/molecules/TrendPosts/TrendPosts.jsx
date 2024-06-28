@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { TrendUsersContainerStyles } from '../TrendUsers/TrendUsersStyles'
 import { TrendPostsListStyles } from './TrendPostsStyles'
 import ItemTrendPost from '../../atoms/ItemTrendPost/ItemTrendPost'
-import { FaFire } from 'react-icons/fa'
+import { FaFire } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux'
 import { getTrendPosts } from '../../../redux/slices/postSlices/postSlices'
 

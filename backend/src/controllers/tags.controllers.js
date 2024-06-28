@@ -1,4 +1,3 @@
-import Post from "../models/Post.js";
 import Tags from "../models/Tags.js";
 
 export const tagsFound = async (req, res) => {
@@ -6,7 +5,6 @@ export const tagsFound = async (req, res) => {
         const tagsFound = req.tagsFound;
         
         if (!tagsFound.length){
-            console.log('No se encontraron tags');
             return res.status(404).json({ message: 'No se encontraron tags!', status: 404, tags: tagsFound })
         }
 

@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import Comentary from '../../atoms/Comentary/Comentary';
 import { RiUserSmileFill } from 'react-icons/ri';
 import ValidateSession from '../../Containers/ValidateSession/ValidateSession';
-import { FaComment } from 'react-icons/fa';
 import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequestStyles';
 
 const CommentsInPost = ({
@@ -111,7 +110,7 @@ const CommentsInPost = ({
         <ValidateSession>
           <PostInteraction
             counterLikes={counterLikes}
-            counterViews={counterViews + anonymViews}
+            counterViews={counterViews}
             post={post}
             likes={likes}
           />

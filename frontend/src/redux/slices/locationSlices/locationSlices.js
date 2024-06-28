@@ -44,7 +44,7 @@ const locationSlices = createSlice({
     initialState,
     reducers: {
         resetStateLocation: ( state ) => {
-            return initialState;
+            return { ... initialState};
         }
     },
     extraReducers: ( builders ) => {

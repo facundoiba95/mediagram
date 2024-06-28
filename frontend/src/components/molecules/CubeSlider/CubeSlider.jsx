@@ -29,7 +29,6 @@ const CubeSlider = () => {
     })
   }
   return (
-    <>
       <Swiper
         effect={'cube'}
         grabCursor={true}
@@ -47,7 +46,6 @@ const CubeSlider = () => {
       >
         { renderSlide() }
       </Swiper>
-    </>
   );
 }
 

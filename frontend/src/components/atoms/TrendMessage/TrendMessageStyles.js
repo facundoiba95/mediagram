@@ -24,5 +24,6 @@ i {
 .iconFire {
     background-color: transparent;
     color: #ffba08;
+    font-size: 1.2rem;
 }
 `
