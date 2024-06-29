@@ -85,6 +85,7 @@ const NavbarHeader = () => {
       dispatch(restartNotifications());
       dispatch(resetStateLocation());
       dispatch(resetTagState());
+      setIsOpenMenu(false);
       navigator('/');
     } else {
       return;
