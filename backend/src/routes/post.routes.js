@@ -1,10 +1,6 @@
 import { Router } from "express";
 import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts } from "../controllers/post.controllers.js";
 import multer from 'multer';
-import path, { dirname } from 'path'
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 import cloudinary from 'cloudinary';
 import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
@@ -20,30 +16,22 @@ import postByFollowings from "../middlewares/posts/postByFollowings.js";
 import isPrivateProfile from "../middlewares/user/isPrivateProfile.js";
 import searchTags from "../middlewares/tags/searchTags.js";
 import associateTagsByPosts from "../middlewares/posts/associateTagsByPosts.js";
+import convertToAVIF from "../middlewares/convertToAVIF.js";
+import { cloudinary_config } from '../config/cloudinary.config.js';
+
 config();
 
 const router = Router();
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_APIKEY,
-  api_secret: process.env.CLOUDINARY_APISECRET
-})
+cloudinary_config();
 
-const storage = multer.diskStorage({
-  destination: (req, files, cb) => {
-    cb(null, files = path.join(__dirname)) // guardar las imagenes en este directorio.
-  },
-  filename: (req, files, cb) => {
-    cb(null, files.originalname); //Agregar extension de archivo de imagen.
-  }
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
   fileFilter: (req, files, cb) => {
-    if (!files.originalname.match(/\.(jpeg|jfif|gif|tif||tiff|heif|eps|ai|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
-      return cb({error: 'Formato de imagen no compatible.', status: 415});
+    if (!files.originalname.match(/\.(jpeg|jfif|gif|tif|tiff|heif|eps|ai|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
+      return cb({ error: 'Formato de archivo no compatible.', status: 415 });
     }
     cb(null, true);
   }
@@ -57,7 +45,8 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post('/createPost', upload.single('imgPost'), [verifyExistImage, verifySizeFile], createPost);
+
+router.post('/createPost', upload.single('imgPost'), [verifyExistImage, verifySizeFile, convertToAVIF], createPost);
 router.post('/getPosts', [isPrivateProfile], getPosts);
 router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
 router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
@@ -69,4 +58,5 @@ router.delete('/deletePost/:idPost', deletePost);
 router.put('/updateTags/:idPost', updateTagsInPost);
 router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts);
 router.get('/getTrendPosts', getTrendPosts);
+
 export default router;

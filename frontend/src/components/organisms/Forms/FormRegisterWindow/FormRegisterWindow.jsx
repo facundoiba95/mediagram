@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FormRegisterContainerStyles } from '../../Register/RegisterStyles'
+import { FormRegisterContainerStyles } from '../../../molecules/Register/RegisterStyles'
 import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
 import { GoAlertFill } from 'react-icons/go';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validateLengthInputs, validatePassword, validateUsername } from '../../../../libs/validateInputs';
 import { handleRegister } from '../../../../redux/slices/authSlices/authSlices';
-import ModalStatusRegister from '../../Modals/ModalStatusRegister/ModalStatusRegister';
+import ModalStatusRegister from '../../../molecules/Modals/ModalStatusRegister/ModalStatusRegister';
 import { GlobalContext } from '../../../../Context/GlobalContext';
 
 const FormRegisterWindow = () => {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import User from "../../models/User.js"
-import isFollowing from "../../libs/isFollowing.js";
+import isFollowing from "../../libs/Users/isFollowing.js";
 import addViewInProfile from "../../libs/Users/addViewInProfile.js";
 
 // @params users = [Object]

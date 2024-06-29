@@ -7,7 +7,7 @@ import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
 import followUpRequestNotification from "../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 import Post from "../models/Post.js";
-import addViewInProfile from "../libs/Users/addViewInProfile.js";
+import {originalImage_path, thumbnailImage_path} from "../config/baseUrl.js";
 
 
 export const searchUser = async (req, res) => {
@@ -189,21 +189,20 @@ export const verifyUser = async (req, res) => {
 export const changeImgProfile = async (req, res) => {
     try {
         const userAuth = req.userAuth;
-        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+        const result = await cloudinary.v2.uploader.upload(originalImage_path, {
             folder: 'mediagram/users'
         }); // subir archivo original
         userAuth.imgProfile = `${result.secure_url}`;// guarda la ruta de archivo original
 
-        await generateThumbnail(req, res);
-        const thumbnailPath = `${req.file.path}`; // Ruta para la miniatura
-        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailPath}-thumbnail.jpeg`, {
+        await generateThumbnail();
+        const resultThumbnail = await cloudinary.v2.uploader.upload(thumbnailImage_path, {
             folder: 'mediagram/users'
         }); // subir archivo miniatura
         userAuth.thumbnail = `${resultThumbnail.secure_url}`;// guarda la ruta de la miniatura
 
 
-        await fs.unlink(`${thumbnailPath}-thumbnail.jpeg`)   // elimina archivo local de miniatura  
-        await fs.unlink(req.file.path); // elimina archivo local original
+        await fs.unlink(thumbnailImage_path)   // elimina archivo local de miniatura  
+        await fs.unlink(originalImage_path); // elimina archivo local original
         await userAuth.save();
 
         return res.status(200).json({ message: 'Image profile updated!', status: 200 });

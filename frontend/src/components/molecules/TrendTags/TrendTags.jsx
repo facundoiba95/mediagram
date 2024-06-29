@@ -16,11 +16,12 @@ const TrendTags = () => {
   }, [])
 
   const renderItems = () => {
-    return trendTags.map((item) => (
+    return trendTags.map((item,index) => (
       <ItemTrendTag
         name={item.name}
         count={item.count}
         _id={item._id}
+        key={index}
       />
     ))
   }

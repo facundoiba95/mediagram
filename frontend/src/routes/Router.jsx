@@ -12,7 +12,7 @@ import ModalUnauthenticated from '../components/molecules/Modals/ModalUnauthenti
 import ModalSearchUsers from '../components/molecules/Modals/ModalSearchUsers/ModalSearchUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import ListFriendProfile from '../components/organisms/ListFriendProfile/ListFriendProfile';
-import FormCreateContent from '../components/molecules/Forms/FormCreateContent/FormCreateContent';
+import FormCreateContent from '../components/organisms/Forms/FormCreateContent/FormCreateContent';
 import DefaultPage from '../Views/DefaultPage/DefaultPage';
 import { validateSession } from '../redux/slices/authSlices/authSlices';
 import ProtectedRoutes from '../components/Containers/ProtectRoutes/ProtectRoutes';

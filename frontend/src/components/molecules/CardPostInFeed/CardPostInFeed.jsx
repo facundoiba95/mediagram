@@ -39,11 +39,9 @@ const CardPostInFeed = ({
   }
 
   const renderReferTo = () => {
-    return referTo.map(item => {
-      return (
-        <small data-username={item.username} onClick={(e) => goToProfile(e)}>{`@${item.username}`}</small>
-      )
-    })
+    return referTo.map((item,index) => (
+        <small data-username={item.username} onClick={(e) => goToProfile(e)} key={index}>{`@${item.username}`}</small>
+    ))
   }
   return (
     <CardPostInFeedContainerStyles>

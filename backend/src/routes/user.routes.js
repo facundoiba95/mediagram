@@ -5,37 +5,24 @@ import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
 import verifySizeFile from '../middlewares/errors/post/verifySizeFile.js';
 import multer from 'multer';
-import path,{ dirname } from 'path'
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 import cloudinary from 'cloudinary';
 import { config } from "dotenv";
 import isPrivateProfile from '../middlewares/user/isPrivateProfile.js';
 import filterPost_closeList from '../middlewares/posts/filterPost_closeList.js';
+import convertToAVIF from '../middlewares/convertToAVIF.js';
+import { cloudinary_config } from '../config/cloudinary.config.js';
 config();
 
 const router = Router();
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_APIKEY,
-  api_secret: process.env.CLOUDINARY_APISECRET
-})
+cloudinary_config();
 
-const storage = multer.diskStorage({
-    destination:(req,files,cb) => {
-    cb(null, files = path.join(__dirname)) // guardar las imagenes en este directorio.
-  },
-    filename:(req,files,cb) => {
-    cb(null, files.originalname); //Agregar extension de archivo de imagen.
-  }
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({storage: storage,
     fileFilter: (req, files, cb) => {
-    if (!files.originalname.match(/\.(jpeg|gif|tif||tiff|heif|eps|ai|pdf|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
-    return cb(new Error('Error en el tipo de archivo.'));
+    if (!files.originalname.match(/\.(jpeg|gif|tif|tiff|heif|eps|ai|pdf|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
+    return cb({ error: 'Formato de archivo no compatible.', status: 415 });
     }
     cb(null, true);
     }
@@ -55,7 +42,7 @@ router.post('/unfollowUser', unfollowUser);
 router.post('/selectUser',[ isPrivateProfile, filterPost_closeList ], selectUser);
 router.post('/handleIsFollowing', handleIsFollowing );
 router.post('/handleFollowUpRequest', [ isExistUserFollow ], handleFollowUpRequest);
-router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile ], changeImgProfile );
+router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile, convertToAVIF], changeImgProfile );
 router.post('/getCloseList', getCloseList);
 router.post('/verifyUser', [isPrivateProfile], verifyUser);
 router.get('/getTrendUsers', getTrendUsers);

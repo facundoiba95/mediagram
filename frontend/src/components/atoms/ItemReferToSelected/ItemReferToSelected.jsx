@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemRefersToStyles } from '../../molecules/Forms/FormCreateContent/FormCreateContentStyles'
+import { ItemRefersToStyles } from '../../organisms/Forms/FormCreateContent/FormCreateContentStyles'
 import { FaWindowClose } from 'react-icons/fa'
 
 const ItemReferToSelected = ({

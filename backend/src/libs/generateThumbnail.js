@@ -1,18 +1,16 @@
 import sharp from "sharp";
+import { originalImage_path, thumbnailImage_path } from "../config/baseUrl.js"
 
-export default async (req, res) => {
-  const thumbnailPath = `${req.file.path}`; // Ruta para la miniatura
-  return new Promise((resolve, reject) => {
-    sharp(req.file.path)
+export default async () => {
+  try {
+    await sharp(originalImage_path)
       .resize({ width: 400, height: 400 })
       .rotate(0, { ignoreOrientation: true }) // evita la rotacion automatica de la imagen convertida
-      .toFile(`${thumbnailPath}-thumbnail.jpeg`, (err, info) => {
-        if (err) {
-          console.error('Ocurrio un error al generar la thumbnail en generateThumbnail.js().Error: ', err)
-          reject(err);
-        } else {
-          resolve(info);
-        }
-      });
-  });
+      .toFile(thumbnailImage_path)
+
+    console.log("Miniatura generada!");
+  } catch (error) {
+    console.error('Ocurrio un error al generar la thumbnail en generateThumbnail.js().Error: ', error)
+    throw error;
+  }
 }

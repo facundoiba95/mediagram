@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FormLoginContainerStyles, MessageLoginContainerStyles } from '../../Login/LoginStyles'
+import { FormLoginContainerStyles, MessageLoginContainerStyles } from '../../../molecules/Login/LoginStyles'
 import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
 import { MoonLoader } from 'react-spinners';
 import { BsFillCheckCircleFill } from 'react-icons/bs';

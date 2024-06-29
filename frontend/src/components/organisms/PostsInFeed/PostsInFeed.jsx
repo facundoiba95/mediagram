@@ -14,10 +14,10 @@ const PostsInFeed = ({ isReadyFeed }) => {
 
   const renderPosts = () => {
     if (isReadyFeed) {
-      return posts.map(item => {
+      return posts.map((item, index) => {
         if (isLoadingPost) {
           return (
-            <SkeletonCardPostFeed />
+            <SkeletonCardPostFeed key={index}/>
           )
         } else {
           if (!item.foundedPosts) return;
@@ -47,6 +47,7 @@ const PostsInFeed = ({ isReadyFeed }) => {
               location={location}
               referTo={referTo}
               _id={_id}
+              key={index}
             />
           )
         }

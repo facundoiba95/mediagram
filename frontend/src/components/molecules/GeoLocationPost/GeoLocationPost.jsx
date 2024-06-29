@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ResultLocationContainerStyles } from '../Forms/FormCreateContent/FormCreateContentStyles'
+import { ResultLocationContainerStyles } from '../../organisms/Forms/FormCreateContent/FormCreateContentStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLocationByCity, resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
 import { MdLocationOn, MdWrongLocation } from 'react-icons/md';

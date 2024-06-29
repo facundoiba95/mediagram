@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 // @param usernameRecived = String
 // @param idUserAuth = mongoose.Types.ObjectId

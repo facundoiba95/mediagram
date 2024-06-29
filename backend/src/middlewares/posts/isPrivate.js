@@ -1,4 +1,4 @@
-import isFollowing from "../../libs/isFollowing.js";
+import isFollowing from "../../libs/Users/isFollowing.js";
 
 export default async (req, res, next) => {
     try {

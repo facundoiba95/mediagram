@@ -1,17 +1,16 @@
 import cloudinary from 'cloudinary';
 import fs from 'fs-extra';
 import Post from '../models/Post.js';
-import User from '../models/User.js';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import generateThumbnail from '../libs/generateThumbnail.js';
-import addPostToUser from '../libs/addPostToUser.js';
-
+import addPostToUser from '../libs/Posts/addPostToUser.js';
 import addCountersInPost from '../libs/Posts/addCountersInPost.js';
 import addCommentNotification from '../libs/Notifications/Posts/addCommentNotification.js';
 import addLikePostNotification from '../libs/Notifications/Posts/addLikePostNotification.js';
 import handleRestrictPosts from '../libs/Posts/handleRestrictPosts.js';
 import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
+import {originalImage_path, thumbnailImage_path} from '../config/baseUrl.js';
 config();
 
 export const EXCLUIVE_POST = "EXCLUSIVEPOST";
@@ -24,6 +23,7 @@ export const createPost = async (req, res) => {
         const shareInExplore = req.body.shareInExplore === 'true'; // Boolean
         const postBy = new mongoose.Types.ObjectId(req.body.postBy); // ObjectId
         const userAuth = req.userAuth; // Object
+
 
         const newPost = new Post({
             typePost,
@@ -41,22 +41,21 @@ export const createPost = async (req, res) => {
         }
 
         // ARCHIVO ORIGINAL
-        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+        const result = await cloudinary.v2.uploader.upload(originalImage_path, {
             folder: 'mediagram/posts' // directorio en cloudinary
         }); 
         newPost.imgPost = `${result.secure_url}`;
 
         // THUMBNAIL
-        await generateThumbnail(req, res);
-        const thumbnailPath = `${req.file.path}`; // Ruta para la miniatura
-        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailPath}-thumbnail.jpeg`, {
+        await generateThumbnail();
+        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailImage_path}`, {
             folder: 'mediagram/posts' // directorio de cloudinary
         }); 
         newPost.thumbnail = `${resultThumbnail.secure_url}`;
 
+        await fs.unlink(originalImage_path)   // elimina archivo local de miniatura 
+        await fs.unlink(thumbnailImage_path); // elimina archivo local original
 
-        await fs.unlink(`${thumbnailPath}-thumbnail.jpeg`)   // elimina archivo local de miniatura  
-        await fs.unlink(req.file.path); // elimina archivo local original
         await newPost.save();
         await addPostToUser(postBy, newPost._id);
         await referToNotification(newPost.thumbnail, newPost._id, userAuth,referTo)

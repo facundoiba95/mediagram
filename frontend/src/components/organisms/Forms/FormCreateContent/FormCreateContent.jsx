@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 // loaders
-import LoaderCreatePost from '../../Loaders/LoaderCreatePost/LoaderCreatePost';
+import LoaderCreatePost from '../../../molecules/Loaders/LoaderCreatePost/LoaderCreatePost';
 
 // hooks and tools
 import { useLocation, useParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // styles
 import { ButtonCreateContentStyles, CreateContentContainerStyles, FormCreateContentContainerStyles, GridOneContainerStyles, GridTwoContainerStyles } from './FormCreateContentStyles'
 import TransitionContainer from '../../../Containers/TransitionContainer/TransitionContainer';
-import ModalStatusCreateContent from '../../Modals/ModalStatusCreateContent/ModalStatusCreateContent';
+import ModalStatusCreateContent from '../../../molecules/Modals/ModalStatusCreateContent/ModalStatusCreateContent';
 
 // reducers and actions
 import { createPost, restarStatusPost } from '../../../../redux/slices/postSlices/postSlices';
@@ -19,11 +19,11 @@ import { resetStateLocation } from '../../../../redux/slices/locationSlices/loca
 import { restartStatusAuthSlice, validateSession } from '../../../../redux/slices/authSlices/authSlices';
 import { setStatusNotification } from '../../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { GlobalContext } from '../../../../Context/GlobalContext';
-import CompressImage from '../../CompressImage/CompressImage';
+import CompressImage from '../../../molecules/CompressImage/CompressImage';
 import InfoUserCreatePost from '../../../atoms/InfoUserCreatePost/InfoUserCreatePost';
-import GeoLocationPost from '../../GeoLocationPost/GeoLocationPost';
-import CreateReferTo from '../../CreateReferTo/CreateReferTo';
-import ShareInExplore from '../../ShareInExplore/ShareInExplore';
+import GeoLocationPost from '../../../molecules/GeoLocationPost/GeoLocationPost';
+import CreateReferTo from '../../../molecules/CreateReferTo/CreateReferTo';
+import ShareInExplore from '../../../molecules/ShareInExplore/ShareInExplore';
 
 
 const FormCreateContent = () => {

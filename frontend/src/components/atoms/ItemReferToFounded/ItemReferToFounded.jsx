@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemUserSearchedStyles } from '../../molecules/Forms/FormCreateContent/FormCreateContentStyles'
+import { ItemUserSearchedStyles } from '../../organisms/Forms/FormCreateContent/FormCreateContentStyles'
 import { RiUserFollowFill } from 'react-icons/ri'
 
 const ItemReferToFounded = ({

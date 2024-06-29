@@ -20,6 +20,7 @@ const TrendUsers = () => {
                 _id={item._id}
                 thumbnail={item.thumbnail}
                 counterViews={item.counterViews}
+                key={index}
             />
         ))
     }

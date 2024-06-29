@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Post from "../../models/Post.js";
-import verifyToken_Post from "../../libs/verifyToken_Post.js";
+import verifyToken_Post from "../../libs/Posts/verifyToken_Post.js";
 
 export default async (req, res, next) => {
     try {

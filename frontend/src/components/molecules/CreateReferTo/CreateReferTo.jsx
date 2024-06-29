@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ListRefersToStyles, ListUserSearchedStyles, ReferToContainerStyles } from '../Forms/FormCreateContent/FormCreateContentStyles'
+import { ListRefersToStyles, ListUserSearchedStyles, ReferToContainerStyles } from '../../organisms/Forms/FormCreateContent/FormCreateContentStyles';
 import { restartUserFound, searchUser } from '../../../redux/slices/userSlices/userSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import ItemReferToSelected from '../../atoms/ItemReferToSelected/ItemReferToSelected';
