@@ -9,49 +9,49 @@ import { ModalStatusCreateContentBoxStyles } from '../ModalStatusCreateContent/M
 import 'animate.css';
 import { restartStatusUser } from '../../../../redux/slices/userSlices/userSlices';
 
-const ModalStatusUpdateImage = ({status, error}) => {
+const ModalStatusUpdateImage = ({ status, error }) => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    
+
     const isSuccessfullyContent = () => {
         setTimeout(() => {
-           navigator(`/profile/${params.username}`);
-           dispatch(restartStatusUser());
+            navigator(`/profile/${params.username}`);
+            dispatch(restartStatusUser());
         }, 3000);
 
         return (
             <>
-              <BsPatchCheckFill className='animate__animated animate__heartBeat iconStatusContent'/>
-              <h2>Se creo el post correctamente!</h2>
-           </>
-        )
-    }
-
-    const errorCreatePost = () => {
-        return (
-            <>
-             <MdError className='animate__animated animate__heartBeat iconStatusContent'/>
-             <h2>Error {status}! {error}</h2>
-             <span>
-                <button onClick={() => dispatch(restartStatusUser())}>Verificar datos</button>
-             </span>
+                <BsPatchCheckFill className='animate__animated animate__heartBeat iconStatusContent' />
+                <pre>Se actualizo la imagen de perfil!</pre>
             </>
         )
     }
 
-  return (
-    <LoaderCreatePostContainerStyles>
-        <TransitionContainer>
-        <ModalStatusCreateContentBoxStyles status={status === 200}>
-            {
-                status === 200
-                ? isSuccessfullyContent()
-                : errorCreatePost()
-            }
-        </ModalStatusCreateContentBoxStyles>
-        </TransitionContainer>
-    </LoaderCreatePostContainerStyles>
+    const handleError = () => {
+        return (
+            <>
+                <MdError className='animate__animated animate__heartBeat iconStatusContent' />
+                <pre>Error {status}! {error}</pre>
+                <span>
+                    <button onClick={() => dispatch(restartStatusUser())}>Verificar datos</button>
+                </span>
+            </>
+        )
+    }
+
+    return (
+        <LoaderCreatePostContainerStyles>
+            <TransitionContainer>
+                <ModalStatusCreateContentBoxStyles status={status === 200}>
+                    {
+                        status === 200
+                            ? isSuccessfullyContent()
+                            : handleError()
+                    }
+                </ModalStatusCreateContentBoxStyles>
+            </TransitionContainer>
+        </LoaderCreatePostContainerStyles>
     )
 }
 

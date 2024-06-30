@@ -11,9 +11,10 @@ import ModalAuthWindow from '../../molecules/Modals/ModalAuthWindows/ModalAuthWi
 import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearchUsers';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import ModalAddTags from '../../molecules/Modals/ModalAddTags/ModalAddTags';
+import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
 
 const ViewPost = ({ children }) => {
-    const { isOpenViewPost, setIsOpenViewPost, isOpenAddTags, setIsOpenAddTags } = useContext(GlobalContext);
+    const { isOpenViewPost, setIsOpenViewPost, isOpenAddTags, setIsOpenAddTags, openLoader, setOpenLoader } = useContext(GlobalContext);
     const isLoadingPost = useSelector( state => state.postSlices.isLoading );
     const [ isReadyPost, setIsReadyPost ] = useState(false);
     const post = useSelector( state => state.postSlices.post );
@@ -30,10 +31,12 @@ const ViewPost = ({ children }) => {
     }
 
     useEffect(() => {
+      setOpenLoader(true)
       const handleViewPost = async () => {
         await dispatch(getPostByID(params.idPost));
         setIsOpenViewPost(true);
         setIsReadyPost(true)
+        setOpenLoader(false);
       }
       
 
@@ -42,6 +45,7 @@ const ViewPost = ({ children }) => {
 
     
     const renderPost = () => {
+
       if(isReadyPost){
       return post.map(item => {
         const { imgPost, description, counterLikes, counterViews, likes,anonymViews, referTo, location } = item;
@@ -76,7 +80,7 @@ const ViewPost = ({ children }) => {
       })
       } else {
         return (
-          <Loader/>
+          <GlobalLoader/>
         )
       }
     }
@@ -97,7 +101,7 @@ const ViewPost = ({ children }) => {
     <>
     {
       isLoadingPost
-      ? <Loader/>
+      ? <GlobalLoader/>
       : <TransitionContainer>
           {
             statusPost !== 200

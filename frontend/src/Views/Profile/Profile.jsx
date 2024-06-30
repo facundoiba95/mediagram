@@ -12,6 +12,7 @@ import { resetStateAuth, restartStatusAuthSlice, validateSession } from '../../r
 import ModalSearchUsers from '../../components/molecules/Modals/ModalSearchUsers/ModalSearchUsers'
 import { GlobalContext } from '../../Context/GlobalContext'
 import ImageViewer from '../../components/molecules/ImageViewer/ImageViewer'
+import GlobalLoader from '../../components/molecules/Loaders/GlobalLoader/GlobalLoader'
 
 const Profile = ({ children }) => {
   // states
@@ -37,6 +38,7 @@ const Profile = ({ children }) => {
 
 
   useEffect(() => {
+    setOpenLoader(true);
     const handleConectProfile = async () => {
       dispatch(validateSession());
       if (isLogged) {
@@ -45,6 +47,7 @@ const Profile = ({ children }) => {
         await dispatch(getPosts(params.username));
         dispatch(restartStatusAuthSlice());
         setIsReadyProfile(true);
+        setOpenLoader(false);
       } else {
         navigator('/');
       }
@@ -86,7 +89,7 @@ const Profile = ({ children }) => {
         </ProfileContainerStyles>
       )
     } else {
-      return (<LoaderWidthVw />)
+      return (<GlobalLoader />)
     }
   }
 

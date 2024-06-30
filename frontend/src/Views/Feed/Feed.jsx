@@ -14,7 +14,7 @@ import { validateSession } from '../../redux/slices/authSlices/authSlices'
 
 const Feed = () => {
 const dispatch = useDispatch();
-const { setOpenLoader, topScroll, setTopScroll  } = useContext(GlobalContext);
+const { topScroll, setTopScroll  } = useContext(GlobalContext);
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
 const userAuth = useSelector( state => state.authSlices.user );
 const notifications = useSelector( state => state.notificationSlices.notifications );
@@ -54,7 +54,6 @@ const sound = new Howl({
 
   useEffect(() => {
     dispatch(getNotifications(userAuth._id));
-    setOpenLoader(false);
   }, [])
 
 

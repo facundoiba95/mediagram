@@ -11,6 +11,7 @@ export default async ( req,res,next ) => {
 
         const isFollowing = foundUserFollowing.followings.some( user => user._id == foundUserFollower._id);
         if(isFollowing) return await Promise.reject({ error: 'Is following user!', status: 409 });
+        
         req.foundUserFollower = foundUserFollower;
         req.foundUserFollowing = foundUserFollowing;
         next();

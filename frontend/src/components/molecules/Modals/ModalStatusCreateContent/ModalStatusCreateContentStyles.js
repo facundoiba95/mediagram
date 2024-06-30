@@ -9,11 +9,13 @@ justify-content:center;
 align-items:center;
 gap:10px;
 background-color:transparent;
+font-family: "Red Hat Display";
 
 p {
     background-color:transparent;
     font-size:1.8rem;
 }
+
 .iconStatusContent {
     font-size:5rem;
     color:${ props => props.status ? 'green' : 'crimson' };
@@ -43,5 +45,12 @@ p{
 
 b {
     cursor: pointer;
+}
+
+pre {
+    text-align: center;
+    font-family: "Red Hat Display";
+    font-weight: 600;
+    color: white;
 }
 `

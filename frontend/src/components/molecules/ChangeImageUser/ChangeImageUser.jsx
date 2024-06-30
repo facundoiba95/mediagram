@@ -7,6 +7,7 @@ import { changeImgProfile } from '../../../redux/slices/userSlices/userSlices';
 import LoaderCreatePost from '../Loaders/LoaderCreatePost/LoaderCreatePost';
 import ModalStatusUpdateImage from '../Modals/ModalStatusUpdateImage/ModalStatusUpdateImage';
 import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
+import GlobalLoader from '../Loaders/GlobalLoader/GlobalLoader';
 
 
 const ChangeImageUser = () => {

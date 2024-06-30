@@ -6,6 +6,7 @@ import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/S
 import DefaultPageFeed from '../../molecules/DefaultPageFeed/DefaultPageFeed';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import Loader from '../../molecules/Loaders/Loader/Loader';
+import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
 
 const PostsInFeed = ({ isReadyFeed }) => {
   const posts = useSelector(state => state.postSlices.post);
@@ -54,7 +55,7 @@ const PostsInFeed = ({ isReadyFeed }) => {
       })
     } else {
       setOpenLoader(true)
-      return (<Loader />)
+      return (<GlobalLoader />)
     }
 
   }

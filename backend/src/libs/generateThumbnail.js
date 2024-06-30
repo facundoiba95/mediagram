@@ -10,7 +10,7 @@ export default async () => {
 
     console.log("Miniatura generada!");
   } catch (error) {
-    console.error('Ocurrio un error al generar la thumbnail en generateThumbnail.js().Error: ', error)
-    throw error;
+    console.error('Error al generar la miniatura de imagen en generateThumbnail.js().Error: ', error.message)
+    return new Error({ error: `Error al generar la miniatura de imagen. \n Detalle: "${error.message}".`, status: 500 });
   }
 }
