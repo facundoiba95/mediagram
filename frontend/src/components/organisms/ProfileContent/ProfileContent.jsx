@@ -21,7 +21,7 @@ const ProfileContent = () => {
 
   const renderContentProfile = () => {
     return posts.map(item => {
-      const { thumbnail, likes, _id, counterViews, counterLikes, counterComments } = item;
+      const { thumbnail, likes, _id, counterViews, counterLikes, counterComments, mediaType } = item;
       if (isLoadingPost || isLoadingUser) {
         return (<SkeletonCardPostProfile />)
       } else {
@@ -33,6 +33,7 @@ const ProfileContent = () => {
             counterComments={counterComments}
             counterLikes={counterLikes}
             counterViews={counterViews}
+            mediaType={mediaType}
             key={_id}
           />
         )

@@ -188,8 +188,9 @@ export const verifyUser = async (req, res) => {
 export const changeImgProfile = async (req, res) => {
     try {
         const userAuth = req.userAuth;
+        const idAuth = req.idUser;
         const result_image = await cloudinary.v2.uploader.upload(originalImage_path, {
-            folder: 'mediagram/users',
+            folder: `mediagram/users/${idAuth}`,
             eager: [
                 {
                     format: 'avif',

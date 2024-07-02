@@ -48,7 +48,7 @@ export default async (req, res, next) => {
                     relatedPosts: { $push: '$relatedPosts' }
                 }
             },
-            // etapa 7: seleccionar campos
+            // etapa 7: seleccionar campos para enviar al frontend
             {
                 $project: {
                     _id: 1,
@@ -58,7 +58,8 @@ export default async (req, res, next) => {
                     'relatedPosts.tags': 1,
                     'relatedPosts.postBy': 1,
                     'relatedPosts.counterViews': 1,
-                    'relatedPosts.counterLikes': 1
+                    'relatedPosts.counterLikes': 1,
+                    'relatedPosts.mediaType': 1
                 }
             }
         ]);

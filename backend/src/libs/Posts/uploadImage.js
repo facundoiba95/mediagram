@@ -1,10 +1,10 @@
 import cloudinary from 'cloudinary';
 import { originalImage_path } from '../../config/baseUrl.js';
 
-export const uploadImage = async () => {
+export const uploadImage = async (idAuth) => {
     try {
         const result_image = await cloudinary.v2.uploader.upload(originalImage_path, {
-            folder: 'mediagram/posts', // directorio en cloudinary
+            folder: `mediagram/posts/${idAuth}`, // directorio en cloudinary
             eager: [ // miniatura - thumbnail
                 { 
                     format: 'avif', 

@@ -1,11 +1,11 @@
 import cloudinary from 'cloudinary';
 import { originalVideo_path } from '../../config/baseUrl.js';
 
-export const uploadVideo = async () => {
+export const uploadVideo = async (idAuth) => {
     try {
         const result_video = await cloudinary.v2.uploader.upload(originalVideo_path,
             {
-                folder: 'mediagram/posts', // directorio en cloudinary
+                folder: `mediagram/posts/${idAuth}`, // directorio en cloudinary
                 resource_type: "video",
                 eager: [ // miniatura - thumbnail
                     { 

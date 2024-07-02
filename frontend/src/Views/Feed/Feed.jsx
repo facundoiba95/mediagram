@@ -10,11 +10,10 @@ import { Howl, Howler } from 'howler';
 import songNotification from '../../assets/sound4.mp3';
 import { getCloseList } from '../../redux/slices/userSlices/userSlices'
 import { GlobalContext } from '../../Context/GlobalContext'
-import { validateSession } from '../../redux/slices/authSlices/authSlices'
 
 const Feed = () => {
 const dispatch = useDispatch();
-const { topScroll, setTopScroll  } = useContext(GlobalContext);
+const { topScroll, setTopScroll, setOpenLoader } = useContext(GlobalContext);
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
 const userAuth = useSelector( state => state.authSlices.user );
 const notifications = useSelector( state => state.notificationSlices.notifications );
@@ -27,9 +26,12 @@ const sound = new Howl({
 
 
   useEffect(() => {
+    setOpenLoader(true)
+
     const handleGetPostsByFollowing = async () => {
       await dispatch(getPostsOfFollowings());
       setIsReadyFeed(true)
+      setOpenLoader(false)
     }
     tabNotification()
     handleGetPostsByFollowing();
@@ -44,9 +46,9 @@ const sound = new Howl({
    }
 
    useEffect(() => {
-    tabNotification()
     socket.on('newNotification', (data) => {
       dispatch(getNotifications(userAuth._id));
+      tabNotification()
       // sound.volume(0.1);
       // sound.play();
     })

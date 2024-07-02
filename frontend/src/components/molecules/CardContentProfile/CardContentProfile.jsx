@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
+import IconVideo from '../../atoms/IconVideo/IconVideo';
+import { VIDEO } from '../../../libs/mediaType';
 
 
 const CardContentProfile = ({
@@ -12,7 +14,8 @@ const CardContentProfile = ({
   _id,
   counterLikes,
   counterViews,
-  counterComments
+  counterComments,
+  mediaType
 }) => {
   const userAuth = useSelector(state => state.authSlices.user);
   const navigator = useNavigate();
@@ -27,6 +30,11 @@ const CardContentProfile = ({
   return (
     <CardContentProfileContainerStyles onClick={goPost} isLike={isLike}>
       <img src={thumbnail} alt="img content profile user" className='imgContent' />
+      {
+        mediaType === VIDEO
+          ? <IconVideo />
+          : <></>
+      }
       <span className='overlay'>
         <span className='containerIconPost'>
           <span><FaHeart className='iconHeart' />{counterLikes}</span>

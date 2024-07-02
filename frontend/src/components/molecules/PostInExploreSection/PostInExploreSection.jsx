@@ -6,7 +6,7 @@ const PostInExploreSection = ({ posts, index }) => {
     const renderCards = () => {
         return posts.map((post, index) => {
             index = index + 1
-            const { _id, thumbnail, postBy, tags, counterViews, counterLikes } = post;
+            const { _id, thumbnail, postBy, tags, counterViews, counterLikes, mediaType } = post;
             return (
                 <CardPostInExplore
                     key={index}
@@ -18,6 +18,7 @@ const PostInExploreSection = ({ posts, index }) => {
                     thumbnail={thumbnail}
                     counterLikes={counterLikes}
                     counterViews={counterViews}
+                    mediaType={mediaType}
                     _id={_id}
                 />
             )

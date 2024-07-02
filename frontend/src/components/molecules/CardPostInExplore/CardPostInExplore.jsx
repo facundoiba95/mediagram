@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CardPostInExploreStyles } from '../PostInExploreSection/PostInExploreSectionStyles'
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaEye, FaHeart } from 'react-icons/fa';
+import IconVideo from '../../atoms/IconVideo/IconVideo';
+import { VIDEO } from '../../../libs/mediaType';
 
 const CardPostInExplore = ({
   heightCard,
@@ -9,6 +11,7 @@ const CardPostInExplore = ({
   counterLikes,
   counterViews,
   posts,
+  mediaType,
   _id
 }) => {
   const navigator = useNavigate();
@@ -26,6 +29,11 @@ const CardPostInExplore = ({
 
   return (
     <CardPostInExploreStyles heightCard={heightCard} posts={posts.length} data-id={_id} onClick={goPost}>
+      {
+        mediaType === VIDEO
+          ? <IconVideo />
+          : <></>
+      }
       <span className='overlay' >
         <span><FaHeart className='iconHeart' />{counterLikes}</span>
         <span><FaEye className='iconView' />{counterViews}</span>

@@ -26,6 +26,7 @@ export const createPost = async (req, res) => {
         const postBy = new mongoose.Types.ObjectId(req.body.postBy); // ObjectId
         const userAuth = req.userAuth; // Object
         const mediaType = req.mediaType;
+        const idAuth = req.idUser;
         let file_paths = [];
 
 
@@ -45,13 +46,13 @@ export const createPost = async (req, res) => {
         }
 
         if (mediaType === IMAGE) {
-            const image = await uploadImage();
+            const image = await uploadImage(idAuth);
             newPost.media_url = `${image.result_image.secure_url}`;
             newPost.thumbnail = `${image.result_thumbnail_image}`;
             newPost.mediaType = IMAGE;
             file_paths.push(originalImage_path);
         } else if (mediaType === VIDEO) {
-            const video = await uploadVideo();
+            const video = await uploadVideo(idAuth);
             newPost.media_url = `${video.result_video.secure_url}`;
             newPost.thumbnail = `${video.result_thumbnail_video}`;
             newPost.mediaType = VIDEO;
@@ -201,6 +202,7 @@ export const deletePost = async (req, res) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
         const userAuth = req.userAuth;
+        const idAuth = req.idUser;
 
         const getIdImage = (URL) => {
             const param = URL.split('/');
@@ -215,13 +217,13 @@ export const deletePost = async (req, res) => {
             const public_id = getIdImage(media_url)
 
             if (mediaType === IMAGE) {
-                await cloudinary.v2.uploader.destroy(`mediagram/posts/${public_id}`, (err, result) => {
+                await cloudinary.v2.uploader.destroy(`mediagram/posts/${idAuth}/${public_id}`, (err, result) => {
                     if (err) {
                         console.error('Ocurrio un error al eliminar imagen de Cloudinary. Error: ', err)
                     }
                 });
             } else if (mediaType === VIDEO) {
-                await cloudinary.v2.uploader.destroy(`mediagram/posts/${public_id}`, { resource_type: "video" }, (err, result) => {
+                await cloudinary.v2.uploader.destroy(`mediagram/posts/${idAuth}/${public_id}`, { resource_type: "video" }, (err, result) => {
                     if (err) {
                         console.error('Ocurrio un error al eliminar video de Cloudinary. Error: ', err)
                     }

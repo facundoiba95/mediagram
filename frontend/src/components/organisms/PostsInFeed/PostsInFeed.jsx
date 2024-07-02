@@ -1,17 +1,14 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import { PostsInFeedContainerStyles } from './PostsInFeedStyles'
 import CardPostInFeed from '../../molecules/CardPostInFeed/CardPostInFeed'
 import { useSelector } from 'react-redux';
 import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/SkeletonCardPostFeed';
 import DefaultPageFeed from '../../molecules/DefaultPageFeed/DefaultPageFeed';
-import { GlobalContext } from '../../../Context/GlobalContext';
-import Loader from '../../molecules/Loaders/Loader/Loader';
 import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
 
 const PostsInFeed = ({ isReadyFeed }) => {
   const posts = useSelector(state => state.postSlices.post);
   const isLoadingPost = useSelector(state => state.postSlices.isLoading);
-  const { openLoader, setOpenLoader } = useContext(GlobalContext);
 
   const renderPosts = () => {
     if (isReadyFeed) {
@@ -22,7 +19,7 @@ const PostsInFeed = ({ isReadyFeed }) => {
           )
         } else {
           if (!item.foundedPosts) return;
-          setOpenLoader(false)
+
           const {
             thumbnail,
             description,
@@ -54,7 +51,6 @@ const PostsInFeed = ({ isReadyFeed }) => {
         }
       })
     } else {
-      setOpenLoader(true)
       return (<GlobalLoader />)
     }
 
