@@ -12,6 +12,7 @@ import ModalSearchUsers from '../../molecules/Modals/ModalSearchUsers/ModalSearc
 import { IoMdArrowRoundBack } from "react-icons/io";
 import ModalAddTags from '../../molecules/Modals/ModalAddTags/ModalAddTags';
 import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
+import VideoPlayer from '../VideoPlayer/VideoPlayer';
 
 const ViewPost = ({ children }) => {
     const { isOpenViewPost, setIsOpenViewPost, isOpenAddTags, setIsOpenAddTags, openLoader, setOpenLoader } = useContext(GlobalContext);
@@ -48,7 +49,7 @@ const ViewPost = ({ children }) => {
 
       if(isReadyPost){
       return post.map(item => {
-        const { imgPost, description, counterLikes, counterViews, likes,anonymViews, referTo, location } = item;
+        const { media_url, description, counterLikes, counterViews, likes,anonymViews, referTo, location, mediaType } = item;
         
         const { username, thumbnail } = item.postBy;
 
@@ -60,7 +61,11 @@ const ViewPost = ({ children }) => {
               <h3 onClick={() => goBack()}>Atrás</h3>
             </ContainerQuitViewPostStyles>
             <ViewPostImageContainerStyles>
-              <img src={ imgPost } alt="image post" loading='lazy'/>
+              {
+                mediaType === "IMAGE"
+                ? <img src={ media_url } alt="image post" loading='lazy'/>
+                : <VideoPlayer media_url={media_url}/>
+              }
             </ViewPostImageContainerStyles>
             <CommentsInPost 
               description={description}

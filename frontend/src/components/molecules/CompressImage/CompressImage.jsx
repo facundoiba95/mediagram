@@ -15,9 +15,9 @@ const CompressImage = () => {
       <img src={loadImage} alt="image create content" id='img' />
       <input
         type="file"
-        name="imgPost"
-        id="imgPost"
-        accept='image/*'
+        name="mediaFile"
+        id="mediaFile"
+        accept="image/*, video/*"
         onChange={(e) => handleChangeImage(e)}
       />
       <button onClick={() => setIsSelectedImage(!isSelectedImage)} className='btnSelectedImage'>Elegir imagen</button>

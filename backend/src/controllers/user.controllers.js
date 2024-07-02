@@ -1,13 +1,12 @@
 import User from "../models/User.js";
 import addFollower from "../libs/Users/addFollower.js";
 import deleteFollowUpRequest from "../libs/Users/deleteFollowUpRequest.js";
-import generateThumbnail from "../libs/generateThumbnail.js";
 import fs from 'fs-extra';
 import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
 import followUpRequestNotification from "../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 import Post from "../models/Post.js";
-import {originalImage_path, thumbnailImage_path} from "../config/baseUrl.js";
+import { originalImage_path } from "../config/baseUrl.js";
 
 
 export const searchUser = async (req, res) => {
@@ -189,19 +188,24 @@ export const verifyUser = async (req, res) => {
 export const changeImgProfile = async (req, res) => {
     try {
         const userAuth = req.userAuth;
-        const result = await cloudinary.v2.uploader.upload(originalImage_path, {
-            folder: 'mediagram/users'
-        }); // subir archivo original
-        userAuth.imgProfile = `${result.secure_url}`;// guarda la ruta de archivo original
+        const result_image = await cloudinary.v2.uploader.upload(originalImage_path, {
+            folder: 'mediagram/users',
+            eager: [
+                {
+                    format: 'avif',
+                    width: 400,
+                    height: 400,
+                    crop: 'thumb',
+                    gravity: "center"
+                }
+            ]
+        });
 
-        await generateThumbnail();
-        const resultThumbnail = await cloudinary.v2.uploader.upload(thumbnailImage_path, {
-            folder: 'mediagram/users'
-        }); // subir archivo miniatura
-        userAuth.thumbnail = `${resultThumbnail.secure_url}`;// guarda la ruta de la miniatura
+        const result_thumbnail_image = result_image.eager[0].secure_url;
 
+        userAuth.imgProfile = `${result_image.secure_url}`;// guarda la ruta de archivo original
+        userAuth.thumbnail = `${result_thumbnail_image}`;// guarda la ruta de la miniatura
 
-        await fs.unlink(thumbnailImage_path)   // elimina archivo local de miniatura  
         await fs.unlink(originalImage_path); // elimina archivo local original
         await userAuth.save();
 
@@ -218,7 +222,7 @@ export const getCloseList = async (req, res) => {
 
         let closeList = await User.find({ closeList: idAuth }).select('_id username thumbnail posts');
 
-        const found_EXCLUSIVEPOST = await Post.find({ _id: { $in: closeList.flatMap(user => user.posts) }, typePost: 'EXCLUSIVEPOST' }).select('_id postBy views imgPost');
+        const found_EXCLUSIVEPOST = await Post.find({ _id: { $in: closeList.flatMap(user => user.posts) }, typePost: 'EXCLUSIVEPOST' }).select('_id postBy views media_url mediaType');
 
         closeList = closeList.filter(usr => {
             if (!found_EXCLUSIVEPOST.length) {
@@ -238,13 +242,13 @@ export const getCloseList = async (req, res) => {
     }
 }
 
-export const getTrendUsers = async (req,res) => {
+export const getTrendUsers = async (req, res) => {
     try {
-        const foundUsers = await User.find().sort({counterViews: -1 }).limit(6).select("_id thumbnail username counterViews");
-        
-        if(!foundUsers.length) return res.status(404).json({trendUsers: [], status: 404, message: "No se encontraron usuarios en tendencia."});
+        const foundUsers = await User.find().sort({ counterViews: -1 }).limit(6).select("_id thumbnail username counterViews");
 
-        res.status(200).json({trendUsers: foundUsers, status: 200, message: "Se encontraros usuarios en tendencia."})
+        if (!foundUsers.length) return res.status(404).json({ trendUsers: [], status: 404, message: "No se encontraron usuarios en tendencia." });
+
+        res.status(200).json({ trendUsers: foundUsers, status: 200, message: "Se encontraros usuarios en tendencia." })
     } catch (error) {
         console.error('Ocurrio un error en getTrendUsers(). user.controllers.js', error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })

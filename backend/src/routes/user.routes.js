@@ -5,12 +5,12 @@ import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
 import verifySizeFile from '../middlewares/errors/post/verifySizeFile.js';
 import multer from 'multer';
-import cloudinary from 'cloudinary';
 import { config } from "dotenv";
 import isPrivateProfile from '../middlewares/user/isPrivateProfile.js';
 import filterPost_closeList from '../middlewares/posts/filterPost_closeList.js';
-import convertToAVIF from '../middlewares/convertToAVIF.js';
 import { cloudinary_config } from '../config/cloudinary.config.js';
+import convertImage from '../middlewares/posts/convertImage.js';
+import { image_extension } from '../libs/fileExtensions.js';
 config();
 
 const router = Router();
@@ -21,7 +21,7 @@ const storage = multer.memoryStorage();
 
 const upload = multer({storage: storage,
     fileFilter: (req, files, cb) => {
-    if (!files.originalname.match(/\.(jpeg|gif|tif|tiff|heif|eps|ai|pdf|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
+    if (!files.originalname.match(image_extension)) {
     return cb({ error: 'Formato de archivo no compatible.', status: 415 });
     }
     cb(null, true);
@@ -42,7 +42,7 @@ router.post('/unfollowUser', unfollowUser);
 router.post('/selectUser',[ isPrivateProfile, filterPost_closeList ], selectUser);
 router.post('/handleIsFollowing', handleIsFollowing );
 router.post('/handleFollowUpRequest', [ isExistUserFollow ], handleFollowUpRequest);
-router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile, convertToAVIF], changeImgProfile );
+router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile, convertImage], changeImgProfile );
 router.post('/getCloseList', getCloseList);
 router.post('/verifyUser', [isPrivateProfile], verifyUser);
 router.get('/getTrendUsers', getTrendUsers);

@@ -1,3 +1,5 @@
 export const baseUrl = `${process.cwd()}/src/uploads` // process.cwd() obtiene el directorio donde se ejecuta el backend.
-export const originalImage_path = `${baseUrl}/output.avif`;
-export const thumbnailImage_path = `${baseUrl}/output-thumbnail.avif`;
+export const originalImage_path = `${baseUrl}/image.avif`;
+export const thumbnailImage_path = `${baseUrl}/image-thumbnail.avif`;
+export const originalVideo_path = `${baseUrl}/video.mp4`;
+export const thumbnailVideo_path = `${baseUrl}/video-thumbnail.png`;

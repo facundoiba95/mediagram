@@ -59,7 +59,7 @@ img {
     width:100%;
     height: auto;
     object-fit: contain;
-    padding:0px 30px;
+    padding: 0px 30px;
     margin: 0 auto;
 }
 

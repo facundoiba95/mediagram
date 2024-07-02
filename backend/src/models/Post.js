@@ -68,13 +68,18 @@ const postSchema = new Schema({
         type: Number,
         default: 0
     },
-    imgPost: {
+    media_url: {
         type: String,
         require: true
     },
     thumbnail: {
         type: String,
         require: true
+    },
+    mediaType: {
+        enum: ["IMAGE", "VIDEO", "AUDIO"],
+        require: true,
+        type: String
     },
     views: [{
         thumbnail: String,

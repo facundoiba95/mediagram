@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts } from "../controllers/post.controllers.js";
 import multer from 'multer';
-import cloudinary from 'cloudinary';
 import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
@@ -16,8 +15,11 @@ import postByFollowings from "../middlewares/posts/postByFollowings.js";
 import isPrivateProfile from "../middlewares/user/isPrivateProfile.js";
 import searchTags from "../middlewares/tags/searchTags.js";
 import associateTagsByPosts from "../middlewares/posts/associateTagsByPosts.js";
-import convertToAVIF from "../middlewares/convertToAVIF.js";
 import { cloudinary_config } from '../config/cloudinary.config.js';
+import select_mediaType from "../middlewares/posts/select_mediaType.js";
+import convertImage from "../middlewares/posts/convertImage.js";
+import convertVideo from "../middlewares/posts/convertVideo.js";
+import { image_extension, video_extension } from "../libs/fileExtensions.js";
 
 config();
 
@@ -29,13 +31,14 @@ const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
-  fileFilter: (req, files, cb) => {
-    if (!files.originalname.match(/\.(jpeg|jfif|gif|tif|tiff|heif|eps|ai|psd|webp|png|bmp|svg|jpg|avif|mp4|mov|gif|avi|mpeg|3gp|JPG)$/)) {
-      return cb({ error: 'Formato de archivo no compatible.', status: 415 });
-    }
-    cb(null, true);
+  fileFilter: (req, file, cb) => {
+      if (!file.originalname.match(video_extension) && !file.originalname.match(image_extension)) {
+          return cb({ error: 'Formato de archivo no compatible.', status: 415 });
+      }
+      cb(null, true);
   }
 });
+
 
 router.use((req, res, next) => {
   res.header(
@@ -46,7 +49,7 @@ router.use((req, res, next) => {
 });
 
 
-router.post('/createPost', upload.single('imgPost'), [verifyExistImage, verifySizeFile, convertToAVIF], createPost);
+router.post('/createPost', upload.single("mediaFile"), [select_mediaType, verifyExistImage, verifySizeFile , convertImage, convertVideo ], createPost);
 router.post('/getPosts', [isPrivateProfile], getPosts);
 router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
 router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);

@@ -1,16 +1,18 @@
 import cloudinary from 'cloudinary';
-import fs from 'fs-extra';
 import Post from '../models/Post.js';
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
-import generateThumbnail from '../libs/generateThumbnail.js';
 import addPostToUser from '../libs/Posts/addPostToUser.js';
 import addCountersInPost from '../libs/Posts/addCountersInPost.js';
 import addCommentNotification from '../libs/Notifications/Posts/addCommentNotification.js';
 import addLikePostNotification from '../libs/Notifications/Posts/addLikePostNotification.js';
 import handleRestrictPosts from '../libs/Posts/handleRestrictPosts.js';
 import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
-import {originalImage_path, thumbnailImage_path} from '../config/baseUrl.js';
+import { originalImage_path, originalVideo_path } from '../config/baseUrl.js';
+import deleteFiles from '../libs/deleteFiles.js';
+import { IMAGE, VIDEO } from '../libs/fileExtensions.js';
+import { uploadImage } from '../libs/Posts/uploadImage.js';
+import { uploadVideo } from '../libs/Posts/uploadVideo.js';
 config();
 
 export const EXCLUIVE_POST = "EXCLUSIVEPOST";
@@ -23,6 +25,8 @@ export const createPost = async (req, res) => {
         const shareInExplore = req.body.shareInExplore === 'true'; // Boolean
         const postBy = new mongoose.Types.ObjectId(req.body.postBy); // ObjectId
         const userAuth = req.userAuth; // Object
+        const mediaType = req.mediaType;
+        let file_paths = [];
 
 
         const newPost = new Post({
@@ -34,31 +38,32 @@ export const createPost = async (req, res) => {
         });
 
         if (!userAuth.isPrivate && shareInExplore) {
-            if(!tags.length) return res.status(404).json({message: 'Debes incluir tags en tu publicación.', status: 404});
-            const idsTags = tags.map( tag => new mongoose.Types.ObjectId(tag._id));
+            if (!tags.length) return res.status(404).json({ message: 'Debes incluir tags en tu publicación.', status: 404 });
+            const idsTags = tags.map(tag => new mongoose.Types.ObjectId(tag._id));
             newPost.tags = idsTags;
             newPost.shareInExplore = shareInExplore;
         }
 
-        // ARCHIVO ORIGINAL
-        const result = await cloudinary.v2.uploader.upload(originalImage_path, {
-            folder: 'mediagram/posts' // directorio en cloudinary
-        }); 
-        newPost.imgPost = `${result.secure_url}`;
+        if (mediaType === IMAGE) {
+            const image = await uploadImage();
+            newPost.media_url = `${image.result_image.secure_url}`;
+            newPost.thumbnail = `${image.result_thumbnail_image}`;
+            newPost.mediaType = IMAGE;
+            file_paths.push(originalImage_path);
+        } else if (mediaType === VIDEO) {
+            const video = await uploadVideo();
+            newPost.media_url = `${video.result_video.secure_url}`;
+            newPost.thumbnail = `${video.result_thumbnail_video}`;
+            newPost.mediaType = VIDEO;
+            file_paths.push(originalVideo_path);
+        }
 
-        // THUMBNAIL
-        await generateThumbnail();
-        const resultThumbnail = await cloudinary.v2.uploader.upload(`${thumbnailImage_path}`, {
-            folder: 'mediagram/posts' // directorio de cloudinary
-        }); 
-        newPost.thumbnail = `${resultThumbnail.secure_url}`;
-
-        await fs.unlink(originalImage_path)   // elimina archivo local de miniatura 
-        await fs.unlink(thumbnailImage_path); // elimina archivo local original
+        await deleteFiles(file_paths);
+        file_paths = [];
 
         await newPost.save();
         await addPostToUser(postBy, newPost._id);
-        await referToNotification(newPost.thumbnail, newPost._id, userAuth,referTo)
+        await referToNotification(newPost.thumbnail, newPost._id, userAuth, referTo)
 
         return res.status(200).json({ message: 'El post se creó exitosamente!', post: [], status: 200 });
     } catch (error) {
@@ -204,21 +209,25 @@ export const deletePost = async (req, res) => {
         }
 
         try {
-            const media = await Post.findByIdAndDelete(idPost, { projection: { imgPost: 1, thumbnail: 1 } });
+            const media = await Post.findByIdAndDelete(idPost, { projection: { media_url: 1, mediaType: 1 } });
 
-            const { thumbnail, imgPost } = media;
-            const imgArr = [thumbnail, imgPost];
+            const { media_url, mediaType } = media;
+            const public_id = getIdImage(media_url)
 
-            for (let i = 0; i < imgArr.length; i++) {
-                const pathImg = imgArr[i];
-                const public_id = getIdImage(pathImg)
-
+            if (mediaType === IMAGE) {
                 await cloudinary.v2.uploader.destroy(`mediagram/posts/${public_id}`, (err, result) => {
                     if (err) {
                         console.error('Ocurrio un error al eliminar imagen de Cloudinary. Error: ', err)
                     }
                 });
+            } else if (mediaType === VIDEO) {
+                await cloudinary.v2.uploader.destroy(`mediagram/posts/${public_id}`, { resource_type: "video" }, (err, result) => {
+                    if (err) {
+                        console.error('Ocurrio un error al eliminar video de Cloudinary. Error: ', err)
+                    }
+                });
             }
+
 
             // eliminar idPost en usuario
             userAuth.posts = userAuth.posts.filter(post => !post.equals(idPost));
@@ -237,28 +246,28 @@ export const deletePost = async (req, res) => {
     }
 }
 
-export const updateTagsInPost = async (req,res) => {
+export const updateTagsInPost = async (req, res) => {
     try {
         const { tags } = req.body;
         const { idPost } = req.params;
 
         await Post.findByIdAndUpdate(
             idPost,
-            { 
+            {
                 tags: tags,
                 shareInExplore: true
             },
             { new: true }
         )
 
-        res.status(200).json({message: 'Se actualizo correctamente la lista de tags.', status: 200});
-        
+        res.status(200).json({ message: 'Se actualizo correctamente la lista de tags.', status: 200 });
+
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "updateTagsInPost()"', { error: error.message, status: error.status });
         res.status(error.status).json({ error: error.message, status: error.status })
     }
 }
-     
+
 export const test_getPost = async (req, res) => {
     try {
         const idPost = new mongoose.Types.ObjectId(req.params.idPost);
@@ -274,27 +283,27 @@ export const test_getPost = async (req, res) => {
     }
 }
 
-export const visiblePosts = async (req,res) => {
+export const visiblePosts = async (req, res) => {
     try {
         const { nameTag } = req.query;
         const tagsFound = req.tagsFound;
         const postsFound = req.postsFound;
 
-        if(!tagsFound.length || !postsFound.length) return res.status(404).json({message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: [] })
+        if (!tagsFound.length || !postsFound.length) return res.status(404).json({ message: `No se encontraron posts con el tag: '${nameTag}'.`, status: 404, post: [] })
 
-        res.status(200).json({message: `Se encontraron posts con el tag: '${nameTag}'`,post: postsFound});
+        res.status(200).json({ message: `Se encontraron posts con el tag: '${nameTag}'`, post: postsFound });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "visiblePosts()"', { error: error.message, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });
     }
 }
 
-export const getTrendPosts = async (req,res) => {
+export const getTrendPosts = async (req, res) => {
     try {
-        const foundPosts = await Post.find({shareInExplore: true}).sort({counterViews: -1}).limit(4).select("_id thumbnail counterLikes counterViews anoanymViews postBy");
-        if(!foundPosts.length) return res.status(404).json({message: "No se encontraron posts!", trendPosts: [], status: 404});
+        const foundPosts = await Post.find({ shareInExplore: true }).sort({ counterViews: -1 }).limit(4).select("_id thumbnail counterLikes counterViews anoanymViews postBy mediaType");
+        if (!foundPosts.length) return res.status(404).json({ message: "No se encontraron posts!", trendPosts: [], status: 404 });
 
-        res.status(200).json({trendPosts: foundPosts, status: 200, message: "Se encontraron trend Posts!"})
+        res.status(200).json({ trendPosts: foundPosts, status: 200, message: "Se encontraron trend Posts!" })
     } catch (error) {
         console.error('Ocurrio un error en getTrendPosts(). post.controllers.js', error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })

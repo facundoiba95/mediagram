@@ -8,7 +8,7 @@ const FlipSlide = ({ cards }) => {
         return cards.map(item => (
 
             <SwiperSlide>
-                <img src={item.imgPost} />
+                <img src={item.media_url} />
             </SwiperSlide>
         ))
     }
