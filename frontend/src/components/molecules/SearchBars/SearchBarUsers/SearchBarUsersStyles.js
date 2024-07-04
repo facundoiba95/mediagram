@@ -12,6 +12,7 @@ font-family:'Red Hat Display';
 transition:all 0.3s ease-in-out;
 border:3px solid white;
 border-radius: 10px;
+background-color: #00000020;
 
 
 input {

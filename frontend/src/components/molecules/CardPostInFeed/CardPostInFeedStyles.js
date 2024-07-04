@@ -1,24 +1,26 @@
 import styled from 'styled-components';
 
 export const CardPostInFeedContainerStyles = styled.div`
-width:70%;
+width: 100%;
+max-width: 550px;
 height: auto;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 justify-content: flex-start;
 font-family: 'Red Hat Display';
-border-top-right-radius:10px;
-border-top-left-radius:10px;
+border-radius: 5px;
 border-bottom:1px solid #80808080;
 padding-bottom:25px;
 
 img {
     width:100%;
-    height:600px;
+    height:100%;
+    max-height: 100vh;
     background-color: transparent;
     object-fit: contain;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 @media (max-width: 490px) {
@@ -41,14 +43,14 @@ justify-content: flex-start;
 align-items: center;
 padding:5px;
 background-color: transparent;
-background-color: var(--lightblack);;
+/* background-color: var(--lightblack);; */
 border-top-right-radius:10px;
 border-top-left-radius:10px;
 color:white;
 
 img {
-    width:55px;
-    height:55px;
+    width:45px;
+    height:45px;
     object-fit: cover;
     border-radius: 50%;
     background-color: transparent;
@@ -58,7 +60,7 @@ img {
 div {
     display: flex;
     flex-direction: column;
-    gap:5px;
+    gap:0px;
 }
 
 h4 {
@@ -133,7 +135,7 @@ h4 {
 
 .containerDescription {
     display:${props => props.isDescription ? 'flex' : 'none'};
-    padding: 2px 10px;
+    padding: 0px 0px;
     background-color: transparent;
     justify-content: flex-start;
     align-items: flex-start;
@@ -144,6 +146,7 @@ h4 {
         height:50px;
         overflow: hidden;
         white-space: pre;
+        font-size: 0.9rem;
     }
 
     p:hover {

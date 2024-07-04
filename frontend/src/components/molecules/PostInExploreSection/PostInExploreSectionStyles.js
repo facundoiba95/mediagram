@@ -70,8 +70,19 @@ font-family: 'Red Hat Display';
 }
 
 @media (max-width: 490px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: ${props => {
+        switch (props.posts) {
+            case 1:
+                return "1fr"
+            case 2 || 3:
+                return "200px";
+            case 4:
+                return "80vh"
+            case 5:
+                return "230px 230px"
+        }
+    }};
 }
 `
 
@@ -112,10 +123,6 @@ img {
     .iconHeart, .iconView {
         background-color: transparent;
     }
-
-    .iconHeart {
-        color: crimson;
-    }
 }
 
 &:hover .overlay {
@@ -127,21 +134,24 @@ img {
 }
 
 @media (max-width: 490px) {
-    min-height: 90vh;
-
+    img {
+        object-fit: contain;
+    }
     .overlay {
         display: flex;
         opacity: 1;
         visibility: visible;
-        height: auto;
+        height: 20px;
         flex-direction: row;
         gap: 10px;
         background-color: #00000080;
         justify-content: flex-end;
         padding: 5px 10px 5px 0px;
+        bottom: 0px;
 
         span {
             gap: 5px;
+            font-size:1rem;
         }
     }
 }

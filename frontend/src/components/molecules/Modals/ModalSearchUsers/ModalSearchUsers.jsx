@@ -60,7 +60,7 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type }) => {
           }
           {
             isLoadingSearch
-              ? <MoonLoader size={30} className='loader' color='white' />
+              ? <MoonLoader size={30} className='loader' color='white'/>
               : renderUserFounded()
           }
         </ListModalSearchUsersStyles>

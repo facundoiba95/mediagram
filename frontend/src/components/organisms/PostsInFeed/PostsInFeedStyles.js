@@ -7,7 +7,7 @@ export const PostsInFeedContainerStyles = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 50px;
+  gap: 10px;
   background-color: transparent;
   padding-bottom: 20px;
   padding-top: 20px;

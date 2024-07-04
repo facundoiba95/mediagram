@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CardPostInFeedContainerStyles, FootCardPostInProfileStyles, HeadCardPostInProfileStyles } from './CardPostInFeedStyles'
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { RiUserSmileFill } from 'react-icons/ri';
@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPostByID, handleLikeToPost } from '../../../redux/slices/postSlices/postSlices';
 import { MdLocationOn } from 'react-icons/md';
+import { VIDEO } from '../../../libs/mediaType';
+import useIsVisible from '../../../Hooks/useIsVisible';
+import VideoPlayer from '../../organisms/VideoPlayer/VideoPlayer';
 
 const CardPostInFeed = ({
   _id,
@@ -18,14 +21,18 @@ const CardPostInFeed = ({
   counterComments,
   likes,
   location,
-  referTo
+  referTo,
+  mediaType,
+  media_url
 }) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const params = useParams();
   const userAuth = useSelector(state => state.authSlices.user);
   const isLike = likes.some(usr => usr._id == userAuth._id)
-
+  const cardPost_ref = useRef();
+  const isVideo = mediaType === VIDEO;
+  const playVideo = useIsVisible({refElement: cardPost_ref, optionalCondition: isVideo});
 
   const goToProfile = (e) => {
     const valueUsername = e.currentTarget.dataset.username;
@@ -39,12 +46,14 @@ const CardPostInFeed = ({
   }
 
   const renderReferTo = () => {
-    return referTo.map((item,index) => (
-        <small data-username={item.username} onClick={(e) => goToProfile(e)} key={index}>{`@${item.username}`}</small>
+    return referTo.map((item, index) => (
+      <small data-username={item.username} onClick={(e) => goToProfile(e)} key={index}>{`@${item.username}`}</small>
     ))
   }
+
+
   return (
-    <CardPostInFeedContainerStyles>
+    <CardPostInFeedContainerStyles ref={cardPost_ref}>
       <HeadCardPostInProfileStyles>
         {
           imgProfile
@@ -62,7 +71,11 @@ const CardPostInFeed = ({
           </span>
         </div>
       </HeadCardPostInProfileStyles>
-      <img src={thumbnail} alt="" onClick={goPost} loading='lazy' />
+      {
+        mediaType === VIDEO
+        ? <VideoPlayer media_url={media_url} playVideo={playVideo} isFeed={true}/>
+        : <img src={media_url} alt="" onClick={goPost} loading='lazy' />
+      }
       <FootCardPostInProfileStyles isDescription={description ? description.length : false} isLike={isLike}>
         <span className='containerIconPost' onClick={goPost}>
           <div><FaEye className='iconView' /><h5>{counterViews}</h5></div>         {/** counterViews */}
@@ -84,7 +97,7 @@ const CardPostInFeed = ({
               : <></>
           }
         </span>
-        <small>Ver post completo</small>
+        {/* <small>Ver post completo</small> */}
       </FootCardPostInProfileStyles>
     </CardPostInFeedContainerStyles>
   )

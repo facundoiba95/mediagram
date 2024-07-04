@@ -44,10 +44,11 @@ background-color:#eeeeee50;
 border-radius: 10px;
 display:flex;
 flex-direction: column;
-gap:10px;
+gap:5px;
 font-family:'Red Hat Display';
 padding:10px;
 overflow-y: scroll;
+background-color: #00000050;
 
 small {
     background-color: transparent;
@@ -76,11 +77,13 @@ align-items:center;
 border-radius:10px;
 background-color:var(--light);
 gap:10px;
-padding:5px;
+padding:5px 0px 5px 10px;
+background-color: #00000040;
+color: white;
 
 img {
-    width:60px;
-    height:60px;
+    width:50px;
+    height:50px;
     border-radius: 50%;
 }
 
@@ -95,7 +98,8 @@ img {
 
 &:hover {
     cursor: pointer;
-    background-color: var(--heavyLight);
+    background-color: #00000090;
+    
 }
 
 p {

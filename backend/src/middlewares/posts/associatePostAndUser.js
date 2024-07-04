@@ -9,7 +9,7 @@ export default async (req, res, next) => {
 
         const postByUser = await Post.find({ _id: idPost }).populate({
             path: 'postBy',
-            select: 'username thumbnail imgProfile isPrivate _id mediaTyp'
+            select: 'username thumbnail imgProfile isPrivate _id mediaType'
         }).populate({
             path: "tags"
         })

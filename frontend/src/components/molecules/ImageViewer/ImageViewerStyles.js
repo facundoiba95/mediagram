@@ -35,9 +35,9 @@ h2 {
     height: 100%;
     max-width: 550px;
     max-height: 550px;
-    object-fit: cover;
-    border-radius: 50%;
+    object-fit: scale-down;
     background-color: transparent;
+    border-radius: 5px;
 }
 
 .iconClose {

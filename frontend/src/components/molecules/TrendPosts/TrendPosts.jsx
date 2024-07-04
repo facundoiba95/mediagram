@@ -22,6 +22,7 @@ const TrendPosts = () => {
                 counterLikes={item.counterLikes}
                 counterViews={item.counterViews}
                 postBy={item.postBy}
+                mediaType={item.mediaType}
                 key={index}
             />
         ))

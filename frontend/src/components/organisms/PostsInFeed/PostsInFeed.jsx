@@ -29,7 +29,9 @@ const PostsInFeed = ({ isReadyFeed }) => {
             counterComments,
             likes,
             location,
-            referTo
+            referTo,
+            mediaType,
+            media_url
           } = item;
           const { username, imgProfile } = item.foundedPosts;
           return (
@@ -45,6 +47,8 @@ const PostsInFeed = ({ isReadyFeed }) => {
               location={location}
               referTo={referTo}
               _id={_id}
+              mediaType={mediaType}
+              media_url={media_url}
               key={index}
             />
           )

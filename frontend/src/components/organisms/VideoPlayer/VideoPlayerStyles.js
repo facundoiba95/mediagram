@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const VideoPlayerContainerStyles = styled.div`
 width: 100%;
-height: 100%;
+height: ${props => props.isFeed ? "600px" : "100%"};
 
 video {
     width: 100%;
