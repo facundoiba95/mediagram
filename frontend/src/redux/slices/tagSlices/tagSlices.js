@@ -78,6 +78,12 @@ const tagSlices = createSlice({
         setListTags: (state, action) => {
             state.listTags = action.payload;
         },
+        resetTags: (state, action) => {
+            state.tags = [];
+        },
+        resetNameTag: (state, action) => {
+            state.nameTag = "";
+        },
         addTagToList: (state, action) => {
             if (!action.payload) return;
             const existTagInList = state.listTags.some(tag => tag._id === action.payload._id);
@@ -96,5 +102,5 @@ const tagSlices = createSlice({
     }
 })
 
-export const { setNameTag, resetTagState, addTagToList, setListTags, removeTagToList } = tagSlices.actions;
+export const { setNameTag, resetTagState, addTagToList, setListTags, removeTagToList, resetNameTag, resetTags } = tagSlices.actions;
 export default tagSlices.reducer;

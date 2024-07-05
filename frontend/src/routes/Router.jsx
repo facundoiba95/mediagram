@@ -19,15 +19,18 @@ import ProtectedRoutes from '../components/Containers/ProtectRoutes/ProtectRoute
 import GlobalLoader from '../components/molecules/Loaders/GlobalLoader/GlobalLoader';
 import Explore from '../Views/Explore/Explore';
 import ViewerHistory from '../components/organisms/ViewerHistory/ViewerHistory';
+import useTitleDocument from '../Hooks/useTitleDocument';
 
 const Router = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const userFound = useSelector(state => state.userSlices.userFound);
   const { isLogged } = useSelector(state => state.authSlices);
+  const setTitleDocument =  useTitleDocument();
   
   useEffect(() => {
     dispatch(validateSession());
+    setTitleDocument;
   }, []);
   
   return (

@@ -10,13 +10,13 @@ import { Howl, Howler } from 'howler';
 import songNotification from '../../assets/sound4.mp3';
 import { getCloseList } from '../../redux/slices/userSlices/userSlices'
 import { GlobalContext } from '../../Context/GlobalContext'
+import CreateContentFeed from '../../components/organisms/CreateContentFeed/CreateContentFeed'
 
 const Feed = () => {
 const dispatch = useDispatch();
 const { topScroll, setTopScroll, setOpenLoader } = useContext(GlobalContext);
 const [ isReadyFeed, setIsReadyFeed ] = useState(false);
 const userAuth = useSelector( state => state.authSlices.user );
-const notifications = useSelector( state => state.notificationSlices.notifications );
 const stateNotifications = useSelector( state => state.notificationSlices.state );
 const containerPostRef = useRef(null);
 const sound = new Howl({
@@ -33,22 +33,14 @@ const sound = new Howl({
       setIsReadyFeed(true)
       setOpenLoader(false)
     }
-    tabNotification()
     handleGetPostsByFollowing();
     dispatch(getCloseList())
    }, [ dispatch ]);
 
 
-   const tabNotification = () => {
-    notifications.filter(item => item.status === 'PENDING').length >= 1 
-    ? document.title = `Mediagram (${notifications.filter(item => item.status === 'PENDING').length})`
-    : document.title = `Mediagram`
-   }
-
    useEffect(() => {
     socket.on('newNotification', (data) => {
       dispatch(getNotifications(userAuth._id));
-      tabNotification()
       // sound.volume(0.1);
       // sound.play();
     })
@@ -78,6 +70,7 @@ const sound = new Howl({
         </FeedContainerHeaderStyles>
 
         <FeedContainerPostsStyles ref={containerPostRef}>
+          <CreateContentFeed/>
           <PostsInFeed isReadyFeed={isReadyFeed}/>
         </FeedContainerPostsStyles>
 

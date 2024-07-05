@@ -86,7 +86,9 @@ padding-top:5px;
 }
 
 .containerReferTo {
-    display: ${props => props.referTo ? 'block' : 'none'};
+    display: ${props => props.referTo ? 'flex' : 'none'};
+    gap: 3px;
+
     small {
     color: #808080;
     font-weight:600;  

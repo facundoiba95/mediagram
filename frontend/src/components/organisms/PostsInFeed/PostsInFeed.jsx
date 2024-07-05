@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/SkeletonCardPostFeed';
 import DefaultPageFeed from '../../molecules/DefaultPageFeed/DefaultPageFeed';
 import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
+import CreateContentFeed from '../CreateContentFeed/CreateContentFeed';
 
 const PostsInFeed = ({ isReadyFeed }) => {
   const posts = useSelector(state => state.postSlices.post);

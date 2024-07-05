@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ViewPostBackgroundStyles = styled.div`
 display: ${props => props.isOpenViewPost ? 'flex' : 'none'};
 width:100vw;
-height:100vh;
+height: 100vh;
 z-index: 2100;
 backdrop-filter: blur(10px);
 position: absolute;

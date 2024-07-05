@@ -3,6 +3,7 @@ import { ContainerItemCreateTagStyles } from './ItemCreateTagStyles'
 import { useDispatch } from 'react-redux';
 import { createTag } from '../../../redux/slices/tagSlices/tagSlices';
 
+//@params tag = String
 const ItemCreateTag = ({tag}) => {
     const dispatch = useDispatch();
 
