@@ -52,18 +52,18 @@ const CardCreateState = () => {
     textareaRef.current.focus();
   };
 
-  const setQuantity = (randomNumber) => {
-    const thousandPosts = `${randomNumber.toString().slice(0, 1)}.${randomNumber.toString().slice(1, 2)}k`;
-    const thousandPost_twoDigits = `${randomNumber.toString().slice(0, 2)}.${randomNumber.toString().slice(2, 3)}k`
-    const thousandPost_threeDigits = `${randomNumber.toString().slice(0, 3)}k`
+  const setQuantity = (counter) => {
+    const thousandPosts = `${counter.toString().slice(0, 1)}.${counter.toString().slice(1, 2)}k`;
+    const thousandPost_twoDigits = `${counter.toString().slice(0, 2)}.${counter.toString().slice(2, 3)}k`
+    const thousandPost_threeDigits = `${counter.toString().slice(0, 3)}k`
 
-    if (randomNumber > 0 && randomNumber < 999) {
-      return randomNumber;
-    } else if (randomNumber > 999 && randomNumber < 9999) {
+    if (counter > 0 && counter < 999) {
+      return counter;
+    } else if (counter > 999 && counter < 9999) {
       return thousandPosts;
-    } else if (randomNumber > 9999 && randomNumber < 99999) {
+    } else if (counter > 9999 && counter < 99999) {
       return thousandPost_twoDigits
-    } else if (randomNumber > 99999 && randomNumber < 999999) {
+    } else if (counter > 99999 && counter < 999999) {
       return thousandPost_threeDigits
     }
   }
@@ -76,12 +76,16 @@ const CardCreateState = () => {
     }
 
     return tags.map(tags => {
-      const randomNumber = Math.floor(Math.random() * 1000000 + 1);
+      const { countPosts } = tags;
 
       return (
         <ItemHashtagFoundStyles data-nametag={tags.name} data-idtag={tags._id} onClick={(e) => handleSelectHashtag(e)}>
           <b>#{tags.name}</b>
-          <small>{setQuantity(randomNumber)} publicaciones</small>
+          {
+            countPosts 
+            ? <small>{setQuantity(countPosts)} publicaciones</small>
+            : <small>Sin publicaciones</small>
+          }
         </ItemHashtagFoundStyles>
       )
     })
@@ -94,8 +98,8 @@ const CardCreateState = () => {
         ref={textareaRef}
         value={text}
         onChange={handleInputChange}
-        rows="5"
-        placeholder='Escribe un estado'
+        rows="4"
+        placeholder='Que estás pensando ?'
       />
       {showListHashtags && (
         <ListHashtagsFound isLoading={isLoading}>

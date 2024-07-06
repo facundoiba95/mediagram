@@ -3,12 +3,14 @@ import Tags from "../models/Tags.js";
 export const tagsFound = async (req, res) => {
     try {
         const tagsFound = req.tagsFound;
-        
-        if (!tagsFound.length){
-            return res.status(404).json({ message: 'No se encontraron tags!', status: 404, tags: tagsFound })
+        const postsFound = req.postsFound;
+        const selectResult = postsFound && postsFound.length ? postsFound : tagsFound;
+
+        if (!selectResult.length){
+            return res.status(404).json({ message: 'No se encontraron tags!', status: 404, tags: selectResult })
         }
 
-        return res.status(200).json({ message: 'Tags encontrados!', status: 200, tags: tagsFound });
+        return res.status(200).json({ message: 'Tags encontrados!', status: 200, tags: selectResult });
     } catch (error) {
         console.error('Ocurrio un error en tagsFound(). tags.controllers.js', error.message);
         res.status(500).json({ error: error.message, status: 500 });

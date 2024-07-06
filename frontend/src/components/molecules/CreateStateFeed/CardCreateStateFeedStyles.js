@@ -27,6 +27,7 @@ export const TextBoxCreateStateFeedStyles = styled.textarea`
     padding: 5px;
     border: 1px solid #80808080;
     color: white;
+    font-size: 1rem;
 
     &::placeholder {
         color: white;

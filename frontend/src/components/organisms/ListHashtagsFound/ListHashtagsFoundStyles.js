@@ -16,7 +16,7 @@ list-style-type: none; */
 
 export const ItemHashtagFoundStyles = styled.li`
 width: 100%;
-height: 100%;
+height: auto;
 cursor: pointer;
 background-color: #80808030;
 display: flex;
@@ -24,6 +24,7 @@ flex-direction: column;
 justify-content: center;
 align-items: flex-start;
 padding: 5px 0px 5px 5px;
+border-radius: 5px;
 
 &:hover {
     background-color: #80808060;
