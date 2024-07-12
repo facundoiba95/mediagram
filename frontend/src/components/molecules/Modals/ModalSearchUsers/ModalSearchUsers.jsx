@@ -8,10 +8,12 @@ import { FaEye } from 'react-icons/fa';
 import { MoonLoader } from 'react-spinners';
 import { ItemModalSearchUsersStyles, ListModalSearchUsersStyles, ModalSearchUsersContainerStyles } from './ModalSearchUsersStyles';
 import SearchBarUsers from '../../SearchBars/SearchBarUsers/SearchBarUsers';
+import MoonLoaderResponsive from '../../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
 
-const ModalSearchUsers = ({ data, message, placeholderValue, type }) => {
-  const { isOpen, setIsOpen, isLoadingSearch, setIsOpenMenu } = useContext(GlobalContext);
+const ModalSearchUsers = ({ data, message, placeholderValue, type, title, resetData }) => {
+  const { isOpen, setIsOpen, setIsOpenMenu } = useContext(GlobalContext);
   const usersFounded = useSelector(state => state.userSlices.userFound);
+  const { isLoading } = useSelector(state => state.userSlices);
   const params = useParams();
   const navigator = useNavigate();
 
@@ -25,7 +27,7 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type }) => {
 
 
   const renderUserFounded = () => {
-    if(!isOpen) return;
+    if (!isOpen) return;
     if (!usersFounded.length) {
       return (
         <ItemModalSearchUsersStyles>
@@ -51,7 +53,14 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type }) => {
   return (
     <ContainerBlurWrapperStyles isOpen={isOpen}>
       <ModalSearchUsersContainerStyles>
-        <SearchBarUsers isOpen={isOpen} data={data} placeholderValue={placeholderValue} type={type} />
+        <b>{title}</b>
+        <SearchBarUsers
+          isOpen={isOpen}
+          data={data}
+          placeholderValue={placeholderValue}
+          type={type}
+          resetData={resetData}
+        />
         <ListModalSearchUsersStyles>
           {
             message
@@ -59,8 +68,8 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type }) => {
               : <></>
           }
           {
-            isLoadingSearch
-              ? <MoonLoader size={30} className='loader' color='white'/>
+            isLoading
+              ? <MoonLoaderResponsive size={40}/>
               : renderUserFounded()
           }
         </ListModalSearchUsersStyles>

@@ -42,8 +42,14 @@ const userSchema = new Schema({
         type: String,
         default: ''
     },
-    followings: [ Object ],
-    followers: [ Object],
+    followings: [{
+        type: Schema.Types.ObjectId,
+        unique: true
+    }],
+    followers: [{
+        type: Schema.Types.ObjectId,
+        unique: true
+    }],
     histories: [Object],
     posts: [{
         type: Schema.Types.ObjectId,
@@ -90,10 +96,9 @@ const userSchema = new Schema({
             enum: [ 'PENDING', 'REJECTED', 'ACCEPT' ],
         },
         sentBy:[{
-            type: Object,
-            imgProfile: String,
-            username: String,
-            _id: mongoose.Types.ObjectId
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            unique: true
         }]
     }]
 },{

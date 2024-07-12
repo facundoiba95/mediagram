@@ -1,23 +1,38 @@
-import React, { useRef, useState } from 'react'
-import { ContainerCardCreateStateFeedStyles, TextBoxCreateStateFeedStyles } from './CardCreateStateFeedStyles'
+import React, { useContext, useRef, useState } from 'react'
+import { ContainerCardCreatePostFeedStyles, TextBoxCreatePostFeedStyles } from './CardCreatePostFeedStyles'
 import ButtonCreatePostFeed from '../../atoms/ButtonCreatePostFeed/ButtonCreatePostFeed'
 import { useDispatch, useSelector } from 'react-redux';
-import { addTagToList, resetNameTag, resetTags, searchTags } from '../../../redux/slices/tagSlices/tagSlices'
+import { addTagToList, resetListTags, resetNameTag, resetTags, searchTags } from '../../../redux/slices/tagSlices/tagSlices'
 import ListHashtagsFound from '../../organisms/ListHashtagsFound/ListHashtagsFound';
 import { ItemHashtagFoundStyles } from '../../organisms/ListHashtagsFound/ListHashtagsFoundStyles';
 import ItemCreateTag from '../../atoms/ItemCreateTag/ItemCreateTag';
+import { createPost } from '../../../redux/slices/postSlices/postSlices';
+import { POST } from '../../../libs/typePost';
+import { GlobalContext } from '../../../Context/GlobalContext';
 
-const CardCreateState = () => {
+
+// referTo
+// location
+// typePost
+// postBy
+// tags
+// shareInExplore
+const CardCreatePostFeed = () => {
   const [text, setText] = useState('');
   const [hashtag, setHashtag] = useState("");
   const [showListHashtags, setShowListHashtags] = useState(false);
-  const { tags, isLoading } = useSelector(state => state.tagSlices);
+  const { switchChecked, listReferTo } = useContext(GlobalContext)
+  const { tags, isLoading, listTags } = useSelector(state => state.tagSlices);
   const textareaRef = useRef(null);
+  const userAuth = useSelector(state => state.authSlices.user);
+
   const dispatch = useDispatch()
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setText(inputValue);
+
+    if (!inputValue.length) dispatch(resetListTags());
 
     const lastWord = inputValue.split(' ').pop();
     const hashtag_regex = /^#\w+/;
@@ -82,19 +97,24 @@ const CardCreateState = () => {
         <ItemHashtagFoundStyles data-nametag={tags.name} data-idtag={tags._id} onClick={(e) => handleSelectHashtag(e)}>
           <b>#{tags.name}</b>
           {
-            countPosts 
-            ? <small>{setQuantity(countPosts)} publicaciones</small>
-            : <small>Sin publicaciones</small>
+            countPosts
+              ? <small>{setQuantity(countPosts)} publicaciones</small>
+              : <small>Sin publicaciones</small>
           }
         </ItemHashtagFoundStyles>
       )
     })
   }
 
+  const handleCreatePost = async () => {
+    const form = document.getElementById("formCreatePost");
+    await dispatch(createPost(form));
+  }
+
   return (
-    <ContainerCardCreateStateFeedStyles>
+    <ContainerCardCreatePostFeedStyles onSubmit={(e) => e.preventDefault()} id='formCreatePost'>
       <b>Publicar estado</b>
-      <TextBoxCreateStateFeedStyles
+      <TextBoxCreatePostFeedStyles
         ref={textareaRef}
         value={text}
         onChange={handleInputChange}
@@ -106,10 +126,18 @@ const CardCreateState = () => {
           {renderHashtags()}
         </ListHashtagsFound>
       )}
-      <ButtonCreatePostFeed active={text.length} handleFunction={() => alert(text)} />
-    </ContainerCardCreateStateFeedStyles>
+      {/* Inputs hidden para backend */}
+      <input type="text" name='referTo' value={JSON.stringify(listReferTo)} hidden />
+      {/* <input type="text" name='location' value={locationSelected} hidden /> */}
+      <input type="text" name='shareInExplore' value={JSON.stringify(switchChecked)} hidden />
+      <input type="text" name='typePost' value={POST} hidden />
+      <input type="text" name='postBy' value={userAuth._id} hidden />
+      <input type="text" name='tags' value={JSON.stringify(listTags)} hidden />
+      <input type="text" name='textContent' value={text} hidden />
+      <ButtonCreatePostFeed active={text.length} handleFunction={handleCreatePost} />
+    </ContainerCardCreatePostFeedStyles>
   );
 };
 
-export default CardCreateState;
+export default CardCreatePostFeed;
 

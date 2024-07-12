@@ -22,7 +22,7 @@ const initialState = {
 
 export const createPost = createAsyncThunk(
     'createPost/postSlices',
-    async (post) => {
+    async (form) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/createPost`, {
@@ -31,7 +31,7 @@ export const createPost = createAsyncThunk(
                 headers: {
                     "x-access-token": `${token}`
                 },
-                body: new FormData(post)
+                body: new FormData(form)
             })
 
             const res = await req.json();
@@ -162,17 +162,17 @@ export const addReferTo = createAsyncThunk(
 )
 export const handleLikeToPost = createAsyncThunk(
     'handleLikeToPost/postSlices',
-    async (post) => {
+    async (idPost) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/handleLikeToPost`, {
+
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/handleLikeToPost/${idPost}`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
-                },
-                body: JSON.stringify(post)
+                }
             });
 
             const res = await req.json();

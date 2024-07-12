@@ -9,6 +9,8 @@ import handleFollowUpRequestBuilders from './builders/handleFollowUpRequestBuild
 import changeImgProfileBuilders from './builders/changeImgProfileBuilders';
 import getCloseListBuilders from './builders/getCloseListBuilders';
 import getTrendUsersBuilders from './builders/getTrendUsersBuilders';
+import getFollowersBuilders from './builders/getFollowersBuilders';
+import getFollowingsBuilders from './builders/getFollowingsBuilders';
 
 const initialState = {
     error: null,
@@ -19,6 +21,8 @@ const initialState = {
     userSelected: [],
     closeList: [],
     trendUsers: [],
+    followers: [],
+    followings: [],
     isLoading: false
 }
 
@@ -38,6 +42,52 @@ export const searchUser = createAsyncThunk(
         } catch (error) {
             console.error('Ocurrio un error en searchUser. userSlices', error);
             alert('Ocurrio un error en searchUser, userSlices');
+        }
+    }
+)
+
+export const getFollowers = createAsyncThunk(
+    "getFollowers/userSlices",
+    async (username) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getFollowers/${username}`, {
+                method: "GET",
+                mode: 'cors',
+                headers: {
+                    "x-access-token": `${token}`
+                }
+            })
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getFollowers. userSlices', error);
+            alert('Ocurrio un error en getFollowers, userSlices');
+        }
+    }
+)
+
+export const getFollowings = createAsyncThunk(
+    "getFollowings/userSlices",
+    async (username) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getFollowings/${username}`, {
+                method: "GET",
+                mode: 'cors',
+                headers: {
+                    "x-access-token": `${token}`
+                }
+            })
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getFollowings. userSlices', error);
+            alert('Ocurrio un error en getFollowings, userSlices');
         }
     }
 )
@@ -142,17 +192,16 @@ export const refreshUser = createAsyncThunk(
 
 export const handleIsFollowing = createAsyncThunk(
     'handleIsFollowing/userSlices',
-    async (username) => {
+    async (idUser) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing`, {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing/${idUser}`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
-                },
-                body: JSON.stringify({ username })
+                }
             });
 
             const res = await req.json();
@@ -284,6 +333,16 @@ const userSlices = createSlice({
         },
         restartUserSlice: (state) => {
             return { ... initialState};
+        },
+        resetState_followers: (state,action) => {
+            state.followers = [];
+            state.message = null;
+            state.status = null;
+        },
+        resetState_followings: (state,action) => {
+            state.followings = [];
+            state.message = null;
+            state.status = null;
         }
     },
     extraReducers: (builders) => {
@@ -297,6 +356,8 @@ const userSlices = createSlice({
         changeImgProfileBuilders(builders, changeImgProfile);
         getCloseListBuilders(builders, getCloseList)
         getTrendUsersBuilders(builders, getTrendUsers);
+        getFollowersBuilders(builders, getFollowers);
+        getFollowingsBuilders(builders, getFollowings);
     }
 });
 
@@ -309,7 +370,9 @@ export const {
     setIsLoadingUser,
     restartUserSelected,
     restartStatusUser,
-    restartUserSlice
+    restartUserSlice,
+    resetState_followers,
+    resetState_followings
 } = userSlices.actions;
 
 export default userSlices.reducer;

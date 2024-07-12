@@ -17,11 +17,7 @@ const notificationSchema = new Schema({
         idContent: mongoose.Types.ObjectId,
     },
     createdBy: {
-        type: Object,
-        required: true,
-        _id: mongoose.Types.ObjectId,
-        thumbnail: String,
-        username: String,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
     status: {

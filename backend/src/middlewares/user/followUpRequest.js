@@ -7,34 +7,35 @@
 
 import mongoose from "mongoose";
 import followUpRequestNotification from "../../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
+import createFollowUpNotification from "../../libs/Notifications/Users/followUpRequest/createFollowUpNotification.js";
+import { acceptFollow_message, pendingFollow_message } from "../../libs/messages.js";
 
-export default async ( req,res,next ) => {
+export default async (req, res, next) => {
     try {
         const userToFollow = req.foundUserFollower;
         const userToFollowing = req.foundUserFollowing;
-        const foundFollowUpRequest = userToFollow.followUpRequest.filter(request => request.sentBy.find(usr => usr.username === userToFollowing.username));
+        const foundFollowUpRequest = userToFollow.followUpRequest.filter(request => request.sentBy.find(usr => usr.equals(userToFollowing._id)));
 
         const newFollower = {
-            imgProfile: userToFollowing.imgProfile,
             username: userToFollowing.username,
             _id: new mongoose.Types.ObjectId(userToFollowing._id)
         }
 
-        await handleFollowUpRequest( userToFollow, newFollower, foundFollowUpRequest );
-        
+        await handleFollowUpRequest(userToFollow, newFollower, foundFollowUpRequest);
+
         next();
     } catch (error) {
-        console.error('Ocurrio un error en middleware followUpRequest.js().Error: ',error.message)
+        console.error('Ocurrio un error en middleware followUpRequest.js().Error: ', error.message)
         next(error);
     }
 }
 
 
-const handleFollowUpRequest = async ( userToFollow, newFollower, foundFollowUpRequest ) => {
+const handleFollowUpRequest = async (userToFollow, newFollower, foundFollowUpRequest) => {
     const { isPrivate, username } = userToFollow;
 
-    if(isPrivate){
-        if(foundFollowUpRequest.length){
+    if (isPrivate) {
+        if (foundFollowUpRequest.length) {
             foundFollowUpRequest[0].status = 'PENDING';
             await userToFollow.save();
             return await Promise.reject({ error: `Se envio la solicitud de seguimiento a "${username}"`, status: 201 })
@@ -44,12 +45,12 @@ const handleFollowUpRequest = async ( userToFollow, newFollower, foundFollowUpRe
             status: 'PENDING',
             sentBy: newFollower
         })
-        
+
         await userToFollow.save();
-        await followUpRequestNotification(userToFollow, newFollower, 'PENDING' );
+        await followUpRequestNotification(userToFollow, { username: newFollower.username, _id: newFollower._id }, 'PENDING', pendingFollow_message(newFollower));
         return await Promise.reject({ error: `Se envio la solicitud de seguimiento a "${username}"`, status: 201 })
     } else {
-        if(foundFollowUpRequest.length) {
+        if (foundFollowUpRequest.length) {
             foundFollowUpRequest[0].status = 'ACCEPT';
             await userToFollow.save();
             return;
@@ -57,9 +58,10 @@ const handleFollowUpRequest = async ( userToFollow, newFollower, foundFollowUpRe
 
         userToFollow.followUpRequest.unshift({
             status: 'ACCEPT',
-            sentBy: newFollower
+            sentBy: newFollower._id
         })
-        await followUpRequestNotification(userToFollow, newFollower.username, 'ACCEPT' );
+
+        await createFollowUpNotification({ username: newFollower.username, _id: newFollower._id }, userToFollow._id,"follower","ACCEPT", acceptFollow_message(newFollower) )
         await userToFollow.save();
     }
 }

@@ -8,6 +8,10 @@ ffmpeg.setFfmpegPath(ffmpegStatic);
 
 export default async (req, res, next) => {
     try {
+        const isTextContent = req.body.textContent;
+
+        if (isTextContent) return next();
+        
         const mediaType = req.mediaType;
 
         if (mediaType === IMAGE) return next();

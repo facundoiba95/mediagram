@@ -7,58 +7,60 @@ import { restartUserFound, searchUser, setUserFound } from '../../../../redux/sl
 import { useNavigate } from 'react-router-dom'
 import { SearchBarUserContainerStyles } from './SearchBarUsersStyles'
 
-const SearchBarUsers = ({data, placeholderValue, type}) => {
-    const [ inputSearchBar, setInputSearchBar ] = useState('');
-    const { isOpen, setIsOpen, setIsOpenMenu,setIsLoadingSearch } = useContext(GlobalContext);
-    const navigator = useNavigate();
+const SearchBarUsers = ({ data, placeholderValue, type, resetData }) => {
+  const [inputSearchBar, setInputSearchBar] = useState('');
+  const { isOpen, setIsOpen, setIsOpenMenu, setIsLoadingSearch } = useContext(GlobalContext);
+  const navigator = useNavigate();
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const handleCloseSearchBar = () => {
-      dispatch(setUserFound([]));
-      dispatch(restartUserFound());
-      setInputSearchBar('');
-      if(type === 'searchUserDB'){
-        setIsOpen(false);
+  const handleCloseSearchBar = () => {
+    dispatch(setUserFound([]));
+    dispatch(restartUserFound());
+    setInputSearchBar('');
+    dispatch(resetData());
+
+    if (type === 'searchUserDB') {
+      setIsOpen(false);
+    } else {
+      setIsOpen(false);
+      navigator(-1);
+    }
+  }
+
+  const filterData = () => {
+    setIsLoadingSearch(true);
+    const dataFiltered = data.filter(item => item.username.includes(inputSearchBar.trim()));
+    if (type === 'searchUserDB') {
+      dispatch(searchUser(inputSearchBar.trim()))
+    }
+    setIsLoadingSearch(false);
+    return dataFiltered;
+  }
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      if (!inputSearchBar.trim().length) {
+        await dispatch(setUserFound([]));
+        await dispatch(setUserFound(data));
       } else {
-        setIsOpen(false);
-        navigator(-1);
+        await dispatch(setUserFound([]));
+        await dispatch(setUserFound(filterData()))
       }
     }
 
-    const filterData = () => {
-      setIsLoadingSearch(true);
-      const dataFiltered = data.filter(item => item.username.includes(inputSearchBar.trim()));
-      if(type === 'searchUserDB'){
-         dispatch(searchUser(inputSearchBar.trim()))
-      }
-      setIsLoadingSearch(false);
-      return dataFiltered;
-    }
+    handleSearch()
+  }, [inputSearchBar]);
 
-    useEffect(() => {
-      const handleSearch = async () => {
-        if(!inputSearchBar.trim().length){
-          await dispatch(setUserFound([]));
-          await dispatch(setUserFound(data));
-        } else {
-          await dispatch(setUserFound([]));
-          await dispatch(setUserFound(filterData()))
-      }
-      }
 
-      handleSearch()
-    }, [ inputSearchBar ]);
-
-    
 
   return (
     <SearchBarUserContainerStyles isOpen={isOpen}>
-        <AiOutlineCloseCircle className='iconCloseSearchBar' onClick={() => handleCloseSearchBar()}/>
-        <input type="text" placeholder={placeholderValue} value={inputSearchBar} onChange={(e) => setInputSearchBar(e.target.value)}/>
-        <BiSearch className='iconSearch'/>
+      <AiOutlineCloseCircle className='iconCloseSearchBar' onClick={() => handleCloseSearchBar()} />
+      <input type="text" placeholder={placeholderValue} value={inputSearchBar} onChange={(e) => setInputSearchBar(e.target.value)} />
+      <BiSearch className='iconSearch' />
     </SearchBarUserContainerStyles>
-    )
+  )
 }
 
 export default SearchBarUsers;

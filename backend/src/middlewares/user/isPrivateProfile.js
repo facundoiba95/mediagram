@@ -51,7 +51,7 @@ export const restrictFollowUpRequestData = (userRecived, idUserAuth) => {
 // @params usernameRecived = String
 // @params idUserAuth = ObjectId
 export default async ( req, res, next ) => {
-    const usernameRecived = req.body.username;
+    const usernameRecived = req.body.username ? req.body.username : req.params.username;
     const idUserAuth = req.idUser;
 
     try {

@@ -5,13 +5,8 @@ import User from "../../../models/User.js";
 export default async ( postBy, thumbnailPost, idPost, userAuth ) => {
     try {
         const _idPost = new mongoose.Types.ObjectId(idPost);
-        const foundUserToNotification = await User.findOne({username: postBy.username});
-        const createdBy = {
-            username: userAuth.username,
-            thumbnail: userAuth.thumbnail,
-            _id: userAuth._id
-        };
-
+        const foundUserToNotification = await User.findOne({_id: postBy});
+        
         const newNotification = new Notification({
             type: 'like',
             content: {
@@ -19,7 +14,7 @@ export default async ( postBy, thumbnailPost, idPost, userAuth ) => {
                 imgContent: thumbnailPost,
                 idPost: _idPost
             },
-            createdBy: createdBy,
+            createdBy: userAuth._id,
         });
 
         foundUserToNotification.notifications.unshift(newNotification._id);

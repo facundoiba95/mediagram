@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts } from "../controllers/post.controllers.js";
+import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
@@ -48,15 +48,16 @@ router.use((req, res, next) => {
   next();
 });
 
-
-router.post('/createPost', upload.single("mediaFile"), [select_mediaType, verifyExistImage, verifySizeFile , convertImage, convertVideo ], createPost);
+router.post('/createPost', upload.single("mediaFile"), [select_mediaType, verifySizeFile , convertImage, convertVideo ], createPost);
 router.post('/getPosts', [isPrivateProfile], getPosts);
 router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
 router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
 router.post('/getPostsByCloseList', [postByFollowings], getPostsByCloseList);
 router.post('/addComment', [validateAuthInPost, validateComment, handleErrors], addComment);
-router.post('/handleLikeToPost', [validateAuthInPost, isExistLikeInPost, handleErrors], handleLikeToPost);
+router.post('/handleLikeToPost/:idPost', [validateAuthInPost, isExistLikeInPost, handleErrors], handleLikeToPost);
 router.get('/getPost/:idPost', test_getPost);
+router.get('/getLikes/:idPost', getLikes )
+router.get('/getViews/:idPost', getViews )
 router.delete('/deletePost/:idPost', deletePost);
 router.put('/updateTags/:idPost', updateTagsInPost);
 router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts);

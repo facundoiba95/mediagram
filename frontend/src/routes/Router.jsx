@@ -20,6 +20,7 @@ import GlobalLoader from '../components/molecules/Loaders/GlobalLoader/GlobalLoa
 import Explore from '../Views/Explore/Explore';
 import ViewerHistory from '../components/organisms/ViewerHistory/ViewerHistory';
 import useTitleDocument from '../Hooks/useTitleDocument';
+import { restartUserFound } from '../redux/slices/userSlices/userSlices';
 
 const Router = () => {
   const params = useParams();
@@ -37,7 +38,7 @@ const Router = () => {
     <BrowserRouter>
       <GlobalLoader />
       <GlobalContainer>
-        <ModalSearchUsers data={userFound} type={'searchUserDB'} />
+        <ModalSearchUsers data={userFound} type={'searchUserDB'} resetData={restartUserFound}/>
         <Notifications />
         <Routes>
           <Route path='/' element={

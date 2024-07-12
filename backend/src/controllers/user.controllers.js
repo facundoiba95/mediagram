@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import followUpRequestNotification from "../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 import Post from "../models/Post.js";
 import { originalImage_path } from "../config/baseUrl.js";
+import { acceptFollow_message } from "../libs/messages.js";
 
 
 export const searchUser = async (req, res) => {
@@ -64,7 +65,7 @@ export const followUser = async (req, res) => {
 
         const foundUserFollowing = req.foundUserFollowing;
         const foundUserFollower = req.foundUserFollower;
-        const foundFollowUpRequest = foundUserFollower.followUpRequest.filter(request => request.sentBy.find(usr => usr.username === foundUserFollowing.username));
+        const foundFollowUpRequest = foundUserFollower.followUpRequest.filter(request => request.sentBy.find(usr => usr.equals(foundUserFollowing._id)));
 
         switch (foundFollowUpRequest[0].status) {
             case 'REJECTED':
@@ -94,8 +95,8 @@ export const followUser = async (req, res) => {
 
         return res.status(200).json({ message: `Sigues a ${username}!`, status: 200 });
     } catch (error) {
-        console.error(error.message);
-        return res.status(error.status).json({ error: error.message, status: error.status });
+        console.error("Ocurrio un error en followUser(). user.controllers.js. Error: ",error);
+        return res.status(500).json({ error: error.message, status: 500 });
     }
 }
 
@@ -112,15 +113,15 @@ export const unfollowUser = async (req, res) => {
 
         if (findIndexFollowUpRequest !== -1) {
             // borrar seguidor en usuario autenticado
-            userAuth.followings = userAuth.followings.filter(usr => usr.username !== username);
+            userAuth.followings = userAuth.followings.filter(idUsr => !idUsr.equals(foundUserFollower._id));
 
             // borrar seguidor en usuario recibido
-            foundUserFollower.followers = foundUserFollower.followers.filter(usr => !usr._id.equals(idAuth));
+            foundUserFollower.followers = foundUserFollower.followers.filter(usr => !usr.equals(idAuth));
             foundUserFollower.closeList = foundUserFollower.closeList.filter(usr => !usr.equals(idAuth))
 
             foundUserFollower.followUpRequest.splice(findIndexFollowUpRequest, 1);
 
-            await followUpRequestNotification({ username }, userAuth, 'REJECTED');
+            await followUpRequestNotification(foundUserFollower, { username: userAuth.username, _id: userAuth._id }, 'REJECTED');
             await userAuth.save();
             await foundUserFollower.save();
             return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status: 200, });
@@ -136,12 +137,12 @@ export const unfollowUser = async (req, res) => {
 
 export const handleIsFollowing = async (req, res) => {
     try {
-        const { username } = req.body;
+        const { idUser } = req.params;
         const userAuth = req.userAuth;
-        const isFollowingsUsers = userAuth.followings.some(usr => usr.username === username);
-
-        if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor de ${username}!`, isFollowing: isFollowingsUsers, status: 200 });
-        return res.status(401).json({ message: `No eres seguidor de "${username}"`, isFollowing: isFollowingsUsers, status: 401 });
+        const isFollowingsUsers = userAuth.followings.some(usr => usr.equals(idUser));
+        
+        if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor!`, isFollowing: isFollowingsUsers, status: 200 });
+        return res.status(401).json({ message: `No eres seguidor."`, isFollowing: isFollowingsUsers, status: 401 });
     } catch (error) {
         console.error(error.message);
         return res.status(error.status).json({ error: error.message, status: error.status });
@@ -156,13 +157,13 @@ export const handleFollowUpRequest = async (req, res) => {
         const foundFollowUpRequest = userAuth.followUpRequest.find(request => request._id.toString() === idFollowUpRequest.toString());
 
         if (followUpRequestResult === '5cc07723-451c-418f-b90a-e6b469f1f2b1') {                                // este id significa que SE ACEPTA la solicitud de seguimiento
-            await addFollower({ imgProfile, username, _id, userAuth, userFollower, foundFollowUpRequest });
-            await followUpRequestNotification(userAuth, { username }, 'ACCEPT');
+            await addFollower({_id, userAuth, userFollower, foundFollowUpRequest });
+            await followUpRequestNotification(userAuth, { username, _id}, 'ACCEPT', acceptFollow_message(userFollower));
 
             return res.status(200).json({ message: `Tu y "${userFollower.username}" se siguen!`, status: 200 });
         } else if (followUpRequestResult === '50d11393-dc3f-4ac4-89a6-143febd2e131') {                       // este id significa que NO SE ACEPTA la solicitud de seguimiento
-            await followUpRequestNotification(userAuth, { username }, 'REJECTED');
-            await deleteFollowUpRequest(userAuth, idFollowUpRequest, foundFollowUpRequest);
+            // await followUpRequestNotification(userAuth, { username, _id }, 'REJECTED');
+            // await deleteFollowUpRequest(userAuth, idFollowUpRequest, foundFollowUpRequest);
 
             return res.status(200).json({ message: `Ha sido rechazada la solicitud de seguimiento del usuario: "${userFollower.username}"!`, status: 200 });
         } else {
@@ -252,6 +253,38 @@ export const getTrendUsers = async (req, res) => {
         res.status(200).json({ trendUsers: foundUsers, status: 200, message: "Se encontraros usuarios en tendencia." })
     } catch (error) {
         console.error('Ocurrio un error en getTrendUsers(). user.controllers.js', error.message);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}
+
+export const getFollowers = async (req,res) => {
+    try {
+        const userSelected = req.userSelected;
+        const idsFollowers = userSelected[0].followers;
+        
+        if(!idsFollowers.length) return res.status(404).json({message: "Not found followers!", followers: [], status: 404});
+        
+        const foundFollowers = await User.find({_id: {$in: idsFollowers}}).select("username thumbnail _id");
+        
+        res.status(200).json({message: "Followers founded!", followers: foundFollowers, status: 200});
+    } catch (error) {
+        console.error('Ocurrio un error en getFollowers(). user.controllers.js', error.message);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}
+
+export const getFollowings = async (req,res) => {
+    try {
+        const userSelected = req.userSelected;
+        const idsFollowings = userSelected[0].followings;
+        
+        if(!idsFollowings.length) return res.status(404).json({message: "Not found followings!", followings: [], status: 404});
+        
+        const foundFollowings = await User.find({_id: {$in: idsFollowings}}).select("username thumbnail _id");
+        
+        res.status(200).json({message: "Followings founded!", followings: foundFollowings, status: 200});
+    } catch (error) {
+        console.error('Ocurrio un error en getFollowings(). user.controllers.js', error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
     }
 }

@@ -15,7 +15,10 @@ const postSchema = new Schema({
         type:[],
         default: [],
     },
-    description: String,
+    description: {
+        type: String,
+        default: null
+    },
     tags: [{
         type: Schema.Types.ObjectId,
         default: null,
@@ -25,7 +28,10 @@ const postSchema = new Schema({
         type: Boolean,
         default: false
     },
-    location: String,
+    location: {
+        type: String,
+        default: null
+    },
     comments: [{
         _id: {
             required: true,
@@ -48,9 +54,10 @@ const postSchema = new Schema({
         }
     }],
     likes: [{
-        thumbnail: String,
-        _id: mongoose.Schema.Types.ObjectId,
-        username: String
+        type: Schema.Types.ObjectId,
+        default: "",
+        unique: true,
+        ref: "User"
     }],
     counterLikes: {
         type: Number,
@@ -70,21 +77,23 @@ const postSchema = new Schema({
     },
     media_url: {
         type: String,
-        require: true
+        default: ""
     },
     thumbnail: {
         type: String,
-        require: true
+        default: ""
     },
+    textContent: String,
     mediaType: {
         enum: ["IMAGE", "VIDEO", "AUDIO"],
         require: true,
         type: String
     },
     views: [{
-        thumbnail: String,
-        _id: mongoose.Schema.Types.ObjectId,
-        username: String
+        type: Schema.Types.ObjectId,
+        default: "",
+        unique: true,
+        ref: "User"
     }]
 }, {
     versionKey: false,

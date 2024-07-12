@@ -3,3 +3,4 @@ export const image_extension = /\.(jpeg|jfif|gif|tif|tiff|heif|eps|ai|psd|webp|p
 export const IMAGE = "IMAGE";
 export const VIDEO = "VIDEO";
 export const AUDIO = "AUDIO";
+export const TEXT = "TEXT";

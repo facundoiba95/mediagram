@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFollowers, getFollowings } from '../../../redux/slices/userSlices/userSlices';
 
 const InfoProfileHeader = ({
   isPrivate,
@@ -12,17 +13,26 @@ const InfoProfileHeader = ({
 }) => {
   const navigator = useNavigate();
   const params = useParams();
+  const dispatch = useDispatch();
   const { isOpen, setIsOpen } = useContext(GlobalContext);
   const isFollowing = useSelector(state => state.userSlices.isFollowing);
   const isLoading = useSelector(state => state.userSlices.isLoading);
-
+  const FOLLOWINGS = "followings";
+  const FOLLOWERS = "followers";
 
   const goHomeProfile = () => navigator(`/profile/${params.username}`);
 
-  const handleOpenFollowContent = (e) => {
+  const handleOpenFollowContent = async (e) => {
     const typeFollow = e.currentTarget.dataset.typefollow;
-    setIsOpen(true);
     params.typeFollow = typeFollow;
+    setIsOpen(true);
+
+    if (typeFollow === FOLLOWERS) {
+      await dispatch(getFollowers(params.username));
+    } else if (typeFollow === FOLLOWINGS) {
+      await dispatch(getFollowings(params.username));
+    }
+
     navigator(`/profile/${params.username}/${params.typeFollow}`);
   }
 
@@ -32,8 +42,8 @@ const InfoProfileHeader = ({
         return (
           <>
             <th onClick={goHomeProfile}>Publicaciónes</th>
-            <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
-            <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th>
+            <th data-typefollow={FOLLOWERS} onClick={(e) => handleOpenFollowContent(e)}><p>Seguidores</p></th>
+            <th data-typefollow={FOLLOWINGS} onClick={(e) => handleOpenFollowContent(e)}><p>Siguiendo</p></th>
           </>
         )
       } else {
@@ -49,8 +59,8 @@ const InfoProfileHeader = ({
       return (
         <>
           <th onClick={goHomeProfile}>Publicaciónes</th>
-          <th data-typefollow='followers' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followers'>Seguidores</p></th>
-          <th data-typefollow='followings' onClick={(e) => handleOpenFollowContent(e)}><p data-typefollow='followings'>Siguiendo</p></th>
+          <th data-typefollow={FOLLOWERS} onClick={(e) => handleOpenFollowContent(e)}><p>Seguidores</p></th>
+          <th data-typefollow={FOLLOWINGS} onClick={(e) => handleOpenFollowContent(e)}><p>Siguiendo</p></th>
         </>
       )
     }

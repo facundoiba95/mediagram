@@ -8,6 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import FollowUpRequestItem from '../FollowUpRequestItem/FollowUpRequestItem';
+import MoonLoader from '../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
+import MoonLoaderResponsive from '../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
 
 const FollowUpRequest = () => {
     const dispatch = useDispatch();
@@ -45,6 +47,7 @@ const FollowUpRequest = () => {
         if (existPending_followUpRequest) {
             return userAuth.followUpRequest.filter(request => request.status === 'PENDING').map(request => {
                 const { username, imgProfile, _id } = request.sentBy[0];
+
                 return (
                     <FollowUpRequestItem
                         _id={_id}
@@ -79,7 +82,7 @@ const FollowUpRequest = () => {
             <FollowUpListStyles listFollowUpRequest={userAuth.length > 0}>
                 {
                     isLoading || isLoadingUser
-                        ? <LoaderResponsive />
+                        ? <MoonLoaderResponsive size={40} />
                         : renderFollowUpRequestList()
                 }
             </FollowUpListStyles>

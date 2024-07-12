@@ -8,7 +8,7 @@ import { getNotifications } from '../../redux/slices/socketSlices/notificationSl
 import socket from '../../../socket'
 import { Howl, Howler } from 'howler';
 import songNotification from '../../assets/sound4.mp3';
-import { getCloseList } from '../../redux/slices/userSlices/userSlices'
+import { getCloseList, restartUserSelected } from '../../redux/slices/userSlices/userSlices'
 import { GlobalContext } from '../../Context/GlobalContext'
 import CreateContentFeed from '../../components/organisms/CreateContentFeed/CreateContentFeed'
 
@@ -48,6 +48,7 @@ const sound = new Howl({
 
   useEffect(() => {
     dispatch(getNotifications(userAuth._id));
+    dispatch(restartUserSelected());
   }, [])
 
 

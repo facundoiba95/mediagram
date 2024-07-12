@@ -32,7 +32,8 @@ const PostsInFeed = ({ isReadyFeed }) => {
             location,
             referTo,
             mediaType,
-            media_url
+            media_url,
+            textContent
           } = item;
           const { username, imgProfile } = item.foundedPosts;
           return (
@@ -50,6 +51,7 @@ const PostsInFeed = ({ isReadyFeed }) => {
               _id={_id}
               mediaType={mediaType}
               media_url={media_url}
+              textContent={textContent}
               key={index}
             />
           )

@@ -9,7 +9,6 @@ export default ( builders, handleLikeToPost ) => {
             state.status = action.payload.status;
             state.message = action.payload.message;
             state.error = action.payload.error;
-            state.post = action.payload.post;
     })
     
 }

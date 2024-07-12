@@ -11,12 +11,13 @@ import { FaUserPlus } from 'react-icons/fa';
 import { TbEyeClosed } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { logout } from '../../../redux/slices/authSlices/authSlices';
+import { getFollowUpRequests, logout } from '../../../redux/slices/authSlices/authSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { restartPostState, restartPostsList } from '../../../redux/slices/postSlices/postSlices';
-import { restartNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { getNotifications, restartNotifications, viewNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { resetTagState } from '../../../redux/slices/tagSlices/tagSlices';
 import { resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
+import { restartUserSelected } from '../../../redux/slices/userSlices/userSlices';
 
 const NavbarHeader = () => {
   // states 
@@ -58,6 +59,7 @@ const NavbarHeader = () => {
   const goHome = () => {
     setIsOpenMenu(false);
     setIsOpenTrendTags(false)
+    dispatch(restartUserSelected());
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -123,9 +125,13 @@ const NavbarHeader = () => {
     }
   }
 
-  const openNotifications = () => {
+  const openNotifications = async  () => {
     setIsOpenNotifications(true);
     setIsOpenTrendTags(false)
+    await dispatch(viewNotifications(user._id));
+    await dispatch(getNotifications(user._id));
+    await dispatch(getFollowUpRequests())
+    
   }
 
   const renderIconNotification = () => {

@@ -2,6 +2,10 @@ import { IMAGE, VIDEO, image_extension, video_extension } from "../../libs/fileE
 
 export default async (req, res, next) => {
     try {
+        const isTextContent = req.body.textContent;
+        
+        if(isTextContent) return next();
+
         const originalname = req.file.originalname;
 
         if (image_extension.test(originalname)) {

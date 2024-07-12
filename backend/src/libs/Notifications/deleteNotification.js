@@ -1,25 +1,34 @@
 import Notification from "../../models/Notification.js";
 import foundNotification from "./foundNotification.js";
 
-export default async (userAuth, username, type) => {
+//@params idAuth = ObjectID
+//@params postBy = ObjectID
+//@params type = String 
+export default async (idAuth, postBy, type) => {
   try {
-    const notification = await foundNotification( username, userAuth, type );
-    
-    // buscar indice de notificacion
-    const isExistNotificationInUser = notification.notificationPostedBy.findIndex(item => item == notification.foundNotification._id.toString()); 
+    const notification = await foundNotification(postBy, idAuth, type);
 
-    if (isExistNotificationInUser !== -1) {
-      notification.foundUserToNotification.notifications.splice(isExistNotificationInUser, 1);
+    const isExistNotificationInUser = notification.notificationPostedBy.some(item => item.equals(notification.foundNotification._id));
 
+    if (isExistNotificationInUser) {
+      const idsNotifications = notification.notificationPostedBy;
+      
+      // busca y borra la notificacion en bdd
       await Notification.findOneAndDelete({
-        _id: notification.foundNotification._id,
-        "createdBy.username": userAuth.username,
+        _id: { $in: idsNotifications },
+        createdBy: idAuth,
         type
       });
 
+      // indice de notificacion
+      const indexNotification = notification.notificationPostedBy.findIndex(item => item.equals(notification.foundNotification._id));
+
+      // borrar notificacion en usuario, user.notifications
+      notification.foundUserToNotification.notifications.splice(indexNotification, 1);
+
       await notification.foundUserToNotification.save();
 
-      console.log(`Notification to "${userAuth.username}" deleted!`);
+      console.log(`Notification to "${idAuth}" deleted! Notification ID: `);
     } else {
       console.log('Notification not found!');
     }

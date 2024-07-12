@@ -1,11 +1,11 @@
 import React from 'react'
 import { ContainerCreateContentFeedStyles } from './CreateContentFeedStyles'
-import CardCreateState from '../../molecules/CreateStateFeed/CardCreateStateFeed';
+import CardCreatePostFeed from '../../molecules/CardCreatePostFeed/CardCreatePostFeed';
 
 const CreateContentFeed = () => {
     return (
         <ContainerCreateContentFeedStyles>
-            <CardCreateState/>
+            <CardCreatePostFeed/>
         </ContainerCreateContentFeedStyles>
     )
 }

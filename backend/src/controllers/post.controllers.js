@@ -10,16 +10,18 @@ import handleRestrictPosts from '../libs/Posts/handleRestrictPosts.js';
 import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
 import { originalImage_path, originalVideo_path } from '../config/baseUrl.js';
 import deleteFiles from '../libs/deleteFiles.js';
-import { IMAGE, VIDEO } from '../libs/fileExtensions.js';
+import { IMAGE, TEXT, VIDEO } from '../libs/fileExtensions.js';
 import { uploadImage } from '../libs/Posts/uploadImage.js';
 import { uploadVideo } from '../libs/Posts/uploadVideo.js';
+import User from '../models/User.js';
 config();
 
 export const EXCLUIVE_POST = "EXCLUSIVEPOST";
 
 export const createPost = async (req, res) => {
     try {
-        const { location, description, typePost } = req.body;
+        const { description, typePost } = req.body;
+        const location = req.body.location;
         const referTo = JSON.parse(req.body.referTo); // [Object]
         const tags = JSON.parse(req.body.tags); // [Object]
         const shareInExplore = req.body.shareInExplore === 'true'; // Boolean
@@ -27,21 +29,31 @@ export const createPost = async (req, res) => {
         const userAuth = req.userAuth; // Object
         const mediaType = req.mediaType;
         const idAuth = req.idUser;
+        const textContent = req.body.textContent;
         let file_paths = [];
 
+        const getIdsTags = (tags) => {
+            if (!tags.length) return [];
+            const idsTags = tags.map(tag => new mongoose.Types.ObjectId(tag._id));
+
+            return idsTags;
+        }
 
         const newPost = new Post({
             typePost,
             postBy,
             referTo,
             description,
-            location
+            location,
+            textContent,
+            tags: getIdsTags(tags)
         });
 
+        if (!userAuth.isPrivate && textContent && tags.length) {
+            newPost.shareInExplore = true;
+        }
+
         if (!userAuth.isPrivate && shareInExplore) {
-            if (!tags.length) return res.status(404).json({ message: 'Debes incluir tags en tu publicación.', status: 404 });
-            const idsTags = tags.map(tag => new mongoose.Types.ObjectId(tag._id));
-            newPost.tags = idsTags;
             newPost.shareInExplore = shareInExplore;
         }
 
@@ -51,24 +63,25 @@ export const createPost = async (req, res) => {
             newPost.thumbnail = `${image.result_thumbnail_image}`;
             newPost.mediaType = IMAGE;
             file_paths.push(originalImage_path);
+            await deleteFiles(file_paths);
         } else if (mediaType === VIDEO) {
             const video = await uploadVideo(idAuth);
             newPost.media_url = `${video.result_video.secure_url}`;
             newPost.thumbnail = `${video.result_thumbnail_video}`;
             newPost.mediaType = VIDEO;
             file_paths.push(originalVideo_path);
+            await deleteFiles(file_paths);
         }
 
-        await deleteFiles(file_paths);
         file_paths = [];
 
         await newPost.save();
-        await addPostToUser(postBy, newPost._id);
-        await referToNotification(newPost.thumbnail, newPost._id, userAuth, referTo)
+        // await addPostToUser(postBy, newPost._id);
+        // await referToNotification(newPost.thumbnail, newPost._id, userAuth, referTo)
 
         return res.status(200).json({ message: 'El post se creó exitosamente!', post: [], status: 200 });
     } catch (error) {
-        console.error('Ocurrio un error en post.controllers.js, "createPost()"', { error: error.message, status: error.status });
+        console.error('Ocurrio un error en post.controllers.js, "createPost()"', { error, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });
     }
 }
@@ -166,34 +179,46 @@ export const addComment = async (req, res) => {
 
 export const handleLikeToPost = async (req, res) => {
     try {
-        const { thumbnail, username, _id, idPost, postBy } = req.body;
         const userAuth = req.userAuth;
-
-        const newLike = {
-            username,
-            thumbnail: thumbnail ? thumbnail : '',
-            _id
-        }
+        const { idPost } = req.params;
+        const postBy = req.postBy;
 
         const addLikeToPost = await Post.findByIdAndUpdate(
             idPost,
-            { $push: { likes: newLike } },
+            { $push: { likes: userAuth._id } },
             { new: true }
         )
 
         await addCountersInPost(addLikeToPost)
-        await addLikePostNotification(postBy, addLikeToPost.thumbnail, idPost, userAuth)
+        await addLikePostNotification(postBy._id, addLikeToPost.thumbnail, idPost, userAuth)
 
-        const addPostedBy = [addLikeToPost._doc].map(item => {
-            return {
-                ...item,
-                postBy
-            }
-        })
-
-        return res.status(200).json({ post: addPostedBy, message: 'Like added!', status: 200 });
+        return res.status(200).json({ message: 'Like added!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "handleLikePost()"', { error: error.message, status: error.status });
+        return res.status(500).json({ error: error.message, status: error.status });
+    }
+}
+
+export const getLikes = async (req, res) => {
+    try {
+        const { idPost } = req.params;
+        const foundLikes = await Post.findOne({ _id: idPost }).populate("likes", "_id thumbnail username");
+
+        res.status(200).json({ likes: foundLikes.likes, status: 200, message: "Likes founded!" });
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "getLikes()"', { error: error.message, status: error.status });
+        return res.status(500).json({ error: error.message, status: error.status });
+    }
+}
+
+export const getViews = async (req,res) => {
+    try {
+        const { idPost } = req.params;
+        const foundViews = await Post.findOne({ _id: idPost }).populate("views", "_id thumbnail username");
+
+        res.status(200).json({ views: foundViews.views, status: 200, message: "Views founded!" });
+    } catch (error) {
+        console.error('Ocurrio un error en post.controllers.js, "getViews()"', { error: error.message, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });
     }
 }
@@ -311,3 +336,4 @@ export const getTrendPosts = async (req, res) => {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
     }
 }
+

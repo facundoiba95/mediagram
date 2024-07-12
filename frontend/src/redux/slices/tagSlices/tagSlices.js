@@ -81,6 +81,9 @@ const tagSlices = createSlice({
         resetTags: (state, action) => {
             state.tags = [];
         },
+        resetListTags: (state, action) => {
+            state.listTags = [];
+        },
         resetNameTag: (state, action) => {
             state.nameTag = "";
         },
@@ -102,5 +105,5 @@ const tagSlices = createSlice({
     }
 })
 
-export const { setNameTag, resetTagState, addTagToList, setListTags, removeTagToList, resetNameTag, resetTags } = tagSlices.actions;
+export const { setNameTag, resetTagState, addTagToList, setListTags, removeTagToList, resetListTags,resetNameTag, resetTags } = tagSlices.actions;
 export default tagSlices.reducer;

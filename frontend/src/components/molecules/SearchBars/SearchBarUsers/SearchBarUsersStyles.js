@@ -31,7 +31,7 @@ input {
 
 ::placeholder {
     color:white;
-    font-weight:600;
+    font-weight:300;
 }
 
 input:focus {

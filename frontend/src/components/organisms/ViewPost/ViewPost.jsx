@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ContainerQuitViewPostStyles, ViewPostBackgroundStyles , ViewPostImageContainerStyles,ViewPostWrapperStyles } from './ViewPostStyles'
+import { ContainerQuitViewPostStyles, ViewPostBackgroundStyles, ViewPostImageContainerStyles, ViewPostWrapperStyles } from './ViewPostStyles'
 import { GlobalContext } from '../../../Context/GlobalContext'
 import { useNavigate, useParams } from 'react-router-dom';
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer';
@@ -13,113 +13,129 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import ModalAddTags from '../../molecules/Modals/ModalAddTags/ModalAddTags';
 import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import { resetState_likes } from '../../../redux/slices/likeSlices/likeSlices';
+import { resetState_views } from '../../../redux/slices/viewSlices/viewSlices';
 
 const ViewPost = ({ children }) => {
-    const { isOpenViewPost, setIsOpenViewPost, isOpenAddTags, setIsOpenAddTags, openLoader, setOpenLoader } = useContext(GlobalContext);
-    const isLoadingPost = useSelector( state => state.postSlices.isLoading );
-    const [ isReadyPost, setIsReadyPost ] = useState(false);
-    const post = useSelector( state => state.postSlices.post );
-    const statusPost = useSelector( state => state.postSlices.status );
-    const navigator = useNavigate();
-    const dispatch = useDispatch();
-    const params = useParams();
+  const { isOpenViewPost, setIsOpenViewPost, isOpenAddTags, setIsOpenAddTags, openLoader, setOpenLoader } = useContext(GlobalContext);
+  const isLoadingPost = useSelector(state => state.postSlices.isLoading);
+  const [isReadyPost, setIsReadyPost] = useState(false);
+  const post = useSelector(state => state.postSlices.post);
+  const { likes } = useSelector(state => state.likeSlices);
+  const { views } = useSelector(state => state.viewSlices);
+  const statusPost = useSelector(state => state.postSlices.status);
+  const navigator = useNavigate();
+  const dispatch = useDispatch();
+  const params = useParams();
 
-    const goBack = () => {
-        setIsOpenViewPost(false);
-        dispatch(restarStatusPost())
-        setIsOpenAddTags(false)
-        navigator(-1);
+  const goBack = () => {
+    setIsOpenViewPost(false);
+    dispatch(restarStatusPost())
+    setIsOpenAddTags(false)
+    navigator(-1);
+  }
+
+  useEffect(() => {
+    setOpenLoader(true)
+    const handleViewPost = async () => {
+      await dispatch(getPostByID(params.idPost));
+      setIsOpenViewPost(true);
+      setIsReadyPost(true)
+      setOpenLoader(false);
     }
 
-    useEffect(() => {
-      setOpenLoader(true)
-      const handleViewPost = async () => {
-        await dispatch(getPostByID(params.idPost));
-        setIsOpenViewPost(true);
-        setIsReadyPost(true)
-        setOpenLoader(false);
-      }
-      
 
-      handleViewPost();
-    },[ dispatch, params.idPost ])
+    handleViewPost();
+  }, [dispatch, params.idPost])
 
-    
-    const renderPost = () => {
 
-      if(isReadyPost){
+  const renderPost = () => {
+
+    if (isReadyPost) {
       return post.map(item => {
-        const { media_url, description, counterLikes, counterViews, likes,anonymViews, referTo, location, mediaType } = item;
-        
+        const { media_url, description, counterLikes, counterViews, likes, anonymViews, referTo, location, mediaType } = item;
+
         const { username, thumbnail } = item.postBy;
 
         return (
-          <ViewPostBackgroundStyles isOpenViewPost={ isOpenViewPost }>
-          <ViewPostWrapperStyles>
-            <ContainerQuitViewPostStyles>
-              <IoMdArrowRoundBack className='iconQuitPost' onClick={() => goBack()}/>
-              <h3 onClick={() => goBack()}>Atrás</h3>
-            </ContainerQuitViewPostStyles>
-            <ViewPostImageContainerStyles>
-              {
-                mediaType === "IMAGE"
-                ? <img src={ media_url } alt="image post" loading='lazy'/>
-                : <VideoPlayer media_url={media_url}/>
-              }
-            </ViewPostImageContainerStyles>
-            <CommentsInPost 
-              description={description}
-              username={username}
-              thumbnail={thumbnail}
-              counterLikes={counterLikes}
-              counterViews={counterViews}
-              anonymViews={anonymViews}
-              likes={likes}
-              referTo={referTo}
-              location={location}
-            />
-          </ViewPostWrapperStyles>
-        </ViewPostBackgroundStyles>
+          <ViewPostBackgroundStyles isOpenViewPost={isOpenViewPost}>
+            <ViewPostWrapperStyles>
+              <ContainerQuitViewPostStyles>
+                <IoMdArrowRoundBack className='iconQuitPost' onClick={() => goBack()} />
+                <h3 onClick={() => goBack()}>Atrás</h3>
+              </ContainerQuitViewPostStyles>
+              <ViewPostImageContainerStyles>
+                {
+                  mediaType === "IMAGE"
+                    ? <img src={media_url} alt="image post" loading='lazy' />
+                    : <VideoPlayer media_url={media_url} />
+                }
+              </ViewPostImageContainerStyles>
+              <CommentsInPost
+                description={description}
+                username={username}
+                thumbnail={thumbnail}
+                counterLikes={counterLikes}
+                counterViews={counterViews}
+                anonymViews={anonymViews}
+                likes={likes}
+                referTo={referTo}
+                location={location}
+              />
+            </ViewPostWrapperStyles>
+          </ViewPostBackgroundStyles>
         )
 
       })
-      } else {
-        return (
-          <GlobalLoader/>
-        )
-      }
+    } else {
+      return (
+        <GlobalLoader />
+      )
     }
+  }
 
-    const renderModalSearchUsers = () => {
-      if(params.typeInteraction === 'views'){
-        return (
-          <ModalSearchUsers data={post[0].views} message={`"${post[0].anonymViews}" vistas de cuentas no registradas.`}/>
-        )
-      } else if(params.typeInteraction === 'likes'){
-        return (
-          <ModalSearchUsers data={post[0].likes}/>
-        )
-      }
+  resetState_likes
+  const renderModalSearchUsers = () => {
+    if (params.typeInteraction === 'views') {
+      return (
+        <ModalSearchUsers
+          data={views}
+          message={`"${post[0].anonymViews}" vistas de cuentas no registradas.`}
+          title={"Vistas"}
+          placeholderValue={"Buscar usuario"}
+          resetData={resetState_views}
+        />
+      )
+    } else if (params.typeInteraction === 'likes') {
+      return (
+        <ModalSearchUsers
+          data={likes}
+          placeholderValue={"Buscar usuario"}
+          title={"Likes"}
+          resetData={resetState_likes}
+        />
+      )
     }
+  }
 
   return (
     <>
-    {
-      isLoadingPost
-      ? <GlobalLoader/>
-      : <TransitionContainer>
-          {
-            statusPost !== 200
-            ? <>{children}</>
-            : <>
-               <ModalAuthWindow/>
-               <ModalAddTags/>
-               { renderModalSearchUsers() }
-               { renderPost() }
-              </>
-          }
-        </TransitionContainer>
-    }
+      {
+        isLoadingPost
+          ? <GlobalLoader />
+          : <TransitionContainer>
+            {
+              statusPost !== 200
+                ? <>{children}</>
+                : <>
+                  <ModalAuthWindow />
+                  <ModalAddTags />
+                  {renderModalSearchUsers()}
+                  {renderPost()}
+                </>
+            }
+          </TransitionContainer>
+      }
     </>
   )
 }

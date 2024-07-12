@@ -2,17 +2,21 @@ import deleteNotification from "../../deleteNotification.js";
 import createFollowUpNotification from "./createFollowUpNotification.js";
 import acceptFollowUpRequestNotification from "./acceptFollowUpRequestNotification.js";
 
-export default async ( postBy, userAuth, status ) => {
+//@params postBy = usuario solicitado, Object {},
+//@params { username, _id } usuario solicitante / usuario autenticado
+//@params status = String, "PENDING", "REJECTED", "ACCEPT"
+//@params message = String
+export default async ( postBy, { username, _id }, status, message) => {
     try {
         switch (status){
             case "PENDING":
-                await createFollowUpNotification( userAuth, postBy.username, 'follower', status );
+                await createFollowUpNotification( {username,_id}, postBy._id, 'follower', status, message);
                 break;
             case "REJECTED":
-                await deleteNotification( userAuth, postBy.username, 'follower' );
+                await deleteNotification( _id, postBy._id, 'follower' );
                 break;
             case "ACCEPT":
-                await acceptFollowUpRequestNotification( postBy, userAuth, 'follower' );
+                await acceptFollowUpRequestNotification( postBy, _id, 'follower', message);
                 break;
             default:
                 break;

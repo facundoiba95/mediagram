@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
-export const ContainerCardCreateStateFeedStyles = styled.div`
+export const ContainerCardCreatePostFeedStyles = styled.form`
 width: 100%;
 height: auto;
-background-color: red;
 display: flex;
 flex-direction: column;
 gap: 5px;
@@ -20,7 +19,7 @@ padding-bottom: 20px;
 }
 `
 
-export const TextBoxCreateStateFeedStyles = styled.textarea`
+export const TextBoxCreatePostFeedStyles = styled.textarea`
     resize: none;
     color: white;
     border-radius: 5px;

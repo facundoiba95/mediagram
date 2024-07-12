@@ -1,22 +1,14 @@
-import React, { useContext, useEffect } from 'react'
-import { ActionProfileContainerStyles, ImgProfileStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles, StatsInProfileStyles } from './ProfileHeaderStyles'
+import React, { useContext } from 'react'
+import { ActionProfileContainerStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
-import { RiUserSmileFill, RiStarSmileFill } from 'react-icons/ri';
-import { GrOverview } from 'react-icons/gr';
-import { MdOutlineSmartphone } from 'react-icons/md';
+import { RiStarSmileFill } from 'react-icons/ri';
 import { PiHandWavingBold } from 'react-icons/pi';
 import { AiFillLike } from 'react-icons/ai';
-import { IoMdPersonAdd } from 'react-icons/io';
-import ButtonResponsive from '../../atoms/ButtonResponsive/ButtonResponsive';
-import { BsFillPersonCheckFill } from 'react-icons/bs';
-import { FaUserClock } from 'react-icons/fa';
-import { followUser, handleIsFollowing, refreshUser, restartUserFound, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
+import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
 import { refreshUserAuth, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
-import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
-import { MdSettings } from 'react-icons/md';
 import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSettingUserAuth';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
@@ -111,7 +103,7 @@ const ProfileHeader = () => {
     await dispatch(validateSession());
     if (isLogged) {
       await dispatch(followUser(newFollower));
-      await dispatch(handleIsFollowing(params.username));
+      await dispatch(handleIsFollowing(userSelected[0]._id));
       await dispatch(setStatusNotification());
       await dispatch(refreshUser(username));
       await dispatch(getPosts(params.username))
@@ -138,7 +130,7 @@ const ProfileHeader = () => {
         await dispatch(unfollowUser(dataToUnfollow));
         await dispatch(refreshUser(username));
         await dispatch(refreshUserAuth());
-        await dispatch(handleIsFollowing(params.username))
+        await dispatch(handleIsFollowing(userSelected[0]._id))
         dispatch(restartStatusAuthSlice());
       } else {
         return;

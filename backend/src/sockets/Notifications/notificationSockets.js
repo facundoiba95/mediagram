@@ -4,6 +4,8 @@ import Notifications from '../../models/Notification.js';
 
 export const getNotifications = ( socket ) => {
     socket.on('getNotifications', async (data) => {
+        const userAuth = data._id;
+
         const _id = new mongoose.Types.ObjectId(data._id);
         const result = await associateNotificationAndUser(_id);
         socket.emit('getNotifications', result)

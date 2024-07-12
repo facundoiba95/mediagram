@@ -1,6 +1,6 @@
 export default async ( userAuth, idFollowUpRequest, foundFollowUpRequest ) => {
     try {
-        const indexToDelete = userAuth.followUpRequest.findIndex(request => request._id.toString() === idFollowUpRequest.toString());
+        const indexToDelete = userAuth.followUpRequest.findIndex(request => request._id.equals(idFollowUpRequest));
         if (indexToDelete !== -1) {
             foundFollowUpRequest.status = 'REJECTED';
             userAuth.followUpRequest.splice(indexToDelete, 1);

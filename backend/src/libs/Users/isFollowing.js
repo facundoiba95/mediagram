@@ -5,6 +5,6 @@ import User from "../../models/User.js";
 export default async ( usernameRecived, idUserAuth ) => {
     const foundUserRecived = await User.findOne({ username: usernameRecived });
     const userAuth = await User.findOne({_id: idUserAuth});
-    const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.username === userAuth.username);
+    const isFollowingsUsers = foundUserRecived.followers.some(usr => usr.equals(userAuth._id));
     return isFollowingsUsers;
 }

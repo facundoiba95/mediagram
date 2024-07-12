@@ -5,10 +5,9 @@ import ProfileHeader from '../../components/organisms/ProfileHeader/ProfileHeade
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ProfileContent from '../../components/organisms/ProfileContent/ProfileContent'
-import LoaderWidthVw from '../../components/molecules/Loaders/LoaderWidthVw/LoaderWidthVw'
-import { getPosts, restartPostsList } from '../../redux/slices/postSlices/postSlices'
-import { handleIsFollowing, restartUserSlice, selectUser } from '../../redux/slices/userSlices/userSlices'
-import { resetStateAuth, restartStatusAuthSlice, validateSession } from '../../redux/slices/authSlices/authSlices'
+import { getPosts} from '../../redux/slices/postSlices/postSlices'
+import { handleIsFollowing, resetState_followers, resetState_followings, selectUser } from '../../redux/slices/userSlices/userSlices'
+import { restartStatusAuthSlice, validateSession } from '../../redux/slices/authSlices/authSlices'
 import ModalSearchUsers from '../../components/molecules/Modals/ModalSearchUsers/ModalSearchUsers'
 import { GlobalContext } from '../../Context/GlobalContext'
 import ImageViewer from '../../components/molecules/ImageViewer/ImageViewer'
@@ -17,10 +16,8 @@ import GlobalLoader from '../../components/molecules/Loaders/GlobalLoader/Global
 const Profile = ({ children }) => {
   // states
   const { isLogged } = useSelector(state => state.authSlices);
-  const isLoadingAuth = useSelector(state => state.authSlices.isLoading);
-  const isLoading = useSelector(state => state.userSlices.isLoading);
   const [isReadyProfile, setIsReadyProfile] = useState(false);
-  const { userSelected } = useSelector(state => state.userSlices);
+  const { userSelected, followers, followings } = useSelector(state => state.userSlices);
 
   // useContext 
   const { isOpen, setOpenLoader } = useContext(GlobalContext);
@@ -36,36 +33,61 @@ const Profile = ({ children }) => {
     followings: `Buscar a quién sigue ${params.username}`
   }
 
+  useEffect(() => {
+    if (!isLogged) {
+      navigator('/');
+    }
+  }, [isLogged, navigator]);
 
   useEffect(() => {
-    setOpenLoader(true);
-    const handleConectProfile = async () => {
-      dispatch(validateSession());
-      if (isLogged) {
-        await dispatch(selectUser(params.username));
-        await dispatch(handleIsFollowing(params.username));
+    const fetchUserProfile = async () => {
+      setOpenLoader(true);
+      await dispatch(selectUser(params.username));
+    };
+
+    if (isLogged) {
+      fetchUserProfile();
+    }
+  }, [dispatch, isLogged, params.username, setOpenLoader]);
+
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (userSelected.length > 0) {
+        await dispatch(handleIsFollowing(userSelected[0]._id));
         await dispatch(getPosts(params.username));
         dispatch(restartStatusAuthSlice());
         setIsReadyProfile(true);
         setOpenLoader(false);
-      } else {
-        navigator('/');
       }
-    }
+    };
 
-    handleConectProfile();
+    fetchUserDetails();
+  }, [userSelected]);
 
-  }, [dispatch, params.username, isLogged]);
 
+  useEffect(() => {
+    dispatch(validateSession());
+  }, []);
 
   const renderModalSearchUsers = () => {
     if (params.typeFollow === 'followers') {
       return (
-        <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followers} placeholderValue={placeholderValue[params.typeFollow]} />
+        <ModalSearchUsers
+          isOpen={isOpen}
+          data={followers}
+          placeholderValue={placeholderValue[params.typeFollow]}
+          resetData={resetState_followers}
+        />
       )
     } else if (params.typeFollow === 'followings') {
       return (
-        <ModalSearchUsers isOpen={isOpen} data={userSelected[0].followings} placeholderValue={placeholderValue[params.typeFollow]} />
+        <ModalSearchUsers
+          isOpen={isOpen}
+          data={followings}
+          placeholderValue={placeholderValue[params.typeFollow]}
+          resetData={resetState_followings}
+        />
       )
     }
   }
@@ -95,7 +117,7 @@ const Profile = ({ children }) => {
 
   return (
     <TransitionContainer>
-      <ImageViewer image={userSelected[0] ? userSelected[0].imgProfile : [] } />
+      <ImageViewer image={userSelected[0] ? userSelected[0].imgProfile : []} />
       {
         renderProfile()
       }

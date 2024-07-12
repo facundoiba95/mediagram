@@ -9,9 +9,9 @@ export default async ( req,res,next ) => {
 
         if(!foundUserFollowing) return await Promise.reject({ error: 'User not found.', status: 404 });
 
-        const isFollowing = foundUserFollowing.followings.some( user => user._id == foundUserFollower._id);
+        const isFollowing = foundUserFollowing.followings.some( user => user.equals(foundUserFollower._id));
         if(isFollowing) return await Promise.reject({ error: 'Is following user!', status: 409 });
-        
+
         req.foundUserFollower = foundUserFollower;
         req.foundUserFollowing = foundUserFollowing;
         next();

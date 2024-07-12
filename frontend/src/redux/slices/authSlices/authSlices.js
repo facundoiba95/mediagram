@@ -6,6 +6,7 @@ import changePrivacityOfAccountBuilders from "./authBuilders/changePrivacityOfAc
 import changePasswordBuilders from "./authBuilders/changePasswordBuilders";
 import validateSessionBuilders from "./authBuilders/validateSessionBuilders";
 import updateListFriendsBuilders from "./authBuilders/updateListFriendsBuilders";
+import getFollowUpRequestsBuilders from "./authBuilders/getFollowUpRequestsBuilders";
 
 const initialState = {
     error: null,
@@ -176,6 +177,27 @@ export const updateCloseList = createAsyncThunk(
     }
 )
 
+export const getFollowUpRequests = createAsyncThunk(
+    'getFollowUpRequests/authSlices',
+    async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/getFollowUpRequests`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
+            });
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en getFollowUpRequests, authSlices. Error: ', error);
+            alert('Ocurrio un error en getFollowUpRequests, authSlices. Error: ', error);
+        }
+    }
+)
 
 const authSlices = createSlice({
     name:'authSlices',
@@ -200,6 +222,7 @@ const authSlices = createSlice({
         changePasswordBuilders( builders, changePassword );
         validateSessionBuilders( builders, validateSession );
         updateListFriendsBuilders( builders, updateCloseList );
+        getFollowUpRequestsBuilders(builders, getFollowUpRequests);
     }
 });
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { changePassword, changePrivacityOfAccount, handleLogin, handleRefreshUserAuth, handleRegister, updateCloseList, validateSession } from "../controllers/auth.controllers.js";
+import { changePassword, changePrivacityOfAccount, getFollowUpRequests, handleLogin, handleRefreshUserAuth, handleRegister, updateCloseList, validateSession } from "../controllers/auth.controllers.js";
 import validatePassword from "../middlewares/auth/validatePassword.js";
 import validateInputs from "../middlewares/auth/validateInputs.js";
 
@@ -20,5 +20,6 @@ router.post('/changePrivacityOfAccount', changePrivacityOfAccount );
 router.post('/changePassword', [ validatePassword ], changePassword);
 router.post('/validateSession', validateSession );
 router.post('/updateCloseList', updateCloseList);
+router.post('/getFollowUpRequests', getFollowUpRequests)
 
 export default router;
