@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 import Notification from "../../../models/Notification.js";
 import User from "../../../models/User.js";
+import { referTo_message } from "../../messages.js";
 
+/*
+     
+    Este codigo deberia estar en template_notifications.js
+    Envía una notificacion a cada usuario etiquetado
+    
+*/
 
 // @params thumbnailPost = String
 // @params idPost = ObjectId
@@ -13,22 +20,15 @@ export default async (thumbnailPost, idPost, userAuth, listReferTo ) => {
         const userIds = listReferTo.map(usr => usr._id);
         const foundUserToNotification = await User.find({_id: {$in: userIds}});
 
-        const createdBy = {
-            username: userAuth.username,
-            thumbnail: userAuth.thumbnail,
-            _id: userAuth._id
-        };
-
-        
         for (let i = 0; i < foundUserToNotification.length; i++) {
             const newNotification = new Notification({
                 type: 'referTo',
                 content: {
-                    message: `${userAuth.username} te ha mencionado en una publicación.!`,
+                    message: referTo_message(userAuth),
                     imgContent: thumbnailPost,
                     idPost: _idPost
                 },
-                createdBy: createdBy,
+                createdBy: userAuth._id,
             });
 
             const user = foundUserToNotification[i];

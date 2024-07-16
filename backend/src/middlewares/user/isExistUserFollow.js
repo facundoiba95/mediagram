@@ -16,7 +16,7 @@ export default async ( req,res,next ) => {
         req.foundUserFollowing = foundUserFollowing;
         next();
     } catch (error) {
-        console.error('Ocurrió un error en middleware isExistUserFollow.js. Error: ',error.message);
+        console.error('Ocurrió un error en middleware isExistUserFollow.js. Error: ',error );
         next(error);
     }
 }

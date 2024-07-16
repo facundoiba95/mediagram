@@ -9,7 +9,8 @@ const FollowUpRequestItem = ({
     imgProfile,
     request,
     goToProfile,
-    sendRequestFollowUp
+    sendRequestFollowUp,
+    idNotification
 }) => {
     return (
         <FollowUpItemStyles key={_id}>
@@ -29,6 +30,7 @@ const FollowUpRequestItem = ({
                     data-result={'5cc07723-451c-418f-b90a-e6b469f1f2b1'}
                     data-imgprofile={imgProfile}
                     data-id={_id}
+                    data-idnotification={idNotification}
                     onClick={(e) => sendRequestFollowUp(e)}
                 />
 
@@ -36,6 +38,7 @@ const FollowUpRequestItem = ({
                     data-idfollowuprequest={request._id}
                     data-username={username}
                     data-result={'50d11393-dc3f-4ac4-89a6-143febd2e131'}
+                    data-idnotification={idNotification}
                     onClick={(e) => sendRequestFollowUp(e)}
                 />
             </ContainerButtonsFollowUpRequestStyles>

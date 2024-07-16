@@ -6,7 +6,7 @@ import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import FollowUpRequestItem from '../FollowUpRequestItem/FollowUpRequestItem';
 import MoonLoader from '../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
 import MoonLoaderResponsive from '../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
@@ -33,6 +33,7 @@ const FollowUpRequest = () => {
 
         await dispatch(handleFollowUpRequest(dataFollowUpRequest));
         await dispatch(setStatusNotification());
+        await dispatch(setUserReceptor(dataFollowUpRequest.username));
         await dispatch(refreshUserAuth());
     }
 
@@ -56,6 +57,7 @@ const FollowUpRequest = () => {
                         imgProfile={imgProfile}
                         goToProfile={goToProfile}
                         sendRequestFollowUp={sendRequestFollowUp}
+                        idNotification={request._id}
                     />
                 )
             })

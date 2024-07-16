@@ -13,7 +13,7 @@ import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSet
 import { GlobalContext } from '../../../Context/GlobalContext';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 import SkeletonCardContentProfile from '../../molecules/Loaders/SkeletonCardContentProfile/SkeletonCardContentProfile';
-import { setStatusNotification } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { IoHeartCircle } from "react-icons/io5";
 import ImgProfile from '../../atoms/ImgProfile/ImgProfile';
 import ButtonMenuProfile from '../../atoms/ButtonMenuProfile/ButtonMenuProfile';
@@ -105,6 +105,7 @@ const ProfileHeader = () => {
       await dispatch(followUser(newFollower));
       await dispatch(handleIsFollowing(userSelected[0]._id));
       await dispatch(setStatusNotification());
+      await dispatch(setUserReceptor(userSelected[0].username));
       await dispatch(refreshUser(username));
       await dispatch(getPosts(params.username))
       await dispatch(refreshUserAuth());

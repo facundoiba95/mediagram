@@ -78,7 +78,7 @@ const ViewPost = ({ children }) => {
                 counterLikes={counterLikes}
                 counterViews={counterViews}
                 anonymViews={anonymViews}
-                likes={likes}
+                likes={likes.map(like => like.idUser)}
                 referTo={referTo}
                 location={location}
               />
@@ -109,7 +109,7 @@ const ViewPost = ({ children }) => {
     } else if (params.typeInteraction === 'likes') {
       return (
         <ModalSearchUsers
-          data={likes}
+          data={likes.map(like => like.idUser)}
           placeholderValue={"Buscar usuario"}
           title={"Likes"}
           resetData={resetState_likes}

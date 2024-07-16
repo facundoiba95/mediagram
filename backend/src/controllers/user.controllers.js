@@ -4,11 +4,14 @@ import deleteFollowUpRequest from "../libs/Users/deleteFollowUpRequest.js";
 import fs from 'fs-extra';
 import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
-import followUpRequestNotification from "../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
 import Post from "../models/Post.js";
 import { originalImage_path } from "../config/baseUrl.js";
 import { acceptFollow_message } from "../libs/messages.js";
+import modifyNotification from "../libs/Notifications/modifyNotification.js";
+import deleteNotification from "../libs/Notifications/deleteNotification.js";
 
+const ACCEPT_ID = '5cc07723-451c-418f-b90a-e6b469f1f2b1';
+const REJECT_ID = '50d11393-dc3f-4ac4-89a6-143febd2e131';
 
 export const searchUser = async (req, res) => {
     try {
@@ -120,8 +123,9 @@ export const unfollowUser = async (req, res) => {
             foundUserFollower.closeList = foundUserFollower.closeList.filter(usr => !usr.equals(idAuth))
 
             foundUserFollower.followUpRequest.splice(findIndexFollowUpRequest, 1);
-
-            await followUpRequestNotification(foundUserFollower, { username: userAuth.username, _id: userAuth._id }, 'REJECTED');
+            
+            await deleteNotification({idAuth: userAuth._id, userID: foundUserFollower._id, idNotification: idFollowUpRequest});
+            
             await userAuth.save();
             await foundUserFollower.save();
             return res.status(200).json({ message: `Dejaste de seguir a ${foundUserFollower.username}!`, status: 200, });
@@ -130,7 +134,7 @@ export const unfollowUser = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error.message);
+        console.error(`Ocurrio un error al dejar de seguir al usuario "${req.body.username}". Error: `,error);
         return res.status(error.status).json({ error: error.message, status: error.status });
     }
 }
@@ -144,34 +148,36 @@ export const handleIsFollowing = async (req, res) => {
         if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor!`, isFollowing: isFollowingsUsers, status: 200 });
         return res.status(401).json({ message: `No eres seguidor."`, isFollowing: isFollowingsUsers, status: 401 });
     } catch (error) {
-        console.error(error.message);
+        console.error("Ocurrio un error en handleIsFollowing() user.controllers.js Error: ",error.message);
         return res.status(error.status).json({ error: error.message, status: error.status });
     }
 }
 
 export const handleFollowUpRequest = async (req, res) => {
     try {
-        const { idFollowUpRequest, followUpRequestResult, imgProfile, username, _id } = req.body;
+        const { idFollowUpRequest, followUpRequestResult } = req.body;
         const userAuth = req.userAuth;
         const userFollower = req.foundUserFollower;
-        const foundFollowUpRequest = userAuth.followUpRequest.find(request => request._id.toString() === idFollowUpRequest.toString());
+        const foundFollowUpRequest = userAuth.followUpRequest.find(request => request._id.equals(idFollowUpRequest));
 
-        if (followUpRequestResult === '5cc07723-451c-418f-b90a-e6b469f1f2b1') {                                // este id significa que SE ACEPTA la solicitud de seguimiento
-            await addFollower({_id, userAuth, userFollower, foundFollowUpRequest });
-            await followUpRequestNotification(userAuth, { username, _id}, 'ACCEPT', acceptFollow_message(userFollower));
+        
+        if (followUpRequestResult === ACCEPT_ID) {                               
+            await addFollower({_id: userFollower._id, userAuth, userFollower, foundFollowUpRequest });
+            const messageNotif = acceptFollow_message(userFollower);
+            await modifyNotification({body: { "content.message": messageNotif, "content.status": "ACCEPT" }, idNotification: idFollowUpRequest});
 
             return res.status(200).json({ message: `Tu y "${userFollower.username}" se siguen!`, status: 200 });
-        } else if (followUpRequestResult === '50d11393-dc3f-4ac4-89a6-143febd2e131') {                       // este id significa que NO SE ACEPTA la solicitud de seguimiento
-            // await followUpRequestNotification(userAuth, { username, _id }, 'REJECTED');
-            // await deleteFollowUpRequest(userAuth, idFollowUpRequest, foundFollowUpRequest);
-
+        } else if (followUpRequestResult === REJECT_ID) {                                
+            await deleteNotification({idAuth: userAuth._id, userID: userAuth._id, idNotification: idFollowUpRequest})
+            await deleteFollowUpRequest(userAuth, idFollowUpRequest, foundFollowUpRequest);
+            
             return res.status(200).json({ message: `Ha sido rechazada la solicitud de seguimiento del usuario: "${userFollower.username}"!`, status: 200 });
         } else {
             return res.status(400).json({ message: `"followUpRequestResult" is not a Boolean!`, status: 400 });
         }
 
     } catch (error) {
-        console.error(error.message);
+        console.error("Ocurrio un error al responder a la solicitud de seguimiento. En handleFollowUpRequest.js user.controllers.js. Error: ", error.message);
         return res.status(error.status).json({ error: error.message, status: error.status });
     }
 }

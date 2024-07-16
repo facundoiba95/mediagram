@@ -17,7 +17,9 @@ import { restartPostState, restartPostsList } from '../../../redux/slices/postSl
 import { getNotifications, restartNotifications, viewNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { resetTagState } from '../../../redux/slices/tagSlices/tagSlices';
 import { resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
-import { restartUserSelected } from '../../../redux/slices/userSlices/userSlices';
+import { restartUserSelected, restartUserSlice } from '../../../redux/slices/userSlices/userSlices';
+import { socket } from '../../../../socket';
+
 
 const NavbarHeader = () => {
   // states 
@@ -87,7 +89,9 @@ const NavbarHeader = () => {
       dispatch(restartNotifications());
       dispatch(resetStateLocation());
       dispatch(resetTagState());
+      dispatch(restartUserSlice());
       setIsOpenMenu(false);
+      socket.disconnect();
       navigator('/');
     } else {
       return;

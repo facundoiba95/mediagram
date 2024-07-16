@@ -17,7 +17,7 @@ import { createPost, restarStatusPost } from '../../../../redux/slices/postSlice
 import { restartUserFound } from '../../../../redux/slices/userSlices/userSlices';
 import { resetStateLocation } from '../../../../redux/slices/locationSlices/locationSlices';
 import { restartStatusAuthSlice, validateSession } from '../../../../redux/slices/authSlices/authSlices';
-import { setStatusNotification } from '../../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { setStatusNotification, setUserReceptor } from '../../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { GlobalContext } from '../../../../Context/GlobalContext';
 import CompressImage from '../../../molecules/CompressImage/CompressImage';
 import InfoUserCreatePost from '../../../atoms/InfoUserCreatePost/InfoUserCreatePost';
@@ -74,7 +74,8 @@ const FormCreateContent = () => {
       await dispatch(createPost(formCreateContent));
       setSwitchChecked(false);
       if (listReferTo.length) {
-        dispatch(setStatusNotification())
+        dispatch(setStatusNotification());
+        // dispatch(setUserReceptor(post[0].postBy.username));
       }
       dispatch(restartStatusAuthSlice());
     }

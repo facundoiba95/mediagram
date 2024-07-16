@@ -28,7 +28,7 @@ const ProfileContent = () => {
         return (
           <CardContentProfile
             thumbnail={thumbnail}
-            likes={likes}
+            likes={likes.map(like => like.idUser)}
             _id={_id}
             counterComments={counterComments}
             counterLikes={counterLikes}

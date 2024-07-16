@@ -7,6 +7,7 @@ import notificationSlices from '../slices/socketSlices/notificationSlices/notifi
 import tagSlices from '../slices/tagSlices/tagSlices';
 import likeSlices from '../slices/likeSlices/likeSlices';
 import viewSlices from '../slices/viewSlices/viewSlices';
+import authSocketSlices from '../slices/socketSlices/authSocketSlices/authSocketSlices';
 
 const store = configureStore({
     reducer:{
@@ -17,7 +18,8 @@ const store = configureStore({
         notificationSlices: notificationSlices,
         tagSlices: tagSlices,
         likeSlices: likeSlices,
-        viewSlices: viewSlices
+        viewSlices: viewSlices,
+        authSocketSlices: authSocketSlices
     }
 });
 

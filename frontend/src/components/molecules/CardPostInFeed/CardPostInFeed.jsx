@@ -82,7 +82,7 @@ const CardPostInFeed = ({
   const handleLike = async () => {
     isLike ? setCountLikes(countLikes - 1) : setCountLikes(countLikes + 1);
     setIsLike(!isLike);
-    await sendLike(handleLikeToPost, _id);    
+    await sendLike(handleLikeToPost, _id, username);    
   }
 
   return (

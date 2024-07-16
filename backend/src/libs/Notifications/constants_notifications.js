@@ -1,7 +1,10 @@
 const limitNotifications = 20;
-const statusNotifications = ["VIEWED", "PENDING"]
+const statusNotifications_VIEWED = "VIEWED";
+const statusNotifications_PENDING = "PENDING";
+
 
 export default {
     limitNotifications,
-    statusNotifications
+    statusNotifications_PENDING,
+    statusNotifications_VIEWED
 }

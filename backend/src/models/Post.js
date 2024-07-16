@@ -54,10 +54,14 @@ const postSchema = new Schema({
         }
     }],
     likes: [{
-        type: Schema.Types.ObjectId,
-        default: "",
-        unique: true,
-        ref: "User"
+        idUser: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
+        idNotification: {
+            type: Schema.Types.ObjectId,
+            ref: "Notification"
+        }
     }],
     counterLikes: {
         type: Number,

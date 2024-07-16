@@ -20,7 +20,7 @@ const CardContentProfile = ({
   const userAuth = useSelector(state => state.authSlices.user);
   const navigator = useNavigate();
   const params = useParams();
-  const isLike = likes.some(usr => usr._id == userAuth._id)
+  const isLike = likes.some(usr => usr == userAuth._id)
 
   const goPost = () => {
     params.idPost = _id;

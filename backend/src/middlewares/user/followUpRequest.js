@@ -1,14 +1,7 @@
-/*
-    la variable "foundFollowUpRequest" busca si ya existe un documento con la followUpRequest del usuario que envia la solicitud ( userToFollowing ),
-    si esto existe, se reemplazan los datos, o cambia el estado de la solicitud.
-    si no existe, se crea un documento nuevo con los datos del usuario solicitante dentro del usuario a seguir.
-
-*/
-
 import mongoose from "mongoose";
-import followUpRequestNotification from "../../libs/Notifications/Users/followUpRequest/followUpRequestNotification.js";
-import createFollowUpNotification from "../../libs/Notifications/Users/followUpRequest/createFollowUpNotification.js";
 import { acceptFollow_message, pendingFollow_message } from "../../libs/messages.js";
+import newNotification from "../../libs/Notifications/newNotification.js";
+import typeNotification from "../../libs/Notifications/typeNotification.js";
 
 export default async (req, res, next) => {
     try {
@@ -41,13 +34,22 @@ const handleFollowUpRequest = async (userToFollow, newFollower, foundFollowUpReq
             return await Promise.reject({ error: `Se envio la solicitud de seguimiento a "${username}"`, status: 201 })
         }
 
+        // crear notificacion 
+        const addNotification = await newNotification({
+            userID: userToFollow._id,
+            type: typeNotification.FOLLOWER,
+            message: pendingFollow_message(newFollower),
+            status: "PENDING",
+            userAuth: newFollower
+        });
+
         userToFollow.followUpRequest.unshift({
             status: 'PENDING',
-            sentBy: newFollower
+            sentBy: newFollower,
+            _id: addNotification._id
         })
 
         await userToFollow.save();
-        await followUpRequestNotification(userToFollow, { username: newFollower.username, _id: newFollower._id }, 'PENDING', pendingFollow_message(newFollower));
         return await Promise.reject({ error: `Se envio la solicitud de seguimiento a "${username}"`, status: 201 })
     } else {
         if (foundFollowUpRequest.length) {
@@ -56,12 +58,21 @@ const handleFollowUpRequest = async (userToFollow, newFollower, foundFollowUpReq
             return;
         }
 
+        // crear notificacion
+        const addNotification = await newNotification({
+            userID: userToFollow._id,
+            type: typeNotification.FOLLOWER,
+            message: acceptFollow_message(newFollower),
+            status: "ACCEPT",
+            userAuth: newFollower
+        });
+
         userToFollow.followUpRequest.unshift({
             status: 'ACCEPT',
-            sentBy: newFollower._id
+            sentBy: newFollower._id,
+            _id: addNotification._id
         })
 
-        await createFollowUpNotification({ username: newFollower.username, _id: newFollower._id }, userToFollow._id,"follower","ACCEPT", acceptFollow_message(newFollower) )
         await userToFollow.save();
     }
 }

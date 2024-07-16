@@ -45,7 +45,7 @@ const PostsInFeed = ({ isReadyFeed }) => {
               counterComments={counterComments}
               counterLikes={counterLikes}
               counterViews={counterViews}
-              likes={likes}
+              likes={likes.map(like => like.idUser)}
               location={location}
               referTo={referTo}
               _id={_id}

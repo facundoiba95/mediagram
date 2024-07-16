@@ -44,11 +44,11 @@ const userSchema = new Schema({
     },
     followings: [{
         type: Schema.Types.ObjectId,
-        unique: true
+        ref: "User"
     }],
     followers: [{
         type: Schema.Types.ObjectId,
-        unique: true
+        ref: "User"
     }],
     histories: [Object],
     posts: [{
@@ -97,9 +97,12 @@ const userSchema = new Schema({
         },
         sentBy:[{
             type: Schema.Types.ObjectId,
-            ref: "User",
-            unique: true
-        }]
+            ref: "User"
+        }],
+        _id: {
+            type: Schema.Types.ObjectId,
+            ref: "Notification"
+        }
     }]
 },{
     timestamps: true,

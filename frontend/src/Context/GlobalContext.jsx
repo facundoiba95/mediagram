@@ -25,8 +25,6 @@ export const GlobalContextProvider = ({children}) => {
     const [ isOpenHistory, setIsOpenHistory ] = useState(false);
     const [ isOpenTrendTags, setIsOpenTrendTags ] = useState(false);
 
-
-
     return (
         <GlobalContext.Provider value={{
             isOpenMenu, setIsOpenMenu,

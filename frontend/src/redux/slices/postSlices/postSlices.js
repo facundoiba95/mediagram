@@ -165,7 +165,6 @@ export const handleLikeToPost = createAsyncThunk(
     async (idPost) => {
         try {
             const token = localStorage.getItem('token');
-
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/handleLikeToPost/${idPost}`, {
                 method: "POST",
                 mode: 'cors',

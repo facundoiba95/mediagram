@@ -2,18 +2,16 @@ import cloudinary from 'cloudinary';
 import Post from '../models/Post.js';
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
-import addPostToUser from '../libs/Posts/addPostToUser.js';
 import addCountersInPost from '../libs/Posts/addCountersInPost.js';
-import addCommentNotification from '../libs/Notifications/Posts/addCommentNotification.js';
-import addLikePostNotification from '../libs/Notifications/Posts/addLikePostNotification.js';
 import handleRestrictPosts from '../libs/Posts/handleRestrictPosts.js';
-import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
 import { originalImage_path, originalVideo_path } from '../config/baseUrl.js';
 import deleteFiles from '../libs/deleteFiles.js';
 import { IMAGE, TEXT, VIDEO } from '../libs/fileExtensions.js';
 import { uploadImage } from '../libs/Posts/uploadImage.js';
 import { uploadVideo } from '../libs/Posts/uploadVideo.js';
-import User from '../models/User.js';
+import newNotification from '../libs/Notifications/newNotification.js';
+import typeNotification from '../libs/Notifications/typeNotification.js';
+import { newComment_message } from "../libs/messages.js";
 config();
 
 export const EXCLUIVE_POST = "EXCLUSIVEPOST";
@@ -138,6 +136,7 @@ export const addComment = async (req, res) => {
     try {
         const { content, _idPost, postBy } = req.body;
         const { username, thumbnail, _id } = req.userAuth;
+        const userAuth = req.userAuth;
 
         const newComment = {
             _id: new mongoose.Types.ObjectId(),
@@ -159,9 +158,20 @@ export const addComment = async (req, res) => {
         addCommentInPost.counterLikes = addCommentInPost.likes.length;
         addCommentInPost.counterViews = addCommentInPost.views.length;
 
+
         if (username !== postBy.username) {
-            await addCommentNotification(postBy, addCommentInPost.thumbnail, addCommentInPost._id, newComment._id, req.userAuth);
+            
+            await newNotification({
+                userID: postBy._id,
+                thumbnailPost: addCommentInPost.thumbnail, 
+                userAuth, 
+                idPost: addCommentInPost._id, 
+                idComment: newComment._id,
+                message: newComment_message(userAuth), 
+                type: typeNotification.COMMENT
+            })
         };
+
         const addPostedBy = [addCommentInPost._doc].map(item => {
             return {
                 ...item,
@@ -182,16 +192,23 @@ export const handleLikeToPost = async (req, res) => {
         const userAuth = req.userAuth;
         const { idPost } = req.params;
         const postBy = req.postBy;
+        const postFound = req.postFound;
+        const thumbnailPost = postFound.thumbnail;
 
-        const addLikeToPost = await Post.findByIdAndUpdate(
-            idPost,
-            { $push: { likes: userAuth._id } },
-            { new: true }
-        )
+        const addNotification = await newNotification({
+            userAuth, 
+            thumbnailPost, 
+            idPost, 
+            type: typeNotification.LIKE, 
+            userID: postBy._id
+        })
 
-        await addCountersInPost(addLikeToPost)
-        await addLikePostNotification(postBy._id, addLikeToPost.thumbnail, idPost, userAuth)
+        postFound.likes.push({ idUser: userAuth._id, idNotification: addNotification._id })
 
+        await addCountersInPost(postFound)
+
+        await postFound.save();
+        
         return res.status(200).json({ message: 'Like added!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "handleLikePost()"', { error: error.message, status: error.status });
@@ -202,7 +219,10 @@ export const handleLikeToPost = async (req, res) => {
 export const getLikes = async (req, res) => {
     try {
         const { idPost } = req.params;
-        const foundLikes = await Post.findOne({ _id: idPost }).populate("likes", "_id thumbnail username");
+        const foundLikes = await Post.findOne({ _id: idPost }).populate({
+            path:"likes.idUser",
+            select: "_id thumbnail username"
+        });
 
         res.status(200).json({ likes: foundLikes.likes, status: 200, message: "Likes founded!" });
     } catch (error) {
@@ -211,7 +231,7 @@ export const getLikes = async (req, res) => {
     }
 }
 
-export const getViews = async (req,res) => {
+export const getViews = async (req, res) => {
     try {
         const { idPost } = req.params;
         const foundViews = await Post.findOne({ _id: idPost }).populate("views", "_id thumbnail username");

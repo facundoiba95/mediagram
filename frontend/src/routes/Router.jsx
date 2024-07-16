@@ -21,24 +21,64 @@ import Explore from '../Views/Explore/Explore';
 import ViewerHistory from '../components/organisms/ViewerHistory/ViewerHistory';
 import useTitleDocument from '../Hooks/useTitleDocument';
 import { restartUserFound } from '../redux/slices/userSlices/userSlices';
+import { connectionSocket, socket } from '../../socket';
+import { setStatusConnection } from '../redux/slices/socketSlices/authSocketSlices/authSocketSlices';
 
 const Router = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const userFound = useSelector(state => state.userSlices.userFound);
+  const userAuth = useSelector(state => state.authSlices.user);
   const { isLogged } = useSelector(state => state.authSlices);
-  const setTitleDocument =  useTitleDocument();
-  
+  const { status_connection } = useSelector(state => state.authSocketSlices);
+  const setTitleDocument = useTitleDocument();
+
+  const connectSocketAsync = async (retries = 5) => {
+    connectionSocket();
+    return new Promise((resolve, reject) => {
+      const checkConnection = () => {
+        if (socket.connected) {
+          resolve();
+        } else if (retries === 0) {
+          reject(new Error("No se pudo conectar"));
+        } else {
+          setTimeout(() => {
+            retries -= 1;
+            console.log(`"Reconectado socket. Quedan ${retries} intentos`);
+            checkConnection();
+          }, 1000); 
+        }
+      };
+      checkConnection();
+    });
+  };
+
   useEffect(() => {
-    dispatch(validateSession());
-    setTitleDocument;
-  }, []);
-  
+    const connectAndEmit = async () => {
+      try {
+        dispatch(validateSession());
+        if (isLogged) {
+          await connectSocketAsync();
+          dispatch(setStatusConnection(true));
+          socket.emit("subscribeNotifications", {
+            _id: userAuth._id,
+            username: userAuth.username
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      setTitleDocument;
+    };
+
+    connectAndEmit();
+  }, [isLogged, dispatch, status_connection]);
+
   return (
     <BrowserRouter>
       <GlobalLoader />
       <GlobalContainer>
-        <ModalSearchUsers data={userFound} type={'searchUserDB'} resetData={restartUserFound}/>
+        <ModalSearchUsers data={userFound} type={'searchUserDB'} resetData={restartUserFound} />
         <Notifications />
         <Routes>
           <Route path='/' element={
@@ -53,7 +93,7 @@ const Router = () => {
           } />
           <Route path='/explore' element={
             <ProtectedRoutes redirectTo={'/'} isLogged={isLogged}>
-              <Explore/>
+              <Explore />
             </ProtectedRoutes>
           } />
           <Route path='/register' element={<DefaultPage />} />
@@ -84,7 +124,7 @@ const Router = () => {
           <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent} /></CreateContent>} />
           <Route path='/history' element={
             <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
-              <ViewerHistory/>
+              <ViewerHistory />
             </ProtectedRoutes>
           } />
           <Route path='/unauthorized' element={<ModalUnauthenticated />} />

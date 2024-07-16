@@ -138,7 +138,7 @@ export const getFollowUpRequests = async (req, res) => {
             path: "followUpRequest.sentBy",
             select: "username imgProfile _id"
         }).select("followUpRequest")
-
+        
         const followUpRequests = foundRequests.followUpRequest;
         
         res.status(200).json({ followUpRequests, message: "Founded follow up requests!", status: 200 })
