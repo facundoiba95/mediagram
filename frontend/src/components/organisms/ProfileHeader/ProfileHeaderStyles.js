@@ -111,7 +111,7 @@ small {
 .icon{
     background-color: transparent;
     font-size:1.4rem;
-    color:black;
+    color: white;
 }
 
 .spanMenuSetting {

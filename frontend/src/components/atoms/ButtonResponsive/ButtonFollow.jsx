@@ -12,7 +12,8 @@ const ButtonFollow = ({
 }) => {
   if (isFollowing || followUpRequest.length) {
     if (followUpRequest.length) {
-      if (followUpRequest[0].status === 'PENDING') {
+      const statusFollowUpRequest = followUpRequest[0].status;
+      if (statusFollowUpRequest === 'PENDING') {
         return (
           <ButtonResponsive             // falta funcion para cancelar la solicitud
             id={followUpRequest[0]._id}
@@ -21,25 +22,32 @@ const ButtonFollow = ({
               data-id={followUpRequest[0]._id}
               className='icon' />}
             handleFunction={() => alert('Debes espearar a que el usuario acepte o no la solicitud.')}
+            isAlternative={true}
+            status={statusFollowUpRequest}
           />
         )
-      } else if (followUpRequest[0].status === 'REJECTED') {
+      } else if (statusFollowUpRequest === 'REJECTED') {
         return (
           <ButtonResponsive
             title={`Seguir`}
             icon={<BsFillPersonCheckFill
               className='icon' />}
             handleFunction={() => handleFollowUser()}
-            id={followUpRequest[0]._id} />
+            id={followUpRequest[0]._id}
+            isAlternative={true}
+            status={statusFollowUpRequest}
+          />
         )
-      } else if (followUpRequest[0].status === 'ACCEPT') {
+      } else if (statusFollowUpRequest === 'ACCEPT') {
         return (
           <ButtonResponsive
             title={`Siguiendo`}
             icon={<BsFillPersonCheckFill
               className='icon' />}
             handleFunction={(e) => handleUnfollowUser(e)}
-            id={followUpRequest[0]._id} />
+            id={followUpRequest[0]._id}
+            status={statusFollowUpRequest}
+          />
         )
       }
     } else {
@@ -49,7 +57,9 @@ const ButtonFollow = ({
           icon={<IoMdPersonAdd
             className='icon'
           />}
-          handleFunction={() => handleFollowUser()} />
+          handleFunction={() => handleFollowUser()}
+          status={"REJECT"}
+        />
       )
     }
   } else {
@@ -59,7 +69,9 @@ const ButtonFollow = ({
         icon={<IoMdPersonAdd
           className='icon'
         />}
-        handleFunction={() => handleFollowUser()} />
+        handleFunction={() => handleFollowUser()}
+        status={"REJECT"}
+      />
     )
   }
 }

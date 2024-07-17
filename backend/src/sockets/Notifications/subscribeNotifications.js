@@ -8,22 +8,19 @@ const checkUserInRoom = (rooms, id_socket) => {
 
 export default (socket) => {
     socket.on('subscribeNotifications', (user) => {
-        const userAuth = socket.userAuth.username
+        const userAuth = socket.userAuth.username;
 
-        // RE VER ESTRUCTURA DE LA SALA !!
-        //  Map { usernameAuth, [ socket.id, socket.id, socket.id ] }
+        // Estructura de la sala: Map { usernameAuth, [ socket.id, socket.id, socket.id ] }
         if (!rooms.has(userAuth)) {
             rooms.set(userAuth, []);
-        } 
+        }
 
-        // 
-        // checkUserInRoom(rooms, socket.id)
+        // Añadir el socket.id al array de rooms para userAuth
+        // rooms.get(userAuth).push(socket.id);
+        rooms.set(userAuth, [socket.id]);
+        
+        socket.join(userAuth);
 
-
-        // socket.join(userAuth);
-        rooms.set(userAuth, [socket.id])
-
-        // console.log(`Usuario ${userId} unido a la sala ${userId}`);
-        console.log("NUEVO USUARIO SUBSCRIPTO: ", socket.adapter.rooms);
+        console.log("NUEVO USUARIO SUBSCRIPTO: ", rooms);
     });
 }

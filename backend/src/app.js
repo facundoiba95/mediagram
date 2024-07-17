@@ -74,7 +74,7 @@ app.use('/api/mediagram/tags/', tagsRoutes);
 io.on('connection', (socket) => {
     verifyTokenSocket(socket, () => {
         socket.leaveAll();
-        
+
         notificationSockets(socket);
         }, (error) => {
         console.error("Ocurrio un error al conectar el WebSocket. Error: ", error);

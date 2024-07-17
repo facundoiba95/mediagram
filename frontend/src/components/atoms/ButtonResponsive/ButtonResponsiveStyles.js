@@ -1,17 +1,30 @@
 import { styled } from "styled-components";
 
+
+const PENDING = "#6699cc"
+const ACCEPT = "#00C853"
+const REJECT = "#fb3640"
+
 export const ButtonContainerStyles = styled.button`
 width:100%;
-max-width:120px;
+max-width:150px;
 height:35px;
-border-radius:8px;
-background-color:${props => props.isAlternative ? '#ff70a6' : 'var(--dark)'};
 font-weight:300;
-border:none;
 cursor: pointer;
 display:flex;
 justify-content:center;
 align-items:center;
 gap:10px;
 padding: 0 10px;
+border: none;
+border-radius: 8px;
+
+background: ${ props => props.status === "ACCEPT" ? ACCEPT : props.status === "PENDING" ? PENDING : props.status === "REJECT" ? REJECT : "black"};
+
+
+b {
+    color: white;
+    background-color: transparent;
+    font-size: 0.9rem;
+}
 `

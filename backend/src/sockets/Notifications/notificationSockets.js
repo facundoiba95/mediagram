@@ -6,8 +6,6 @@ import newNotification from "./newNotification.js";
 export const rooms = new Map(); // rooms de socket.io
 
 export default (socket) => {
-    
-    socket.adapter.rooms = rooms;
     subscribeNotifications(socket);
     getNotifications(socket);
     viewNotifications(socket);
