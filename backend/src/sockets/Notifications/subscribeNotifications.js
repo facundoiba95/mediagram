@@ -16,7 +16,6 @@ export default (socket) => {
         }
 
         // Añadir el socket.id al array de rooms para userAuth
-        // rooms.get(userAuth).push(socket.id);
         rooms.set(userAuth, [socket.id]);
         
         socket.join(userAuth);

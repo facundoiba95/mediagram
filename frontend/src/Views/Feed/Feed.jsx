@@ -14,7 +14,7 @@ import { socket } from '../../../socket'
 
 const Feed = () => {
   const dispatch = useDispatch();
-  const { topScroll, setTopScroll, setOpenLoader } = useContext(GlobalContext);
+  const { topScroll, setTopScroll, setOpenLoader, setActiveEffect } = useContext(GlobalContext);
   const [isReadyFeed, setIsReadyFeed] = useState(false);
   const userAuth = useSelector(state => state.authSlices.user);
   const { isLogged } = useSelector(state => state.authSlices);
@@ -43,12 +43,24 @@ const Feed = () => {
   useEffect(() => {
     if (socket) {
       socket.on('newNotification', (data) => {
-        dispatch(getNotifications(userAuth._id));
-        sound.volume(0.5);
-        sound.play();
+        const userRecived = data.user;
+
+        if (userRecived === userAuth.username) {
+          dispatch(getNotifications(userAuth._id));
+          setActiveEffect(true)
+          sound.volume(0.5);
+          sound.play();
+
+          setTimeout(() => {
+              setActiveEffect(false)
+          }, 3000);
+        }
       })
     }
   }, [stateNotifications, userReceptor])
+
+
+
 
   useEffect(() => {
     dispatch(getNotifications(userAuth._id));

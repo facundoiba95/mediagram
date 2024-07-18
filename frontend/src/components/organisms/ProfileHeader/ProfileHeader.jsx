@@ -126,7 +126,6 @@ const ProfileHeader = () => {
     await dispatch(validateSession());
 
     if (isLogged) {
-      if (e.target.dataset.id === undefined) return alert('Por favor, intenta nuevamente.');
       if (window.confirm(`Dejar de seguir a "${username}"`)) {
         await dispatch(unfollowUser(dataToUnfollow));
         await dispatch(refreshUser(username));

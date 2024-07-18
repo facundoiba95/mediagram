@@ -11,7 +11,8 @@ export default (socket) => {
         const userReceptor = data.userReceptor;
         
         socket.to(userReceptor).emit('newNotification', {
-            message: `New notification by "${userReceptor}"!`
+            message: `New notification by "${userReceptor}"!`,
+            user: userReceptor
         });
     });
 }

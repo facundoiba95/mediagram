@@ -31,11 +31,11 @@ const PostInteraction = ({ counterViews, counterLikes, post, likes }) => {
 
     const handleSendLike = async () => {
         if (!isLogged) {
-            await sendLike(handleLikeToPost, params.idPost, post[0].postBy.username);
+            await sendLike(handleLikeToPost, params.idPost, post[0].postBy.username, isLike);
         } else {
             isLike ? setCountLikes(countLikes - 1) : setCountLikes(countLikes + 1)
             setIsLike(!isLike);
-            await sendLike(handleLikeToPost, params.idPost, post[0].postBy.username);
+            await sendLike(handleLikeToPost, params.idPost, post[0].postBy.username, isLike);
         }
     }
 

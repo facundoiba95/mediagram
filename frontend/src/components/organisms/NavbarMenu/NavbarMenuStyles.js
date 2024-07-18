@@ -131,7 +131,7 @@ justify-content:center;
 export const BoxNotificationNavbarMenuStyles = styled.div`
 width:150px;
 height:30px;
-background-color: crimson;
+background-color: #8338ec;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -142,7 +142,7 @@ color:black;
 
 .iconNewFollowUpRequest, .iconNotification {
     color: white;
-    background-color: crimson;
+    background-color: transparent;
     width:25px;
     height:25px;
     padding:2px;
@@ -169,6 +169,48 @@ span {
     text-align: center;
 }
 
+.iconNotification.effect_notification {
+    background-color: transparent;
+    animation: effect_alertNotification 1.5s alternate infinite;
+}
 
+img {
+    background-color: transparent;
+}
 
+@keyframes effect_alertNotification {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  10% {
+    transform: rotate(-10deg) scale(1.7);
+  }
+  20% {
+    transform: rotate(10deg) scale(1.7);
+  }
+  30% {
+    transform: rotate(-10deg) scale(1.7);
+  }
+  40% {
+    transform: rotate(10deg) scale(1.7);
+  }
+  50% {
+    transform: rotate(0deg) scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  90% {
+    transform: scale(1);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
 `

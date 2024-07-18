@@ -5,11 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { GlobalContext } from '../../../Context/GlobalContext'
 import { getNotifications, setStatusNotification, viewNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices'
+import dateTime from '../../../libs/dateTime'
 
 const ItemNotification = ({
     type, content, createdBy, status, createdAt
 }) => {
-    const { setIsOpenMenu,isOpenMenu,isOpenNotifications, setIsOpenNotifications } = useContext(GlobalContext);
+    const { setIsOpenMenu, isOpenMenu, isOpenNotifications, setIsOpenNotifications } = useContext(GlobalContext);
     const navigator = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
@@ -69,15 +70,18 @@ const ItemNotification = ({
     const ItemNotification_post = () => {
         return (
             <ItemNotificationContainerStyle data-idcontent={content.idContent} data-idpost={content.idPost} onClick={(e) => openNotification(e)} status={status}>
-                <span>
+                <span className='infoNotification'>
                     {
                         createdBy.thumbnail
-                            ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile'/>
+                            ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile' />
                             : <RiUserSmileFill className='imgProfile' />
                     }
-                    <p>{content.message}</p>
+                    <span>
+                        <p>{content.message}</p>
+                        <small>{dateTime(new Date(createdAt))}</small>
+                    </span>
                 </span>
-                <img src={content.imgContent} alt="img content in notification" className='imgContent'/>
+                <img src={content.imgContent} alt="img content in notification" className='imgContent' />
             </ItemNotificationContainerStyle>
         )
     }
@@ -85,13 +89,16 @@ const ItemNotification = ({
     const ItemNotification_follower = () => {
         return (
             <ItemNotificationContainerStyle onClick={(e) => openNotification(e)} status={status} data-username={createdBy.username}>
-                <span>
+                <span className='infoNotification'>
                     {
                         createdBy.thumbnail
                             ? <img src={createdBy.thumbnail} alt="img profile user" className='imgProfile' />
                             : <RiUserSmileFill className='imgProfile' />
                     }
-                    <p>{content.message}</p>
+                    <span>
+                        <p>{content.message}</p>
+                        <small>{dateTime(new Date(createdAt))}</small>
+                    </span>
                 </span>
             </ItemNotificationContainerStyle>
         )

@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { BoxNotificationNavbarMenuStyles, NavbarMenuContainerStyles, NavbarMenuItemStyles, NavbarMenuListStyles } from './NavbarMenuStyles'
 import LogoMediagram from '../../atoms/LogoMediagram/LogoMediagram'
 import { ImHome3 } from 'react-icons/im';
@@ -19,7 +19,7 @@ import { resetTagState } from '../../../redux/slices/tagSlices/tagSlices';
 import { resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
 import { restartUserSelected, restartUserSlice } from '../../../redux/slices/userSlices/userSlices';
 import { socket } from '../../../../socket';
-
+import iconNewNotification from "../../../assets/bell_alert1.gif";
 
 const NavbarHeader = () => {
   // states 
@@ -27,6 +27,7 @@ const NavbarHeader = () => {
   const user = useSelector(state => state.authSlices.user);
   const notifications = useSelector(state => state.notificationSlices.notifications);
   const updateNotifications = useRef(false);
+ 
 
 
   // hooks and tools
@@ -35,7 +36,12 @@ const NavbarHeader = () => {
   const params = useParams();
 
   // useContext
-  const { setIsOpen, setIsOpenNotifications, isOpenMenu, setIsOpenMenu, isOpenTrendTags, setIsOpenTrendTags  } = useContext(GlobalContext);
+  const { 
+    setIsOpen, setIsOpenNotifications, 
+    isOpenMenu, setIsOpenMenu, 
+    isOpenTrendTags, setIsOpenTrendTags,
+    activeEffect, setActiveEffect
+  } = useContext(GlobalContext);
 
   const goToProfile = async () => {
     setIsOpenMenu(false);
@@ -129,33 +135,36 @@ const NavbarHeader = () => {
     }
   }
 
-  const openNotifications = async  () => {
+  const openNotifications = async () => {
     setIsOpenNotifications(true);
     setIsOpenTrendTags(false)
     await dispatch(viewNotifications(user._id));
     await dispatch(getNotifications(user._id));
     await dispatch(getFollowUpRequests())
-    
   }
+
 
   const renderIconNotification = () => {
     if (notifications) {
       return (
         <>
-          <IoMdNotifications className='iconNotification' />
+          {
+            activeEffect 
+            ? <img src={iconNewNotification} alt='image new notification' className='iconNotification effect_notification'/>
+            : <IoMdNotifications  className={"iconNotification"}/>
+          }
           <p className='counterNotifications'>{notifications.filter(item => item.status === 'PENDING').length}</p>
         </>
       )
     } else {
       return (
         <>
-          <IoMdNotifications className='iconNotification' />
+          <IoMdNotifications className={activeEffect ? "iconNotification effect_notification" : "iconNotification"}/>
           <p className='counterNotifications'></p>
         </>
       )
     }
   }
-
 
 
   return (
@@ -179,7 +188,7 @@ const NavbarHeader = () => {
           <p>Mensajes</p>
         </NavbarMenuItemStyles>
         <NavbarMenuItemStyles>
-          <BoxNotificationNavbarMenuStyles onClick={openNotifications} ref={updateNotifications}>
+          <BoxNotificationNavbarMenuStyles onClick={openNotifications} ref={updateNotifications} >
             <span>
               {renderIconNotification()}
             </span>

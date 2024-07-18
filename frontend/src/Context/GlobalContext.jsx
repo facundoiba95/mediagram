@@ -24,6 +24,7 @@ export const GlobalContextProvider = ({children}) => {
     const [ switchChecked, setSwitchChecked ] = useState(false);
     const [ isOpenHistory, setIsOpenHistory ] = useState(false);
     const [ isOpenTrendTags, setIsOpenTrendTags ] = useState(false);
+    const [activeEffect, setActiveEffect] = useState(false);
 
     return (
         <GlobalContext.Provider value={{
@@ -47,7 +48,8 @@ export const GlobalContextProvider = ({children}) => {
             isOpenAddTags, setIsOpenAddTags,
             isOpenImageProfile, setIsOpenImageProfile,
             isOpenHistory, setIsOpenHistory,
-            isOpenTrendTags, setIsOpenTrendTags
+            isOpenTrendTags, setIsOpenTrendTags,
+            activeEffect, setActiveEffect
         }}>
             {children}
         </GlobalContext.Provider>

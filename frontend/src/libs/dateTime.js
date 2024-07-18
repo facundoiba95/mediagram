@@ -6,6 +6,7 @@ const opciones = {
 
   
 
+  // @params dateCreate = new Date();
   export default (dateCreate) => {
     const dateNow = new Date(); 
 

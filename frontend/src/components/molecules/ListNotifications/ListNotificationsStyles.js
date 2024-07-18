@@ -54,17 +54,22 @@ padding:5px 10px;
 cursor: pointer;
 border: 1px solid #80808080;
 border-radius:5px;
-transition: all 0.1s ease-in-out;
 background-color: ${ props => props.status === 'PENDING' ? '#93C43199' : 'transparent' };
 
-span {
+.infoNotification {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
     gap: 10px;
     background-color: transparent;
 
-    p {
+    span {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: transparent;
+    }
+
+    p, small{
         background-color: transparent;
     }
 }
