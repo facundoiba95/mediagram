@@ -65,13 +65,13 @@ div {
 }
 `
 
-export const FeedContainerNewsStyles = styled.section`
+export const FeedContainerSuggestionsStyles = styled.section`
 width:100%;
 height:100%;
 display:flex;
 flex-direction: column;
 align-items: center;
-justify-content: center;
+justify-content: flex-start;
 background-color: transparent;
 
 div {

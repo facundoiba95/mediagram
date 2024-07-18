@@ -1,0 +1,9 @@
+.swiper {
+    width: 100%;
+    background-color: transparent;
+}
+
+.swiper-slide {
+    width: auto !important;
+    background-color: green;
+}

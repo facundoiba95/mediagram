@@ -25,9 +25,9 @@ export const createPost = async (req, res) => {
         const shareInExplore = req.body.shareInExplore === 'true'; // Boolean
         const postBy = new mongoose.Types.ObjectId(req.body.postBy); // ObjectId
         const userAuth = req.userAuth; // Object
-        const mediaType = req.mediaType;
-        const idAuth = req.idUser;
-        const textContent = req.body.textContent;
+        const mediaType = req.mediaType; // String
+        const idAuth = req.idUser; // ObjectID
+        const textContent = req.body.textContent; // String
         let file_paths = [];
 
         const getIdsTags = (tags) => {
@@ -74,8 +74,8 @@ export const createPost = async (req, res) => {
         file_paths = [];
 
         await newPost.save();
-        // await addPostToUser(postBy, newPost._id);
-        // await referToNotification(newPost.thumbnail, newPost._id, userAuth, referTo)
+        await addPostToUser(postBy, newPost._id);
+        await referToNotification(newPost.thumbnail, newPost._id, userAuth, referTo)
 
         return res.status(200).json({ message: 'El post se creó exitosamente!', post: [], status: 200 });
     } catch (error) {

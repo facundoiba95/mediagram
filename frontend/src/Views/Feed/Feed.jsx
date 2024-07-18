@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { FeedContainerHeaderStyles, FeedContainerNewsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
+import { FeedContainerHeaderStyles, FeedContainerSuggestionsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
 import PostsInFeed from '../../components/organisms/PostsInFeed/PostsInFeed'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,9 @@ import { getCloseList, restartUserSelected } from '../../redux/slices/userSlices
 import { GlobalContext } from '../../Context/GlobalContext'
 import CreateContentFeed from '../../components/organisms/CreateContentFeed/CreateContentFeed'
 import { socket } from '../../../socket'
+import SuggestedUsers from '../../components/organisms/SuggestedUsers/SuggestedUsers'
+import TitleBold from '../../components/atoms/TitleBold/TitleBold'
+import TitleSuggestions from '../../components/atoms/TitleSuggestions/TitleSuggestions'
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -90,14 +93,10 @@ const Feed = () => {
         <PostsInFeed isReadyFeed={isReadyFeed} />
       </FeedContainerPostsStyles>
 
-      <FeedContainerNewsStyles>
-        <div>Container News</div>
-        <div>Container News</div>
-        <div>Container News</div>
-        <div>Container News</div>
-        <div>Container News</div>
-        <div>Container News</div>
-      </FeedContainerNewsStyles>
+      <FeedContainerSuggestionsStyles>
+        <TitleSuggestions title={"Sugerencias"}/>
+        <SuggestedUsers/>
+      </FeedContainerSuggestionsStyles>
     </FeedContainerStyles>
   )
 }
