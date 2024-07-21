@@ -23,6 +23,7 @@ import useTitleDocument from '../Hooks/useTitleDocument';
 import { restartUserFound } from '../redux/slices/userSlices/userSlices';
 import { connectionSocket, socket } from '../../socket';
 import { setStatusConnection } from '../redux/slices/socketSlices/authSocketSlices/authSocketSlices';
+import ChangeLocation from '../components/molecules/ChangeLocation/ChangeLocation';
 
 const Router = () => {
   const params = useParams();
@@ -46,7 +47,7 @@ const Router = () => {
             retries -= 1;
             console.log(`"Reconectado socket. Quedan ${retries} intentos`);
             checkConnection();
-          }, 1000); 
+          }, 1000);
         }
       };
       checkConnection();
@@ -114,6 +115,11 @@ const Router = () => {
           <Route path='/profile/:username/closeList' element={
             <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
               <Profile><ListFriendProfile /></Profile>
+            </ProtectedRoutes>
+          } />
+          <Route path='/profile/:username/changeLocation' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+              <Profile><ChangeLocation /></Profile>
             </ProtectedRoutes>
           } />
           <Route path='/createContent' element={

@@ -9,6 +9,7 @@ import { BsFillImageFill, BsFillLockFill, BsFillUnlockFill } from 'react-icons/b
 import { MdOutlinePassword } from 'react-icons/md';
 import { GiSettingsKnobs } from 'react-icons/gi';
 import { RiVipCrown2Line } from "react-icons/ri";
+import { IoLocationSharp } from "react-icons/io5";
 
 
 export const MenuSettingUserAuth = () => {
@@ -87,11 +88,17 @@ export const MenuSettingUserAuth = () => {
         setIsOpenMenuSetting(!isOpenMenuSetting);
     }
 
+    const goChangeLocation = () => {
+        navigator(`/profile/${params.username}/changeLocation`);
+        setIsOpenMenuSetting(!isOpenMenuSetting);
+    }
+
     return (
         <MenuSettingListStyles isOpenMenuSetting={isOpenMenuSetting}>
             <MenuSettingItemStyles onClick={goChangeImageUser}><BsFillImageFill className='iconItemMenuSetting' />Cambiar imagen de perfil</MenuSettingItemStyles>
             <MenuSettingItemStyles onClick={goChangePassword}><MdOutlinePassword className='iconItemMenuSetting' />Cambiar contraseña</MenuSettingItemStyles>
             <MenuSettingItemStyles onClick={goFriendList}><RiVipCrown2Line className='iconItemMenuSetting' />Lista de amigos</MenuSettingItemStyles>
+            <MenuSettingItemStyles onClick={goChangeLocation}><IoLocationSharp className='iconItemMenuSetting' />Cambiar localidad</MenuSettingItemStyles>
             {privacityOfAccount()}
             {/* <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}><GiSettingsKnobs className='iconItemMenuSetting' />Otros ajustes</MenuSettingItemStyles> */}
             <MenuSettingItemStyles onClick={() => setIsOpenMenuSetting(!isOpenMenuSetting)}>Cerrar</MenuSettingItemStyles>

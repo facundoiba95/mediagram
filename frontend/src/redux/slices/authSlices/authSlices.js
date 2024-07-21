@@ -8,6 +8,7 @@ import validateSessionBuilders from "./authBuilders/validateSessionBuilders";
 import updateListFriendsBuilders from "./authBuilders/updateListFriendsBuilders";
 import getFollowUpRequestsBuilders from "./authBuilders/getFollowUpRequestsBuilders";
 import { socket } from "../../../../socket";
+import addNewLocationBuilders from "./authBuilders/addNewLocationBuilders";
 
 const initialState = {
     error: null,
@@ -200,6 +201,30 @@ export const getFollowUpRequests = createAsyncThunk(
     }
 )
 
+export const addNewLocation = createAsyncThunk(
+    "addNewLocation/authSlices",
+    async (location) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/addNewLocation`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(location)
+            });
+            const res = await req.json();
+            return res;
+
+        } catch (error) {
+            console.error('Ocurrio un error en addNewLocation, authSlices. Error: ', error);
+            alert('Ocurrio un error en addNewLocation, authSlices. Error: ', error);
+        }
+    }
+)
+
 const authSlices = createSlice({
     name: 'authSlices',
     initialState,
@@ -225,6 +250,7 @@ const authSlices = createSlice({
         validateSessionBuilders(builders, validateSession);
         updateListFriendsBuilders(builders, updateCloseList);
         getFollowUpRequestsBuilders(builders, getFollowUpRequests);
+        addNewLocationBuilders(builders, addNewLocation);
     }
 });
 

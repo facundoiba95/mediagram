@@ -320,29 +320,14 @@ export const GridTwoContainerStyles = styled.span`
 export const ResultLocationContainerStyles = styled.span`
            position:relative;
            display: flex;
-           width:100%;
-           max-width:300px;
-           background-color: var(--light);
+           width: auto;
+           max-width: 300px;
            justify-content:center;
            align-items: flex-start;
            border-radius:5px;
            cursor: pointer;
            opacity: ${props => props.isLocation ? '1' : '0'};
            visibility: ${props => props.isLocation ? 'visible' : 'hidden'}; 
-           
-
-           p {
-            font-weight:600;
-            color:black;
-            text-align:start;
-            width:265px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            word-break: normal;
-           }
-
-
 `
 
 export const ReferToContainerStyles = styled.span`

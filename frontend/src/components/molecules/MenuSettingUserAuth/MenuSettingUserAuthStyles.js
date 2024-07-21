@@ -4,7 +4,7 @@ export const MenuSettingListStyles = styled.ul`
 width: 100%;
 max-width: 300px;
 height: ${ props => props.isOpenMenuSetting ? '100%': '0%' };
-max-height: 250px;
+max-height: 260px;
 transition: all 0.2s ease-in-out;
 position: absolute;
 right:30px;
@@ -22,7 +22,7 @@ z-index: 2000;
     transform: scale(90%);
 }
 
-:nth-child(5) {
+:nth-child(6) {
     background-color: #dc143c;
     font-weight: 900;
 }
@@ -43,7 +43,6 @@ display:flex;
 justify-content:flex-start;
 align-items:center;
 padding:10px;
-transition: all 0.2s ease-in-out;
 background-color:transparent;
 cursor: pointer;
 border-radius:10px;

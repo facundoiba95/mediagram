@@ -138,12 +138,32 @@ export const getFollowUpRequests = async (req, res) => {
             path: "followUpRequest.sentBy",
             select: "username imgProfile _id"
         }).select("followUpRequest")
-        
+
         const followUpRequests = foundRequests.followUpRequest;
-        
+
         res.status(200).json({ followUpRequests, message: "Founded follow up requests!", status: 200 })
     } catch (error) {
-        console.error('Ocurrio un error en getFollowUpRequests(). user.controllers.js', error.message);
+        console.error('Ocurrio un error en getFollowUpRequests(). auth.controllers.js', error.message);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}
+
+
+export const addNewLocation = async (req, res) => {
+    try {
+        const idAuth = req.idUser;
+        const { location } = req.body;
+
+        const updateLocation_User = await User.findByIdAndUpdate(
+            idAuth,
+            { location },
+            { new: true }
+        )
+
+        res.status(200).json({ message: `Se actualizo la localidad a "${location}"`, status: 200, user: updateLocation_User });
+
+    } catch (error) {
+        console.error('Ocurrio un error en addNewLocation(). auth.controllers.js', error);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
     }
 }

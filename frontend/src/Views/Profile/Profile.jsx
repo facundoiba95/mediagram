@@ -106,6 +106,8 @@ const Profile = ({ children }) => {
                 ? <>{children}</>
                 : location.pathname === `/profile/${params.username}/closeList`
                   ? <>{children}</>
+                  : location.pathname === `/profile/${params.username}/changeLocation`
+                  ? <>{children}</>
                   : <ProfileContent />
           }
         </ProfileContainerStyles>

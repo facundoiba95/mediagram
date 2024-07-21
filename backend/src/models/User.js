@@ -82,6 +82,10 @@ const userSchema = new Schema({
     stars:[ Object ],
     likesInProfile:[ Object ],
     greets: [ Object ],
+    location: {
+        type: String,
+        default: null
+    },
     notifications: [{
         type: mongoose.Types.ObjectId,
         ref: 'Notification'
