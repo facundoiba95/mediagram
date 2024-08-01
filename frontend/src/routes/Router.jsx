@@ -25,6 +25,7 @@ import { connectionSocket, socket } from '../../socket';
 import { setStatusConnection } from '../redux/slices/socketSlices/authSocketSlices/authSocketSlices';
 import ChangeLocation from '../components/molecules/ChangeLocation/ChangeLocation';
 import { restartPostState } from '../redux/slices/postSlices/postSlices';
+import ChangeProfession from '../components/molecules/ChangeProfession/ChangeProfession';
 
 const Router = () => {
   const params = useParams();
@@ -85,7 +86,7 @@ const Router = () => {
         <Routes>
           <Route path='/' element={
             <ProtectedRoutes redirectTo={'/defaultPage'} children={<Feed />}>
-              
+
             </ProtectedRoutes>
           } />
           <Route path='/explore' element={
@@ -124,6 +125,11 @@ const Router = () => {
           <Route path='/profile/:username/changeLocation' element={
             <ProtectedRoutes redirectTo={'/unauthorized'}>
               <Profile><ChangeLocation /></Profile>
+            </ProtectedRoutes>
+          } />
+          <Route path='/profile/:username/changeProfession' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
+              <Profile><ChangeProfession /></Profile>
             </ProtectedRoutes>
           } />
           <Route path='/createContent' element={

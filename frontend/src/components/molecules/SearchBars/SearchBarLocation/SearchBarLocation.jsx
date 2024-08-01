@@ -3,7 +3,8 @@ import { InputSearchBarStyles } from '../SearchBarFollowers/SearchBarFollowerSty
 import { GlobalContext } from '../../../../Context/GlobalContext';
 
 const SearchBarLocation = ({placeholder}) => {
-    const { setLocationSelected, locationSelected } = useContext(GlobalContext);
+    const { setLocationSelected, locationSelected, search, setSearch} = useContext(GlobalContext);
+
 
     return (
         <InputSearchBarStyles

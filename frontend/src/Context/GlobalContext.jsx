@@ -25,6 +25,8 @@ export const GlobalContextProvider = ({ children }) => {
     const [isOpenHistory, setIsOpenHistory] = useState(false);
     const [isOpenTrendTags, setIsOpenTrendTags] = useState(false);
     const [activeEffect, setActiveEffect] = useState(false);
+    const [inputProfession, setInputProfession] = useState('');
+    const [ search, setSearch ] = useState("");
 
     return (
         <GlobalContext.Provider value={{
@@ -49,7 +51,9 @@ export const GlobalContextProvider = ({ children }) => {
             isOpenImageProfile, setIsOpenImageProfile,
             isOpenHistory, setIsOpenHistory,
             isOpenTrendTags, setIsOpenTrendTags,
-            activeEffect, setActiveEffect
+            activeEffect, setActiveEffect,
+            inputProfession, setInputProfession,
+            search, setSearch
         }}>
             {children}
         </GlobalContext.Provider>

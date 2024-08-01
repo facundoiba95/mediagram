@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { addNewLocation, changePassword, changePrivacityOfAccount, getFollowUpRequests, handleLogin, handleRefreshUserAuth, handleRegister, updateCloseList, validateSession } from "../controllers/auth.controllers.js";
-import validateAddNewLocation from "../middlewares/Validations/Auth/addNewLocation.validators.js";
+import { changePassword, changePrivacityOfAccount, getFollowUpRequests, handleLogin, handleRefreshUserAuth, handleRegister, updateCloseList, validateSession } from "../controllers/auth.controllers.js";
 import validatePasswordValidations from "../middlewares/Validations/Auth/validatePassword.validations.js";
 import validateNewUserValidations from "../middlewares/Validations/Auth/validateNewUser.validations.js";
 
@@ -22,6 +21,5 @@ router.post('/changePassword', [ validatePasswordValidations ], changePassword);
 router.post('/validateSession', validateSession );
 router.post('/updateCloseList', updateCloseList);
 router.post('/getFollowUpRequests', getFollowUpRequests);
-router.post('/addNewLocation', [ validateAddNewLocation ], addNewLocation);
 
 export default router;

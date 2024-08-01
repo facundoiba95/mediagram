@@ -42,6 +42,10 @@ const userSchema = new Schema({
         type: String,
         default: ''
     },
+    profession: {
+        type: mongoose.Types.ObjectId,
+        ref: "Profession"
+    },
     followings: [{
         type: Schema.Types.ObjectId,
         ref: "User"

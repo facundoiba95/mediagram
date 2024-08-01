@@ -320,6 +320,7 @@ export const GridTwoContainerStyles = styled.span`
 export const ResultLocationContainerStyles = styled.span`
            position:relative;
            display: flex;
+           flex-wrap: wrap;
            width: auto;
            max-width: 300px;
            justify-content:center;

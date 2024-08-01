@@ -1,21 +1,21 @@
 import React from 'react'
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer'
 import { ChangeImageUserContainerStyles } from '../ChangeImageUser/ChangeImageUserStyles'
+import FormChangeProfession from '../../organisms/Forms/FormChangeProfession/FormChangeProfession'
 import { useSelector } from 'react-redux'
-import FormChangeLocation from '../../organisms/Forms/FormChangeLocation/FormChangeLocation'
 
-const ChangeLocation = () => {
+const ChangeProfession = () => {
     const { user } = useSelector(state => state.authSlices);
-    const location = user.location || null;
+    const profession = user.profession || null;
 
     return (
         <TransitionContainer>
             <ChangeImageUserContainerStyles>
-                <h2>Cambiar localidad.</h2>
-                <FormChangeLocation location={location} />
+                <h2>Cambiar profesión y/o ocupación.</h2>
+                <FormChangeProfession profession={profession} />
             </ChangeImageUserContainerStyles>
         </TransitionContainer>
     )
 }
 
-export default ChangeLocation
+export default ChangeProfession

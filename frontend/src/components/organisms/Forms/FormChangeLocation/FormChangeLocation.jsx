@@ -5,7 +5,8 @@ import { GlobalContext } from '../../../../Context/GlobalContext'
 import { useDispatch, useSelector,  } from 'react-redux'
 import SearchLocationResult from '../../../molecules/SearchLocationResult/SearchLocationResult'
 import { getLocationByCity } from '../../../../redux/slices/locationSlices/locationSlices'
-import { addNewLocation } from '../../../../redux/slices/authSlices/authSlices'
+import { addNewLocation } from '../../../../redux/slices/userSlices/userSlices'
+import { refreshUserAuth } from '../../../../redux/slices/authSlices/authSlices'
 
 const FormChangeLocation = ({ location }) => {
     const { locationSelected } = useContext(GlobalContext);
@@ -32,8 +33,9 @@ const FormChangeLocation = ({ location }) => {
         dispatch(getLocationByCity(locationSelected))
     }
 
-    const handleSelectLocation = () => {
-        dispatch(addNewLocation({location: locationState[0].direccion}))
+    const handleSelectLocation = async () => {
+        await dispatch(addNewLocation({location: locationState[0].direccion}))
+        await dispatch(refreshUserAuth());
     }
 
     return (

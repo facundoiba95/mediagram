@@ -3,8 +3,7 @@ import { styled } from "styled-components";
 export const MenuSettingListStyles = styled.ul`
 width: 100%;
 max-width: 300px;
-height: ${ props => props.isOpenMenuSetting ? '100%': '0%' };
-max-height: 260px;
+height: ${ props => props.isOpenMenuSetting ? 'auto': '0%' };
 transition: all 0.2s ease-in-out;
 position: absolute;
 right:30px;
@@ -22,7 +21,7 @@ z-index: 2000;
     transform: scale(90%);
 }
 
-:nth-child(6) {
+:nth-child(7) {
     background-color: #dc143c;
     font-weight: 900;
 }

@@ -5,7 +5,7 @@ import ProfileHeader from '../../components/organisms/ProfileHeader/ProfileHeade
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ProfileContent from '../../components/organisms/ProfileContent/ProfileContent'
-import { getPosts} from '../../redux/slices/postSlices/postSlices'
+import { getPosts } from '../../redux/slices/postSlices/postSlices'
 import { handleIsFollowing, resetState_followers, resetState_followings, selectUser } from '../../redux/slices/userSlices/userSlices'
 import { restartStatusAuthSlice, validateSession } from '../../redux/slices/authSlices/authSlices'
 import ModalSearchUsers from '../../components/molecules/Modals/ModalSearchUsers/ModalSearchUsers'
@@ -102,8 +102,10 @@ const Profile = ({ children }) => {
                 : location.pathname === `/profile/${params.username}/closeList`
                   ? <>{children}</>
                   : location.pathname === `/profile/${params.username}/changeLocation`
-                  ? <>{children}</>
-                  : <ProfileContent />
+                    ? <>{children}</>
+                    : location.pathname === `/profile/${params.username}/changeProfession`
+                      ? <>{children}</>
+                      : <ProfileContent />
           }
         </ProfileContainerStyles>
       )

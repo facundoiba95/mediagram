@@ -294,3 +294,40 @@ export const getFollowings = async (req,res) => {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
     }
 }
+
+export const addNewLocation = async (req, res) => {
+    try {
+        const idAuth = req.idUser;
+        const { location } = req.body;
+
+        const updateLocation_User = await User.findByIdAndUpdate(
+            idAuth,
+            { location },
+            { new: true }
+        )
+
+        res.status(200).json({ message: `Se actualizo la localidad a "${location}"`, status: 200, user: updateLocation_User });
+
+    } catch (error) {
+        console.error('Ocurrio un error en addNewLocation(). user.controllers.js', error);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}
+
+export const updateProfession = async (req,res) => {
+    try {
+        const idAuth = req.idUser;
+        const idProfession = new mongoose.Types.ObjectId(req.params.idProfession);
+
+        await User.findByIdAndUpdate(
+            idAuth,
+            { profession: idProfession },
+            { new: true }
+        )
+
+        res.status(200).json({ message: `Se actualizo la profesion.ID Profession: ${idProfession}"`, status: 200 });
+    } catch (error) {
+        console.error('Ocurrio un error en addNewLocation(). user.controllers.js', error);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 })
+    }
+}

@@ -11,6 +11,8 @@ import getCloseListBuilders from './builders/getCloseListBuilders';
 import getTrendUsersBuilders from './builders/getTrendUsersBuilders';
 import getFollowersBuilders from './builders/getFollowersBuilders';
 import getFollowingsBuilders from './builders/getFollowingsBuilders';
+import addNewLocationBuilders from './builders/addNewLocationBuilders';
+import updateProfessionBuilders from './builders/updateProfessionBuilders';
 
 const initialState = {
     error: null,
@@ -295,6 +297,54 @@ export const getTrendUsers = createAsyncThunk(
         }
     }
 )
+
+export const addNewLocation = createAsyncThunk(
+    "addNewLocation/userSlices",
+    async (location) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/addNewLocation`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                },
+                body: JSON.stringify(location)
+            });
+            const res = await req.json();
+            return res;
+
+        } catch (error) {
+            console.error('Ocurrio un error en addNewLocation, userSlices. Error: ', error);
+            alert('Ocurrio un error en addNewLocation, userSlices. Error: ', error);
+        }
+    }
+)
+
+export const updateProfession = createAsyncThunk(
+    "updateProfession/userSlices",
+    async (idProfession) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/updateProfession/${idProfession}`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en updateProfession, userSlices. Error: ', error);
+            alert('Ocurrio un error en updateProfession, userSlices. Error: ', error);
+        }
+    }
+)
+
 const userSlices = createSlice({
     name: 'userSlice',
     initialState,
@@ -358,6 +408,8 @@ const userSlices = createSlice({
         getTrendUsersBuilders(builders, getTrendUsers);
         getFollowersBuilders(builders, getFollowers);
         getFollowingsBuilders(builders, getFollowings);
+        addNewLocationBuilders(builders, addNewLocation);
+        updateProfessionBuilders(builders, updateProfession);
     }
 });
 

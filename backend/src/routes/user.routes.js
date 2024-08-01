@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, verifyUser, getTrendUsers, getFollowers, getFollowings } from '../controllers/user.controllers.js';
+import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, verifyUser, getTrendUsers, getFollowers, getFollowings, addNewLocation, updateProfession } from '../controllers/user.controllers.js';
 import isExistUserFollow from '../middlewares/user/isExistUserFollow.js';
 import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
@@ -12,6 +12,7 @@ import { cloudinary_config } from '../config/cloudinary.config.js';
 import convertImage from '../middlewares/posts/convertImage.js';
 import { image_extension } from '../libs/fileExtensions.js';
 import verifyToken from '../middlewares/auth/verifyToken.js';
+import addNewLocationValidators from '../middlewares/Validations/User/addNewLocation.validators.js';
 config();
 
 const router = Router();
@@ -49,5 +50,7 @@ router.post('/verifyUser', [isPrivateProfile], verifyUser);
 router.get('/getTrendUsers', getTrendUsers);
 router.get('/getFollowers/:username', [verifyToken, isPrivateProfile], getFollowers);
 router.get('/getFollowings/:username', [verifyToken, isPrivateProfile], getFollowings);
+router.post('/addNewLocation', [ addNewLocationValidators ], addNewLocation);
+router.post('/updateProfession/:idProfession', updateProfession);
 
 export default router;
