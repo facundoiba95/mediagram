@@ -11,24 +11,29 @@ const PostsInExplore = () => {
   const { nameTag, trendTags } = useSelector(state => state.tagSlices);
   const [sectionCard, setSectionCard] = useState([]);
   const defaultNameTag = trendTags.length ? trendTags[0].name : "";
+  const [ isReadySection, setIsReadySection ] = useState(false);
 
-  // minimo de letras para realizar la busqueda
   useEffect(() => {
+    setIsReadySection(false)
     if (nameTag.length >= 3) {
       dispatch(getVisiblePosts(nameTag));
+      setIsReadySection(true)
     } else if (defaultNameTag.length) {
-      dispatch(getVisiblePosts(defaultNameTag)); // 
+      dispatch(getVisiblePosts(defaultNameTag));
+      setIsReadySection(true)
     }
   }, [nameTag, defaultNameTag, dispatch]);
 
-  // separacion de los posts
   useEffect(() => {
-    if (post.length > 0) {
-      const relatedPosts = post[0].relatedPosts;
-      splitPost(relatedPosts, 5);
-    } else {
-      setSectionCard([]);
+    if(isReadySection) {
+      if (post.length > 0) {
+        const relatedPosts = post[0].relatedPosts;
+        splitPost(relatedPosts, 5);
+      } else {
+        setSectionCard([]);
+      }
     }
+    
   }, [post]);
 
   const splitPost = (relatedPosts, separator) => {
@@ -55,11 +60,7 @@ const PostsInExplore = () => {
 
   return (
     <WrapperPostsInExploreStyles>
-      {
-        isLoading
-          ? <SkeletonExplorePostSection />
-          : renderSectionPost()
-      }
+      {isLoading ? <SkeletonExplorePostSection /> : renderSectionPost()}
     </WrapperPostsInExploreStyles>
   );
 }

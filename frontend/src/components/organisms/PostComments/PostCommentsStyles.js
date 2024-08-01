@@ -64,6 +64,7 @@ img {
     .iconHeart {
         color: ${props => props.isLike ? "crimson" : "#b7b9bd"};
         cursor: pointer;
+        font-size: 0.8rem;
     }
 
     small, h5 , .iconHeart, div{
@@ -76,6 +77,9 @@ img {
 
     div {
         display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
     }
 }
 `

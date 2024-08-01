@@ -34,11 +34,23 @@ const CardPostInExplore = ({
           ? <IconVideo />
           : <></>
       }
-      <span className='overlay' >
-        <span><FaHeart className='iconHeart' />{counterLikes}</span>
-        <span><FaEye className='iconView' />{counterViews}</span>
-      </span>
-      <img src={thumbnail} alt="" />
+      {
+        !mediaType
+          ? <span className='overlay' style={{visibility: "visible", opacity: 1, border: "1px solid white"}}>
+              <p style={{textAlign: "center"}}>Publicacion sin media, solo texto.</p>
+              <p style={{textAlign: "center"}}>Como se manejaran estas publicaciones ?</p>
+              <p style={{textAlign: "center"}}>Hacer una plantilla general para todas las publicaciones, o separar en secciones </p>
+              <p style={{textAlign: "center"}}>Otra opcion es hacer un feed con el hashtag seleccionado. </p>
+            </span>
+          : <>
+            <span className='overlay' >
+              <span><FaHeart className='iconHeart' />{counterLikes}</span>
+              <span><FaEye className='iconView' />{counterViews}</span>
+            </span>
+            <img src={thumbnail} alt="" />
+          </>
+
+      }
     </CardPostInExploreStyles>
   )
 }

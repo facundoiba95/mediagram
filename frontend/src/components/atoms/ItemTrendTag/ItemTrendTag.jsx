@@ -13,7 +13,6 @@ const ItemTrendTag = ({ name, _id, count }) => {
 
     const setVisiblePost = (e) => {
         const nameTag = e.currentTarget.dataset.name;
-        dispatch(getVisiblePosts(nameTag));
         dispatch(setNameTag(nameTag));
         setIsOpenTrendTags(!isOpenTrendTags);
     };
