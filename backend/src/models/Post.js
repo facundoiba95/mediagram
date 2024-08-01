@@ -33,25 +33,8 @@ const postSchema = new Schema({
         default: null
     },
     comments: [{
-        _id: {
-            required: true,
-            type: Schema.Types.ObjectId
-        },
-        _idPost: Schema.Types.ObjectId,
-        sender: {
-            thumbnail: String,
-            username: String,
-            _id: Schema.Types.ObjectId
-        },
-        content: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        date: {
-            type: String,
-            default: () => new Date().toISOString(),
-        }
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
     }],
     likes: [{
         idUser: {

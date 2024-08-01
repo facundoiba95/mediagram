@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri';
 import { FaEye, FaHeart, FaComment } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import IconVideo from '../../atoms/IconVideo/IconVideo';
-import { VIDEO } from '../../../libs/mediaType';
+import IconVideo from '../../../atoms/IconVideo/IconVideo';
+import { VIDEO } from '../../../../libs/mediaType';
 
 
 const CardContentProfile = ({
@@ -46,24 +46,4 @@ const CardContentProfile = ({
   )
 }
 
-export default CardContentProfile
-
-
-
-{/* <CardContentProfileContainerStyles onClick={goPost}>
-<img src={thumbnail} alt="img content profile user" className='imgContent'/>
-<DescriptionContentProfileStyles isLike={isLike}>
-  { renderImgProfile()  }
-  <span>
-    <p>{description ? description : <></>}</p>
-  </span>
-  <span className='containerIconPost'>
-      <FaEye className='iconView'/>
-      <FaHeart className='iconHeart'/>
-      <FaComment className='iconComment'/>
-  </span>
-</DescriptionContentProfileStyles>
-<div className='overlay'>
-  <CgArrowsExpandRight className='iconExpandImage'/>
-</div>
-</CardContentProfileContainerStyles> */}
+export default CardContentProfile;

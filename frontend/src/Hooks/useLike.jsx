@@ -12,7 +12,6 @@ const useIsLike = () => {
     //@params handlerLike = RDX Toolkit Slice function()
     //@params id = ObjectID
     const sendLike = async (handlerLike, id, username, isLike) => {
-        await dispatch(validateSession());
         if (isLogged) {
             await dispatch(handlerLike(id));
 

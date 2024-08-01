@@ -11,7 +11,8 @@ import { uploadImage } from '../libs/Posts/uploadImage.js';
 import { uploadVideo } from '../libs/Posts/uploadVideo.js';
 import newNotification from '../libs/Notifications/newNotification.js';
 import typeNotification from '../libs/Notifications/typeNotification.js';
-import { newComment_message } from "../libs/messages.js";
+import addPostToUser from '../libs/Posts/addPostToUser.js';
+import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
 config();
 
 export const EXCLUIVE_POST = "EXCLUSIVEPOST";
@@ -132,61 +133,6 @@ export const getPostsByCloseList = async (req, res) => {
     }
 }
 
-export const addComment = async (req, res) => {
-    try {
-        const { content, _idPost, postBy } = req.body;
-        const { username, thumbnail, _id } = req.userAuth;
-        const userAuth = req.userAuth;
-
-        const newComment = {
-            _id: new mongoose.Types.ObjectId(),
-            _idPost: new mongoose.Types.ObjectId(_idPost),
-            sender: {
-                username,
-                thumbnail: thumbnail ? thumbnail : '',
-                _id
-            },
-            content
-        }
-
-        const addCommentInPost = await Post.findByIdAndUpdate(_idPost,
-            { $push: { comments: newComment } },
-            { new: true }
-        )
-
-        addCommentInPost.counterComments = addCommentInPost.comments.length;
-        addCommentInPost.counterLikes = addCommentInPost.likes.length;
-        addCommentInPost.counterViews = addCommentInPost.views.length;
-
-
-        if (username !== postBy.username) {
-            
-            await newNotification({
-                userID: postBy._id,
-                thumbnailPost: addCommentInPost.thumbnail, 
-                userAuth, 
-                idPost: addCommentInPost._id, 
-                idComment: newComment._id,
-                message: newComment_message(userAuth), 
-                type: typeNotification.COMMENT
-            })
-        };
-
-        const addPostedBy = [addCommentInPost._doc].map(item => {
-            return {
-                ...item,
-                postBy
-            }
-        })
-
-        await addCommentInPost.save();
-        return res.status(200).json({ post: addPostedBy, message: 'Added comment!', status: 200 });
-    } catch (error) {
-        console.error('Ocurrio un error en post.controllers.js, "addComment()"', { error: error.message, status: error.status });
-        return res.status(500).json({ error: error.message, status: error.status });
-    }
-}
-
 export const handleLikeToPost = async (req, res) => {
     try {
         const userAuth = req.userAuth;
@@ -196,10 +142,10 @@ export const handleLikeToPost = async (req, res) => {
         const thumbnailPost = postFound.thumbnail;
 
         const addNotification = await newNotification({
-            userAuth, 
-            thumbnailPost, 
-            idPost, 
-            type: typeNotification.LIKE, 
+            userAuth,
+            thumbnailPost,
+            idPost,
+            type: typeNotification.LIKE,
             userID: postBy._id
         })
 
@@ -208,7 +154,7 @@ export const handleLikeToPost = async (req, res) => {
         await addCountersInPost(postFound)
 
         await postFound.save();
-        
+
         return res.status(200).json({ message: 'Like added!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "handleLikePost()"', { error: error.message, status: error.status });
@@ -216,11 +162,13 @@ export const handleLikeToPost = async (req, res) => {
     }
 }
 
+
+
 export const getLikes = async (req, res) => {
     try {
         const { idPost } = req.params;
         const foundLikes = await Post.findOne({ _id: idPost }).populate({
-            path:"likes.idUser",
+            path: "likes.idUser",
             select: "_id thumbnail username"
         });
 
@@ -357,3 +305,105 @@ export const getTrendPosts = async (req, res) => {
     }
 }
 
+
+export const test_getPostWithCommentAndUser = async (req, res) => {
+    try {
+        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+
+        const postWithCommentAndUser = await Post.aggregate([
+            { $match: { _id: idPost } },
+            {
+                $lookup: {
+                    from: "comments",
+                    localField: "_id",
+                    foreignField: "referenceId",
+                    as: "comments"
+                }
+            },
+            { $unwind: "$comments" },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "comments.commentBy",
+                    foreignField: "_id",
+                    as: "comments.commentBy"
+                }
+            },
+            { $unwind: "$comments.commentBy" },
+            {
+                $group: {
+                    _id: "$_id",
+                    content: { $first: "$content" },
+                    createdAt: { $first: "$createdAt" },
+                    updatedAt: { $first: "$updatedAt" },
+                    comments: { $push: "$comments" },
+                    referTo: {$first: "$referTo"},
+                    description: {$first: "$description"},
+                    shareInExplore: {$first: "$shareInExplore"},
+                    location: {$first: "$location"},
+                    counterLikes: {$first: "$counterLikes"},
+                    counterViews: {$first: "$counterViews"},
+                    counterComments: {$first: "$counterComments"},
+                    anonymViews: {$first: "$anonymViews"},
+                    textContent: {$first: "$textContent"},
+                    views: {$first: "$views"},
+                    likes: {$first: "$likes"},
+                    thumbnail: {$first: "$thumbnail"},
+                    media_url: {$first: "$media_url"},
+                    tags: {$first: "$tags"},
+                    postBy: {$first: "$postBy"},
+                    typePost: {$first: "$typePost"},
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                    comments: {
+                        $map: {
+                            input: "$comments",
+                            as: "comment",
+                            in: {
+                                _id: "$$comment._id",
+                                comment: "$$comment.comment",
+                                commentBy: {
+                                    _id: "$$comment.commentBy._id",
+                                    username: "$$comment.commentBy.username",
+                                    thumbnail: "$$comment.commentBy.thumbnail"
+                                },
+                                referenceId: "$$comment.referenceId",
+                                likes: "$$comment.likes",
+                                counterLikes: "$$comment.counterLikes",
+                                replies: "$$comment.replies",
+                                createdAt: "$$comment.createdAt",
+                                updatedAt: "$$comment.updatedAt"
+                            }
+                        }
+                    },
+                    referTo: 1,
+                    description: 1,
+                    shareInExplore: 1,
+                    location: 1,
+                    counterLikes: 1,
+                    counterViews: 1,
+                    counterComments: 1,
+                    anonymViews: 1,
+                    textContent: 1,
+                    views: 1,
+                    likes: 1,
+                    thumbnail: 1,
+                    media_url: 1,
+                    tags: 1,
+                    postBy: 1,
+                    typePost: 1,
+                }
+            }
+        ]);
+
+        res.status(200).json(postWithCommentAndUser);
+    } catch (error) {
+        console.error('Error en test_getPostWithCommentAndUser. Error: ', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

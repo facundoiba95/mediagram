@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ContainerCardCreatePostFeedStyles = styled.form`
+export const ContainerFormCreatePostFeedStyles = styled.form`
 width: 100%;
 height: auto;
 display: flex;
@@ -27,6 +27,7 @@ export const TextBoxCreatePostFeedStyles = styled.textarea`
     border: 1px solid #80808080;
     color: white;
     font-size: 1rem;
+    white-space: pre-wrap;
 
     &::placeholder {
         color: white;

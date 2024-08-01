@@ -3,9 +3,9 @@ import { ListFriendBoxContainerStyles, ListFriendFeedContainerStyles, ListFriend
 import data from '../../dataTestUsers';
 import { useSelector } from 'react-redux';
 import { RiUserSmileFill } from 'react-icons/ri'
-import { MessageNotFollowUpRequestStyles } from '../../molecules/FollowUpRequest/FollowUpRequestStyles';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequestStyles';
 
 
 const ListFriendFeed = () => {

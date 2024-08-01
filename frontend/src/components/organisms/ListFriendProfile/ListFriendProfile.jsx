@@ -6,7 +6,7 @@ import TransitionContainer from '../../Containers/TransitionContainer/Transition
 import { IoHeartCircle } from "react-icons/io5";
 import { updateCloseList } from '../../../redux/slices/authSlices/authSlices'
 import { RiUserSmileFill } from 'react-icons/ri'
-import { MessageNotFollowUpRequestStyles } from '../../molecules/FollowUpRequest/FollowUpRequestStyles'
+import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequestStyles'
 
 const ListFriendProfile = () => {
   const { user } = useSelector(state => state.authSlices);

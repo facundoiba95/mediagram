@@ -68,6 +68,7 @@ const notificationSlice = createSlice({
             })
         },
         setUserReceptor: (state, action) => {
+            // String username
             state.userReceptor = action.payload;
         },
         setStatusNotification: ( state,action ) => {

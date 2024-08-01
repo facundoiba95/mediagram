@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import Comentary from '../../atoms/Comentary/Comentary';
 import { RiUserSmileFill } from 'react-icons/ri';
 import ValidateSession from '../../Containers/ValidateSession/ValidateSession';
-import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequestStyles';
+import { MessageNotFollowUpRequestStyles } from '../../organisms/FollowUpRequest/FollowUpRequestStyles';
 
 const CommentsInPost = ({
   description,
@@ -21,7 +21,8 @@ const CommentsInPost = ({
   anonymViews,
   likes,
   referTo,
-  location
+  location,
+  idPost
 }) => {
   const [hiddenDescription, setHiddenDescription] = useState(false);
   const [hiddenComments, setHiddenComments] = useState(false);
@@ -144,7 +145,11 @@ const CommentsInPost = ({
           </ListCommentsStyles>
         </WrapperCommentContainerStyles>
         <ValidateSession>
-          <AddComment hiddenComments={hiddenComments} />
+          <AddComment 
+            hiddenComments={hiddenComments}
+            idPost={idPost}
+            postBy={post[0].postBy._id}
+            />
         </ValidateSession>
       </ViewPostDescriptionStyles>
     </ViewPostCommentsSectionStyles>

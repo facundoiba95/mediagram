@@ -3,13 +3,13 @@ import { FollowUpListStyles, FollowUpRequestContainerStyles, MessageNotFollowUpR
 import { useDispatch, useSelector } from 'react-redux';
 import { handleFollowUpRequest } from '../../../redux/slices/userSlices/userSlices';
 import { refreshUserAuth } from '../../../redux/slices/authSlices/authSlices';
-import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
+import LoaderResponsive from '../../molecules/Loaders/LoaderResponsive/LoaderResponsive';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
-import FollowUpRequestItem from '../FollowUpRequestItem/FollowUpRequestItem';
-import MoonLoader from '../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
-import MoonLoaderResponsive from '../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
+import FollowUpRequestItem from '../../molecules/FollowUpRequestItem/FollowUpRequestItem';
+import MoonLoader from '../../molecules/Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
+import MoonLoaderResponsive from '../../molecules/Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
 
 const FollowUpRequest = () => {
     const dispatch = useDispatch();

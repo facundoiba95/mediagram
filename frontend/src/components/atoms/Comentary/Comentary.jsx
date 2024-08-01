@@ -5,7 +5,7 @@ import dateTime from '../../../libs/dateTime'
 import { TbPointFilled } from 'react-icons/tb';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const Comentary = ({content, username, thumbnail, createdAt , _id}) => { 
+const Comentary = ({ content, username, thumbnail, createdAt, _id }) => {
   const navigator = useNavigate();
   const params = useParams();
   const location = useLocation();
@@ -23,17 +23,17 @@ const Comentary = ({content, username, thumbnail, createdAt , _id}) => {
       <ItemCommentUserInfoStyles onClick={goToProfile} isCommentSelected={isCommentSelected}>
         {
           thumbnail
-          ? <img src={thumbnail} alt="image user in comment" /> 
-          : <RiUserSmileFill className='imgProfile'/>
+            ? <img src={thumbnail} alt="image user in comment" />
+            : <RiUserSmileFill className='imgProfile' />
         }
         <h5>{username}</h5>
-        <small>{ dateTime(new Date(createdAt))}</small>
+        <small>{dateTime(createdAt)}</small>
       </ItemCommentUserInfoStyles>
       <ItemCommentContentStyles isCommentSelected={isCommentSelected}>
-        <p><TbPointFilled className='divideComment'/>{content}</p>
+        <p><TbPointFilled className='divideComment' />{content}</p>
       </ItemCommentContentStyles>
     </ItemCommentStyles>
-    )
+  )
 }
 
 export default Comentary

@@ -4,7 +4,7 @@ export default async ( req, res, next ) => {
         const { username, _id } = req.userAuth;
 
         if(!username || !_id){
-            return await Promise.reject({ error: 'Debes iniciar sesión para continuar.', status: 401 });
+            return await Promise.reject({ error: 'Debes iniciar sesión para continuar.', status: 404 });
         }
 
         if(validateLength({content,_idPost,postBy})){

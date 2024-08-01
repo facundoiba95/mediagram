@@ -3,7 +3,7 @@ import { CardTypeContentCreateContainerStyles, ContentTypeStyles } from './CardT
 import { BsFillClipboardHeartFill } from 'react-icons/bs';
 import { RiChatPrivateFill, Ri24HoursFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';    
-import { EXCLUSIVEPOST, FASTPOST, POST } from '../../../libs/typePost';
+import { EXCLUSIVEPOST, FASTPOST, POST } from '../../../../libs/typePost';
 
 const CardTypeContent = ({ handleFunction, type }) => {
   const params = useParams();

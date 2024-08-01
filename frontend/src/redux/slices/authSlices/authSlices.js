@@ -234,11 +234,19 @@ const authSlices = createSlice({
         },
         logout: (state) => {
             localStorage.removeItem('token');
-            socket.disconnect();
+            if(socket){
+                socket.disconnect();
+            }
+            
             return { ...initialState };
         },
         resetStateAuth: (state) => {
             return { ...initialState };
+        },
+        updateAuthState: (state, action) => {
+            state.isLogged = action.payload.isLogged;
+            state.error = action.payload.error;
+            state.status = action.payload.status;
         }
     },
     extraReducers: (builders) => {
@@ -254,6 +262,6 @@ const authSlices = createSlice({
     }
 });
 
-export const { restartStatusAuthSlice, logout, resetStateAuth } = authSlices.actions;
+export const { restartStatusAuthSlice, logout, resetStateAuth, updateAuthState } = authSlices.actions;
 
 export default authSlices.reducer;

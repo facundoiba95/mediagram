@@ -53,7 +53,7 @@ const ViewPost = ({ children }) => {
 
     if (isReadyPost) {
       return post.map(item => {
-        const { media_url, description, counterLikes, counterViews, likes, anonymViews, referTo, location, mediaType } = item;
+        const { media_url, description, counterLikes, counterViews, likes, anonymViews, referTo, location, mediaType, _id} = item;
 
         const { username, thumbnail } = item.postBy;
 
@@ -81,6 +81,7 @@ const ViewPost = ({ children }) => {
                 likes={likes.map(like => like.idUser)}
                 referTo={referTo}
                 location={location}
+                idPost={_id}
               />
             </ViewPostWrapperStyles>
           </ViewPostBackgroundStyles>

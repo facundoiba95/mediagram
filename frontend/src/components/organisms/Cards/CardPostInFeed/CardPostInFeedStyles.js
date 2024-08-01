@@ -12,8 +12,18 @@ font-family: 'Red Hat Display';
 border-radius: 5px;
 border-bottom:1px solid #80808080;
 padding-bottom:25px;
+overflow-x: hidden;
 
-img {
+pre {
+    font-family: "Red Hat Display";
+    font-size: 1rem;
+    width: 100%;
+    max-width: 500px;
+    white-space: pre-wrap;
+    text-align: justify;
+}
+
+.imgPost {
     width:100%;
     height:100%;
     max-height: 100vh;
@@ -23,11 +33,16 @@ img {
     border-radius: 5px;
 }
 
+.dateTime {
+    color: #b7b9bd;
+}
+
+
 @media (max-width: 490px) {
     width:90%;
     background-color: black;
 
-    img {
+    .imgPost {
         height: 350px;
         background-color: black;
     }
@@ -43,7 +58,6 @@ justify-content: flex-start;
 align-items: center;
 padding:5px;
 background-color: transparent;
-/* background-color: var(--lightblack);; */
 border-top-right-radius:10px;
 border-top-left-radius:10px;
 color:white;
@@ -95,12 +109,11 @@ span {
 `
 
 export const FootCardPostInProfileStyles = styled.span`
-width:100%;
-height:100%;
-max-height:100px;
-position:relative;
+width: 100%;
+height: auto;
+position: relative;
 background-color: transparent;
- 
+
 h4 {
     background-color: transparent;
 }
@@ -135,17 +148,16 @@ h4 {
 
 .containerDescription {
     display:${props => props.isDescription ? 'flex' : 'none'};
-    padding: 0px 0px;
     background-color: transparent;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: baseline;
     gap:10px;
+    margin-bottom: 0.5rem;
     
     p {
         background-color: transparent;
-        height:50px;
+        height:auto;
         overflow: hidden;
-        white-space: pre;
         font-size: 0.9rem;
     }
 
@@ -195,7 +207,7 @@ small {
     height: auto;
     max-height: none;
     
-    .containerIconPost{
+    .containerIconPost {
         flex-wrap: wrap;   
     }
 

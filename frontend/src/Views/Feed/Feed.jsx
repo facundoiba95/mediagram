@@ -12,7 +12,6 @@ import { GlobalContext } from '../../Context/GlobalContext'
 import CreateContentFeed from '../../components/organisms/CreateContentFeed/CreateContentFeed'
 import { socket } from '../../../socket'
 import SuggestedUsers from '../../components/organisms/SuggestedUsers/SuggestedUsers'
-import TitleBold from '../../components/atoms/TitleBold/TitleBold'
 import TitleSuggestions from '../../components/atoms/TitleSuggestions/TitleSuggestions'
 
 const Feed = () => {
@@ -31,16 +30,18 @@ const Feed = () => {
 
 
   useEffect(() => {
-    setOpenLoader(true)
+    if (isLogged) {
+      setOpenLoader(true)
+      const handleGetPostsByFollowing = async () => {
+        await dispatch(getPostsOfFollowings());
+        await dispatch(getCloseList())
+        setIsReadyFeed(true)
+        setOpenLoader(false)
+      }
 
-    const handleGetPostsByFollowing = async () => {
-      await dispatch(getPostsOfFollowings());
-      setIsReadyFeed(true)
-      setOpenLoader(false)
+      handleGetPostsByFollowing();
     }
-    handleGetPostsByFollowing();
-    dispatch(getCloseList())
-  }, [dispatch]);
+  }, []);
 
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const Feed = () => {
           sound.play();
 
           setTimeout(() => {
-              setActiveEffect(false)
+            setActiveEffect(false)
           }, 3000);
         }
       })
@@ -66,8 +67,10 @@ const Feed = () => {
 
 
   useEffect(() => {
-    dispatch(getNotifications(userAuth._id));
-    dispatch(restartUserSelected());
+    if (isLogged) {
+      dispatch(getNotifications(userAuth._id));
+      dispatch(restartUserSelected());
+    }
   }, [])
 
   // manejar scroll para animacion de ListFriends
@@ -84,19 +87,19 @@ const Feed = () => {
 
   return (
     <FeedContainerStyles topScroll={topScroll}>
-      <FeedContainerHeaderStyles >
-        <ListFriendFeed />
-      </FeedContainerHeaderStyles>
+        <FeedContainerHeaderStyles >
+          <ListFriendFeed />
+        </FeedContainerHeaderStyles>
 
-      <FeedContainerPostsStyles ref={containerPostRef}>
-        <CreateContentFeed />
-        <PostsInFeed isReadyFeed={isReadyFeed} />
-      </FeedContainerPostsStyles>
+        <FeedContainerPostsStyles ref={containerPostRef}>
+          <CreateContentFeed />
+          <PostsInFeed isReadyFeed={isReadyFeed} />
+        </FeedContainerPostsStyles>
 
-      <FeedContainerSuggestionsStyles>
-        <TitleSuggestions title={"Sugerencias"}/>
-        <SuggestedUsers/>
-      </FeedContainerSuggestionsStyles>
+        <FeedContainerSuggestionsStyles>
+          <TitleSuggestions title={"Sugerencias"} />
+          <SuggestedUsers />
+        </FeedContainerSuggestionsStyles>
     </FeedContainerStyles>
   )
 }

@@ -3,10 +3,10 @@ import ContainerFlexColumn from '../../components/Containers/ContainerFlexColumn
 import TransitionContainer from '../../components/Containers/TransitionContainer/TransitionContainer'
 import { TitleCreateContentStyles } from './CreateContentStyles'
 import ContainerGridFramer from '../../components/Containers/ContainerGridFramer/ContainerGridFramer'
-import CardTypeContent from '../../components/molecules/CardTypeContent/CardTypeContent'
 import { useDispatch } from 'react-redux'
 import { restarStatusPost } from '../../redux/slices/postSlices/postSlices'
 import { FASTPOST, POST, EXCLUSIVEPOST } from '../../libs/typePost'
+import CardTypeContent from '../../components/organisms/Cards/CardTypeContent/CardTypeContent'
 
 const CreateContent = ({ children }) => {
   const dispatch = useDispatch();

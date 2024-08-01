@@ -78,7 +78,7 @@ const ItemNotification = ({
                     }
                     <span>
                         <p>{content.message}</p>
-                        <small>{dateTime(new Date(createdAt))}</small>
+                        <small>{dateTime(createdAt)}</small>
                     </span>
                 </span>
                 <img src={content.imgContent} alt="img content in notification" className='imgContent' />
@@ -97,7 +97,7 @@ const ItemNotification = ({
                     }
                     <span>
                         <p>{content.message}</p>
-                        <small>{dateTime(new Date(createdAt))}</small>
+                        <small>{dateTime(createdAt)}</small>
                     </span>
                 </span>
             </ItemNotificationContainerStyle>

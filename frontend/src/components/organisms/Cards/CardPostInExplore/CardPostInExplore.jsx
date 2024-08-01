@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { CardPostInExploreStyles } from '../PostInExploreSection/PostInExploreSectionStyles'
+import { CardPostInExploreStyles } from '../../../molecules/PostInExploreSection/PostInExploreSectionStyles'
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaEye, FaHeart } from 'react-icons/fa';
-import IconVideo from '../../atoms/IconVideo/IconVideo';
-import { VIDEO } from '../../../libs/mediaType';
+import IconVideo from '../../../atoms/IconVideo/IconVideo';
+import { VIDEO } from '../../../../libs/mediaType';
 
 const CardPostInExplore = ({
   heightCard,

@@ -10,12 +10,12 @@ export default async (req, res, next) => {
         if (isUserAuth) return next();
 
         if (isPrivate) {
-            if (!isLogged) return await Promise.reject({ error: 'El post pertenece a una cuenta privada.', status: 401 });
+            if (!isLogged) return await Promise.reject({ error: 'El post pertenece a una cuenta privada.', status: 403 });
 
             if (await isFollowing(postedBy.username, userAuth._id)) {
                 return next();
             } else {
-                return await Promise.reject({ error: `You don't follow a "${postedBy.username}"`, status: 401 })
+                return await Promise.reject({ error: `No sigues a "${postedBy.username}"`, status: 403 })
             }
         }
     } catch (error) {

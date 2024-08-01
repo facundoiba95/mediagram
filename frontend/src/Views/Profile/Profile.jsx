@@ -65,11 +65,6 @@ const Profile = ({ children }) => {
     fetchUserDetails();
   }, [userSelected]);
 
-
-  useEffect(() => {
-    dispatch(validateSession());
-  }, []);
-
   const renderModalSearchUsers = () => {
     if (params.typeFollow === 'followers') {
       return (
@@ -94,7 +89,7 @@ const Profile = ({ children }) => {
 
 
   const renderProfile = () => {
-    if (isLogged === true && isReadyProfile) {
+    if (isLogged && isReadyProfile) {
       return (
         <ProfileContainerStyles>
           {renderModalSearchUsers()}

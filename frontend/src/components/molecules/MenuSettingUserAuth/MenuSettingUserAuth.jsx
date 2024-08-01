@@ -30,7 +30,7 @@ export const MenuSettingUserAuth = () => {
     }
 
     const handleChangePrivacityOfAccount = async () => {
-        await dispatch(validateSession());
+        // await dispatch(validateSession());
         if (isLogged) {
             if (isPrivate) {
                 if (window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PÚBLICA"?')) {
@@ -60,7 +60,7 @@ export const MenuSettingUserAuth = () => {
     }
 
     const goChangeImageUser = async () => {
-        dispatch(validateSession());
+        // dispatch(validateSession());
         if (isLogged) {
             dispatch(restartStatusUser());
             dispatch(restartStatusAuthSlice());
@@ -72,7 +72,7 @@ export const MenuSettingUserAuth = () => {
     }
 
     const goChangePassword = async () => {
-        await dispatch(validateSession());
+        // await dispatch(validateSession());
         if (isLogged) {
             setIsOpenMenuSetting(!isOpenMenuSetting);
             dispatch(restartStatusUser());

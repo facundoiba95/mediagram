@@ -11,7 +11,7 @@ const FormAuth = () => {
   const isLoading = useSelector( state => state.authSlices.isLoading );
 
   const renderFormsAuth = () =>  {
-    if( location.pathname == '/' && !isLogged){
+    if( location.pathname == '/defaultPage' && !isLogged){
       return (
         <Login/>
       )
@@ -25,7 +25,7 @@ const FormAuth = () => {
   const renderTitleAuth = () => {
     if(isLoading){
       return (<></>)
-    } else if(location.pathname === '/' && !isLogged ){
+    } else if(location.pathname === '/defaultPage' && !isLogged ){
       return (<h2>Iniciar sesión</h2>)
     } else if(location.pathname === '/register' && !isLogged ) {
       return (<h2>Registrarme</h2>)

@@ -100,7 +100,7 @@ const ProfileHeader = () => {
       _id
     };
 
-    await dispatch(validateSession());
+    // await dispatch(validateSession());
     if (isLogged) {
       await dispatch(followUser(newFollower));
       await dispatch(handleIsFollowing(userSelected[0]._id));
@@ -123,7 +123,7 @@ const ProfileHeader = () => {
       idFollowUpRequest: e.currentTarget.dataset.id
     };
 
-    await dispatch(validateSession());
+    // await dispatch(validateSession());
 
     if (isLogged) {
       if (window.confirm(`Dejar de seguir a "${username}"`)) {

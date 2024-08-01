@@ -8,6 +8,8 @@ import tagSlices from '../slices/tagSlices/tagSlices';
 import likeSlices from '../slices/likeSlices/likeSlices';
 import viewSlices from '../slices/viewSlices/viewSlices';
 import authSocketSlices from '../slices/socketSlices/authSocketSlices/authSocketSlices';
+import updateAuth_middleware from '../middlewares/updateAuth_middleware';
+import { thunk } from 'redux-thunk';
 
 const store = configureStore({
     reducer:{
@@ -20,7 +22,8 @@ const store = configureStore({
         likeSlices: likeSlices,
         viewSlices: viewSlices,
         authSocketSlices: authSocketSlices
-    }
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk,updateAuth_middleware)
 });
 
 export default store;

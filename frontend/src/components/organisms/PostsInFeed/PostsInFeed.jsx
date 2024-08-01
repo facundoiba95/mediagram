@@ -1,11 +1,11 @@
 import React from 'react'
 import { PostsInFeedContainerStyles } from './PostsInFeedStyles'
-import CardPostInFeed from '../../molecules/CardPostInFeed/CardPostInFeed'
 import { useSelector } from 'react-redux';
 import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/SkeletonCardPostFeed';
 import DefaultPageFeed from '../../molecules/DefaultPageFeed/DefaultPageFeed';
 import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
 import CreateContentFeed from '../CreateContentFeed/CreateContentFeed';
+import CardPostInFeed from '../Cards/CardPostInFeed/CardPostInFeed';
 
 const PostsInFeed = ({ isReadyFeed }) => {
   const posts = useSelector(state => state.postSlices.post);
@@ -19,10 +19,8 @@ const PostsInFeed = ({ isReadyFeed }) => {
             <SkeletonCardPostFeed key={index}/>
           )
         } else {
-          if (!item.foundedPosts) return;
 
           const {
-            thumbnail,
             description,
             _id,
             counterLikes,
@@ -33,15 +31,17 @@ const PostsInFeed = ({ isReadyFeed }) => {
             referTo,
             mediaType,
             media_url,
-            textContent
+            createdAt,
+            textContent,
+            postByUser,
+            comments
           } = item;
-          const { username, imgProfile } = item.foundedPosts;
+          const { username, thumbnail } = postByUser[0];
           return (
             <CardPostInFeed
               username={username}
-              imgProfile={imgProfile}
+              imgProfile={thumbnail}
               description={description}
-              thumbnail={thumbnail}
               counterComments={counterComments}
               counterLikes={counterLikes}
               counterViews={counterViews}
@@ -52,13 +52,16 @@ const PostsInFeed = ({ isReadyFeed }) => {
               mediaType={mediaType}
               media_url={media_url}
               textContent={textContent}
+              createdAt={createdAt}
+              postByUser={postByUser[0]}
+              comments={comments}
               key={index}
             />
           )
         }
       })
     } else {
-      return (<GlobalLoader />)
+      return (<GlobalLoader/>)
     }
 
   }

@@ -18,7 +18,7 @@ const ModalStatusChangePassword = ({ status,error }) => {
             <>
               <BsPatchCheckFill className='animate__animated animate__heartBeat iconStatusContent'/>
               <h2>Se ha cambiado la contraseña!</h2>
-              <p className='goHome' onClick={() => navigator('/feed')}>Volver al inicio</p>
+              <p className='goHome' onClick={() => navigator('/')}>Volver al inicio</p>
            </>
         )
     }

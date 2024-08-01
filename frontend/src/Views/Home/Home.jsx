@@ -8,9 +8,9 @@ const Home = ({ children }) => {
   const {isLogged} = useSelector(state => state.authSlices);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(validateSession())
-  }, [dispatch, isLogged])
+  // useEffect(() => {
+  //   dispatch(validateSession())
+  // }, [dispatch, isLogged])
 
   return (
     <HomeContainerStyles>

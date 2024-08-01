@@ -68,15 +68,11 @@ const ChangePassword = () => {
     
     const sendChangePassword = async (e) => {
         e.preventDefault();
-        await dispatch(validateSession())
-        if(isLogged){
-            if( isValidate.validate == true ){
-                dispatch(changePassword(inputPassword));
-            } else {
-                setIsValidate({ error: 'Faltan datos por verificar! Por favor, revisa los campos.', validate: false });
-            }
+        // await dispatch(validateSession())
+        if( isValidate.validate == true ){
+            dispatch(changePassword(inputPassword));
         } else {
-            navigator('/')
+            setIsValidate({ error: 'Faltan datos por verificar! Por favor, revisa los campos.', validate: false });
         }
     }
 

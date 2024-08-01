@@ -72,7 +72,7 @@ export const followUser = async (req, res) => {
 
         switch (foundFollowUpRequest[0].status) {
             case 'REJECTED':
-                return res.status(401).json({ message: `Debes enviar una solicitud de seguimiento a "${username}"`, status: 401 })
+                return res.status(403).json({ message: `Debes enviar una solicitud de seguimiento a "${username}"`, status: 403 })
 
             case 'ACCEPT':
                 console.log(`Sigues al usuario "${username}"`);
@@ -146,7 +146,7 @@ export const handleIsFollowing = async (req, res) => {
         const isFollowingsUsers = userAuth.followings.some(usr => usr.equals(idUser));
         
         if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor!`, isFollowing: isFollowingsUsers, status: 200 });
-        return res.status(401).json({ message: `No eres seguidor."`, isFollowing: isFollowingsUsers, status: 401 });
+        return res.status(403).json({ message: `No eres seguidor."`, isFollowing: isFollowingsUsers, status: 403 });
     } catch (error) {
         console.error("Ocurrio un error en handleIsFollowing() user.controllers.js Error: ",error.message);
         return res.status(error.status).json({ error: error.message, status: error.status });

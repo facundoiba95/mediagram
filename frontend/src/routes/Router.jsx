@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ListFriendProfile from '../components/organisms/ListFriendProfile/ListFriendProfile';
 import FormCreateContent from '../components/organisms/Forms/FormCreateContent/FormCreateContent';
 import DefaultPage from '../Views/DefaultPage/DefaultPage';
-import { validateSession } from '../redux/slices/authSlices/authSlices';
+import { restartStatusAuthSlice, validateSession } from '../redux/slices/authSlices/authSlices';
 import ProtectedRoutes from '../components/Containers/ProtectRoutes/ProtectRoutes';
 import GlobalLoader from '../components/molecules/Loaders/GlobalLoader/GlobalLoader';
 import Explore from '../Views/Explore/Explore';
@@ -24,6 +24,7 @@ import { restartUserFound } from '../redux/slices/userSlices/userSlices';
 import { connectionSocket, socket } from '../../socket';
 import { setStatusConnection } from '../redux/slices/socketSlices/authSocketSlices/authSocketSlices';
 import ChangeLocation from '../components/molecules/ChangeLocation/ChangeLocation';
+import { restartPostState } from '../redux/slices/postSlices/postSlices';
 
 const Router = () => {
   const params = useParams();
@@ -83,57 +84,65 @@ const Router = () => {
         <Notifications />
         <Routes>
           <Route path='/' element={
-            <ProtectedRoutes redirectTo={'/feed'} isLogged={!isLogged}>
-              <DefaultPage />
-            </ProtectedRoutes>
-          } />
-          <Route path='/feed' element={
-            <ProtectedRoutes redirectTo={'/'} isLogged={isLogged}>
-              <Feed />
+            <ProtectedRoutes redirectTo={'/defaultPage'} children={<Feed />}>
+              
             </ProtectedRoutes>
           } />
           <Route path='/explore' element={
-            <ProtectedRoutes redirectTo={'/'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/defaultPage'}>
               <Explore />
             </ProtectedRoutes>
           } />
           <Route path='/register' element={<DefaultPage />} />
           <Route path='/getPostByID/:idPost' element={<ViewPost><ModalUnauthenticated /></ViewPost>} />
           <Route path='/getPostByID/:idPost/:typeInteraction' element={<ViewPost><ModalUnauthenticated /></ViewPost>} />
-          <Route path='/profile/:username' element={<Profile />} />
-          <Route path='/profile/:username/:typeFollow' element={<Profile />} />
+          <Route path='/profile/:username' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
+              <Profile />
+            </ProtectedRoutes>
+          } />
+          <Route path='/profile/:username/:typeFollow' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
+              <Profile />
+            </ProtectedRoutes>
+          } />
           <Route path='/profile/:username/changeImageUser' element={
-            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
               <Profile><ChangeImageUser /></Profile>
             </ProtectedRoutes>
           } />
           <Route path='/profile/:username/changePassword' element={
-            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
               <Profile><ChangePassword /></Profile>
             </ProtectedRoutes>
           } />
           <Route path='/profile/:username/closeList' element={
-            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
               <Profile><ListFriendProfile /></Profile>
             </ProtectedRoutes>
           } />
           <Route path='/profile/:username/changeLocation' element={
-            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
               <Profile><ChangeLocation /></Profile>
             </ProtectedRoutes>
           } />
           <Route path='/createContent' element={
-            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
               <CreateContent />
             </ProtectedRoutes>
           } />
-          <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent} /></CreateContent>} />
+          <Route path='/createContent/:typeContent' element={
+            <ProtectedRoutes redirectTo={"/defaultPage"}>
+              <CreateContent><FormCreateContent title={params.typeContent} /></CreateContent>
+            </ProtectedRoutes>
+          } />
           <Route path='/history' element={
-            <ProtectedRoutes redirectTo={'/unauthorized'} isLogged={isLogged}>
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
               <ViewerHistory />
             </ProtectedRoutes>
           } />
           <Route path='/unauthorized' element={<ModalUnauthenticated />} />
+          <Route path='/defaultPage' element={<DefaultPage />} />
         </Routes>
       </GlobalContainer>
     </BrowserRouter>
@@ -141,3 +150,64 @@ const Router = () => {
 }
 
 export default Router
+
+
+
+
+// <BrowserRouter>
+// <GlobalLoader />
+// <GlobalContainer>
+//   <ModalSearchUsers data={userFound} type={'searchUserDB'} resetData={restartUserFound} />
+//   <Notifications />
+//   <Routes>
+//     <Route path='/' element={
+//       <ProtectedRoutes redirectTo={'/defaultPage'}>
+//         <Feed />
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/explore' element={
+//       <ProtectedRoutes redirectTo={'/defaultPage'}>
+//         <Explore />
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/register' element={<DefaultPage />} />
+//     <Route path='/getPostByID/:idPost' element={<ViewPost><ModalUnauthenticated /></ViewPost>} />
+//     <Route path='/getPostByID/:idPost/:typeInteraction' element={<ViewPost><ModalUnauthenticated /></ViewPost>} />
+//     <Route path='/profile/:username' element={<Profile />} />
+//     <Route path='/profile/:username/:typeFollow' element={<Profile />} />
+//     <Route path='/profile/:username/changeImageUser' element={
+//       <ProtectedRoutes redirectTo={'/unauthorized'}>
+//         <Profile><ChangeImageUser /></Profile>
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/profile/:username/changePassword' element={
+//       <ProtectedRoutes redirectTo={'/unauthorized'}>
+//         <Profile><ChangePassword /></Profile>
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/profile/:username/closeList' element={
+//       <ProtectedRoutes redirectTo={'/unauthorized'}>
+//         <Profile><ListFriendProfile /></Profile>
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/profile/:username/changeLocation' element={
+//       <ProtectedRoutes redirectTo={'/unauthorized'}>
+//         <Profile><ChangeLocation /></Profile>
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/createContent' element={
+//       <ProtectedRoutes redirectTo={'/unauthorized'}>
+//         <CreateContent />
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/createContent/:typeContent' element={<CreateContent><FormCreateContent title={params.typeContent} /></CreateContent>} />
+//     <Route path='/history' element={
+//       <ProtectedRoutes redirectTo={'/unauthorized'}>
+//         <ViewerHistory />
+//       </ProtectedRoutes>
+//     } />
+//     <Route path='/unauthorized' element={<ModalUnauthenticated />} />
+//     <Route path='/defaultPage' element={<DefaultPage />} />
+//   </Routes>
+// </GlobalContainer>
+// </BrowserRouter>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ContainerPostInExploreSectionStyles } from './PostInExploreSectionStyles'
-import CardPostInExplore from '../CardPostInExplore/CardPostInExplore'
+import CardPostInExplore from '../../organisms/Cards/CardPostInExplore/CardPostInExplore'
 
 const PostInExploreSection = ({ posts, index }) => {
     const renderCards = () => {

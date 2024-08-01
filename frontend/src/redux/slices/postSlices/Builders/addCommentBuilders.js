@@ -9,7 +9,6 @@ export default ( builders, addComment ) => {
             state.status = action.payload.status;
             state.message = action.payload.message;
             state.error = action.payload.error;
-            state.post = action.payload.post;
     })
     builders.addCase( addComment.pending, ( state, action ) => {
         state.isLoading = true;

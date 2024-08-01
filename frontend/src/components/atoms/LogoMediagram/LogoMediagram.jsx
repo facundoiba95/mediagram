@@ -12,7 +12,7 @@ const LogoMediagram = () => {
       top: 0,
       behavior: "smooth"
     })
-    navigator('/feed');
+    navigator('/');
   }
   return (
     <>

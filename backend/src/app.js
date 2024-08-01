@@ -14,6 +14,7 @@ import postRoutes from './routes/post.routes.js';
 import indexRoutes from './routes/index.routes.js';
 import userRoutes from './routes/user.routes.js';
 import tagsRoutes from './routes/tags.routes.js';
+import commentRoutes from './routes/comment.routes.js';
 import notificationSockets, { rooms } from './sockets/Notifications/notificationSockets.js';
 
 // config
@@ -69,6 +70,7 @@ app.use('/api/mediagram/auth/', authRoutes);
 app.use('/api/mediagram/post/', postRoutes);
 app.use('/api/mediagram/user/', userRoutes);
 app.use('/api/mediagram/tags/', tagsRoutes);
+app.use('/api/mediagram/comment', commentRoutes);
 
 // websockets
 io.on('connection', (socket) => {
@@ -81,9 +83,11 @@ io.on('connection', (socket) => {
     })
 
     socket.on("disconnect", () => {
-        const usernameAuth = socket.userAuth.username;
-        rooms.delete(usernameAuth)
-        console.log("SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
+        if(socket.userAuth) {
+            const usernameAuth = socket.userAuth.username;
+            rooms.delete(usernameAuth)
+            console.log("SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
+        }
     })
 })
 

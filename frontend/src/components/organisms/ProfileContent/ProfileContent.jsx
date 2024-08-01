@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { MessagePrivateAccountStyles, ProfileContentContainerStyles } from './ProfileContentStyles'
-import CardContentProfile from '../../molecules/CardContentProfile/CardContentProfile'
+import CardContentProfile from '../../organisms/Cards/CardContentProfile/CardContentProfile'
 import { useSelector } from 'react-redux'
 import ContentIsEmpty from '../../molecules/Modals/ContentIsEmpty/ContentIsEmpty'
 import { HiOutlineLockClosed } from 'react-icons/hi';

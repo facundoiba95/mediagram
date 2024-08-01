@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { addComment, handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews } from "../controllers/post.controllers.js";
+import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews, test_getPostWithCommentAndUser } from "../controllers/post.controllers.js";
 import multer from 'multer';
 import { config } from "dotenv";
 import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
-import validateComment from "../middlewares/posts/validateComment.js";
 import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
 import handleErrors from "../middlewares/errors/handleErrors.js";
 import isExistLikeInPost from "../middlewares/posts/isExistLikeInPost.js";
@@ -20,6 +19,7 @@ import select_mediaType from "../middlewares/posts/select_mediaType.js";
 import convertImage from "../middlewares/posts/convertImage.js";
 import convertVideo from "../middlewares/posts/convertVideo.js";
 import { image_extension, video_extension } from "../libs/fileExtensions.js";
+import { postWithCommentAndUser } from "../middlewares/posts/postsWithCommentsAndUsers.js";
 
 config();
 
@@ -53,7 +53,6 @@ router.post('/getPosts', [isPrivateProfile], getPosts);
 router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
 router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
 router.post('/getPostsByCloseList', [postByFollowings], getPostsByCloseList);
-router.post('/addComment', [validateAuthInPost, validateComment, handleErrors], addComment);
 router.post('/handleLikeToPost/:idPost', [validateAuthInPost, isExistLikeInPost, handleErrors], handleLikeToPost);
 router.get('/getPost/:idPost', test_getPost);
 router.get('/getLikes/:idPost', getLikes )
@@ -62,5 +61,6 @@ router.delete('/deletePost/:idPost', deletePost);
 router.put('/updateTags/:idPost', updateTagsInPost);
 router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts);
 router.get('/getTrendPosts', getTrendPosts);
+router.post('/test_getPostWithCommentAndUser/:idPost', postWithCommentAndUser)
 
 export default router;

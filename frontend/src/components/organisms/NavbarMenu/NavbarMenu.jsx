@@ -55,16 +55,17 @@ const NavbarHeader = () => {
   }
 
   const goCreateContent = () => {
+    navigator('/createContent');
     setIsOpenMenu(false);
     setIsOpenTrendTags(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     })
-    navigator('/createContent');
   }
 
   const goHome = () => {
+    navigator('/')
     setIsOpenMenu(false);
     setIsOpenTrendTags(false)
     dispatch(restartUserSelected());
@@ -72,11 +73,10 @@ const NavbarHeader = () => {
       top: 0,
       behavior: "smooth"
     })
-
-    navigator('/feed')
   }
 
   const goExplore = () => {
+    navigator('/explore')
     dispatch(restartPostState())
     setIsOpenMenu(false);
     setIsOpenTrendTags(false)
@@ -85,7 +85,6 @@ const NavbarHeader = () => {
       behavior: "smooth"
     })
 
-    navigator('/explore')
   }
 
   const handleLogout = () => {
@@ -171,7 +170,7 @@ const NavbarHeader = () => {
     <NavbarMenuContainerStyles isLogged={isLogged} isOpenMenu={isOpenMenu}>
       <LogoMediagram title={'Mediagram'} />
       <NavbarMenuListStyles isOpenMenu={isOpenMenu}>
-        <NavbarMenuItemStyles onClick={() => goHome()}>
+        <NavbarMenuItemStyles onClick={goHome}>
           <ImHome3 className='iconNavbar' />
           <p>Inicio</p>
         </NavbarMenuItemStyles>

@@ -1,23 +1,16 @@
 import React, { useContext, useRef, useState } from 'react'
-import { ContainerCardCreatePostFeedStyles, TextBoxCreatePostFeedStyles } from './CardCreatePostFeedStyles'
-import ButtonCreatePostFeed from '../../atoms/ButtonCreatePostFeed/ButtonCreatePostFeed'
+import { ContainerFormCreatePostFeedStyles, TextBoxCreatePostFeedStyles } from './FormCreatePostFeedStyles'
+import ButtonCreatePostFeed from '../../../atoms/ButtonCreatePostFeed/ButtonCreatePostFeed'
 import { useDispatch, useSelector } from 'react-redux';
-import { addTagToList, resetListTags, resetNameTag, resetTags, searchTags } from '../../../redux/slices/tagSlices/tagSlices'
-import ListHashtagsFound from '../../organisms/ListHashtagsFound/ListHashtagsFound';
-import { ItemHashtagFoundStyles } from '../../organisms/ListHashtagsFound/ListHashtagsFoundStyles';
-import ItemCreateTag from '../../atoms/ItemCreateTag/ItemCreateTag';
-import { createPost } from '../../../redux/slices/postSlices/postSlices';
-import { POST } from '../../../libs/typePost';
-import { GlobalContext } from '../../../Context/GlobalContext';
+import { addTagToList, resetListTags, resetNameTag, resetTags, resetTagState, searchTags } from '../../../../redux/slices/tagSlices/tagSlices'
+import ListHashtagsFound from '../../ListHashtagsFound/ListHashtagsFound';
+import { ItemHashtagFoundStyles } from '../../ListHashtagsFound/ListHashtagsFoundStyles';
+import ItemCreateTag from '../../../atoms/ItemCreateTag/ItemCreateTag';
+import { createPost, getPostsOfFollowings } from '../../../../redux/slices/postSlices/postSlices';
+import { POST } from '../../../../libs/typePost';
+import { GlobalContext } from '../../../../Context/GlobalContext';
 
-
-// referTo
-// location
-// typePost
-// postBy
-// tags
-// shareInExplore
-const CardCreatePostFeed = () => {
+const FormCreatePostFeed = () => {
   const [text, setText] = useState('');
   const [hashtag, setHashtag] = useState("");
   const [showListHashtags, setShowListHashtags] = useState(false);
@@ -69,7 +62,7 @@ const CardCreatePostFeed = () => {
 
   const setQuantity = (counter) => {
     const thousandPosts = `${counter.toString().slice(0, 1)}.${counter.toString().slice(1, 2)}k`;
-    const thousandPost_twoDigits = `${counter.toString().slice(0, 2)}.${counter.toString().slice(2, 3)}k`
+    const thousandPost_twoDigits = `${counter.toString().slice(0, 2)}.${counter.toString().slice(2, 3)}k`;
     const thousandPost_threeDigits = `${counter.toString().slice(0, 3)}k`
 
     if (counter > 0 && counter < 999) {
@@ -109,10 +102,13 @@ const CardCreatePostFeed = () => {
   const handleCreatePost = async () => {
     const form = document.getElementById("formCreatePost");
     await dispatch(createPost(form));
+    await dispatch(getPostsOfFollowings());
+    setText("");
+    dispatch(resetTagState());
   }
 
   return (
-    <ContainerCardCreatePostFeedStyles onSubmit={(e) => e.preventDefault()} id='formCreatePost'>
+    <ContainerFormCreatePostFeedStyles onSubmit={(e) => e.preventDefault()} id='formCreatePost'>
       <b>Publicar estado</b>
       <TextBoxCreatePostFeedStyles
         ref={textareaRef}
@@ -135,9 +131,8 @@ const CardCreatePostFeed = () => {
       <input type="text" name='tags' value={JSON.stringify(listTags)} hidden />
       <input type="text" name='textContent' value={text} hidden />
       <ButtonCreatePostFeed active={text.length} handleFunction={handleCreatePost} />
-    </ContainerCardCreatePostFeedStyles>
+    </ContainerFormCreatePostFeedStyles>
   );
 };
 
-export default CardCreatePostFeed;
-
+export default FormCreatePostFeed;

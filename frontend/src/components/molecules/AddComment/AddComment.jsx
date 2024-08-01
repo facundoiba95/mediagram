@@ -6,38 +6,43 @@ import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
-const AddComment = ({hiddenComments}) => {
-  const [ inputComment, setInputComment ] = useState('');
+const AddComment = ({ hiddenComments, idPost, postBy }) => {
+  const [inputComment, setInputComment] = useState('');
   const dispatch = useDispatch();
-  const post = useSelector(state => state.postSlices.post);
   const { setIsOpenModalWindowAuth } = useContext(GlobalContext);
 
-const handleAddComment = async () => {
-  const comment = {
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+
+    if(!inputComment.length) return;
+
+    const comment = {
       content: inputComment,
-      _idPost: post[0]._id,
-      postBy: post[0].postBy
-  }
+      _idPost: idPost,
+      postBy
+    }
 
-  const result = await dispatch(validateSession());
+    const result = await dispatch(validateSession());
 
-  if(await result.payload.status === 200){
-    await dispatch(addComment(comment))
-    dispatch(setStatusNotification());
-    dispatch(setUserReceptor(post[0].postBy.username));
-  } else {
-    setIsOpenModalWindowAuth(true)
-    return;
+    if (await result.payload.status === 200) {
+      await dispatch(addComment(comment))
+      dispatch(setStatusNotification());
+      dispatch(setUserReceptor(postBy.username));
+      setInputComment("");
+      
+    } else {
+      setIsOpenModalWindowAuth(true)
+      return;
+    }
   }
-}
 
   return (
-      <AddCommentContainerStyles hiddenComments={hiddenComments}>
-          <FormCommentContainerStyle onSubmit={(e) => e.preventDefault()}>
-              <textarea type="text" placeholder='Escribe un comentario ...' value={inputComment} onChange={(e) => setInputComment(e.target.value)}/>
-              <button className='btnAddComment' onClick={() => handleAddComment()}>Publicar</button>
-          </FormCommentContainerStyle>
-      </AddCommentContainerStyles>
+    <AddCommentContainerStyles hiddenComments={hiddenComments}>
+      <FormCommentContainerStyle onSubmit={(e) => handleAddComment(e)}>
+        <textarea type="text" placeholder='Escribe un comentario ...' value={inputComment} onChange={(e) => setInputComment(e.target.value)} />
+        <button className='btnAddComment' onClick={(e) => handleAddComment(e)}>Comentar</button>
+      </FormCommentContainerStyle>
+    </AddCommentContainerStyles>
   )
 }
 

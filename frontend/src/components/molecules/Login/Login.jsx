@@ -11,84 +11,85 @@ import { MoonLoader } from 'react-spinners';
 import { getNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const Login = () => {
-   
-    const statusLogin = useSelector( state => state.authSlices.status );
-    const errorMessage = useSelector( state => state.authSlices.error );
-    const isLoading = useSelector( state => state.authSlices.isLoading );
-    const isLogged = useSelector( state => state.authSlices.isLogged );
-    const userAuth = useSelector( state => state.authSlices.user );
-    const [ inputUsername, setInputUsername ] = useState('');
-    const [ inputPassword, setInputPassword ] = useState('');
-    const [ messageLogin, setMessageLogin ] = useState({ error: '', validate: null, type:'' }); 
-    const navigator = useNavigate();
-    const dispatch = useDispatch();
 
-    const handleFunctionLogin = async  (e) => {
-        e.preventDefault();
-        const user = {
-          username: inputUsername.trim(),
-          password: inputPassword.trim()
-        }
+  const statusLogin = useSelector(state => state.authSlices.status);
+  const errorMessage = useSelector(state => state.authSlices.error);
+  const isLoading = useSelector(state => state.authSlices.isLoading);
+  const isLogged = useSelector(state => state.authSlices.isLogged);
+  const userAuth = useSelector(state => state.authSlices.user);
+  const [inputUsername, setInputUsername] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [messageLogin, setMessageLogin] = useState({ error: '', validate: null, type: '' });
+  const [newStatus, setNewStatus] = useState(null);
+  const navigator = useNavigate();
+  const dispatch = useDispatch();
 
-         await dispatch(handleLogin(user));
-    }
-    
-    const handleFunctionRegister = (e) => {
-        e.preventDefault();
-        navigator('/register');
+  const handleFunctionLogin = async (e) => {
+    e.preventDefault();
+    const user = {
+      username: inputUsername.trim(),
+      password: inputPassword.trim()
     }
 
-    useEffect(() => {
-      switch(statusLogin){
-        case 200:
-          navigator('/feed')
-          setMessageLogin({ error: '', validate: isLogged });
-          dispatch(restartStatusAuthSlice());
-          break;
-        case 404:
-          setMessageLogin({ error: 'Usuario no encontrado!', validate: isLogged, type: 'username' })
-          dispatch(restartStatusAuthSlice());
-          break;
-        case 401:
-          setMessageLogin({ error: 'Contraseña incorrecta!', validate: isLogged, type: 'password' })
-          dispatch(restartStatusAuthSlice());
-          break;
-        case 500:
-          setMessageLogin({ error: errorMessage, validate: isLogged })
-          dispatch(restartStatusAuthSlice());
-          break;
-          default:
-            break;
-      }
-    }, [ statusLogin ])
+    await dispatch(handleLogin(user));
+    navigator("/")
+  }
+
+  const handleFunctionRegister = (e) => {
+    e.preventDefault();
+    navigator('/register');
+  }
+
+  useEffect(() => {
+    switch (statusLogin) {
+      case 200:
+        setMessageLogin({ error: '', validate: isLogged });
+        dispatch(restartStatusAuthSlice());
+        break;
+      case 404:
+        setMessageLogin({ error: 'Usuario no encontrado!', validate: isLogged, type: 'username' });
+        dispatch(restartStatusAuthSlice());
+        break;
+      case 401:
+        setMessageLogin({ error: 'Contraseña incorrecta!', validate: isLogged, type: 'password' });
+        dispatch(restartStatusAuthSlice());
+        break;
+      case 500:
+        setMessageLogin({ error: errorMessage, validate: isLogged });
+        dispatch(restartStatusAuthSlice());
+        break;
+      default:
+        break;
+    }
+  }, [statusLogin, isLogged, dispatch]);
 
   return (
     <TransitionContainer>
       {
         isLoading ?
-        <MoonLoader size={50} color='#FF70A6' className='spinner'/>
-        :
-        <FormLoginContainerStyles type={messageLogin.type}>
-        <input type="text" name='username' placeholder='Username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)}/>
-        <input type="password" name='password' placeholder='Password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)}/>
-        <MessageLoginContainerStyles isLogged={messageLogin.validate}>
-            <GoAlertFill className='iconError'/>
-            <BsFillCheckCircleFill className='iconOkay'/>
-            <small>{messageLogin.error}</small>
-        </MessageLoginContainerStyles>
-           <ButtonResponsive 
-            title={'Iniciar sesión'}
-            isAlternative={false}
-            handleFunction={(e) => handleFunctionLogin(e)}/>
-            
-            <ButtonResponsive 
-            title={'Registrarme'}
-            isAlternative={true}
-            handleFunction={(e) => handleFunctionRegister(e)}/>
-        </FormLoginContainerStyles>
+          <MoonLoader size={50} color='#FF70A6' className='spinner' />
+          :
+          <FormLoginContainerStyles type={messageLogin.type}>
+            <input type="text" name='username' placeholder='Username' value={inputUsername} onChange={(e) => setInputUsername(e.target.value)} />
+            <input type="password" name='password' placeholder='Password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} />
+            <MessageLoginContainerStyles isLogged={messageLogin.validate}>
+              <GoAlertFill className='iconError' />
+              <BsFillCheckCircleFill className='iconOkay' />
+              <small>{messageLogin.error}</small>
+            </MessageLoginContainerStyles>
+            <ButtonResponsive
+              title={'Iniciar sesión'}
+              isAlternative={false}
+              handleFunction={(e) => handleFunctionLogin(e)} />
+
+            <ButtonResponsive
+              title={'Registrarme'}
+              isAlternative={true}
+              handleFunction={(e) => handleFunctionRegister(e)} />
+          </FormLoginContainerStyles>
       }
     </TransitionContainer>
-    )
+  )
 }
 
 export default Login

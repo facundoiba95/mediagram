@@ -8,10 +8,27 @@ import imgOne from '../../assets/drinkingcoffee.jpg';
 import imgTwo from '../../assets/tomorrowland.jpg';
 import imgTree from '../../assets/miguelangel.jpg'
 import imgFour from '../../assets/watchingfootball.jpg'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/slices/authSlices/authSlices'
+import { restartPostsList } from '../../redux/slices/postSlices/postSlices'
+import { restartNotifications } from '../../redux/slices/socketSlices/notificationSlices/notificationSlices'
+import { resetStateLocation } from '../../redux/slices/locationSlices/locationSlices'
+import { resetTagState } from '../../redux/slices/tagSlices/tagSlices'
+import { restartUserSlice } from '../../redux/slices/userSlices/userSlices'
 
 const DefaultPage = () => {
-  const navigate = useNavigate();
-  
+  const navigator = useNavigate();
+  const dispatch = useDispatch();
+  const { isLogged } = useSelector(state => state.authSlices);
+
+  useEffect(() => {
+    if (isLogged) {
+      navigator("/")
+    } else {
+      navigator("/defaultPage")
+    }
+  }, [isLogged, navigator])
+
   return (
     <TransitionContainer>
       <DefaultPageContainerStyles>
@@ -21,7 +38,7 @@ const DefaultPage = () => {
         <img src={imgFour} alt="" className='imgFour' />
         <WelcomeContentDefaultPageStyles>
           <h2>Bienvenido a  </h2>
-          <LogoMediagramStyle onClick={() => navigate('/')}>{'Mediagram'}</LogoMediagramStyle>
+          <LogoMediagramStyle onClick={() => navigator('/')}>{'Mediagram'}</LogoMediagramStyle>
           <WelcomeMessageDefaultPageStyles>
             <h2>Conecta, comparte y descubre el mundo a través de tus fotos.</h2>
             <ul>

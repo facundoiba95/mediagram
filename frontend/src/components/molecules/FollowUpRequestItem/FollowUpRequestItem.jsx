@@ -1,7 +1,7 @@
 import React from 'react'
-import { ContainerButtonsFollowUpRequestStyles, FollowUpItemStyles } from '../FollowUpRequest/FollowUpRequestStyles'
 import { RiUserSmileFill } from 'react-icons/ri'
 import { BsCheckCircle, BsXCircle } from 'react-icons/bs'
+import { ContainerButtonsFollowUpRequestStyles, FollowUpItemStyles } from '../../organisms/FollowUpRequest/FollowUpRequestStyles'
 
 const FollowUpRequestItem = ({
     _id,

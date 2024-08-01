@@ -9,6 +9,7 @@ import addReferToBuilders from "./Builders/addReferToBuilders";
 import getVisiblePostsBuilders from "./Builders/getVisiblePostsBuilders";
 import updateTagsInPostBuilders from "./Builders/updateTagsInPostBuilders";
 import getTrendPostsBuilders from "./Builders/getTrendPostsBuilders";
+import handleLikeCommentBuilders from "./Builders/handleLikeCommentBuilders";
 
 const initialState = {
     error: null,
@@ -118,7 +119,7 @@ export const addComment = createAsyncThunk(
     async (comment) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/addComment`, {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}comment/addComment`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
@@ -137,6 +138,28 @@ export const addComment = createAsyncThunk(
     }
 )
 
+export const handleLikeComment = createAsyncThunk(
+    'handleLikeComment/postSlices',
+    async (idComment) => {
+        try {
+            const token = localStorage.getItem('token');
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}comment/handleLikeComment/${idComment}`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": `${token}`
+                }
+            });
+
+            const res = await req.json();
+            return res;
+        } catch (error) {
+            console.error('Ocurrio un error en handleLikeComment, postSlices', error);
+            alert('Ocurrio un error en handleLikeComment, postSlices');
+        }
+    }
+)
 export const addReferTo = createAsyncThunk(
     'addReferTo/postSlices',
     async (listReferTo) => {
@@ -282,6 +305,7 @@ const postSlices = createSlice({
         getVisiblePostsBuilders(builders, getVisiblePosts);
         updateTagsInPostBuilders(builders, updateTagsInPost);
         getTrendPostsBuilders(builders, getTrendPosts);
+        handleLikeCommentBuilders(builders, handleLikeComment);
     }
 })
 
