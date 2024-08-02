@@ -42,7 +42,6 @@ const CubeSlider = () => {
         pagination={false}
         modules={[EffectCube, Pagination]}
         className="mySwiper"
-        style={{ height: "100vh" }}
       >
         { renderSlide() }
       </Swiper>

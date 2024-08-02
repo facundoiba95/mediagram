@@ -11,8 +11,8 @@ background-color: black;
 `
 
 export const HeadItemHistoryStyles = styled.div`
-width: 100%;
-height: 50px;
+width: auto;
+height: auto;
 display: flex;
 justify-content: flex-start;
 align-items: center;
@@ -23,6 +23,7 @@ background-color: transparent;
 position: absolute;
 top: 0px;
 z-index: 1400;
+cursor: pointer;
 
 b {
     background-color: transparent;
@@ -40,5 +41,19 @@ b {
     border-radius: 50%;
     background-color: white;
     color: var(--violetpink);
+}
+
+span {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: flex-start;
+    background-color: transparent;
+
+    small {
+    color: white;
+    font-weight: 900;
+    background-color: transparent;
+}
 }
 `

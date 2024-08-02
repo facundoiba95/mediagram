@@ -5,6 +5,7 @@ import { GlobalContext } from '../../../Context/GlobalContext'
 import SwipeHistory from '../../molecules/SwipeHistory/SwipeHistory'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
+import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer'
 
 const ViewerHistory = () => {
     const { isOpenHistory, setIsOpenHistory } = useContext(GlobalContext);
@@ -26,9 +27,11 @@ const ViewerHistory = () => {
 
     return (
         <ContainerBlurWrapperStyles isOpen={isOpenHistory}>
-            <AiOutlineCloseCircle onClick={handleCloseViewer} className='iconClose' />
-            <SwipeHistory isHidden={hiddenSwipe} />
-            <CubeSlider />
+            <TransitionContainer>
+                <AiOutlineCloseCircle onClick={handleCloseViewer} className='iconClose' />
+                <SwipeHistory isHidden={hiddenSwipe} />
+                <CubeSlider />
+            </TransitionContainer>
         </ContainerBlurWrapperStyles>
     )
 }

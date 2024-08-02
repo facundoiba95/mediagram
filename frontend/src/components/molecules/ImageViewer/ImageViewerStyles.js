@@ -31,10 +31,8 @@ h2 {
 }
 
 .imgProfile {
-    width: 100%;
-    height: 100%;
-    max-width: 550px;
-    max-height: 550px;
+    width: 100vw;
+    height: 100vh;
     object-fit: scale-down;
     background-color: transparent;
     border-radius: 5px;
@@ -48,12 +46,5 @@ h2 {
     color: white;
     font-size: 2.5rem;
     cursor: pointer;
-}
-
-@media(max-width: 490px) {
-.imgProfile {
-    max-width: 320px;
-    max-height: 320px;
-} 
 }
 `

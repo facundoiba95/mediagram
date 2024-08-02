@@ -230,7 +230,7 @@ export const getCloseList = async (req, res) => {
 
         let closeList = await User.find({ closeList: idAuth }).select('_id username thumbnail posts');
 
-        const found_EXCLUSIVEPOST = await Post.find({ _id: { $in: closeList.flatMap(user => user.posts) }, typePost: 'EXCLUSIVEPOST' }).select('_id postBy views media_url mediaType');
+        const found_EXCLUSIVEPOST = await Post.find({ _id: { $in: closeList.flatMap(user => user.posts) }, typePost: 'EXCLUSIVEPOST' }).select('_id postBy views media_url mediaType createdAt');
 
         closeList = closeList.filter(usr => {
             if (!found_EXCLUSIVEPOST.length) {

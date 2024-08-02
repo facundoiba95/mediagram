@@ -7,38 +7,41 @@ import { IoHeartCircle } from "react-icons/io5";
 import { updateCloseList } from '../../../redux/slices/authSlices/authSlices'
 import { RiUserSmileFill } from 'react-icons/ri'
 import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequestStyles'
+import { getFollowers } from '../../../redux/slices/userSlices/userSlices'
+import { useParams } from 'react-router-dom'
 
 const ListFriendProfile = () => {
   const { user } = useSelector(state => state.authSlices);
-  const { userFound } = useSelector(state => state.userSlices);
-  const [ copyUserFound, setCopyUserFound ] = useState(userFound);
-  const followers = user.followers;
+  const { userFound, followers } = useSelector(state => state.userSlices);
   const listFriends = user.closeList;
   const dispatch = useDispatch();
-  const [ newListFriends, setNewListFriends ] = useState(listFriends);
-  const [ hiddenBtnUpdateList, setHiddenBtnUpdateList ] = useState(true);
-  
+  const [newListFriends, setNewListFriends] = useState(listFriends);
+  const [hiddenBtnUpdateList, setHiddenBtnUpdateList] = useState(true);
+  const usersToRender = userFound.length ? userFound : followers;
+  const params = useParams();
+
   const renderFollowers = () => {
-    if(!userFound.length) {
+    if (!followers.length) {
       return (
         <MessageNotFollowUpRequestStyles>
           <p>Aún no tienes seguidores.</p>
         </MessageNotFollowUpRequestStyles>
       )
     }
-    return userFound.map(usr => {
-      const { imgProfile, username, _id } = usr;
+
+    return usersToRender.map(usr => {
+      const { thumbnail, username, _id } = usr;
       const isUserSelected = newListFriends.some(user => user === _id);
 
       return (
         <ItemFollowerStyles data-id={_id} onClick={(e) => addFriendToList(e)} isSelected={isUserSelected}>
           {
-            imgProfile
-            ? <img src={imgProfile} alt="" />
-            : <RiUserSmileFill className='iconUserDefault'/>
+            thumbnail
+              ? <img src={thumbnail} alt="" />
+              : <RiUserSmileFill className='iconUserDefault' />
           }
           <h3>{username}</h3>
-          <IoHeartCircle className='iconUserSelected'/>
+          <IoHeartCircle className='iconUserSelected' />
         </ItemFollowerStyles>
       )
     })
@@ -53,7 +56,7 @@ const ListFriendProfile = () => {
       if (isAddedinList) {
         return newListFriends.filter(usr => usr !== idUserSelected);
       } else {
-        return [ ... newListFriends, idUserSelected]
+        return [...newListFriends, idUserSelected]
       }
     });
   }
@@ -63,13 +66,16 @@ const ListFriendProfile = () => {
   }
 
   useEffect(() => {
-    if(JSON.stringify(listFriends) !== JSON.stringify(newListFriends)){
+    if (JSON.stringify(listFriends) !== JSON.stringify(newListFriends)) {
       setHiddenBtnUpdateList(false);
     } else {
       setHiddenBtnUpdateList(true);
     }
   }, [newListFriends])
 
+  useEffect(() => {
+    dispatch(getFollowers(params.username));
+  }, [])
   return (
     <TransitionContainer>
       <ListFriendProfileContainerStyles>
