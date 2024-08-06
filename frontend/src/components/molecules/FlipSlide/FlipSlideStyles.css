@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 .history-style img {
     width: 100%;
     height: 100vh;
     object-fit: contain;
+=======
+.history-style img {
+    width: 100%;
+    height: 100vh;
+    object-fit: contain;
+>>>>>>> b3173dc1 (first commit in Ubuntu)
 }

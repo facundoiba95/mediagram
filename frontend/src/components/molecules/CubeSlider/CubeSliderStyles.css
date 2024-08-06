@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .swiper {
     width: 100%;
     max-width: 500px;
@@ -13,4 +14,21 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
+=======
+.swiper {
+    width: 100%;
+    max-width: 500px;
+    background-color: transparent;
+}
+
+.swiper-slide {
+    width: 100%;
+    background-color: transparent;
+}
+
+.swiper-slide img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+>>>>>>> b3173dc1 (first commit in Ubuntu)
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from 'styled-components';
 
 export const SkeletonCardContentProfileContainerStyles = styled.div`
@@ -15,4 +16,23 @@ span {
     align-items: center;
     gap: 10px;
 }
+=======
+import styled from 'styled-components';
+
+export const SkeletonCardContentProfileContainerStyles = styled.div`
+width:100%;
+height:100%;
+display: flex;
+justify-content: flex-start;
+align-items: center;
+gap: 20px;
+
+span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+>>>>>>> b3173dc1 (first commit in Ubuntu)
 `
