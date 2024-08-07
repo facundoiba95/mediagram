@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useContext, useEffect } from 'react'
 import { ContainerBlurWrapperStyles } from '../../../Containers/ContainerBlur/ContainerBlurStyles'
 import { ModalSearchUsersContainerStyles } from '../ModalSearchUsers/ModalSearchUsersStyles'
@@ -62,7 +63,6 @@ const ModalAddTags = () => {
     )
 }
 
-<<<<<<< HEAD
 =======
 import React, { useContext, useEffect } from 'react'
 import { ContainerBlurWrapperStyles } from '../../../Containers/ContainerBlur/ContainerBlurStyles'
@@ -131,6 +131,4 @@ const ModalAddTags = () => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default ModalAddTags

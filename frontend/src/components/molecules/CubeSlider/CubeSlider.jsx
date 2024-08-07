@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { EffectCube, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -48,7 +49,6 @@ const CubeSlider = () => {
   );
 }
 
-<<<<<<< HEAD
 =======
 import React from 'react'
 import { EffectCube, Pagination } from 'swiper/modules';
@@ -101,6 +101,4 @@ const CubeSlider = () => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default CubeSlider

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { PostsInFeedContainerStyles } from './PostsInFeedStyles'
 import { useSelector } from 'react-redux';
@@ -80,7 +81,6 @@ const PostsInFeed = ({ isReadyFeed }) => {
   )
 }
 
-<<<<<<< HEAD
 =======
 import React from 'react'
 import { PostsInFeedContainerStyles } from './PostsInFeedStyles'
@@ -164,6 +164,4 @@ const PostsInFeed = ({ isReadyFeed }) => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default PostsInFeed

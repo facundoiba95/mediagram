@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { ContainerPostInExploreSectionStyles } from './PostInExploreSectionStyles'
 import CardPostInExplore from '../../organisms/Cards/CardPostInExplore/CardPostInExplore'
@@ -32,7 +33,6 @@ const PostInExploreSection = ({ posts, index }) => {
     )
 }
 
-<<<<<<< HEAD
 =======
 import React from 'react'
 import { ContainerPostInExploreSectionStyles } from './PostInExploreSectionStyles'
@@ -77,6 +77,4 @@ const PostInExploreSection = ({ posts, index }) => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default PostInExploreSection

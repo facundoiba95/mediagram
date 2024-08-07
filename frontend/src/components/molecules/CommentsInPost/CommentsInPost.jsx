@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineDown, AiOutlineRight } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
@@ -156,7 +157,6 @@ const CommentsInPost = ({
   )
 }
 
-<<<<<<< HEAD
 =======
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineDown, AiOutlineRight } from 'react-icons/ai';
@@ -317,6 +317,4 @@ const CommentsInPost = ({
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default CommentsInPost

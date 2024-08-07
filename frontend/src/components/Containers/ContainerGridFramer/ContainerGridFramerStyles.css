@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .container {
     overflow: hidden;
     width:100%;
@@ -24,4 +25,32 @@
       overflow-x: scroll;
 
     }
+=======
+.container {
+    overflow: hidden;
+    width:100%;
+    height: auto;
+    display:grid;
+    grid-template-columns: minmax(280px, 350px) minmax(280px, 350px) minmax(280px, 350px);
+    justify-items:center;
+    gap:8px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+
+    
+  }
+
+  .item{
+    background-color: transparent;    
+  }
+
+  @media (max-width: 490px) {
+    .container {
+      margin: 0 auto;
+      width: 300px;
+      overflow-x: scroll;
+
+    }
+>>>>>>> b3173dc1 (first commit in Ubuntu)
   }

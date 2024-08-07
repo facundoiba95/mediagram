@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useContext } from 'react'
 import { ActionProfileContainerStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles } from './ProfileHeaderStyles'
 import { useDispatch, useSelector } from 'react-redux';
@@ -192,7 +193,6 @@ const ProfileHeader = () => {
   )
 }
 
-<<<<<<< HEAD
 =======
 import React, { useContext } from 'react'
 import { ActionProfileContainerStyles, InfoProfileContainerStyles, ProfileHeaderContainerStyles } from './ProfileHeaderStyles'
@@ -389,6 +389,4 @@ const ProfileHeader = () => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default ProfileHeader

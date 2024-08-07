@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { styled } from "styled-components";
 
 export const ProfileContentContainerStyles = styled.section`
@@ -41,7 +42,6 @@ text-align: center;
     font-size: 3rem;
     color:crimson;
 }
-<<<<<<< HEAD:frontend/src/components/organisms/ProfilePosts/ProfilePostsStyles.js
 =======
 import { styled } from "styled-components";
 
@@ -87,6 +87,4 @@ text-align: center;
     color:crimson;
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu):frontend/src/components/organisms/ProfileContent/ProfileContentStyles.js
 `

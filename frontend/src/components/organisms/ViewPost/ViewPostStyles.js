@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from 'styled-components';
 
 export const ViewPostBackgroundStyles = styled.div`
@@ -194,7 +195,6 @@ h3, .iconQuitPost {
     width: 100%;
     position: sticky;
 }
-<<<<<<< HEAD
 =======
 import styled from 'styled-components';
 
@@ -396,6 +396,4 @@ h3, .iconQuitPost {
     position: sticky;
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 `

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useRef } from 'react'
 import { CardPostInFeedContainerStyles } from './CardPostInFeedStyles'
 import { useSelector } from 'react-redux';
@@ -87,7 +88,6 @@ const CardPostInFeed = ({
   )
 }
 
-<<<<<<< HEAD
 =======
 import React, { useRef } from 'react'
 import { CardPostInFeedContainerStyles } from './CardPostInFeedStyles'
@@ -179,6 +179,4 @@ const CardPostInFeed = ({
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default CardPostInFeed

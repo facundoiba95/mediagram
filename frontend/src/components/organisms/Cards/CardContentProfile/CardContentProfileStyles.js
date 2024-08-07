@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { styled } from "styled-components";
 
 export const CardContentProfileContainerStyles = styled.div`
@@ -82,7 +83,6 @@ text-overflow: ellipsis;
         display: none;
     }
 }
-<<<<<<< HEAD
 =======
 import { styled } from "styled-components";
 
@@ -169,6 +169,4 @@ text-overflow: ellipsis;
     }
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 `;

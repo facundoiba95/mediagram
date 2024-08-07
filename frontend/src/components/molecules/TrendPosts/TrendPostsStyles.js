@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from "styled-components";
 
 export const TrendPostsListStyles = styled.ul`
@@ -86,7 +87,6 @@ img {
         }
     }
 }
-<<<<<<< HEAD
 =======
 import styled from "styled-components";
 
@@ -192,6 +192,4 @@ img {
     }
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 `

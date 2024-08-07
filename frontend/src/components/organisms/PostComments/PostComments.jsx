@@ -1,8 +1,5 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
 import React from 'react'
 import { PostCommentsListStyles } from './PostCommentsStyles'
 import ItemCommentPost from '../../molecules/ItemCommentPost/ItemCommentPost'
@@ -42,7 +39,6 @@ const PostComments = ({comments}) => {
   )
 }
 
-<<<<<<< HEAD
 =======
 import React from 'react'
 import { PostCommentsListStyles } from './PostCommentsStyles'
@@ -122,6 +118,3 @@ export default PostComments
 
 export default PostComments;
 >>>>>>> ce9b3c9f (viewerPostText)
-=======
-export default PostComments
->>>>>>> parent of 60d7322 (first commit in Ubuntu)
