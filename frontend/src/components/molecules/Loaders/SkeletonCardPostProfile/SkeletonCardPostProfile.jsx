@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from 'react'
 import { SkeletonCardPostProfileContainerStyles } from './SkeletonCardPostProfileStyles'
 import { Skeleton } from '@mui/material'
@@ -15,6 +14,7 @@ const SkeletonCardPostProfile = () => {
     )
 }
 
+<<<<<<< HEAD
 =======
 import React from 'react'
 import { SkeletonCardPostProfileContainerStyles } from './SkeletonCardPostProfileStyles'
@@ -33,4 +33,6 @@ const SkeletonCardPostProfile = () => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default SkeletonCardPostProfile

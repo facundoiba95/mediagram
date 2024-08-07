@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import mongoose from "mongoose";
 import Post from "../../models/Post.js";
 import verifyToken_Post from "../../libs/Posts/verifyToken_Post.js";
@@ -56,6 +55,7 @@ export default async (req, res, next) => {
         - CUENTA PUBLICA:
              - DEVOLVER POST
 
+<<<<<<< HEAD
 =======
 import mongoose from "mongoose";
 import Post from "../../models/Post.js";
@@ -126,4 +126,6 @@ export default async (req, res, next) => {
              - DEVOLVER POST
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 */

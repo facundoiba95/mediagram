@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import styled from "styled-components";
 
 export const ItemHistoryContainerStyles = styled.div`
@@ -57,6 +56,7 @@ span {
     background-color: transparent;
 }
 }
+<<<<<<< HEAD
 =======
 import styled from "styled-components";
 
@@ -118,4 +118,6 @@ span {
 }
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 `

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import cloudinary from 'cloudinary';
 import Post from '../models/Post.js';
 import mongoose from 'mongoose';
@@ -407,6 +406,7 @@ export const test_getPostWithCommentAndUser = async (req, res) => {
         console.error('Error en test_getPostWithCommentAndUser. Error: ', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+<<<<<<< HEAD
 =======
 import cloudinary from 'cloudinary';
 import Post from '../models/Post.js';
@@ -826,4 +826,6 @@ export const test_getPostWithCommentAndUser = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 };

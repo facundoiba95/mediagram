@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import styled from "styled-components";
 
 export const ContainerPostInExploreSectionStyles = styled.section`
@@ -168,6 +167,7 @@ img {
 //                 return "rtl"
 //             }
 //     }
+<<<<<<< HEAD
 =======
 import styled from "styled-components";
 
@@ -381,3 +381,6 @@ export const CardPostTextStyles = styled.div`
 	}
 `;
 >>>>>>> ce9b3c9f (viewerPostText)
+=======
+// }};
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

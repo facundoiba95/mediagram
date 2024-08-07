@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { styled } from "styled-components";
 
 export const ContentIsEmptyContainerStyles = styled.div`
@@ -16,6 +15,7 @@ color: var(--light);
     font-size: 3rem;
     color:crimson;
 }
+<<<<<<< HEAD:frontend/src/components/molecules/Modals/PostsIsEmpty/PostsIsEmptyStyles.js
 =======
 import { styled } from "styled-components";
 
@@ -35,4 +35,6 @@ color: var(--light);
     color:crimson;
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu):frontend/src/components/molecules/Modals/ContentIsEmpty/ContentIsEmptyStyles.js
 `

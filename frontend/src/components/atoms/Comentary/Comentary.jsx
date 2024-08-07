@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect } from 'react'
 import { ItemCommentContentStyles, ItemCommentStyles, ItemCommentUserInfoStyles } from './ComentaryStyles'
 import { RiUserSmileFill } from 'react-icons/ri'
@@ -37,6 +36,7 @@ const Comentary = ({ content, username, thumbnail, createdAt, _id }) => {
   )
 }
 
+<<<<<<< HEAD
 =======
 import React, { useEffect } from 'react'
 import { ItemCommentContentStyles, ItemCommentStyles, ItemCommentUserInfoStyles } from './ComentaryStyles'
@@ -77,4 +77,6 @@ const Comentary = ({ comment, username, thumbnail, createdAt, _id }) => {
 }
 
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 export default Comentary

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Tags from "../../models/Tags.js";
 
 export default async (req, res, next) => {
@@ -71,6 +70,7 @@ export default async (req, res, next) => {
         console.error('Ocurrio un error en MIDDLEWARE associateTagsByPosts. Error:', error);
         next(error)
     }
+<<<<<<< HEAD
 }
 =======
 import Tags from "../../models/Tags.js";
@@ -194,3 +194,6 @@ export default async (req, res, next) => {
 //     }
 // },
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+}
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

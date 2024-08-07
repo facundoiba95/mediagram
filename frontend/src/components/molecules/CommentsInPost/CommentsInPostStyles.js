@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 import styled from 'styled-components';
 
 export const ViewPostDescriptionStyles = styled.div`
@@ -154,6 +157,7 @@ opacity: ${ props => props.hiddenDescription ? '1' : '0' };
 
 
 
+<<<<<<< HEAD
 =======
 import styled from 'styled-components';
 =======
@@ -321,3 +325,5 @@ opacity: ${ props => props.hiddenDescription ? '1' : '0' };
 	opacity: ${(props) => (props.hiddenDescription ? "1" : "0")};
 `;
 >>>>>>> ce9b3c9f (viewerPostText)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

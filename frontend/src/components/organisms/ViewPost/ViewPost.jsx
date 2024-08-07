@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 import React, { useContext, useEffect, useState } from 'react'
 import { ContainerQuitViewPostStyles, ViewPostBackgroundStyles, ViewPostImageContainerStyles, ViewPostWrapperStyles } from './ViewPostStyles'
 import { GlobalContext } from '../../../Context/GlobalContext'
@@ -143,6 +146,7 @@ const ViewPost = ({ children }) => {
   )
 }
 
+<<<<<<< HEAD
 =======
 import React, { useContext, useEffect, useState } from 'react'
 import { ContainerQuitViewPostStyles, ViewPostBackgroundStyles, ViewPostImageContainerStyles, ViewPostWrapperStyles } from './ViewPostStyles'
@@ -409,3 +413,6 @@ export default ViewPost
 =======
 export default ViewPost;
 >>>>>>> ce9b3c9f (viewerPostText)
+=======
+export default ViewPost
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

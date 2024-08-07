@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 import React, { useEffect } from 'react'
 import { CardPostInExploreStyles } from '../../../molecules/PostInExploreSection/PostInExploreSectionStyles'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -56,6 +59,7 @@ const CardPostInExplore = ({
   )
 }
 
+<<<<<<< HEAD
 =======
 import React, { useEffect } from 'react'
 import { CardPostInExploreStyles } from '../../../molecules/PostInExploreSection/PostInExploreSectionStyles'
@@ -159,3 +163,6 @@ export default CardPostInExplore
 
 export default CardPostInExplore;
 >>>>>>> ce9b3c9f (viewerPostText)
+=======
+export default CardPostInExplore
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FeedContainerHeaderStyles, FeedContainerSuggestionsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
 import ListFriendFeed from '../../components/organisms/ListFriendFeed/ListFriendFeed'
@@ -106,6 +109,7 @@ const Feed = () => {
   )
 }
 
+<<<<<<< HEAD
 =======
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FeedContainerHeaderStyles, FeedContainerSuggestionsStyles, FeedContainerPostsStyles, FeedContainerStyles } from './FeedStyles'
@@ -274,3 +278,6 @@ export default Feed
 =======
 export default Feed;
 >>>>>>> ce9b3c9f (viewerPostText)
+=======
+export default Feed
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 import React from 'react';
 import findHashtag from '../../../libs/findHashtag';
 import { useNavigate } from 'react-router-dom';
@@ -40,6 +43,7 @@ const PostTextContent = ({ textContent }) => {
   );
 };
 
+<<<<<<< HEAD
 =======
 import React from 'react';
 import findHashtag from '../../../libs/findHashtag';
@@ -113,3 +117,6 @@ export default PostTextContent;
 =======
 export default PostTextContent;
 >>>>>>> ce9b3c9f (viewerPostText)
+=======
+export default PostTextContent;
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)

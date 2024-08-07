@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import styled from 'styled-components';
 
 export const CardPostInFeedContainerStyles = styled.div`
@@ -223,6 +222,7 @@ small {
     }
 }
 }
+<<<<<<< HEAD
 =======
 import styled from 'styled-components';
 
@@ -450,4 +450,6 @@ small {
 }
 }
 >>>>>>> b3173dc1 (first commit in Ubuntu)
+=======
+>>>>>>> parent of 60d7322 (first commit in Ubuntu)
 `
