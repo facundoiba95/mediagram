@@ -103,27 +103,49 @@ export default async (req, res, next) => {
             {
                 $unwind: '$relatedPosts'
             },
-            // etapa 4: obtener los posts que se puedan compartir. Cuentas publicas.
+            // etapa 4: obtener los posts que se puedan compartir. Cuentas públicas.
             {
                 $match: {
                     'relatedPosts.shareInExplore': true
                 }
             },
-            // etapa 5: ordenar de mayor a menor cantidad de vistas
+            // etapa 5: hacer lookup para obtener la información del usuario que creó el post
             {
                 $lookup: {
                     from: "users",
                     localField: "relatedPosts.postBy",
                     foreignField: "_id",
-                    as: "relatedPosts.postBy"
+                    as: "postByUser"
                 }
             },
+            // etapa 6: desenredar el array postByUser
+            {
+                $unwind: '$postByUser'
+            },
+            // etapa 7: proyectar solo los campos deseados del usuario
+            {
+                $addFields: {
+                    'relatedPosts.postBy': {
+                        _id: '$postByUser._id',
+                        username: '$postByUser.username',
+                        thumbnail: '$postByUser.thumbnail',
+                        isPrivate: '$postByUser.isPrivate'
+                    }
+                }
+            },
+            // etapa 8: eliminar el campo postByUser ya que no es necesario
+            {
+                $project: {
+                    'postByUser': 0
+                }
+            },
+            // etapa 9: ordenar de mayor a menor cantidad de vistas
             {
                 $sort: {
                     'relatedPosts.counterViews': -1
                 }
             },
-            // etapa 6: volver a agrupar
+            // etapa 10: volver a agrupar
             {
                 $group: {
                     _id: '$_id',
@@ -131,7 +153,7 @@ export default async (req, res, next) => {
                     relatedPosts: { $push: '$relatedPosts' }
                 }
             },
-            // etapa 7: seleccionar campos para enviar al frontend
+            // etapa 11: seleccionar campos para enviar al frontend
             {
                 $project: {
                     _id: 1,
@@ -142,21 +164,22 @@ export default async (req, res, next) => {
                     'relatedPosts.postBy': 1,
                     'relatedPosts.counterViews': 1,
                     'relatedPosts.counterLikes': 1,
+                    'relatedPosts.counterComments': 1,
                     'relatedPosts.mediaType': 1,
-                    'relatedPosts.textContent': 1
+                    'relatedPosts.textContent': 1,
+                    'relatedPosts.createdAt': 1,
+                    'relatedPosts.likes': 1
                 }
             }
         ]);
 
-
-        req.postsFound = await tagsByPost;
-        next()
+        req.postsFound = tagsByPost;
+        next();
     } catch (error) {
         console.error('Ocurrio un error en MIDDLEWARE associateTagsByPosts. Error:', error);
-        next(error)
+        next(error);
     }
-}
-
+};
 
 // 'relatedPosts.postBy': {
 //     $map: {

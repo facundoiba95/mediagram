@@ -19,7 +19,7 @@ color: var(--light);
 =======
 import { styled } from "styled-components";
 
-export const ContentIsEmptyContainerStyles = styled.div`
+export const PostsIsEmptyContainerStyles = styled.div`
 width:100%;
 height:200px;
 font-family: 'Red Hat Display';

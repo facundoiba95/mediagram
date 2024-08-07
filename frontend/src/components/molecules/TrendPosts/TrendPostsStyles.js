@@ -153,6 +153,21 @@ img {
     cursor: pointer;
 }
 
+.postTypeText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+    cursor: pointer;
+
+    img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+}
 
 @media (max-width: 490px) {
     .overlay {

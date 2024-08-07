@@ -208,13 +208,13 @@ import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSettingUserAuth';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
-import SkeletonCardContentProfile from '../../molecules/Loaders/SkeletonCardContentProfile/SkeletonCardContentProfile';
 import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { IoHeartCircle } from "react-icons/io5";
 import ImgProfile from '../../atoms/ImgProfile/ImgProfile';
 import ButtonMenuProfile from '../../atoms/ButtonMenuProfile/ButtonMenuProfile';
 import ButtonFollow from '../../atoms/ButtonResponsive/ButtonFollow';
 import { FaEye } from "react-icons/fa";
+import { MoonLoader } from 'react-spinners';
 
 const ProfileHeader = () => {
   // hooks and tools
@@ -357,7 +357,7 @@ const ProfileHeader = () => {
             <MenuSettingUserAuth />
             {
               isLoading || isLoadingAuth
-                ? <SkeletonCardContentProfile />
+                ? <MoonLoader size={50}/>
                 : <>
                   <ImgProfile imgProfile={imgProfile} thumbnail={thumbnail} />
                   <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting} isListFriends={existInListFriends}>

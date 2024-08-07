@@ -45,7 +45,7 @@ import dateTime from '../../../libs/dateTime'
 import { TbPointFilled } from 'react-icons/tb';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const Comentary = ({ content, username, thumbnail, createdAt, _id }) => {
+const Comentary = ({ comment, username, thumbnail, createdAt, _id }) => {
   const navigator = useNavigate();
   const params = useParams();
   const location = useLocation();
@@ -70,7 +70,7 @@ const Comentary = ({ content, username, thumbnail, createdAt, _id }) => {
         <small>{dateTime(createdAt)}</small>
       </ItemCommentUserInfoStyles>
       <ItemCommentContentStyles isCommentSelected={isCommentSelected}>
-        <p><TbPointFilled className='divideComment' />{content}</p>
+        <p><TbPointFilled className='divideComment' />{comment}</p>
       </ItemCommentContentStyles>
     </ItemCommentStyles>
   )

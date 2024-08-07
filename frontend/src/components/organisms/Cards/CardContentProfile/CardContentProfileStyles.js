@@ -86,7 +86,7 @@ text-overflow: ellipsis;
 =======
 import { styled } from "styled-components";
 
-export const CardContentProfileContainerStyles = styled.div`
+export const CardPostProfileMediaContainerStyles = styled.div`
 width:100%;
 height:380px;
 display:flex;

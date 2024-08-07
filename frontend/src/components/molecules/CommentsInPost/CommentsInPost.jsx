@@ -234,14 +234,14 @@ const CommentsInPost = ({
     }
 
     return post[0].comments.map(item => {
-      const { content, date, _id } = item;
-      const { thumbnail, username } = item.sender;
+      const { comment, createdAt, _id } = item;
+      const { thumbnail, username } = item.commentBy;
       return (
         <Comentary
           username={username}
-          content={content}
+          comment={comment}
           thumbnail={thumbnail}
-          createdAt={date}
+          createdAt={createdAt}
           _id={_id}
         />
       )

@@ -25,6 +25,7 @@
     width: 100%;
     background-color: transparent;
 }
+<<<<<<< HEAD
 
 .swiper-slide img {
     height: 100%;
@@ -32,3 +33,5 @@
     object-fit: cover;
 >>>>>>> b3173dc1 (first commit in Ubuntu)
 }
+=======
+>>>>>>> ce9b3c9f (viewerPostText)

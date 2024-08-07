@@ -705,7 +705,16 @@ export const visiblePosts = async (req, res) => {
 
 export const getTrendPosts = async (req, res) => {
     try {
-        const foundPosts = await Post.find({ shareInExplore: true }).sort({ counterViews: -1 }).limit(4).select("_id thumbnail counterLikes counterViews anoanymViews postBy mediaType");
+        const foundPosts = await Post
+        .find({ shareInExplore: true })
+        .sort({ counterViews: -1 })
+        .limit(4)
+        .select("_id thumbnail counterLikes counterViews counterComments anoanymViews postBy mediaType textContent tags")
+        .populate({
+            path: "postBy",
+            select:"_id username thumbnail isPrivate"
+        });
+        
         if (!foundPosts.length) return res.status(404).json({ message: "No se encontraron posts!", trendPosts: [], status: 404 });
 
         res.status(200).json({ trendPosts: foundPosts, status: 200, message: "Se encontraron trend Posts!" })

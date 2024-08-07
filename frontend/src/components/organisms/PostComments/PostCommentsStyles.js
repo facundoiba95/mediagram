@@ -89,14 +89,16 @@ import styled from "styled-components";
 export const PostCommentsListStyles = styled.ul`
 width: 100%;
 height: auto;
+max-height: 80vh;
 display: flex;
 flex-direction: column;
-justify-content: flex-end;
-align-items: flex-end;
+justify-content: flex-start;
+align-items: center;
 gap: 5px;
 padding-left: 20px;
 margin-bottom: 1rem;
 border-left: 1px solid #808080;
+overflow-y: scroll;
 
 small {
     margin: 0 auto;

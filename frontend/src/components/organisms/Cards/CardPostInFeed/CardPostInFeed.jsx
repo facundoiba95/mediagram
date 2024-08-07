@@ -168,7 +168,7 @@ const CardPostInFeed = ({
         userAuth={userAuth}
         location={location}
       />
-      <PostComments comments={comments}/>
+      <PostComments comments={comments} limit={true} _id={_id}/>
       <AddComment
         hiddenComments={true}
         postBy={postByUser._id}

@@ -45,7 +45,7 @@ text-align: center;
 =======
 import { styled } from "styled-components";
 
-export const ProfileContentContainerStyles = styled.section`
+export const ProfilePostsContainerStyles = styled.section`
 width:100%;
 height:100%;
 display:${ props => props.posts.length ? 'grid' : 'flex' };

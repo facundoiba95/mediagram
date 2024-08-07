@@ -110,7 +110,9 @@ const ModalAddTags = () => {
     }
 
     useEffect(() => {
-        dispatch(setListTags(tagsInPost))
+        if(isOpenAddTags){
+            dispatch(setListTags(tagsInPost))
+        }
     },[])
 
     return (

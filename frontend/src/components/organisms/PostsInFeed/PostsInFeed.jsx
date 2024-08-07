@@ -88,7 +88,6 @@ import { useSelector } from 'react-redux';
 import SkeletonCardPostFeed from '../../molecules/Loaders/SkeletonCardPostFeed/SkeletonCardPostFeed';
 import DefaultPageFeed from '../../molecules/DefaultPageFeed/DefaultPageFeed';
 import GlobalLoader from '../../molecules/Loaders/GlobalLoader/GlobalLoader';
-import CreateContentFeed from '../CreateContentFeed/CreateContentFeed';
 import CardPostInFeed from '../Cards/CardPostInFeed/CardPostInFeed';
 
 const PostsInFeed = ({ isReadyFeed }) => {

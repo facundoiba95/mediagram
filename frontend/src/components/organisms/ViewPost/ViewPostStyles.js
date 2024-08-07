@@ -237,6 +237,7 @@ display: flex;
 width: 80%;
 height: 100%;
 z-index: 2000;
+position: relative;
 
 @media (max-width: 490px ){
     flex-direction: column;
@@ -370,6 +371,7 @@ export const ContainerQuitViewPostStyles = styled.div`
     width: auto;
     position: absolute;
     top: 0px;
+    right: -100px;
     padding: 10px;
     color: white;
     display: flex;
@@ -378,6 +380,7 @@ export const ContainerQuitViewPostStyles = styled.div`
     z-index: 2000;
     font-size: 1rem;
     gap: 10px;
+    background-color: transparent;
 
 h3, .iconQuitPost {
     cursor: pointer;

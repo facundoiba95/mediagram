@@ -84,6 +84,7 @@ position: absolute;
 top: 0px;
 z-index: 1400;
 cursor: pointer;
+font-family: "Red Hat Display";
 
 b {
     background-color: transparent;

@@ -240,13 +240,14 @@ border-bottom:1px solid #80808080;
 padding-bottom:25px;
 overflow-x: hidden;
 
+
 pre {
     font-family: "Red Hat Display";
     font-size: 1rem;
     width: 100%;
     max-width: 500px;
-    white-space: pre-wrap;
     text-align: justify;
+    line-height: 25px;
 }
 
 .imgPost {
