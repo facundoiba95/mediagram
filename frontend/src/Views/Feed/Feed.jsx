@@ -27,8 +27,7 @@ import TitleSuggestions from "../../components/atoms/TitleSuggestions/TitleSugge
 
 const Feed = () => {
 	const dispatch = useDispatch();
-	const { topScroll, setTopScroll, setOpenLoader, setActiveEffect } =
-		useContext(GlobalContext);
+	const { topScroll, setTopScroll, setOpenLoader, setActiveEffect } = useContext(GlobalContext);
 	const [isReadyFeed, setIsReadyFeed] = useState(false);
 	const userAuth = useSelector((state) => state.authSlices.user);
 	const { isLogged } = useSelector((state) => state.authSlices);

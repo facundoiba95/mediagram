@@ -10,6 +10,7 @@ import { ContainerExploreChildrens } from '../../components/Containers/Container
 import { FaHashtag } from 'react-icons/fa'
 import { GlobalContext } from '../../Context/GlobalContext'
 import Trends from '../../components/organisms/Trends/Trends'
+import TransitionContainer from '../../components/Containers/TransitionContainer/TransitionContainer'
 
 const Explore = () => {
     const { trendTags } = useSelector(state => state.tagSlices);
@@ -24,14 +25,16 @@ const Explore = () => {
 
     return (
         <ContainerExploreSection>
-            <ContainerExploreChildrens isOpenTrendTags={true}>
-                <TitleBold title={'Explorar'} />
-                <SearchBarTags placeholder={'Busca temas de tu interés'} hidden={false} />
-                <TrendMessage message={name} />
-                <PostsInExplore />
-            </ContainerExploreChildrens>
-            <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)} />
-            <Trends />
+            <TransitionContainer>
+                <ContainerExploreChildrens isOpenTrendTags={true}>
+                    <TitleBold title={'Explorar'} />
+                    <SearchBarTags placeholder={'Busca temas de tu interés'} hidden={false} />
+                    <TrendMessage message={name} />
+                    <PostsInExplore />
+                </ContainerExploreChildrens>
+                <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)} />
+                <Trends />
+            </TransitionContainer>
         </ContainerExploreSection>
     )
 }

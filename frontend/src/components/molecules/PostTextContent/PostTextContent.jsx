@@ -14,16 +14,23 @@ const PostTextContent = ({ textContent }) => {
 		navigator("/explore");
 	};
 
+	const styleHashtag = {
+		cursor: "pointer",
+		backgroundColor: "purple",
+		fontStyle: "italic",
+	}
+
+	const styleText = {
+		whiteSpace: "pre-wrap",
+		fontFamily: "Red Hat Display",
+		width: "100%",
+		lineHeight: "22px",
+		color: "white",
+		backgroundColor: "transparent"
+	}
+
 	const renderHashtag = (hashtag) => (
-		<b
-			key={hashtag}
-			onClick={() => goHashtag(hashtag)}
-			style={{
-				cursor: "pointer",
-				backgroundColor: "purple",
-				fontStyle: "italic",
-			}}
-		>
+		<b key={hashtag} onClick={() => goHashtag(hashtag)} style={styleHashtag}>
 			{hashtag}
 		</b>
 	);
@@ -38,18 +45,7 @@ const PostTextContent = ({ textContent }) => {
 				);
 
 			return (
-				<pre
-					style={{
-						whiteSpace: "pre-wrap",
-						fontFamily: "Red Hat Display",
-						width: "100%",
-						lineHeight: "22px",
-						color: "white",
-						backgroundColor: "transparent"
-					}}
-				>
-					{textContent}
-				</pre>
+				<pre style={styleText}>{textContent}</pre>
 			);
 		}
 	}

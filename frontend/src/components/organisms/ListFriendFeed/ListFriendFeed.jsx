@@ -10,7 +10,7 @@ import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequ
 
 const ListFriendFeed = () => {
   const { closeList } = useSelector(state => state.userSlices);
-  const { topScroll, isOpenHistory, setIsOpenHistory} = useContext(GlobalContext);
+  const { topScroll, isOpenHistory, setIsOpenHistory } = useContext(GlobalContext);
   const navigator = useNavigate();
   const params = useParams();
 
@@ -19,11 +19,19 @@ const ListFriendFeed = () => {
     navigator(`/history`)
   }
 
+  const goExplore = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth"
+    })
+    navigator("/explore")
+  }
+
   const renderItems = () => {
-    if(!closeList.length){
+    if (!closeList.length) {
       return (
         <MessageNotFollowUpRequestStyles>
-          <p style={{textAlign: 'center'}}>Aún no tienes publicaciones exlusivas.</p>
+          <p style={{ textAlign: 'center' }} onClick={goExplore}>Ir a explorar</p>
         </MessageNotFollowUpRequestStyles>
       )
     }
@@ -33,9 +41,9 @@ const ListFriendFeed = () => {
       return (
         <ListFriendItemStyles data-id={_id} existPost={posts.length} onClick={goToHistory}>
           {
-            thumbnail 
-            ? <img src={thumbnail} alt="imgProfile user to closeFriend" />
-            : <RiUserSmileFill className='iconDefaultProfile'/>
+            thumbnail
+              ? <img src={thumbnail} alt="imgProfile user to closeFriend" />
+              : <RiUserSmileFill className='iconDefaultProfile' />
           }
           <h4>{username}</h4>
           <p className='unviewedPostCounter'>{posts.length}</p>
@@ -47,11 +55,15 @@ const ListFriendFeed = () => {
 
 
   return (
-    <ListFriendFeedContainerStyles>
-      <TitleListFriendFeedStyles topScroll={topScroll}>
-        Lista de amigos.
-        <small>Estas cuentas te agregaron a su lista de amigos.</small>
-      </TitleListFriendFeedStyles>
+    <ListFriendFeedContainerStyles >
+      {
+        !closeList.length
+          ? <></>
+          : <TitleListFriendFeedStyles topScroll={topScroll}>
+            Lista de amigos.
+            <small>Estas cuentas te agregaron a su lista de amigos.</small>
+          </TitleListFriendFeedStyles>
+      }
       <ListFriendBoxContainerStyles topScroll={topScroll}>
         {renderItems()}
       </ListFriendBoxContainerStyles>

@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const CardPostProfileMediaContainerStyles = styled.div`
 width:100%;
-height:380px;
+height: 100%;
 display:flex;
 flex-direction:column;
 justify-content:flex-start;
@@ -12,6 +12,7 @@ font-family: 'Red Hat Display';
 position: relative;
 overflow: hidden;
 text-overflow: ellipsis;
+border-radius: 5px;
 
 .overlay {
     position: absolute;
@@ -57,8 +58,8 @@ text-overflow: ellipsis;
 .imgContent{
     width:100%;
     height:100%;
-    aspect-ratio: 1/1;
-    object-fit:cover;
+    aspect-ratio: 4/5;
+    object-fit: cover;
 }
 
 &:hover .overlay {

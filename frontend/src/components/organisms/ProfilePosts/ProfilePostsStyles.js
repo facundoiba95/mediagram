@@ -11,12 +11,17 @@ gap:5px;
 
 @media (max-width: 1024px) {
     grid-template-columns: ${props => props.posts.length ? '1fr 1fr' : '1fr'};
+    grid-template-rows: 300px;
+    grid-auto-rows: 300px;
 }
 
 @media (max-width: 490px) {
     grid-template-columns: ${props => props.posts ? '1fr 1fr 1fr' : '1fr 1fr'};
+    grid-template-rows: 200px;
+    grid-auto-rows: 200px;
     justify-content: center;
     gap:2px;
+    padding: 5px;
 }
 
 @media (max-width: 376px) {
