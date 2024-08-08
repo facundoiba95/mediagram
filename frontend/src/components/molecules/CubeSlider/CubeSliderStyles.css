@@ -2,15 +2,23 @@
     width: 100%;
     max-width: 500px;
     background-color: transparent;
+    background-color: black;
 }
 
 .swiper-slide {
-    width: 100%;
-    background-color: transparent;
-}
-
-.swiper-slide img {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    background-color: black;
+}
+
+@media (max-width: 490px) {
+    .swiper {
+        width: 100vw;
+        max-width: 100vw;
+    }
+
+    .swiper-slide {
+        width: 100%;
+        max-width: 100vw;
+    }
 }

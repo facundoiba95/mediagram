@@ -7,17 +7,13 @@ import FlipSlide from '../FlipSlide/FlipSlide';
 
 const CubeSlider = () => {
   const { closeList } = useSelector(state => state.userSlices);
-  const stylesSlide = {
-    height: "100%"
-  }
-
 
   const renderSlide = () => {
     return closeList.map((item, index) => {
       const { _id, username, posts, thumbnail } = item;
 
       return (
-        <SwiperSlide style={stylesSlide} key={index}>
+        <SwiperSlide key={index}>
           <FlipSlide
             cards={posts}
             thumbnail={thumbnail}

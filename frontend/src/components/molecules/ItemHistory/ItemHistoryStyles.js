@@ -26,8 +26,10 @@ z-index: 1400;
 cursor: pointer;
 font-family: "Red Hat Display";
 
-b {
+h4 {
     background-color: transparent;
+    font-size: 1rem;
+    color: white;
 }
 
 .imgUser {

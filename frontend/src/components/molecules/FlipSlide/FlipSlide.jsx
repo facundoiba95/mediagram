@@ -28,7 +28,7 @@ const FlipSlide = ({ cards, thumbnail, username, _id }) => {
                             : <RiUserSmileFill className='imgProfile' />
                     }
                     <span>
-                        <b>{username}</b>
+                        <h4>{username}</h4>
                         <small>{dateTime(item.createdAt)}</small>
                     </span>
                 </HeadItemHistoryStyles>
