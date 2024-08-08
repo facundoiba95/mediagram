@@ -1,0 +1,14 @@
+version: '3.8'  # Asegúrate de incluir una versión
+
+services:
+  backend-mediagram:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3500"
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  backend-mediagram-dev:

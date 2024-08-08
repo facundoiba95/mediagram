@@ -1,0 +1,5 @@
+services:
+  backend-mediagram:
+    build: .
+    ports:
+      - "3000:3500"
