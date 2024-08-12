@@ -10,11 +10,6 @@ import imgTree from '../../assets/miguelangel.jpg'
 import imgFour from '../../assets/watchingfootball.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../redux/slices/authSlices/authSlices'
-import { restartPostsList } from '../../redux/slices/postSlices/postSlices'
-import { restartNotifications } from '../../redux/slices/socketSlices/notificationSlices/notificationSlices'
-import { resetStateLocation } from '../../redux/slices/locationSlices/locationSlices'
-import { resetTagState } from '../../redux/slices/tagSlices/tagSlices'
-import { restartUserSlice } from '../../redux/slices/userSlices/userSlices'
 
 const DefaultPage = () => {
   const navigator = useNavigate();
@@ -25,6 +20,7 @@ const DefaultPage = () => {
     if (isLogged) {
       navigator("/")
     } else {
+      dispatch(logout())
       navigator("/defaultPage")
     }
   }, [isLogged, navigator])

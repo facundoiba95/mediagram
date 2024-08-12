@@ -23,6 +23,7 @@ const ViewPost = ({ children }) => {
   const { likes } = useSelector((state) => state.likeSlices);
   const { views } = useSelector((state) => state.viewSlices);
   const statusPost = useSelector((state) => state.postSlices.status);
+  const { isLogged } = useSelector(state => state.authSlices);
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
@@ -144,7 +145,7 @@ const ViewPost = ({ children }) => {
         <GlobalLoader />
       ) : (
         <TransitionContainer>
-          {statusPost !== 200 ? (
+          {!isLogged ? (
             <>{children}</>
           ) : (
             <>

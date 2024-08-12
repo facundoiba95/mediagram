@@ -3,8 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFollowers, getFollowings } from '../../../redux/slices/userSlices/userSlices';
-import useIsLogged from '../../../Hooks/useIsLogged';
-import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 
 const InfoProfileHeader = ({
   isPrivate,
@@ -16,10 +14,8 @@ const InfoProfileHeader = ({
   const navigator = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  const { isLogged } = useSelector(state => state.authSlices);
-  const { isOpen, setIsOpen } = useContext(GlobalContext);
+  const { setIsOpen } = useContext(GlobalContext);
   const isFollowing = useSelector(state => state.userSlices.isFollowing);
-  const isLoading = useSelector(state => state.userSlices.isLoading);
   const [typeFollow, setTypeFollow] = useState(null);
   const FOLLOWINGS = "followings";
   const FOLLOWERS = "followers";

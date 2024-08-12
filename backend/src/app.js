@@ -65,7 +65,6 @@ app.use(async (req, res, next) => {
     }
 });
 
-
 app.use('/', indexRoutes)
 app.use('/api/mediagram/auth/', authRoutes);
 app.use('/api/mediagram/post/', postRoutes);

@@ -19,9 +19,7 @@ const ChangePassword = () => {
     const status = useSelector( state => state.authSlices.status );
     const errorMessage = useSelector( state => state.authSlices.message );
     const isLoading = useSelector( state => state.authSlices.isLoading );
-    const isLogged = useSelector( state => state.authSlices.isLogged );
     const dispatch = useDispatch()
-    const navigator = useNavigate();
 
     const handleValidateInputPassword = () => {
 

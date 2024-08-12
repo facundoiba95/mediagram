@@ -5,13 +5,12 @@ import { RiStarSmileFill } from 'react-icons/ri';
 import { PiHandWavingBold } from 'react-icons/pi';
 import { AiFillLike } from 'react-icons/ai';
 import { followUser, handleIsFollowing, refreshUser, unfollowUser } from '../../../redux/slices/userSlices/userSlices';
-import { refreshUserAuth, restartStatusAuthSlice, validateSession } from '../../../redux/slices/authSlices/authSlices';
+import { refreshUserAuth, restartStatusAuthSlice } from '../../../redux/slices/authSlices/authSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import InfoProfileHeader from '../../molecules/InfoProfileHeader/InfoProfileHeader';
 import { getPosts } from '../../../redux/slices/postSlices/postSlices';
 import { MenuSettingUserAuth } from '../../molecules/MenuSettingUserAuth/MenuSettingUserAuth';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import ModalUnauthenticated from '../../molecules/Modals/ModalUnauthenticated/ModalUnauthenticated';
 import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 import { IoHeartCircle } from "react-icons/io5";
 import ImgProfile from '../../atoms/ImgProfile/ImgProfile';
@@ -154,41 +153,35 @@ const ProfileHeader = () => {
   }
 
   return (
-    <>
+    <ProfileHeaderContainerStyles>
+      <MenuSettingUserAuth />
       {
-        isLogged ?
-          <ProfileHeaderContainerStyles>
-            <MenuSettingUserAuth />
-            {
-              isLoading || isLoadingAuth
-                ? <MoonLoader size={50}/>
-                : <>
-                  <ImgProfile imgProfile={imgProfile} thumbnail={thumbnail} />
-                  <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting} isListFriends={existInListFriends}>
-                    <span className='title'>
-                      <p>{username}</p>
-                      {renderButtonHeadProfile()}
-                    </span>
-                    <InfoProfileHeader
-                      countPosts={countPosts}
-                      countFollowings={countFollowings}
-                      countFollowers={countFollowers}
-                      isPrivate={isPrivate}
-                      isUserAuth={isUserAuth}
-                    />
+        isLoading || isLoadingAuth
+          ? <MoonLoader size={50} />
+          : <>
+            <ImgProfile imgProfile={imgProfile} thumbnail={thumbnail} />
+            <InfoProfileContainerStyles isOpenMenuSetting={isOpenMenuSetting} isListFriends={existInListFriends}>
+              <span className='title'>
+                <p>{username}</p>
+                {renderButtonHeadProfile()}
+              </span>
+              <InfoProfileHeader
+                countPosts={countPosts}
+                countFollowings={countFollowings}
+                countFollowers={countFollowers}
+                isPrivate={isPrivate}
+                isUserAuth={isUserAuth}
+              />
 
-                    <span className='containerViews'>
-                      <FaEye className='iconViews'/>
-                      <b>{counterViews}</b>
-                    </span>
-                    {renderIconListFriends()}
-                  </InfoProfileContainerStyles>
-                </>
-            }
-          </ProfileHeaderContainerStyles>
-          : <ModalUnauthenticated />
+              <span className='containerViews'>
+                <FaEye className='iconViews' />
+                <b>{counterViews}</b>
+              </span>
+              {renderIconListFriends()}
+            </InfoProfileContainerStyles>
+          </>
       }
-    </>
+    </ProfileHeaderContainerStyles>
   )
 }
 

@@ -19,7 +19,7 @@ const ProtectedRoutes = ({ children, redirectTo }) => {
 
   useEffect(() => {
     if (!isLogged) {
-      dispatch(logout());
+      // dispatch(logout());
       dispatch(restartPostsList());
       dispatch(restartNotifications());
       dispatch(resetStateLocation());

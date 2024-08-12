@@ -8,7 +8,6 @@ import { handleLogin, restartStatusAuthSlice } from '../../../redux/slices/authS
 import { GoAlertFill } from 'react-icons/go';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { MoonLoader } from 'react-spinners';
-import { getNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
 
 const Login = () => {
 
@@ -16,11 +15,9 @@ const Login = () => {
   const errorMessage = useSelector(state => state.authSlices.error);
   const isLoading = useSelector(state => state.authSlices.isLoading);
   const isLogged = useSelector(state => state.authSlices.isLogged);
-  const userAuth = useSelector(state => state.authSlices.user);
   const [inputUsername, setInputUsername] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [messageLogin, setMessageLogin] = useState({ error: '', validate: null, type: '' });
-  const [newStatus, setNewStatus] = useState(null);
   const navigator = useNavigate();
   const dispatch = useDispatch();
 

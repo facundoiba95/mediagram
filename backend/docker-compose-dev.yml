@@ -1,5 +1,3 @@
-version: '3.8'  # Asegúrate de incluir una versión
-
 services:
   backend-mediagram:
     build:
