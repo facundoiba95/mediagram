@@ -157,12 +157,12 @@ export const handleFollowUpRequest = async (req, res) => {
     }
 }
 
-export const verifyUser = async (req, res) => {
+export const refreshUser = async (req, res) => {
     try {
         const foundUser = req.userSelected;
         res.status(200).json({ message: 'refresh user!', user: foundUser, status: 200 });
     } catch (error) {
-        console.error('Ocurrio un error en verifyUser(). user.controllers.js', error.message);
+        console.error('Ocurrio un error en refreshUser(). user.controllers.js', error.message);
         res.status(error.status).json({ error: error.message, status: error.status })
     }
 }

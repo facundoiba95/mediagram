@@ -52,17 +52,16 @@ export const getPosts = createAsyncThunk(
     'getPosts/postSlices',
     async (username, {rejectWithValue}) => {
         try {
-            const usernameValue = { username }
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPosts`, {
-                method: "POST",
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPosts/${username}`, {
+                method: "GET",
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
-                },
-                body: JSON.stringify(usernameValue)
+                }
             })
+
             const res = await req.json();
 
             if(!req.ok) return rejectWithValue(res);
@@ -82,7 +81,7 @@ export const getPostsOfFollowings = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByFollowings`, {
-                method: 'POST',
+                method: 'GET',
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",

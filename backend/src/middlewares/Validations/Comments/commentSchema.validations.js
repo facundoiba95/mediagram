@@ -12,9 +12,10 @@ export default checkSchema({
         },
         custom: {
             options: (value) => {
+                if (value === '') return true; 
                 return regex_text_whitespaces.test(value); 
             },
-            errorMessage: "Solo se aceptan letras, numeros, puntos y guiones bajos en description."
+            errorMessage: "Solo se aceptan letras, numeros, puntos y guiones bajos en comment."
         },
         trim: true,
     },

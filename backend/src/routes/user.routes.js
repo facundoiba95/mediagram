@@ -9,7 +9,7 @@ const router = Router();
 
 
 // controllers
-import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, verifyUser, getTrendUsers, getFollowers, getFollowings, addNewLocation, updateProfession } from '../controllers/user.controllers.js';
+import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, getTrendUsers, getFollowers, getFollowings, addNewLocation, updateProfession, refreshUser } from '../controllers/user.controllers.js';
 
 
 // middlewares functionals
@@ -31,11 +31,11 @@ import unfollowUserValidations from '../middlewares/Validations_routes/User/unfo
 import selectUserValidations from '../middlewares/Validations_routes/User/selectUser.validations.js';
 import handleIsFollowingValidations from '../middlewares/Validations_routes/User/handleIsFollowing.validations.js';
 import handleFollowUpRequestValidations from '../middlewares/Validations_routes/User/handleFollowUpRequest.validations.js';
-import verifyUserValidations from '../middlewares/Validations_routes/User/verifyUser.validations.js';
 import getFollowersValidations from '../middlewares/Validations_routes/User/getFollowers.validations.js';
 import getFollowingsValidations from '../middlewares/Validations_routes/User/getFollowings.validations.js';
 import addNewLocationValidations from '../middlewares/Validations_routes/User/addNewLocation.validations.js';
 import updateProfessionValidations from '../middlewares/Validations_routes/User/updateProfession.validations.js';
+import refreshUserValidations from '../middlewares/Validations_routes/User/refreshUser.validations.js';
 
 
 // cors
@@ -49,19 +49,19 @@ router.use((req, res, next) => {
 
 
 // routes
-router.get('/searchUser/:username', [... searchUserValidations, validationErrors], searchUser);
-router.post('/followUser', [... followUserValidations, validationErrors, isExistUserFollow, followUpRequest], followUser);
-router.post('/unfollowUser', [... unfollowUserValidations, validationErrors], unfollowUser);
-router.post('/selectUser', [... selectUserValidations, validationErrors, isPrivateProfile, filterPost_closeList], selectUser);
-router.post('/handleIsFollowing/:_id', [... handleIsFollowingValidations, validationErrors], handleIsFollowing);
-router.post('/handleFollowUpRequest', [... handleFollowUpRequestValidations, validationErrors, isExistUserFollow], handleFollowUpRequest);
+router.get('/searchUser/:username', [...searchUserValidations, validationErrors], searchUser);
+router.post('/followUser', [...followUserValidations, validationErrors, isExistUserFollow, followUpRequest], followUser);
+router.post('/unfollowUser', [...unfollowUserValidations, validationErrors], unfollowUser);
+router.post('/selectUser', [...selectUserValidations, validationErrors, isPrivateProfile, filterPost_closeList], selectUser);
+router.get('/handleIsFollowing/:_id', [verifyToken, ...handleIsFollowingValidations, validationErrors], handleIsFollowing);
+router.post('/handleFollowUpRequest', [...handleFollowUpRequestValidations, validationErrors, isExistUserFollow], handleFollowUpRequest);
 router.post('/changeImgProfile', upload.single('newImgProfile'), [verifyExistImage, verifySizeFile, convertImage], changeImgProfile);
-router.post('/getCloseList', getCloseList);
-router.post('/verifyUser', [... verifyUserValidations, validationErrors, isPrivateProfile], verifyUser);
+router.get('/getCloseList', [verifyToken], getCloseList);
+router.get('/refreshUser/:username', [verifyToken, ...refreshUserValidations, validationErrors, isPrivateProfile], refreshUser);
 router.get('/getTrendUsers', getTrendUsers);
 router.get('/getFollowers/:username', [...getFollowersValidations, validationErrors, verifyToken, isPrivateProfile], getFollowers);
-router.get('/getFollowings/:username', [... getFollowingsValidations, validationErrors, verifyToken, isPrivateProfile], getFollowings);
-router.post('/addNewLocation', [... addNewLocationValidations, validationErrors], addNewLocation);
-router.post('/updateProfession/:idProfession', [... updateProfessionValidations, validationErrors], updateProfession);
+router.get('/getFollowings/:username', [...getFollowingsValidations, validationErrors, verifyToken, isPrivateProfile], getFollowings);
+router.post('/addNewLocation', [...addNewLocationValidations, validationErrors], addNewLocation);
+router.post('/updateProfession/:idProfession', [...updateProfessionValidations, validationErrors], updateProfession);
 
 export default router;

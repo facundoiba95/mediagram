@@ -99,16 +99,6 @@ export const getPostByFollowings = async (req, res) => {
     }
 }
 
-export const getPostsByCloseList = async (req, res) => {
-    try {
-        const postByFollowings = req.postByFollowings;
-
-    } catch (error) {
-        console.error('Ocurrio un error en post.controllers.js, "getPostsByCloseList()"', { error: error.message, status: error.status });
-        res.status(500).json({ error: error.message, status: error.status });
-    }
-}
-
 export const handleLikeToPost = async (req, res) => {
     try {
         const userAuth = req.userAuth;

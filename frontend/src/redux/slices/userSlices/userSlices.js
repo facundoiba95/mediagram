@@ -196,17 +196,16 @@ export const refreshUser = createAsyncThunk(
     async (username, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
-            const usernameSelected = { username }
 
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/verifyUser`, {
-                method: "POST",
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/refreshUser/${username}`, {
+                method: "GET",
                 mode: "cors",
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
-                },
-                body: JSON.stringify(usernameSelected)
+                }
             })
+
             const res = await req.json();
 
             if (!req.ok) return rejectWithValue(res);
@@ -226,7 +225,7 @@ export const handleIsFollowing = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing/${_id}`, {
-                method: "POST",
+                method: "GET",
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
@@ -307,7 +306,7 @@ export const getCloseList = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getCloseList`, {
-                method: "POST",
+                method: "GET",
                 mode: 'cors',
                 headers: {
                     "x-access-token": `${token}`

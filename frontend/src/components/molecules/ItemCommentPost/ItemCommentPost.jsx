@@ -24,15 +24,16 @@ const ItemCommentPost = ({
     const dispatch = useDispatch();
 
     const handleLike = async () => {
-        dispatch(restarStatusPost())
+        await dispatch(restarStatusPost())
         await sendLike(handleLikeComment, _id, commentBy.username, isLike);
 
         if(statusPost !== 200) {
             alert("Ocurrio un error al agregar like al post.")
-            dispatch(restarStatusPost())
+            return;
         } else {
             isLike ? setCountLikes(countLikes - 1) : setCountLikes(countLikes + 1);
             setIsLike(!isLike);
+            return;
         }
     }
 

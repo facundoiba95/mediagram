@@ -9,7 +9,7 @@ config();
 
 
 // controllers
-import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews, test_getPostWithCommentAndUser } from "../controllers/post.controllers.js";
+import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews, test_getPostWithCommentAndUser } from "../controllers/post.controllers.js";
 
 
 // middlewares validators
@@ -40,6 +40,7 @@ import select_mediaType from "../middlewares/posts/select_mediaType.js";
 import convertImage from "../middlewares/posts/convertImage.js";
 import convertVideo from "../middlewares/posts/convertVideo.js";
 import { postWithCommentAndUser } from "../middlewares/posts/postsWithCommentsAndUsers.js";
+import verifyToken from "../middlewares/auth/verifyToken.js";
 
 
 // cors
@@ -54,16 +55,15 @@ router.use((req, res, next) => {
 
 // routes
 router.post('/createPost', upload.single("mediaFile"), [select_mediaType, verifySizeFile, ...createPostValidations, validationErrors, convertImage, convertVideo], createPost);
-router.post('/getPosts', [...getPostsValidations, validationErrors, isPrivateProfile], getPosts);
+router.get('/getPosts/:username', [verifyToken, ...getPostsValidations, validationErrors, isPrivateProfile], getPosts);
 router.get('/getPostByID/:idPost', [...getPostByIDValidations, validationErrors, associatePostAndUser, isPrivate, addViewInPost], getPostByID);
-router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
-router.post('/getPostsByCloseList', [postByFollowings], getPostsByCloseList);
+router.get('/getPostByFollowings', [verifyToken, postByFollowings], getPostByFollowings);
 router.post('/handleLikeToPost/:idPost', [validateAuthInPost, ...handleLikePostValidations, validationErrors, isExistLikeInPost], handleLikeToPost);
 router.get('/getPost/:idPost', test_getPost);
 router.get('/getLikes/:idPost', [...getLikesValidations, validationErrors], getLikes)
 router.get('/getViews/:idPost', [...getViewsValidations, validationErrors], getViews)
-router.delete('/deletePost/:idPost', [...deletePostValidations, validationErrors], deletePost);
-router.put('/updateTags/:idPost', [...updateTagsValidations, validationErrors], updateTagsInPost);
+router.delete('/deletePost/:idPost', [verifyToken, ...deletePostValidations, validationErrors], deletePost);
+router.put('/updateTags/:idPost', [verifyToken, ...updateTagsValidations, validationErrors], updateTagsInPost);
 router.get('/visiblePosts', [...visiblePostsValidations, validationErrors, searchTags, associateTagsByPosts], visiblePosts);
 router.get('/getTrendPosts', getTrendPosts);
 

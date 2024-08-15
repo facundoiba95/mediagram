@@ -6,6 +6,10 @@ const router = Router();
 import { changePassword, changePrivacityOfAccount, getFollowUpRequests, handleLogin, handleRefreshUserAuth, handleRegister, updateCloseList, validateSession } from "../controllers/auth.controllers.js";
 
 
+// middleware functionals
+import verifyToken from "../middlewares/auth/verifyToken.js";
+
+
 // middlewares validators
 import { validationErrors } from "../middlewares/Validations/libs_validations.js";
 import loginValidations from "../middlewares/Validations_routes/Auth/login.validations.js";
@@ -26,13 +30,13 @@ router.use((req, res, next) => {
 
 
 // routes
-router.post('/login',[ ... loginValidations, validationErrors], handleLogin);
-router.post('/register', [... registerValidations, validationErrors], handleRegister);
-router.post('/refreshUserAuth', handleRefreshUserAuth);
-router.post('/changePrivacityOfAccount', [... changePrivacityOfAccountValidations, validationErrors], changePrivacityOfAccount);
-router.post('/changePassword', [... changePasswordValidations, validationErrors], changePassword);
+router.post('/login', [...loginValidations, validationErrors], handleLogin);
+router.post('/register', [...registerValidations, validationErrors], handleRegister);
+router.get('/refreshUserAuth', [verifyToken], handleRefreshUserAuth);
+router.post('/changePrivacityOfAccount', [...changePrivacityOfAccountValidations, validationErrors], changePrivacityOfAccount);
+router.post('/changePassword', [...changePasswordValidations, validationErrors], changePassword);
 router.post('/validateSession', validateSession);
-router.post('/updateCloseList', [ ... updateCloseListValidations, validationErrors], updateCloseList);
-router.post('/getFollowUpRequests', getFollowUpRequests);
+router.post('/updateCloseList', [...updateCloseListValidations, validationErrors], updateCloseList);
+router.get('/getFollowUpRequests', [verifyToken], getFollowUpRequests);
 
 export default router;

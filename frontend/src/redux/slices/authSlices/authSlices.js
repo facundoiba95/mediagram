@@ -76,7 +76,7 @@ export const refreshUserAuth = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/refreshUserAuth`, {
-                method: "POST",
+                method: "GET",
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
@@ -213,7 +213,7 @@ export const getFollowUpRequests = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/getFollowUpRequests`, {
-                method: "POST",
+                method: "GET",
                 mode: 'cors',
                 headers: {
                     "Content-Type": "application/json",
