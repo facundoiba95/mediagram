@@ -1,11 +1,33 @@
+// config
 import { Router } from "express";
-import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews, test_getPostWithCommentAndUser } from "../controllers/post.controllers.js";
-import multer from 'multer';
+import upload from "../config/multer_config.js";
 import { config } from "dotenv";
-import verifyExistImage from "../middlewares/errors/post/verifyExistImage.js";
+import { cloudinary_config } from '../config/cloudinary.config.js';
+const router = Router();
+cloudinary_config();
+config();
+
+
+// controllers
+import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostsByCloseList, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews, test_getPostWithCommentAndUser } from "../controllers/post.controllers.js";
+
+
+// middlewares validators
+import { validationErrors } from "../middlewares/Validations/libs_validations.js";
+import createPostValidations from "../middlewares/Validations_routes/Post/createPost.validations.js";
+import getPostsValidations from "../middlewares/Validations_routes/Post/getPosts.validations.js";
+import getPostByIDValidations from "../middlewares/Validations_routes/Post/getPostByID.validations.js";
+import handleLikePostValidations from "../middlewares/Validations_routes/Post/handleLikePost.validations.js";
+import getLikesValidations from "../middlewares/Validations_routes/Post/getLikes.validations.js";
+import getViewsValidations from "../middlewares/Validations_routes/Post/getViews.validations.js";
+import deletePostValidations from "../middlewares/Validations_routes/Post/deletePost.validations.js";
+import updateTagsValidations from "../middlewares/Validations_routes/Post/updateTags.validations.js";
+import visiblePostsValidations from "../middlewares/Validations_routes/Post/visiblePosts.validations.js";
+
+
+// middlewares functionals
 import verifySizeFile from "../middlewares/errors/post/verifySizeFile.js";
 import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
-import handleErrors from "../middlewares/errors/handleErrors.js";
 import isExistLikeInPost from "../middlewares/posts/isExistLikeInPost.js";
 import addViewInPost from "../middlewares/posts/addViewInPost.js";
 import associatePostAndUser from "../middlewares/posts/associatePostAndUser.js";
@@ -14,32 +36,13 @@ import postByFollowings from "../middlewares/posts/postByFollowings.js";
 import isPrivateProfile from "../middlewares/user/isPrivateProfile.js";
 import searchTags from "../middlewares/tags/searchTags.js";
 import associateTagsByPosts from "../middlewares/posts/associateTagsByPosts.js";
-import { cloudinary_config } from '../config/cloudinary.config.js';
 import select_mediaType from "../middlewares/posts/select_mediaType.js";
 import convertImage from "../middlewares/posts/convertImage.js";
 import convertVideo from "../middlewares/posts/convertVideo.js";
-import { image_extension, video_extension } from "../libs/fileExtensions.js";
 import { postWithCommentAndUser } from "../middlewares/posts/postsWithCommentsAndUsers.js";
 
-config();
 
-const router = Router();
-
-cloudinary_config();
-
-const storage = multer.memoryStorage();
-
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-      if (!file.originalname.match(video_extension) && !file.originalname.match(image_extension)) {
-          return cb({ error: 'Formato de archivo no compatible.', status: 415 });
-      }
-      cb(null, true);
-  }
-});
-
-
+// cors
 router.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
@@ -48,19 +51,23 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post('/createPost', upload.single("mediaFile"), [select_mediaType, verifySizeFile , convertImage, convertVideo ], createPost);
-router.post('/getPosts', [isPrivateProfile], getPosts);
-router.get('/getPostByID/:idPost', [associatePostAndUser, isPrivate, addViewInPost], getPostByID);
+
+// routes
+router.post('/createPost', upload.single("mediaFile"), [select_mediaType, verifySizeFile, ...createPostValidations, validationErrors, convertImage, convertVideo], createPost);
+router.post('/getPosts', [...getPostsValidations, validationErrors, isPrivateProfile], getPosts);
+router.get('/getPostByID/:idPost', [...getPostByIDValidations, validationErrors, associatePostAndUser, isPrivate, addViewInPost], getPostByID);
 router.post('/getPostByFollowings', [postByFollowings], getPostByFollowings);
 router.post('/getPostsByCloseList', [postByFollowings], getPostsByCloseList);
-router.post('/handleLikeToPost/:idPost', [validateAuthInPost, isExistLikeInPost, handleErrors], handleLikeToPost);
+router.post('/handleLikeToPost/:idPost', [validateAuthInPost, ...handleLikePostValidations, validationErrors, isExistLikeInPost], handleLikeToPost);
 router.get('/getPost/:idPost', test_getPost);
-router.get('/getLikes/:idPost', getLikes )
-router.get('/getViews/:idPost', getViews )
-router.delete('/deletePost/:idPost', deletePost);
-router.put('/updateTags/:idPost', updateTagsInPost);
-router.get('/visiblePosts', [searchTags, associateTagsByPosts], visiblePosts);
+router.get('/getLikes/:idPost', [...getLikesValidations, validationErrors], getLikes)
+router.get('/getViews/:idPost', [...getViewsValidations, validationErrors], getViews)
+router.delete('/deletePost/:idPost', [...deletePostValidations, validationErrors], deletePost);
+router.put('/updateTags/:idPost', [...updateTagsValidations, validationErrors], updateTagsInPost);
+router.get('/visiblePosts', [...visiblePostsValidations, validationErrors, searchTags, associateTagsByPosts], visiblePosts);
 router.get('/getTrendPosts', getTrendPosts);
-router.post('/test_getPostWithCommentAndUser/:idPost', postWithCommentAndUser)
+
+router.post('/test_getPostWithCommentAndUser/:idPost', postWithCommentAndUser);
+router.get("/test/:username", test_getPost);
 
 export default router;

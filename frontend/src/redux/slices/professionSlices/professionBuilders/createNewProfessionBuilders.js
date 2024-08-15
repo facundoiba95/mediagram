@@ -1,7 +1,7 @@
 export default ( builders, createNewProfession ) => {
     builders.addCase( createNewProfession.rejected, ( state, action ) => {
         state.isLoading = false;
-        state.error = action.payload.error;
+        state.error = action.payload.error[0].message;
         state.status = action.payload.status;
     })
     builders.addCase( createNewProfession.fulfilled, ( state, action ) => {

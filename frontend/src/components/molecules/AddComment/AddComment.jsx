@@ -18,7 +18,7 @@ const AddComment = ({ hiddenComments, idPost, postBy }) => {
 
     const comment = {
       content: inputComment,
-      _idPost: idPost,
+      idPost,
       postBy
     }
 

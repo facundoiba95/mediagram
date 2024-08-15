@@ -11,6 +11,7 @@ gap:10px;
 background-color:transparent;
 font-family: "Red Hat Display";
 
+
 p {
     background-color:transparent;
     font-size:1.8rem;
@@ -41,6 +42,10 @@ p{
     font-size:1.4rem;
     display:flex;
     gap: 10px;
+}
+
+h2 {
+    color: white;
 }
 
 b {

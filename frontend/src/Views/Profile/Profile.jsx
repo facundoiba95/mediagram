@@ -16,6 +16,7 @@ import ProfilePosts from '../../components/organisms/ProfilePosts/ProfilePosts'
 const Profile = ({ children }) => {
   // states
   const { isLogged } = useSelector(state => state.authSlices);
+  const userAuth = useSelector(state => state.authSlices.user);
   const [isReadyProfile, setIsReadyProfile] = useState(false);
   const { userSelected, followers, followings } = useSelector(state => state.userSlices);
 
@@ -54,7 +55,7 @@ const Profile = ({ children }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       if (userSelected.length > 0) {
-        await dispatch(handleIsFollowing(userSelected[0]._id));
+        userAuth._id !== userSelected[0]._id && await dispatch(handleIsFollowing(userSelected[0]._id))
         await dispatch(getPosts(params.username));
         dispatch(restartStatusAuthSlice());
         setIsReadyProfile(true);

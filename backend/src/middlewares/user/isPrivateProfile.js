@@ -62,7 +62,7 @@ export default async ( req, res, next ) => {
             console.log('Peticion de usuario autenticado.')
             req.userSelected = restrictFollowUpRequestData(userRecived, idUserAuth); // devuelve datos sin restricciones
             req.privateAccount = false;
-            return  next()
+            return next()
         } else if (userRecived[0].isPrivate == true) {
             if (await isFollowing(usernameRecived, idUserAuth)) {
                 console.log('Cuenta privada, pero se siguen mutuamente. Data sin restringir');

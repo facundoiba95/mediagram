@@ -11,11 +11,14 @@ const initialState = {
 
 export const getLocationByCity = createAsyncThunk(
     'getLocationByCity/locationSlices',
-    async (city) => {
+    async (city,{rejectWithValue}) => {
         try {
             const apiKey = `${import.meta.env.VITE_APIKEY_GOOGLEMAPS}`;
             const req = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${apiKey}`);
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             const results = res.results;
 
             if(results && results.length > 0){
@@ -35,6 +38,7 @@ export const getLocationByCity = createAsyncThunk(
             }
         } catch (error) {
             console.error('Ocurrio un error en getLocationByCity, locationSlices.');
+            return rejectWithValue({error})
         }
     }
 );

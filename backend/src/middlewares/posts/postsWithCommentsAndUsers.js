@@ -1,9 +1,7 @@
-import mongoose from "mongoose";
 import Post from "../../models/Post.js";
 
 export const postWithCommentAndUser = async (req, res) => {
     try {
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
         const userAuth = req.userAuth;
 
         userAuth.followings.push(userAuth._id);

@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
 import Post from "../../models/Post.js";
 import verifyToken_Post from "../../libs/Posts/verifyToken_Post.js";
 
 export default async (req, res, next) => {
     try {
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+        const { idPost } = req.params;
         const token = req.headers["x-access-token"];
 
         const postByUser = [await Post.findById(idPost)
@@ -23,9 +22,7 @@ export default async (req, res, next) => {
                 }
             })];
 
-        if (!postByUser) {
-            return res.status(404).json({ error: 'Post not found' });
-        }
+        if (!postByUser) return res.status(404).json({ error: 'Post not found' });
 
         req.isPrivateProfile = postByUser[0].postBy.isPrivate;
         req.idPostBy = postByUser[0].postBy._id;

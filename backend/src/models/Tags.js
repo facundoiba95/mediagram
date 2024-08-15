@@ -1,4 +1,5 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
+import { regex_text } from "../libs/regExs.js";
 
 const tagsSchema = new Schema({
     name: {
@@ -7,9 +8,9 @@ const tagsSchema = new Schema({
         validate:
         {
             validator: function (name) {
-                return /^[a-zA-Z0-9]+$/.test(name); // Expresión regular para permitir solo letras y números
+                return regex_text.test(name);
             },
-            message: props => `${props.value} no es un nombre de usuario válido. El nombre de usuario solo puede contener letras y números.`
+            message: props => `${props.value} no es un tag válido. El tag solo puede contener letras, números, puntos y guiones bajos.`
         }
     }
 },

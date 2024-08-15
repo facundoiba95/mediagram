@@ -15,28 +15,36 @@ const initialState = {
 
 export const getProfessions = createAsyncThunk(
     "getProfessions/professionSlices",
-    async () => {
+    async (_,{rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}profession/getProfessions`)
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error("Ocurrio un error al obtener las profesiones, en getProfessions. Error: ", error);
             alert("Ocurrio un error al obtener las profesiones, en getProfessions.")
+            return rejectWithValue({error})
         }
     }
 )
 
 export const getProfessionByID = createAsyncThunk(
     "getProfessionByID/professionSlices",
-    async (idProfession) => {
+    async (idProfession, {rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}profession/getProfessionByID?idProfession=${idProfession}`)
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error("Ocurrio un error al obtener la profesion, en getProfessionByID. Error: ", error);
             alert("Ocurrio un error al obtener la profesion, en getProfessionByID.")
+            return rejectWithValue({error})
         }
     }
 )
@@ -55,10 +63,14 @@ export const createNewProfession = createAsyncThunk(
             })
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error("Ocurrio un error al crear nueva profesion, en createNewProfession. Error: ", error);
             alert("Ocurrio un error al crear nueva profesion, en createNewProfession.")  
+            return rejectWithValue({error})
         }
     }
 )

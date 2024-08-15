@@ -105,16 +105,3 @@ export default async (req, res, next) => {
         next(error);
     }
 };
-
-// 'relatedPosts.postBy': {
-//     $map: {
-//         input: "$relatedPosts.postBy",
-//         as: "postBy",
-//         in: {
-//             _id: "$$postBy._id",
-//             username: "$$postBy.username",
-//             thumbnail: "$$postBy.thumbnail",
-//             isPrivate: "$$postBy.isPrivate"
-//         }
-//     }
-// },

@@ -1,7 +1,7 @@
 // RegEx
 const lowerCase = /(?=.*[a-z])/;
 const upperCase = /(?=.*[A-Z])/;
-const symbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+const symbol = /[._]/;
 const number = /(?=.*\d)/;
 const whiteSpace = /\s/;
 const email =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
@@ -13,7 +13,7 @@ export const validatePassword = ( inputPassword, repeatPassword ) => {
     } else if(!upperCase.test(inputPassword)){
         errors.push({ message: 'Debes incluir una mayúscula', fail: 'upperCase' });
     } else if(!symbol.test(inputPassword)) {
-        errors.push({ message: 'Debes incluir un caracter especial.', fail: 'symbol' });
+        errors.push({ message: 'Debes incluir un punto o guión bajo.', fail: 'symbol' });
     } else if(!number.test(inputPassword)) {
         errors.push({ message: 'Debes incluir un número.', fail: 'number' });
     } else if(whiteSpace.test(inputPassword)) {

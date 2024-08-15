@@ -1,7 +1,7 @@
 export default ( builders, handleRegister ) => {
     builders.addCase( handleRegister.rejected, ( state, action ) => {
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.error[0].message;
         state.isLogged = action.payload.isLogged;
         state.status = action.payload.status;
     })

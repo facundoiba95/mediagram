@@ -21,7 +21,7 @@ const initialState = {
 
 export const handleLogin = createAsyncThunk(
     'handleLogin/authSlices',
-    async (user) => {
+    async (user, { rejectWithValue }) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/login`, {
                 method: "POST",
@@ -31,18 +31,23 @@ export const handleLogin = createAsyncThunk(
                 },
                 body: JSON.stringify(user)
             })
+
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en handleLogin, authSlices. Error: ', error);
             alert('Ocurrio un error en handleLogin, authSlices. Error: ', error);
+            return rejectWithValue({ error: error })
         }
     }
 );
 
 export const handleRegister = createAsyncThunk(
     'handleRegister/authSlices',
-    async (user) => {
+    async (user, { rejectWithValue }) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/register`, {
                 method: "POST",
@@ -53,17 +58,21 @@ export const handleRegister = createAsyncThunk(
                 body: JSON.stringify(user)
             })
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en handleRegister, authSlices. Error: ', error);
             alert('Ocurrio un error en handleRegister, authSlices. Error: ', error);
+            return rejectWithValue({ error })
         }
     }
 );
 
 export const refreshUserAuth = createAsyncThunk(
     'refreshUserAuth/authSlices',
-    async () => {
+    async (_, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/refreshUserAuth`, {
@@ -76,17 +85,21 @@ export const refreshUserAuth = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en refreshUserAuth, authSlices. Error: ', error);
             alert('Ocurrio un error en refreshUserAuth, authSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
 
 export const changePrivacityOfAccount = createAsyncThunk(
     'changePrivacityOfAccount/authSlices',
-    async (condition) => {
+    async (condition, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/changePrivacityOfAccount`, {
@@ -99,17 +112,21 @@ export const changePrivacityOfAccount = createAsyncThunk(
                 body: JSON.stringify({ condition })
             })
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en changePrivacityOfAccount, authSlices. Error: ', error);
             alert('Ocurrio un error en changePrivacityOfAccount, authSlices. Error: ', error);
+            return rejectWithValue({ error })
         }
     }
 )
 
 export const changePassword = createAsyncThunk(
     'changePassword/authSlices',
-    async (password) => {
+    async (password, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/changePassword`, {
@@ -123,17 +140,21 @@ export const changePassword = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en changePassword(), authSlices. Error: ', error);
             alert('Ocurrio un error en changePassword(), authSlices. Error: ', error);
+            return rejectWithValue({ error })
         }
     }
 )
 
 export const validateSession = createAsyncThunk(
     'validateSession/authSlices',
-    async () => {
+    async (_, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/validateSession`, {
@@ -145,10 +166,14 @@ export const validateSession = createAsyncThunk(
                 }
             });
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en validateSession(), authSlices. Error: ', error);
             alert('Ocurrio un error en validateSession(), authSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
@@ -156,7 +181,7 @@ export const validateSession = createAsyncThunk(
 
 export const updateCloseList = createAsyncThunk(
     'updateCloseList/authSlices',
-    async (listFriends) => {
+    async (listFriends, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/updateCloseList`, {
@@ -166,21 +191,25 @@ export const updateCloseList = createAsyncThunk(
                     "Content-Type": "application/json",
                     "x-access-token": `${token}`
                 },
-                body: JSON.stringify(listFriends)
+                body: JSON.stringify({ closeList: listFriends })
             })
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en updateCloseList, userSlices. Error: ', error);
             alert('Ocurrio un error en updateCloseList, userSlices. Error: ', error);
+            return rejectWithValue({ error })
         }
     }
 )
 
 export const getFollowUpRequests = createAsyncThunk(
     'getFollowUpRequests/authSlices',
-    async () => {
+    async (_, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}auth/getFollowUpRequests`, {
@@ -192,10 +221,14 @@ export const getFollowUpRequests = createAsyncThunk(
                 }
             });
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getFollowUpRequests, authSlices. Error: ', error);
             alert('Ocurrio un error en getFollowUpRequests, authSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
@@ -209,10 +242,10 @@ const authSlices = createSlice({
         },
         logout: (state) => {
             localStorage.removeItem('token');
-            if(socket){
+            if (socket) {
                 socket.disconnect();
             }
-            
+
             return { ...initialState };
         },
         resetStateAuth: (state) => {

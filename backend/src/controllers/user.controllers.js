@@ -10,34 +10,19 @@ import { acceptFollow_message } from "../libs/messages.js";
 import modifyNotification from "../libs/Notifications/modifyNotification.js";
 import deleteNotification from "../libs/Notifications/deleteNotification.js";
 
-const ACCEPT_ID = '5cc07723-451c-418f-b90a-e6b469f1f2b1';
-const REJECT_ID = '50d11393-dc3f-4ac4-89a6-143febd2e131';
+export const ACCEPT_ID = '5cc07723-451c-418f-b90a-e6b469f1f2b1';
+export const REJECT_ID = '50d11393-dc3f-4ac4-89a6-143febd2e131';
 
 export const searchUser = async (req, res) => {
     try {
-        const { valueUser } = req.params;
+        const { username } = req.params;
 
         const foundUser = await User.find({
             $or: [
-                { username: { $eq: valueUser.trim() } }, { username: { $regex: valueUser.trim() } }
+                { username: { $eq: username.trim() } }, { username: { $regex: username.trim() } }
             ]
-        }, {
-            password: 0,
-            email: 0,
-            posts: 0,
-            likesInProfile: 0,
-            start: 0,
-            greets: 0,
-            followings: 0,
-            followers: 0,
-            histories: 0,
-            viewsInProfile: 0,
-            followUpRequest: 0,
-            closeList: 0,
-            createdAt: 0,
-            updatedAt: 0
-        })
-
+        }).select("_id username thumbnail");
+        
         if (!foundUser.length) return res.status(404).json({ message: 'No se encontraron usuarios!', status: 404, userFound: [] })
         return res.status(200).json({ message: 'Users founded!', status: 200, userFound: foundUser });
     } catch (error) {
@@ -64,7 +49,7 @@ export const selectUser = async (req, res) => {
 
 export const followUser = async (req, res) => {
     try {
-        const { imgProfile, username, _id } = req.body;
+        const { username, _id } = req.body;
 
         const foundUserFollowing = req.foundUserFollowing;
         const foundUserFollower = req.foundUserFollower;
@@ -78,20 +63,8 @@ export const followUser = async (req, res) => {
                 console.log(`Sigues al usuario "${username}"`);
         }
 
-        const addUserFollowing = {
-            imgProfile,
-            username,
-            _id: new mongoose.Types.ObjectId(_id)
-        }
-
-        const addUserFollower = {
-            imgProfile: foundUserFollowing.imgProfile,
-            username: foundUserFollowing.username,
-            _id: new mongoose.Types.ObjectId(foundUserFollowing._id)
-        }
-
-        foundUserFollowing.followings.unshift(addUserFollowing);
-        foundUserFollower.followers.unshift(addUserFollower);
+        foundUserFollowing.followings.unshift(new mongoose.Types.ObjectId(_id));
+        foundUserFollower.followers.unshift(new mongoose.Types.ObjectId(foundUserFollowing._id));
 
         await foundUserFollowing.save();
         await foundUserFollower.save();
@@ -109,7 +82,7 @@ export const unfollowUser = async (req, res) => {
 
         const userAuth = req.userAuth;
         const idAuth = req.idUser;
-        const idFollowUpRequest = new mongoose.Types.ObjectId(req.body.idFollowUpRequest);
+        const {idFollowUpRequest} = req.body;
         const foundUserFollower = await User.findOne({ username });
 
         const findIndexFollowUpRequest = foundUserFollower.followUpRequest.findIndex(request => request._id.equals(idFollowUpRequest));
@@ -141,9 +114,11 @@ export const unfollowUser = async (req, res) => {
 
 export const handleIsFollowing = async (req, res) => {
     try {
-        const { idUser } = req.params;
+        const { _id } = req.params;
         const userAuth = req.userAuth;
-        const isFollowingsUsers = userAuth.followings.some(usr => usr.equals(idUser));
+        const isFollowingsUsers = userAuth.followings.some(usr => usr.equals(_id));
+        
+        if(_id.equals(userAuth._id)) return res.status(200).json({ message: `Usuario autenticado`, isFollowing: true, status: 200 });
         
         if (isFollowingsUsers) return res.status(200).json({ message: `Eres seguidor!`, isFollowing: isFollowingsUsers, status: 200 });
         return res.status(403).json({ message: `No eres seguidor."`, isFollowing: isFollowingsUsers, status: 403 });
@@ -267,7 +242,10 @@ export const getFollowers = async (req,res) => {
     try {
         const userSelected = req.userSelected;
         const idsFollowers = userSelected[0].followers;
+        const privateAccount = req.privateAccount;
         
+        if(privateAccount) return res.status(403).json({message: "Esta cuenta es privada! No tienes acceso a su informacion.", followers: [], status: 403});
+
         if(!idsFollowers.length) return res.status(404).json({message: "Not found followers!", followers: [], status: 404});
         
         const foundFollowers = await User.find({_id: {$in: idsFollowers}}).select("username thumbnail _id");
@@ -283,7 +261,10 @@ export const getFollowings = async (req,res) => {
     try {
         const userSelected = req.userSelected;
         const idsFollowings = userSelected[0].followings;
+        const privateAccount = req.privateAccount;
         
+        if(privateAccount) return res.status(403).json({message: "Esta cuenta es privada! No tienes acceso a su informacion.", followers: [], status: 403});
+
         if(!idsFollowings.length) return res.status(404).json({message: "Not found followings!", followings: [], status: 404});
         
         const foundFollowings = await User.find({_id: {$in: idsFollowings}}).select("username thumbnail _id");
@@ -317,7 +298,7 @@ export const addNewLocation = async (req, res) => {
 export const updateProfession = async (req,res) => {
     try {
         const idAuth = req.idUser;
-        const idProfession = new mongoose.Types.ObjectId(req.params.idProfession);
+        const {idProfession} = req.params;
 
         await User.findByIdAndUpdate(
             idAuth,

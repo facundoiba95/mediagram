@@ -26,19 +26,17 @@ export const getProfessionByID = async (req, res) => {
 export const createNewProfession = async (req, res) => {
     try {
         const { name } = req.params;
-        
-        const newProfession = new Profession({
-            name
-        })
-        
+
+        const newProfession = new Profession({ name })
+
         await newProfession.save();
-        
+
         return res.status(200).json({ message: `New profession created: "${name}"`, status: 200 });
     } catch (error) {
         console.error("Ocurrio un error al crear nueva profesion, en createNewProfession. Error: ", error);
-        
-        if(error.code === 11000) {
-            return res.status(409).json({message: `La profesion "${error.keyValue.name}" ya existe!`, status: 409})
+
+        if (error.code === 11000) {
+            return res.status(409).json({ message: `La profesion "${error.keyValue.name}" ya existe!`, status: 409 })
         } else {
             return res.status(500).json({ error })
         }

@@ -5,10 +5,9 @@ import { FormChangePasswordStyle } from './ChangePasswordStyles'
 import { GoAlertFill } from 'react-icons/go';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePassword, validateSession } from '../../../redux/slices/authSlices/authSlices';
+import { changePassword } from '../../../redux/slices/authSlices/authSlices';
 import ModalStatusChangePassword from '../Modals/ModalStatusChangePassword/ModalStatusChangePassword';
 import LoaderResponsive from '../Loaders/LoaderResponsive/LoaderResponsive';
-import { useNavigate } from 'react-router-dom';
 
 
 const ChangePassword = () => {
@@ -17,7 +16,7 @@ const ChangePassword = () => {
     const [ isValidate, setIsValidate ] = useState({error: '', validate: ''});
     const [ isButtonVisible, setIsButtonVisible ] = useState(false);
     const status = useSelector( state => state.authSlices.status );
-    const errorMessage = useSelector( state => state.authSlices.message );
+    const errorMessage = useSelector( state => state.authSlices.error );
     const isLoading = useSelector( state => state.authSlices.isLoading );
     const dispatch = useDispatch()
 
@@ -26,7 +25,7 @@ const ChangePassword = () => {
         //              REFACTORIZAR CODIGO, SENTENCIAS IF ANIDADAS 
         const lowerCase = /[a-z]/g;
         const upperCase = /[A-Z]/g;
-        const symbol =  /[!@#$%^&*()_+-={};':"|,.<>?~]/g;
+        const symbol = /[^_.]/g;        
         const number = /[0-9]/g;
         const whiteSpace = /\S/g;
 
@@ -39,7 +38,7 @@ const ChangePassword = () => {
             setIsButtonVisible(false);
             return;
         } else if(!symbol.test(inputPassword)) {
-            setIsValidate({ error: 'Debes incluir un caracter especial.', validate: false });
+            setIsValidate({ error: 'Debes incluir un punto o guión bajo.', validate: false });
             setIsButtonVisible(false);
             return;
         } else if(!number.test(inputPassword)) {
@@ -66,7 +65,6 @@ const ChangePassword = () => {
     
     const sendChangePassword = async (e) => {
         e.preventDefault();
-        // await dispatch(validateSession())
         if( isValidate.validate == true ){
             dispatch(changePassword(inputPassword));
         } else {
@@ -92,7 +90,7 @@ useEffect(() => {
                     <li>Una minúscula.</li>
                     <li>Una mayúscula.</li>
                     <li>Un número.</li>
-                    <li>Un caracter especial: <b>{'!@#$%^&*()_+-={};:"|,.<>?~'}</b></li>
+                    <li>Un punto o guión bajo.</li>
                     <li>Mayor que 6 caracteres.</li>
                 </ul>
                 <FormChangePasswordStyle isValidate={isButtonVisible} onSubmit={(e) => e.preventDefault()}>

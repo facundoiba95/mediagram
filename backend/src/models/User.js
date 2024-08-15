@@ -1,5 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { regex_text } from '../libs/regExs.js';
 
 const userSchema = new Schema({
     username: {
@@ -10,7 +11,7 @@ const userSchema = new Schema({
         validate: 
         {
           validator: function(password) {
-            return /^[a-zA-Z0-9]+$/.test(password); // Expresión regular para permitir solo letras y números
+            return regex_text.test(password); // Expresión regular para permitir solo letras y números
           },
           message: props => `${props.value} no es un nombre de usuario válido. El nombre de usuario solo puede contener letras y números.`
         }

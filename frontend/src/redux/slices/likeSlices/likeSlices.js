@@ -13,14 +13,18 @@ const initialState = {
 //@params entityID = ObjectID
 export const getLikes = createAsyncThunk(
     "getLikes/likeSlices",
-    async ({entity, entityID}) => {
+    async ({entity, entityID},{rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}${entity}/getLikes/${entityID}`)
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;            
         } catch (error) {
             console.error('Ocurrio un error en getLikes, likeSlices', error);
             alert('Ocurrio un error en getLikes, likeSlices');
+            return rejectWithValue({error})
         }
     }
 )

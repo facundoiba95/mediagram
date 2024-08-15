@@ -123,12 +123,12 @@ const FormCreatePostFeed = () => {
         </ListHashtagsFound>
       )}
       {/* Inputs hidden para backend */}
-      <input type="text" name='referTo' value={JSON.stringify(listReferTo)} hidden />
+      <input type="text" name='referTo' value={JSON.stringify(listReferTo.map(usr => usr._id))} hidden />
       {/* <input type="text" name='location' value={locationSelected} hidden /> */}
       <input type="text" name='shareInExplore' value={JSON.stringify(switchChecked)} hidden />
       <input type="text" name='typePost' value={POST} hidden />
       <input type="text" name='postBy' value={userAuth._id} hidden />
-      <input type="text" name='tags' value={JSON.stringify(listTags)} hidden />
+      <input type="text" name='tags' value={JSON.stringify(listTags.map(tag => tag._id))} hidden />
       <input type="text" name='textContent' value={text} hidden />
       <ButtonCreatePostFeed active={text.length} handleFunction={handleCreatePost} />
     </ContainerFormCreatePostFeedStyles>

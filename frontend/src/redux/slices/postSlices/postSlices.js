@@ -23,7 +23,7 @@ const initialState = {
 
 export const createPost = createAsyncThunk(
     'createPost/postSlices',
-    async (form) => {
+    async (form, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/createPost`, {
@@ -36,17 +36,21 @@ export const createPost = createAsyncThunk(
             })
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en createPost, postSlices');
             alert('Ocurrio un error en createPost, postSlices');
+            return rejectWithValue({error})
         }
     }
 );
 
 export const getPosts = createAsyncThunk(
     'getPosts/postSlices',
-    async (username) => {
+    async (username, {rejectWithValue}) => {
         try {
             const usernameValue = { username }
             const token = localStorage.getItem('token');
@@ -60,17 +64,21 @@ export const getPosts = createAsyncThunk(
                 body: JSON.stringify(usernameValue)
             })
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getPosts, postSlices');
             alert('Ocurrio un error en getPosts, postSlices');
+            return rejectWithValue({error})
         }
     }
 );
 
 export const getPostsOfFollowings = createAsyncThunk(
     'getPostsOfFollowings/postSlices',
-    async () => {
+    async (_, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByFollowings`, {
@@ -83,17 +91,21 @@ export const getPostsOfFollowings = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getPostsOfFollowings, postSlices');
             alert('Ocurrio un error en getPostsOfFollowings, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const getPostByID = createAsyncThunk(
     'getPostByID/postSlices',
-    async (idPost) => {
+    async (idPost,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getPostByID/${idPost}`, {
@@ -106,17 +118,21 @@ export const getPostByID = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getPostsByID, postSlices', error);
             alert('Ocurrio un error en getPostsByID, postSlices');
+            return rejectWithValue({error})
         }
     }
 );
 
 export const addComment = createAsyncThunk(
     'addComment/postSlices',
-    async (comment) => {
+    async (comment,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}comment/addComment`, {
@@ -130,17 +146,21 @@ export const addComment = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en addComment, postSlices', error);
             alert('Ocurrio un error en addComment, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const handleLikeComment = createAsyncThunk(
     'handleLikeComment/postSlices',
-    async (idComment) => {
+    async (idComment, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}comment/handleLikeComment/${idComment}`, {
@@ -153,16 +173,21 @@ export const handleLikeComment = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en handleLikeComment, postSlices', error);
             alert('Ocurrio un error en handleLikeComment, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
+
 export const addReferTo = createAsyncThunk(
     'addReferTo/postSlices',
-    async (listReferTo) => {
+    async (listReferTo,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/addComment`, {
@@ -176,16 +201,20 @@ export const addReferTo = createAsyncThunk(
             })
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en addReferTo, postSlices. Error: ', error);
             alert('Ocurrio un error en addReferTo, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
 export const handleLikeToPost = createAsyncThunk(
     'handleLikeToPost/postSlices',
-    async (idPost) => {
+    async (idPost,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/handleLikeToPost/${idPost}`, {
@@ -198,17 +227,21 @@ export const handleLikeToPost = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en addLikeToPost, postSlices', error);
             alert('Ocurrio un error en addLikeToPost, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const deletePost = createAsyncThunk(
     'deletePost/postSlices',
-    async (idPost) => {
+    async (idPost, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/deletePost/${idPost}`, {
@@ -221,31 +254,39 @@ export const deletePost = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en deletePost, postSlices', error);
             alert('Ocurrio un error en deletePost, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const getVisiblePosts = createAsyncThunk(
     'getVisiblePosts/postSlices',
-    async (nameTag) => {
+    async (nameTag,{rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/visiblePosts?nameTag=${nameTag}`);
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getVisiblePgetVisiblePosts, postSlices. Error: ', error);
             alert('Ocurrio un error en getVisiblePgetVisiblePosts, postSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const updateTagsInPost = createAsyncThunk(
     'updateTags/postSlices',
-    async (tags) => {
+    async (tags,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/updateTags/${tags.idPost}`, {
@@ -257,24 +298,32 @@ export const updateTagsInPost = createAsyncThunk(
                 body: JSON.stringify(tags)
             });
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrió un error en updateTags, postSlices. Error: ', error);
             alert('Ocurrió un error en updateTags, postSlices.');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const getTrendPosts = createAsyncThunk(
     'getTrendPosts/postSlices',
-    async () => {
+    async (_,{rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}post/getTrendPosts`)
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrió un error en getTrendPosts, postSlices. Error: ', error);
             alert('Ocurrió un error en getTrendPosts, postSlices.');
+            return rejectWithValue({error})
         }
     }
 )

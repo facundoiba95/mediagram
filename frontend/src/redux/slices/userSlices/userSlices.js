@@ -30,9 +30,9 @@ const initialState = {
 
 export const searchUser = createAsyncThunk(
     'searchUser/userSlices',
-    async (valueUser) => {
+    async (username, { rejectWithValue }) => {
         try {
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/searchUser/${valueUser}`, {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/searchUser/${username}`, {
                 method: "GET",
                 mode: 'cors',
                 headers: {
@@ -40,17 +40,21 @@ export const searchUser = createAsyncThunk(
                 }
             })
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en searchUser. userSlices', error);
             alert('Ocurrio un error en searchUser, userSlices');
+            return rejectWithValue({ error })
         }
     }
 )
 
 export const getFollowers = createAsyncThunk(
     "getFollowers/userSlices",
-    async (username) => {
+    async (username, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token');
 
@@ -63,17 +67,21 @@ export const getFollowers = createAsyncThunk(
             })
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getFollowers. userSlices', error);
             alert('Ocurrio un error en getFollowers, userSlices');
+            return rejectWithValue({ error })
         }
     }
 )
 
 export const getFollowings = createAsyncThunk(
     "getFollowings/userSlices",
-    async (username) => {
+    async (username,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
 
@@ -86,17 +94,21 @@ export const getFollowings = createAsyncThunk(
             })
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getFollowings. userSlices', error);
             alert('Ocurrio un error en getFollowings, userSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const selectUser = createAsyncThunk(
     'selectUser/userSlices',
-    async (username) => {
+    async (username, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const usernameValue = { username }
@@ -111,17 +123,21 @@ export const selectUser = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en selectUser. userSlices', error);
             alert('Ocurrio un error en selectUser, userSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const followUser = createAsyncThunk(
     'followUser/userSlices',
-    async (user) => {
+    async (user, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/followUser`, {
@@ -135,17 +151,21 @@ export const followUser = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en followUser. userSlices', error);
             alert('Ocurrio un error en followUser, userSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const unfollowUser = createAsyncThunk(
     'unfollowUser/userSlices',
-    async (dataUnfollow) => {
+    async (dataUnfollow,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/unfollowUser`, {
@@ -159,17 +179,21 @@ export const unfollowUser = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en unfollowUser. userSlices', error);
             alert('Ocurrio un error en unfollowUser, userSlices');
+            return rejectWithValue({error})
         }
     }
 )
 
 export const refreshUser = createAsyncThunk(
     'refreshUser/userSlices',
-    async (username) => {
+    async (username, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const usernameSelected = { username }
@@ -184,20 +208,24 @@ export const refreshUser = createAsyncThunk(
                 body: JSON.stringify(usernameSelected)
             })
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en refreshUser, userSlices. Error: ', error);
             alert('Ocurrio un error en refreshUser, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 );
 
 export const handleIsFollowing = createAsyncThunk(
     'handleIsFollowing/userSlices',
-    async (idUser) => {
+    async (_id, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
-            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing/${idUser}`, {
+            const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleIsFollowing/${_id}`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {
@@ -207,17 +235,21 @@ export const handleIsFollowing = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en handleIsFollowing, userSlices. Error: ', error);
             alert('Ocurrio un error en handleIsFollowing, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
 
 export const handleFollowUpRequest = createAsyncThunk(
     'handleFollowUpRequest/userSlices',
-    async (dataFollowUpRequest) => {
+    async (dataFollowUpRequest, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/handleFollowUpRequest`, {
@@ -230,17 +262,21 @@ export const handleFollowUpRequest = createAsyncThunk(
                 body: JSON.stringify(dataFollowUpRequest)
             });
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en handleFollowUpRequest, userSlices. Error: ', error);
             alert('Ocurrio un error en handleFollowUpRequest, userSlices. Error: ', error);
+            return rejectWithValue({error});
         }
     }
 )
 
 export const changeImgProfile = createAsyncThunk(
     'changeImgProfile/userSlices',
-    async (form) => {
+    async (form, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/changeImgProfile`, {
@@ -253,17 +289,21 @@ export const changeImgProfile = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en changeImgProfile, userSlices. Error: ', error);
             alert('Ocurrio un error en changeImgProfile, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
 
 export const getCloseList = createAsyncThunk(
     'getCloseList/userSlices',
-    async () => {
+    async (_,{rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getCloseList`, {
@@ -275,32 +315,39 @@ export const getCloseList = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getCloseList, userSlices. Error: ', error);
             alert('Ocurrio un error en getCloseList, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
 
 export const getTrendUsers = createAsyncThunk(
     'getTrendUsers/userSlices',
-    async () => {
+    async (_,{rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/getTrendUsers`);
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
 
             return res;
         } catch (error) {
             console.error('Ocurrio un error en getTrendUsers, userSlices. Error: ', error);
             alert('Ocurrio un error en getTrendUsers, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
 
 export const addNewLocation = createAsyncThunk(
     "addNewLocation/userSlices",
-    async (location) => {
+    async (location, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/addNewLocation`, {
@@ -313,18 +360,21 @@ export const addNewLocation = createAsyncThunk(
                 body: JSON.stringify(location)
             });
             const res = await req.json();
-            return res;
 
+            if (!req.ok) return rejectWithValue(res);
+
+            return res;
         } catch (error) {
             console.error('Ocurrio un error en addNewLocation, userSlices. Error: ', error);
             alert('Ocurrio un error en addNewLocation, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
 
 export const updateProfession = createAsyncThunk(
     "updateProfession/userSlices",
-    async (idProfession) => {
+    async (idProfession, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}user/updateProfession/${idProfession}`, {
@@ -337,10 +387,14 @@ export const updateProfession = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if (!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrio un error en updateProfession, userSlices. Error: ', error);
             alert('Ocurrio un error en updateProfession, userSlices. Error: ', error);
+            return rejectWithValue({error})
         }
     }
 )
@@ -382,14 +436,14 @@ const userSlices = createSlice({
             state.message = null;
         },
         restartUserSlice: (state) => {
-            return { ... initialState};
+            return { ...initialState };
         },
-        resetState_followers: (state,action) => {
+        resetState_followers: (state, action) => {
             state.followers = [];
             state.message = null;
             state.status = null;
         },
-        resetState_followings: (state,action) => {
+        resetState_followings: (state, action) => {
             state.followings = [];
             state.message = null;
             state.status = null;

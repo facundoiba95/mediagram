@@ -13,30 +13,20 @@ import newNotification from '../libs/Notifications/newNotification.js';
 import typeNotification from '../libs/Notifications/typeNotification.js';
 import addPostToUser from '../libs/Posts/addPostToUser.js';
 import referToNotification from '../libs/Notifications/Posts/referToNotification.js';
+import addMedia from '../libs/Posts/addMedia.js';
+import User from '../models/User.js';
 config();
 
 export const EXCLUIVE_POST = "EXCLUSIVEPOST";
 
 export const createPost = async (req, res) => {
     try {
-        const { description, typePost } = req.body;
-        const location = req.body.location;
-        const referTo = JSON.parse(req.body.referTo); // [Object]
-        const tags = JSON.parse(req.body.tags); // [Object]
-        const shareInExplore = req.body.shareInExplore === 'true'; // Boolean
-        const postBy = new mongoose.Types.ObjectId(req.body.postBy); // ObjectId
+        const { description, typePost, tags, referTo, location, textContent, postBy, shareInExplore} = req.body;
         const userAuth = req.userAuth; // Object
         const mediaType = req.mediaType; // String
         const idAuth = req.idUser; // ObjectID
-        const textContent = req.body.textContent; // String
+        
         let file_paths = [];
-
-        const getIdsTags = (tags) => {
-            if (!tags.length) return [];
-            const idsTags = tags.map(tag => new mongoose.Types.ObjectId(tag._id));
-
-            return idsTags;
-        }
 
         const newPost = new Post({
             typePost,
@@ -45,7 +35,7 @@ export const createPost = async (req, res) => {
             description,
             location,
             textContent,
-            tags: getIdsTags(tags)
+            tags
         });
 
         if (!userAuth.isPrivate && textContent && tags.length) {
@@ -56,21 +46,7 @@ export const createPost = async (req, res) => {
             newPost.shareInExplore = shareInExplore;
         }
 
-        if (mediaType === IMAGE) {
-            const image = await uploadImage(idAuth);
-            newPost.media_url = `${image.result_image.secure_url}`;
-            newPost.thumbnail = `${image.result_thumbnail_image}`;
-            newPost.mediaType = IMAGE;
-            file_paths.push(originalImage_path);
-            await deleteFiles(file_paths);
-        } else if (mediaType === VIDEO) {
-            const video = await uploadVideo(idAuth);
-            newPost.media_url = `${video.result_video.secure_url}`;
-            newPost.thumbnail = `${video.result_thumbnail_video}`;
-            newPost.mediaType = VIDEO;
-            file_paths.push(originalVideo_path);
-            await deleteFiles(file_paths);
-        }
+        await addMedia({newPost, mediaType, file_paths, idAuth});
 
         file_paths = [];
 
@@ -80,7 +56,7 @@ export const createPost = async (req, res) => {
 
         return res.status(200).json({ message: 'El post se creó exitosamente!', post: [], status: 200 });
     } catch (error) {
-        console.error('Ocurrio un error en post.controllers.js, "createPost()"', { error, status: error.status });
+        console.error('Ocurrio un error en post.controllers.js, createPost(). Error: ', error);
         return res.status(500).json({ error: error.message, status: error.status });
     }
 }
@@ -193,7 +169,7 @@ export const getViews = async (req, res) => {
 
 export const deletePost = async (req, res) => {
     try {
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+        const { idPost } = req.params;
         const userAuth = req.userAuth;
         const idAuth = req.idUser;
 
@@ -263,20 +239,6 @@ export const updateTagsInPost = async (req, res) => {
     }
 }
 
-export const test_getPost = async (req, res) => {
-    try {
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
-
-        const PostWithUser = await Post.find({ _id: idPost }).populate({
-            path: 'postBy',
-            select: '_id username'
-        })
-
-        res.status(200).json(PostWithUser)
-    } catch (error) {
-        console.error('Error en test_getPost. Error: ', error)
-    }
-}
 
 export const visiblePosts = async (req, res) => {
     try {
@@ -416,3 +378,20 @@ export const test_getPostWithCommentAndUser = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+
+
+
+
+export const test_getPost = async (req, res) => {
+    try {
+        const { username } = req.params;
+
+        const PostWithUser = await User.find({ username: username});
+
+        res.status(200).json(PostWithUser)
+    } catch (error) {
+        console.error('Error en test_getPost. Error: ', error)
+    }
+}

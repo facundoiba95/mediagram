@@ -11,10 +11,11 @@ const postSchema = new Schema({
         require: true,
         ref: "User"
     },
-    referTo: {
-        type:[],
-        default: [],
-    },
+    referTo: [{
+        type: Schema.Types.ObjectId,
+        default: null,
+        ref: "User"
+    }],
     description: {
         type: String,
         default: null

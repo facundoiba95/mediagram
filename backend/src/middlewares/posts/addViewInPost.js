@@ -1,16 +1,3 @@
-/*
-        
-
-
-
-
-        Actualizar sistema de views,
-        se debe guardar solo el id del usuario.
-        realizar una peticion get para obtener los viewers, getViews
-        ver ejemplo de getLikes y sistema de likes.
-
-
-*/
 export default async (req, res, next) => {
     try {
         const isPrivateProfile = req.isPrivateProfile; // Boolean

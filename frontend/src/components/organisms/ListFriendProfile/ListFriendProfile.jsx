@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import SearchBarFollowers from '../../molecules/SearchBars/SearchBarFollowers/SearchBarFollowers'
 import TransitionContainer from '../../Containers/TransitionContainer/TransitionContainer'
 import { IoHeartCircle } from "react-icons/io5";
-import { updateCloseList } from '../../../redux/slices/authSlices/authSlices'
+import { refreshUserAuth, updateCloseList } from '../../../redux/slices/authSlices/authSlices'
 import { RiUserSmileFill } from 'react-icons/ri'
 import { MessageNotFollowUpRequestStyles } from '../FollowUpRequest/FollowUpRequestStyles'
 import { getFollowers } from '../../../redux/slices/userSlices/userSlices'
@@ -63,6 +63,7 @@ const ListFriendProfile = () => {
 
   const sendNewList = () => {
     dispatch(updateCloseList(newListFriends));
+    dispatch(refreshUserAuth())
   }
 
   useEffect(() => {

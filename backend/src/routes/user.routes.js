@@ -1,56 +1,67 @@
+// config
 import { Router } from 'express';
+import { config } from "dotenv";
+import { cloudinary_config } from '../config/cloudinary.config.js';
+import upload from '../config/multer_config.js';
+cloudinary_config();
+config();
+const router = Router();
+
+
+// controllers
 import { changeImgProfile, followUser, handleFollowUpRequest, handleIsFollowing, searchUser, selectUser, getCloseList, unfollowUser, verifyUser, getTrendUsers, getFollowers, getFollowings, addNewLocation, updateProfession } from '../controllers/user.controllers.js';
+
+
+// middlewares functionals
 import isExistUserFollow from '../middlewares/user/isExistUserFollow.js';
 import followUpRequest from '../middlewares/user/followUpRequest.js';
 import verifyExistImage from '../middlewares/errors/post/verifyExistImage.js';
 import verifySizeFile from '../middlewares/errors/post/verifySizeFile.js';
-import multer from 'multer';
-import { config } from "dotenv";
 import isPrivateProfile from '../middlewares/user/isPrivateProfile.js';
 import filterPost_closeList from '../middlewares/posts/filterPost_closeList.js';
-import { cloudinary_config } from '../config/cloudinary.config.js';
 import convertImage from '../middlewares/posts/convertImage.js';
-import { image_extension } from '../libs/fileExtensions.js';
 import verifyToken from '../middlewares/auth/verifyToken.js';
-import addNewLocationValidators from '../middlewares/Validations/User/addNewLocation.validators.js';
-config();
 
-const router = Router();
 
-cloudinary_config();
+// middlewares validators
+import { validationErrors } from '../middlewares/Validations/libs_validations.js';
+import searchUserValidations from '../middlewares/Validations_routes/User/searchUser.validations.js';
+import followUserValidations from '../middlewares/Validations_routes/User/followUser.validations.js';
+import unfollowUserValidations from '../middlewares/Validations_routes/User/unfollowUser.validations.js';
+import selectUserValidations from '../middlewares/Validations_routes/User/selectUser.validations.js';
+import handleIsFollowingValidations from '../middlewares/Validations_routes/User/handleIsFollowing.validations.js';
+import handleFollowUpRequestValidations from '../middlewares/Validations_routes/User/handleFollowUpRequest.validations.js';
+import verifyUserValidations from '../middlewares/Validations_routes/User/verifyUser.validations.js';
+import getFollowersValidations from '../middlewares/Validations_routes/User/getFollowers.validations.js';
+import getFollowingsValidations from '../middlewares/Validations_routes/User/getFollowings.validations.js';
+import addNewLocationValidations from '../middlewares/Validations_routes/User/addNewLocation.validations.js';
+import updateProfessionValidations from '../middlewares/Validations_routes/User/updateProfession.validations.js';
 
-const storage = multer.memoryStorage();
 
-const upload = multer({storage: storage,
-    fileFilter: (req, files, cb) => {
-    if (!files.originalname.match(image_extension)) {
-    return cb({ error: 'Formato de archivo no compatible.', status: 415 });
-    }
-    cb(null, true);
-    }
+// cors
+router.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
 });
 
-router.use((req, res, next) => {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
 
-router.get('/searchUser/:valueUser', searchUser);
-router.post('/followUser' , [ isExistUserFollow, followUpRequest ] , followUser);
-router.post('/unfollowUser', unfollowUser);
-router.post('/selectUser',[ isPrivateProfile, filterPost_closeList ], selectUser);
-router.post('/handleIsFollowing/:idUser', handleIsFollowing );
-router.post('/handleFollowUpRequest', [ isExistUserFollow ], handleFollowUpRequest);
-router.post('/changeImgProfile', upload.single('newImgProfile') ,[ verifyExistImage, verifySizeFile, convertImage], changeImgProfile );
+// routes
+router.get('/searchUser/:username', [... searchUserValidations, validationErrors], searchUser);
+router.post('/followUser', [... followUserValidations, validationErrors, isExistUserFollow, followUpRequest], followUser);
+router.post('/unfollowUser', [... unfollowUserValidations, validationErrors], unfollowUser);
+router.post('/selectUser', [... selectUserValidations, validationErrors, isPrivateProfile, filterPost_closeList], selectUser);
+router.post('/handleIsFollowing/:_id', [... handleIsFollowingValidations, validationErrors], handleIsFollowing);
+router.post('/handleFollowUpRequest', [... handleFollowUpRequestValidations, validationErrors, isExistUserFollow], handleFollowUpRequest);
+router.post('/changeImgProfile', upload.single('newImgProfile'), [verifyExistImage, verifySizeFile, convertImage], changeImgProfile);
 router.post('/getCloseList', getCloseList);
-router.post('/verifyUser', [isPrivateProfile], verifyUser);
+router.post('/verifyUser', [... verifyUserValidations, validationErrors, isPrivateProfile], verifyUser);
 router.get('/getTrendUsers', getTrendUsers);
-router.get('/getFollowers/:username', [verifyToken, isPrivateProfile], getFollowers);
-router.get('/getFollowings/:username', [verifyToken, isPrivateProfile], getFollowings);
-router.post('/addNewLocation', [ addNewLocationValidators ], addNewLocation);
-router.post('/updateProfession/:idProfession', updateProfession);
+router.get('/getFollowers/:username', [...getFollowersValidations, validationErrors, verifyToken, isPrivateProfile], getFollowers);
+router.get('/getFollowings/:username', [... getFollowingsValidations, validationErrors, verifyToken, isPrivateProfile], getFollowings);
+router.post('/addNewLocation', [... addNewLocationValidations, validationErrors], addNewLocation);
+router.post('/updateProfession/:idProfession', [... updateProfessionValidations, validationErrors], updateProfession);
 
 export default router;

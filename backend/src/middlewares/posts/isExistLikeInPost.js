@@ -2,12 +2,11 @@ import addCountersInPost from "../../libs/Posts/addCountersInPost.js";
 import Post from "../../models/Post.js";
 import deleteNotification from "../../libs/Notifications/deleteNotification.js";
 import User from "../../models/User.js";
-import mongoose from "mongoose";
 import Notification from "../../models/Notification.js";
 
 export default async (req, res, next) => {
     try {
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
+        const {idPost} = req.params;
 
         const postFound = await Post.findById(idPost);
        

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { ContainerFormsAuthStyles, DefaultPageContainerStyles, WelcomeContentDefaultPageStyles, WelcomeMessageDefaultPageStyles } from './DefaultPageStyles'
 import FormAuth from '../../components/organisms/FormAuth/FormAuth'
 import { LogoMediagramStyle } from '../../components/atoms/LogoMediagram/LogoMediagramStyles'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import TransitionContainer from '../../components/Containers/TransitionContainer/TransitionContainer'
 import imgOne from '../../assets/drinkingcoffee.jpg';
 import imgTwo from '../../assets/tomorrowland.jpg';
@@ -15,9 +15,12 @@ const DefaultPage = () => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const { isLogged } = useSelector(state => state.authSlices);
+  const location = useLocation();
 
   useEffect(() => {
-    if (isLogged) {
+    if (location.pathname === "/register") {
+      navigator("/register")
+    } else if (isLogged) {
       navigator("/")
     } else {
       dispatch(logout())

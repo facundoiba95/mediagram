@@ -3,8 +3,8 @@ import { PostCommentsItemStyles } from '../../organisms/PostComments/PostComment
 import dateTime from '../../../libs/dateTime'
 import { FaHeart } from 'react-icons/fa'
 import useIsLike from '../../../Hooks/useLike'
-import { handleLikeComment } from '../../../redux/slices/postSlices/postSlices'
-import { useSelector } from 'react-redux'
+import { handleLikeComment, restarStatusPost } from '../../../redux/slices/postSlices/postSlices'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ItemCommentPost = ({
     _idPost,
@@ -17,14 +17,23 @@ const ItemCommentPost = ({
     createdAt
 }) => {
     const userAuth = useSelector(state => state.authSlices.user);
+    const statusPost = useSelector(state => state.postSlices.status);
     const sendLike = useIsLike();
     const [isLike, setIsLike] = useState(likes.some(usr => usr === userAuth._id));
     const [countLikes, setCountLikes] = useState(counterLikes);
+    const dispatch = useDispatch();
 
     const handleLike = async () => {
-        isLike ? setCountLikes(countLikes - 1) : setCountLikes(countLikes + 1);
-        setIsLike(!isLike);
+        dispatch(restarStatusPost())
         await sendLike(handleLikeComment, _id, commentBy.username, isLike);
+
+        if(statusPost !== 200) {
+            alert("Ocurrio un error al agregar like al post.")
+            dispatch(restarStatusPost())
+        } else {
+            isLike ? setCountLikes(countLikes - 1) : setCountLikes(countLikes + 1);
+            setIsLike(!isLike);
+        }
     }
 
     return (
@@ -36,7 +45,7 @@ const ItemCommentPost = ({
                     <small>{dateTime(createdAt)}</small>
                     <div>
                         <FaHeart className='iconHeart' onClick={handleLike} />
-                        <h5>{counterLikes}</h5>
+                        <h5>{countLikes}</h5>
                     </div>
                 </li>
             </ul>

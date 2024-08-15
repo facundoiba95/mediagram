@@ -18,7 +18,7 @@ export const MenuSettingUserAuth = () => {
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
-    const {isLogged, user} = useSelector(state => state.authSlices);
+    const {isLogged, user, status} = useSelector(state => state.authSlices);
     const isPrivate = user.isPrivate;
 
 
@@ -31,13 +31,16 @@ export const MenuSettingUserAuth = () => {
     }
 
     const handleChangePrivacityOfAccount = async () => {
-        // await dispatch(validateSession());
         if (isLogged) {
             if (isPrivate) {
                 if (window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PÚBLICA"?')) {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
                     await dispatch(changePrivacityOfAccount(false));
-                    await alert('Tu cuenta es PÚBLICA.');
+                    if(status !== 200){
+                        alert('Ocurrio un error al cambiar la privacidad de tu cuenta.');
+                    } else {
+                        alert('Tu cuenta es PÚBLICA.');
+                    }
                     return;
                 } else {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
@@ -48,8 +51,13 @@ export const MenuSettingUserAuth = () => {
                 if (window.confirm('Deseas cambiar la privacidad de tu cuenta a "CUENTA PRIVADA"?')) {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
                     await dispatch(changePrivacityOfAccount(true));
-                    await alert('Tu cuenta es PRIVADA.');
-                    return;
+                    
+                    if(status !== 200) {
+                         alert('Ocurrio un error al cambiar la privacidad de tu cuenta.');
+                    } else {
+                         alert('Tu cuenta es PRIVADA.');
+                    }
+                    return 
                 } else {
                     setIsOpenMenuSetting(!isOpenMenuSetting);
                     return;

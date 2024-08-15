@@ -115,7 +115,8 @@ export const validateSession = async (req, res) => {
 export const updateCloseList = async (req, res) => {
     try {
         const userAuth = req.userAuth;
-        const listRecived = req.body;
+        const listRecived = req.body.closeList;
+
         const parseToObjectId = listRecived.map(ids => {
             ids = new mongoose.Types.ObjectId(ids);
             return ids;
@@ -123,7 +124,7 @@ export const updateCloseList = async (req, res) => {
 
         userAuth.closeList = parseToObjectId;
         await userAuth.save();
-        res.status(200).json({ user: userAuth, status: 200, message: 'Se actualizo la lista de amigos.' })
+        res.status(200).json({ status: 200, message: 'Se actualizo la lista de amigos.' })
     } catch (error) {
         console.error('Ocurrio un error en updateCloseList(). auth.controllers.js. Error: ', error.error);
         return res.status(error.status).json({ error: error.error, status: error.status });

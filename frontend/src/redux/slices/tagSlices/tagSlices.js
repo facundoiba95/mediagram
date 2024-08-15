@@ -16,10 +16,13 @@ const initialState = {
 
 export const searchTags = createAsyncThunk(
     'searchTags/tagSlices',
-    async (nameTag) => {
+    async (nameTag, {rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}tags/searchTags?nameTag=${encodeURIComponent(nameTag)}`);
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrió un error en searchTags, tagSlices. Error: ', error);
@@ -30,7 +33,7 @@ export const searchTags = createAsyncThunk(
 
 export const createTag = createAsyncThunk(
     'createTag/tagSlices',
-    async (tag) => {
+    async (tag, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem('token');
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}tags/createTag`, {
@@ -43,24 +46,32 @@ export const createTag = createAsyncThunk(
             });
 
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrió un error en createTag, tagSlices. Error: ', error);
             alert('Ocurrió un error en createTag, tagSlices.');
+            return rejectWithValue({error})
         }
     }
 );
 
 export const getTrendTags = createAsyncThunk(
     'getTrendTags/tagSlices',
-    async () => {
+    async (_,{rejectWithValue}) => {
         try {
             const req = await fetch(`${import.meta.env.VITE_URL_SERVER}tags/getTrendTags`);
             const res = await req.json();
+
+            if(!req.ok) return rejectWithValue(res);
+
             return res;
         } catch (error) {
             console.error('Ocurrió un error en getTrendTags, tagSlices. Error: ', error);
             alert('Ocurrió un error en getTrendTags, tagSlices.');
+            return rejectWithValue({error})
         }
     }
 )

@@ -34,10 +34,10 @@ export const handleLikeComment = async (req,res) => {
 
 export const addComment = async (req, res) => {
     try {
-        const { content, _idPost, postBy } = req.body;
+        const { content, idPost, postBy } = req.body;
         const { _id } = req.userAuth;
         const idCommentedBy = new mongoose.Types.ObjectId(_id);
-        const idReference = new mongoose.Types.ObjectId(_idPost)
+        const idReference = idPost;
         const userAuth = req.userAuth;
 
         const newComment = new Comment({
@@ -46,7 +46,7 @@ export const addComment = async (req, res) => {
             referenceId: idReference,
         })
 
-        const addCommentInPost = await Post.findByIdAndUpdate(_idPost,
+        const addCommentInPost = await Post.findByIdAndUpdate(idPost,
             { $push: { comments: newComment._id } },
             { new: true }
         )

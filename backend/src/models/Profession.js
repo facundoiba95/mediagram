@@ -4,7 +4,7 @@ const professionSchema = new Schema({
     name: {
         type: String,
         unique: true,
-        minlength: 1,
+        minlength: 2,
     },
     views: [{
         type: Schema.Types.ObjectId,

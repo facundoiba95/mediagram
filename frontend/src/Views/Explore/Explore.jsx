@@ -24,8 +24,8 @@ const Explore = () => {
     }, [])
 
     return (
-        <ContainerExploreSection>
-            <TransitionContainer>
+        <TransitionContainer>
+            <ContainerExploreSection>
                 <ContainerExploreChildrens isOpenTrendTags={true}>
                     <TitleBold title={'Explorar'} />
                     <SearchBarTags placeholder={'Busca temas de tu interés'} hidden={false} />
@@ -34,8 +34,8 @@ const Explore = () => {
                 </ContainerExploreChildrens>
                 <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)} />
                 <Trends />
-            </TransitionContainer>
-        </ContainerExploreSection>
+            </ContainerExploreSection>
+        </TransitionContainer>
     )
 }
 
