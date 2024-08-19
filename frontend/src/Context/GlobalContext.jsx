@@ -26,6 +26,7 @@ export const GlobalContextProvider = ({ children }) => {
     const [isOpenTrendTags, setIsOpenTrendTags] = useState(false);
     const [activeEffect, setActiveEffect] = useState(false);
     const [inputProfession, setInputProfession] = useState('');
+    const [showList, setShowList ] = useState(false);
     const [ search, setSearch ] = useState("");
 
     return (
@@ -53,6 +54,7 @@ export const GlobalContextProvider = ({ children }) => {
             isOpenTrendTags, setIsOpenTrendTags,
             activeEffect, setActiveEffect,
             inputProfession, setInputProfession,
+            showList, setShowList,
             search, setSearch
         }}>
             {children}

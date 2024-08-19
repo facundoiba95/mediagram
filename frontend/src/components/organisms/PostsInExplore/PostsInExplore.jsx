@@ -1,39 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { MessageNotFoundTagsByPostStyles, WrapperPostsInExploreStyles } from './PostsInExploreStyles';
 import PostInExploreSection from '../../molecules/PostInExploreSection/PostInExploreSection';
-import { useDispatch, useSelector } from 'react-redux';
-import { getVisiblePosts } from '../../../redux/slices/postSlices/postSlices';
+import { useSelector } from 'react-redux';
 import SkeletonExplorePostSection from '../../molecules/Loaders/SkeletonExplorePostSection/SkeletonExplorePostSection';
 
 const PostsInExplore = () => {
-  const dispatch = useDispatch();
   const { post, isLoading } = useSelector(state => state.postSlices);
   const { nameTag, trendTags } = useSelector(state => state.tagSlices);
   const [sectionCard, setSectionCard] = useState([]);
-  const defaultNameTag = trendTags.length ? trendTags[0].name : "";
-  const [ isReadySection, setIsReadySection ] = useState(false);
 
   useEffect(() => {
-    setIsReadySection(false)
-    if (nameTag.length) {
-      dispatch(getVisiblePosts(nameTag));
-      setIsReadySection(true)
-    } else if (defaultNameTag.length) {
-      dispatch(getVisiblePosts(defaultNameTag));
-      setIsReadySection(true)
+    if (post.length > 0) {
+      const relatedPosts = post[0].relatedPosts;
+      splitPost(relatedPosts, 5);
+    } else {
+      setSectionCard([]);
     }
-  }, [nameTag, defaultNameTag, dispatch]);
-
-  useEffect(() => {
-    if(isReadySection) {
-      if (post.length > 0) {
-        const relatedPosts = post[0].relatedPosts;
-        splitPost(relatedPosts, 5);
-      } else {
-        setSectionCard([]);
-      }
-    }
-    
   }, [post]);
 
   const splitPost = (relatedPosts, separator) => {
@@ -45,7 +27,7 @@ const PostsInExplore = () => {
   };
 
   const renderSectionPost = () => {
-    if (!post.length && nameTag.length >= 3) {
+    if (!post.length && nameTag.length) {
       return (
         <MessageNotFoundTagsByPostStyles>
           <p>No se encontraron publicaciones relacionadas a "<b>{nameTag}</b>"</p>

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { TrendTagsContainerStyles, TrendTagsListStyles } from './TrendTagsStyles'
-import { FaHashtag } from "react-icons/fa";
 import ItemTrendTag from '../../atoms/ItemTrendTag/ItemTrendTag';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrendTags } from '../../../redux/slices/tagSlices/tagSlices';

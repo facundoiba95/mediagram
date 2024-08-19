@@ -11,6 +11,7 @@ import { FaHashtag } from 'react-icons/fa'
 import { GlobalContext } from '../../Context/GlobalContext'
 import Trends from '../../components/organisms/Trends/Trends'
 import TransitionContainer from '../../components/Containers/TransitionContainer/TransitionContainer'
+import Taglist from '../../components/organisms/Taglist/Taglist'
 
 const Explore = () => {
     const { trendTags } = useSelector(state => state.tagSlices);
@@ -29,6 +30,7 @@ const Explore = () => {
                 <ContainerExploreChildrens isOpenTrendTags={true}>
                     <TitleBold title={'Explorar'} />
                     <SearchBarTags placeholder={'Busca temas de tu interés'} hidden={false} />
+                    <Taglist />
                     <TrendMessage message={name} />
                     <PostsInExplore />
                 </ContainerExploreChildrens>

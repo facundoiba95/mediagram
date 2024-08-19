@@ -4,7 +4,6 @@ import { FaHashtag } from 'react-icons/fa'
 import { IoMdStats } from 'react-icons/io'
 import { useDispatch } from 'react-redux'
 import { getVisiblePosts } from '../../../redux/slices/postSlices/postSlices'
-import { setNameTag } from '../../../redux/slices/tagSlices/tagSlices'
 import { GlobalContext } from '../../../Context/GlobalContext'
 
 const ItemTrendTag = ({ name, _id, count }) => {
@@ -13,7 +12,7 @@ const ItemTrendTag = ({ name, _id, count }) => {
 
     const setVisiblePost = (e) => {
         const nameTag = e.currentTarget.dataset.name;
-        dispatch(setNameTag(nameTag));
+        dispatch(getVisiblePosts(nameTag));
         setIsOpenTrendTags(!isOpenTrendTags);
     };
 

@@ -8,10 +8,11 @@ import { GlobalContext } from '../../../../Context/GlobalContext';
 const SearchBarTags = ({ placeholder, hidden}) => {
     const dispatch = useDispatch();
     const { nameTag } = useSelector(state => state.tagSlices);
-    const { switchChecked } = useContext(GlobalContext);
+    const { switchChecked, setShowList} = useContext(GlobalContext);
     
     useEffect(() => {
         if(nameTag !== ""){
+            setShowList(true)
             dispatch(searchTags(nameTag));
         }
     }, [nameTag, switchChecked])
