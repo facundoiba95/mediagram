@@ -2,7 +2,8 @@
    <p align="left">
      <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
    </p>
-   
+   [explore.webm](https://github.com/user-attachments/assets/c7823b8e-4130-4a4b-af5a-90a04b594e65)
+
 **Mediagram** es un proyecto de práctica, el cual esta desarrollado desde cero con Javascript.<br/> Consiste en una red social en la cual cada usuario puede:
      <ul>
        <li>Seguir a otros usuarios.</li>
@@ -14,7 +15,6 @@
        <li>Mencionar otros usuarios en cada publicación.</li>
      </ul>
 
-     [explore.webm](https://github.com/user-attachments/assets/c48e141a-5bac-4dc6-b1fe-7f78bd1fe3f3)
 <p>Puedes utilizar esta cuenta para probar la aplicación: </p>
     <p><b>Username:</b> user</p>
     <p><b>Password:</b> User_123</p>
