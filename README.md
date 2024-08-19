@@ -2,7 +2,7 @@
    <p align="left">
      <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
    </p>
-   [explore.webm](https://github.com/user-attachments/assets/c7823b8e-4130-4a4b-af5a-90a04b594e65)
+   [![Watch the video](https://raw.githubusercontent.com/facundoiba95/mediagram/master/explore-section.webm)
 
 **Mediagram** es un proyecto de práctica, el cual esta desarrollado desde cero con Javascript.<br/> Consiste en una red social en la cual cada usuario puede:
      <ul>
