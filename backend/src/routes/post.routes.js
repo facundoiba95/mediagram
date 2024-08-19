@@ -9,7 +9,7 @@ config();
 
 
 // controllers
-import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews, test_getPostWithCommentAndUser } from "../controllers/post.controllers.js";
+import { handleLikeToPost, createPost, getPosts, getPostByID, test_getPost, deletePost, getPostByFollowings, visiblePosts, updateTagsInPost, getTrendPosts, getLikes, getViews } from "../controllers/post.controllers.js";
 
 
 // middlewares validators
@@ -39,7 +39,6 @@ import associateTagsByPosts from "../middlewares/posts/associateTagsByPosts.js";
 import select_mediaType from "../middlewares/posts/select_mediaType.js";
 import convertImage from "../middlewares/posts/convertImage.js";
 import convertVideo from "../middlewares/posts/convertVideo.js";
-import { postWithCommentAndUser } from "../middlewares/posts/postsWithCommentsAndUsers.js";
 import verifyToken from "../middlewares/auth/verifyToken.js";
 
 
@@ -67,7 +66,6 @@ router.put('/updateTags/:idPost', [verifyToken, ...updateTagsValidations, valida
 router.get('/visiblePosts', [...visiblePostsValidations, validationErrors, searchTags, associateTagsByPosts], visiblePosts);
 router.get('/getTrendPosts', getTrendPosts);
 
-router.post('/test_getPostWithCommentAndUser/:idPost', postWithCommentAndUser);
-router.get("/test/:username", test_getPost);
+router.get("/test/:username", [verifyToken, postByFollowings],test_getPost);
 
 export default router;

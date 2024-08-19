@@ -11,7 +11,9 @@ const SearchBarTags = ({ placeholder, hidden}) => {
     const { switchChecked } = useContext(GlobalContext);
     
     useEffect(() => {
-        if (nameTag.length >= 3) dispatch(searchTags(nameTag));
+        if(nameTag !== ""){
+            dispatch(searchTags(nameTag));
+        }
     }, [nameTag, switchChecked])
 
     return (

@@ -9,13 +9,9 @@ export default async (req, res, next) => {
         const idsTags = tagsFound.map(tag => tag._id);
 
         const tagsByPost = await Tags.aggregate([
-            // etapa 1: filtrar los tags encontrados anteriormente
-            {
-                $match: {
-                    _id: { $in: idsTags }
-                }
-            },
-            // etapa 2: relacionar los posts.tags con Tags._id y guardarlos en esta variable
+            // etapa 1: relacionar Tags encontrados con Posts compartidos en 
+            // seccion Explorar.
+            { $match: { _id: { $in: idsTags } } },
             {
                 $lookup: {
                     from: 'posts',
@@ -24,17 +20,9 @@ export default async (req, res, next) => {
                     as: 'relatedPosts'
                 }
             },
-            // etapa 3: desenredar el array relatedPosts
-            {
-                $unwind: '$relatedPosts'
-            },
-            // etapa 4: obtener los posts que se puedan compartir. Cuentas públicas.
-            {
-                $match: {
-                    'relatedPosts.shareInExplore': true
-                }
-            },
-            // etapa 5: hacer lookup para obtener la información del usuario que creó el post
+            { $unwind: '$relatedPosts' },
+            { $match: { 'relatedPosts.shareInExplore': true } },
+            // etapa 2: obtener datos del autor del Post
             {
                 $lookup: {
                     from: "users",
@@ -43,11 +31,7 @@ export default async (req, res, next) => {
                     as: "postByUser"
                 }
             },
-            // etapa 6: desenredar el array postByUser
-            {
-                $unwind: '$postByUser'
-            },
-            // etapa 7: proyectar solo los campos deseados del usuario
+            { $unwind: '$postByUser' },
             {
                 $addFields: {
                     'relatedPosts.postBy': {
@@ -58,19 +42,10 @@ export default async (req, res, next) => {
                     }
                 }
             },
-            // etapa 8: eliminar el campo postByUser ya que no es necesario
-            {
-                $project: {
-                    'postByUser': 0
-                }
-            },
-            // etapa 9: ordenar de mayor a menor cantidad de vistas
-            {
-                $sort: {
-                    'relatedPosts.counterViews': -1
-                }
-            },
-            // etapa 10: volver a agrupar
+            { $project: { 'postByUser': 0 } },
+            // etapa 3: ordenar de mayor a menor en Views y agrupar nuevamente 
+            // los resultados.
+            { $sort: { 'relatedPosts.counterViews': -1 } },
             {
                 $group: {
                     _id: '$_id',
@@ -78,7 +53,7 @@ export default async (req, res, next) => {
                     relatedPosts: { $push: '$relatedPosts' }
                 }
             },
-            // etapa 11: seleccionar campos para enviar al frontend
+            // etapa 4: seleccionar los datos que se muestran al cliente.
             {
                 $project: {
                     _id: 1,
@@ -99,9 +74,11 @@ export default async (req, res, next) => {
         ]);
 
         req.postsFound = tagsByPost;
+
         next();
     } catch (error) {
-        console.error('Ocurrio un error en MIDDLEWARE associateTagsByPosts. Error:', error);
+        console.error('Ocurrio un error en middleware associateTagsByPosts.js. Error:', error);
         next(error);
     }
 };
+

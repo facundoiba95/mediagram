@@ -90,9 +90,8 @@ export const getPostByID = async (req, res) => {
 export const getPostByFollowings = async (req, res) => {
     try {
         const postByFollowings = req.postByFollowings;
-        const exclude_ExclusivePosts = postByFollowings.filter(post => post.typePost !== EXCLUIVE_POST)
 
-        return res.status(200).json({ post: exclude_ExclusivePosts, status: 200, message: 'Founded posts' })
+        return res.status(200).json({ post: postByFollowings, status: 200, message: 'Founded posts' })
     } catch (error) {
         console.error('Ocurrio un error en post.controllers.js, "getPostsByFollowings()"', { error: error.message, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });
@@ -266,121 +265,33 @@ export const getTrendPosts = async (req, res) => {
     }
 }
 
-
-export const test_getPostWithCommentAndUser = async (req, res) => {
-    try {
-        const idPost = new mongoose.Types.ObjectId(req.params.idPost);
-
-        const postWithCommentAndUser = await Post.aggregate([
-            { $match: { _id: idPost } },
-            {
-                $lookup: {
-                    from: "comments",
-                    localField: "_id",
-                    foreignField: "referenceId",
-                    as: "comments"
-                }
-            },
-            { $unwind: "$comments" },
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "comments.commentBy",
-                    foreignField: "_id",
-                    as: "comments.commentBy"
-                }
-            },
-            { $unwind: "$comments.commentBy" },
-            {
-                $group: {
-                    _id: "$_id",
-                    content: { $first: "$content" },
-                    createdAt: { $first: "$createdAt" },
-                    updatedAt: { $first: "$updatedAt" },
-                    comments: { $push: "$comments" },
-                    referTo: {$first: "$referTo"},
-                    description: {$first: "$description"},
-                    shareInExplore: {$first: "$shareInExplore"},
-                    location: {$first: "$location"},
-                    counterLikes: {$first: "$counterLikes"},
-                    counterViews: {$first: "$counterViews"},
-                    counterComments: {$first: "$counterComments"},
-                    anonymViews: {$first: "$anonymViews"},
-                    textContent: {$first: "$textContent"},
-                    views: {$first: "$views"},
-                    likes: {$first: "$likes"},
-                    thumbnail: {$first: "$thumbnail"},
-                    media_url: {$first: "$media_url"},
-                    tags: {$first: "$tags"},
-                    postBy: {$first: "$postBy"},
-                    typePost: {$first: "$typePost"},
-                }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    createdAt: 1,
-                    updatedAt: 1,
-                    comments: {
-                        $map: {
-                            input: "$comments",
-                            as: "comment",
-                            in: {
-                                _id: "$$comment._id",
-                                comment: "$$comment.comment",
-                                commentBy: {
-                                    _id: "$$comment.commentBy._id",
-                                    username: "$$comment.commentBy.username",
-                                    thumbnail: "$$comment.commentBy.thumbnail"
-                                },
-                                referenceId: "$$comment.referenceId",
-                                likes: "$$comment.likes",
-                                counterLikes: "$$comment.counterLikes",
-                                replies: "$$comment.replies",
-                                createdAt: "$$comment.createdAt",
-                                updatedAt: "$$comment.updatedAt"
-                            }
-                        }
-                    },
-                    referTo: 1,
-                    description: 1,
-                    shareInExplore: 1,
-                    location: 1,
-                    counterLikes: 1,
-                    counterViews: 1,
-                    counterComments: 1,
-                    anonymViews: 1,
-                    textContent: 1,
-                    views: 1,
-                    likes: 1,
-                    thumbnail: 1,
-                    media_url: 1,
-                    tags: 1,
-                    postBy: 1,
-                    typePost: 1,
-                }
-            }
-        ]);
-
-        res.status(200).json(postWithCommentAndUser);
-    } catch (error) {
-        console.error('Error en test_getPostWithCommentAndUser. Error: ', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
-
-
-
-
-
-
 export const test_getPost = async (req, res) => {
     try {
-        const { username } = req.params;
+        const userAuth = req.userAuth;
 
-        const PostWithUser = await User.find({ username: username});
+        const test_query = await Post
+        .find({
+            postBy: {$in: userAuth.followings}, 
+            typePost: {$ne: "EXCLUSIVEPOST"}
+        })
+        .populate({
+            path: "postBy",
+            select: "_id username thumbnail"
+        })
+        .populate({
+            path: "comments",
+            populate: {
+                path: "commentBy",
+                select: "_id thumbnail username"
+            }
+        })
+        .populate({
+            path: "referTo",
+            select: "_id username thumbnail"
+        });
 
-        res.status(200).json(PostWithUser)
+
+        res.status(200).json(test_query)
     } catch (error) {
         console.error('Error en test_getPost. Error: ', error)
     }

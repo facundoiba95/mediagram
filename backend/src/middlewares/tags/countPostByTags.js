@@ -9,12 +9,8 @@ export default async (req, res, next) => {
         const idsTags = tagsFound.map(tag => tag._id);
 
         const tagsByPost = await Tags.aggregate([
-            // etapa 1: filtrar los tags encontrados anteriormente
-            {
-                $match: {
-                    _id: { $in: idsTags }
-                }
-            },
+            // etapa 1: relacionar Posts con tags encontrados.
+            { $match: { _id: { $in: idsTags } } },
             // etapa 2: relacionar los posts.tags con Tags._id y guardarlos en esta variable
             {
                 $lookup: {
@@ -24,17 +20,10 @@ export default async (req, res, next) => {
                     as: 'relatedPosts'
                 }
             },
-            // etapa 3: desenredar el array relatedPosts
-            {
-                $unwind: '$relatedPosts'
-            },
-            // etapa 4: obtener los posts que se puedan compartir. Cuentas publicas.
-            {
-                $match: {
-                    'relatedPosts.shareInExplore': true
-                }
-            },
-            // etapa 5: volver a agrupar
+            { $unwind: '$relatedPosts' },
+            // etapa 2: obtener los posts que se puedan compartir en seccion Explorar.
+            { $match: { 'relatedPosts.shareInExplore': true } },
+            // etapa 3: agrupar luego del unwind.
             {
                 $group: {
                     _id: '$_id',
@@ -42,24 +31,23 @@ export default async (req, res, next) => {
                     relatedPosts: { $push: '$relatedPosts' },
                 }
             },
-            // etapa 6: seleccionar campos para enviar al frontend
+            // etapa 4: seleccionar campos para enviar al frontend
             {
                 $project: {
                     _id: 1,
                     name: 1,
-                    countPosts: {$size: "$relatedPosts"}
+                    countPosts: { $size: "$relatedPosts" }
                 }
             },
-            {
-                $sort: {"countPosts" : -1}
-            }
+            // etapa 5: ordenar segun la mayor cantidad de Posts.
+            { $sort: { "countPosts": -1 } }
         ]);
 
         req.postsFound = await tagsByPost;
 
         next()
     } catch (error) {
-        console.error('Ocurrio un error en MIDDLEWARE associateTagsByPosts. Error:', error);
+        console.error('Ocurrio un error en MIDDLEWARE countPostByTags.js. Error:', error);
         next(error)
     }
 }

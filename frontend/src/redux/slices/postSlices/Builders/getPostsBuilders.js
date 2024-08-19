@@ -3,6 +3,7 @@ export default ( builders,getPosts ) => {
         state.isLoading = false;
         state.error = action.payload.error[0].message;
         state.status = action.payload.status;
+        state.post = [];
     })
     builders.addCase( getPosts.fulfilled, ( state, action ) => {
             state.isLoading = false;

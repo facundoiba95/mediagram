@@ -12,14 +12,8 @@ export default async (_idUser) => {
                     as: 'notificationBy',
                 }
             },
-            {
-                $unwind: '$notificationBy'
-            },
-            {
-                $match: {
-                    'notificationBy._id': { $in: [_idUser] }
-                }
-            },
+            { $unwind: '$notificationBy' },
+            { $match: { 'notificationBy._id': { $in: [_idUser] } } },
             {
                 $project: {
                     _id: 1,

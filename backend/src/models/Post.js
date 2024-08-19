@@ -89,5 +89,6 @@ const postSchema = new Schema({
 });
 
 postSchema.index({ postBy: 1});
+postSchema.index({shareInExplore: 1});
 
 export default model('Post', postSchema);

@@ -32,10 +32,10 @@ const PostsInFeed = ({ isReadyFeed }) => {
             media_url,
             createdAt,
             textContent,
-            postByUser,
+            postBy,
             comments
           } = item;
-          const { username, thumbnail } = postByUser[0];
+          const { username, thumbnail } = postBy;
           return (
             <CardPostInFeed
               username={username}
@@ -52,7 +52,7 @@ const PostsInFeed = ({ isReadyFeed }) => {
               media_url={media_url}
               textContent={textContent}
               createdAt={createdAt}
-              postByUser={postByUser[0]}
+              postBy={postBy}
               comments={comments}
               key={index}
             />

@@ -49,14 +49,8 @@ export const getTrendTags = async (req,res) => {
                     as: "postByTags"
                 }
             },
-            {
-                $unwind: "$postByTags"
-            },
-            {
-                $match: {
-                    "postByTags.shareInExplore": true
-                }
-            },
+            { $unwind: "$postByTags" },
+            { $match: { "postByTags.shareInExplore": true } },
             {
                 $group: {
                     _id: '$_id',
@@ -64,11 +58,7 @@ export const getTrendTags = async (req,res) => {
                     count: {$sum: 1},
                 }   
             },
-            {
-                $sort: {
-                    "count": -1
-                }
-            }
+            { $sort: { "count": -1 }}
         ]).limit(5);
 
         if(!postByTags.length) return res.status(404).json({status: 404, trendTags: [], message: 'No se encontraron tags.'});

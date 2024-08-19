@@ -15,7 +15,7 @@ const PostsInExplore = () => {
 
   useEffect(() => {
     setIsReadySection(false)
-    if (nameTag.length >= 3) {
+    if (nameTag.length) {
       dispatch(getVisiblePosts(nameTag));
       setIsReadySection(true)
     } else if (defaultNameTag.length) {

@@ -6,7 +6,7 @@ export default async (req, res, next) => {
         const { idPost } = req.params;
         const token = req.headers["x-access-token"];
 
-        const postByUser = [await Post.findById(idPost)
+        const postByUser = await Post.find({_id: idPost})
             .populate({
                 path: 'postBy',
                 select: 'username thumbnail imgProfile isPrivate _id mediaType'
@@ -20,7 +20,7 @@ export default async (req, res, next) => {
                     path: 'commentBy',
                     select: 'username thumbnail isPrivate _id'
                 }
-            })];
+            }).sort({createdAt: -1});
 
         if (!postByUser) return res.status(404).json({ error: 'Post not found' });
 

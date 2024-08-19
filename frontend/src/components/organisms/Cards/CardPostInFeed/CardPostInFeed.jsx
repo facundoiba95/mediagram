@@ -28,7 +28,7 @@ const CardPostInFeed = ({
   media_url,
   createdAt,
   textContent,
-  postByUser
+  postBy
 }) => {
   const navigator = useNavigate();
   const params = useParams();
@@ -80,7 +80,7 @@ const CardPostInFeed = ({
       <PostComments comments={comments} limit={true} _id={_id}/>
       <AddComment
         hiddenComments={true}
-        postBy={postByUser._id}
+        postBy={postBy._id}
         idPost={_id}
       />
     </CardPostInFeedContainerStyles>
