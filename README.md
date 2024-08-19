@@ -14,6 +14,7 @@
        <li>Mencionar otros usuarios en cada publicación.</li>
      </ul>
 
+     [explore.webm](https://github.com/user-attachments/assets/c48e141a-5bac-4dc6-b1fe-7f78bd1fe3f3)
 <p>Puedes utilizar esta cuenta para probar la aplicación: </p>
     <p><b>Username:</b> user</p>
     <p><b>Password:</b> User_123</p>
@@ -22,7 +23,7 @@
      
      ***Actualmente, el proyecto se encuentra en desarrollo, lo cual el diseño responsive y algunas funcionalidades no estan disponibles.*** 
 
-     [explore.webm](https://github.com/user-attachments/assets/c48e141a-5bac-4dc6-b1fe-7f78bd1fe3f3)
+
 En el desarrollo de la aplicación, se crearon funcionalidades como:
 <ul>
      <li>Construcción e integración de API REST.</li>
