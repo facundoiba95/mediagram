@@ -4,13 +4,17 @@ import { useDispatch } from 'react-redux';
 import { createTag } from '../../../redux/slices/tagSlices/tagSlices';
 
 //@params tag = String
-const ItemCreateTag = ({tag}) => {
+const ItemCreateTag = ({tag, showCreateTag}) => {
     const dispatch = useDispatch();
 
   return (
     <ContainerItemCreateTagStyles>
         <p>No se encontro el tag "<b>{tag}</b>"</p>
-        <i onClick={() => dispatch(createTag({tag}))}>Crear tag.</i>
+        {
+          showCreateTag
+          ? <i onClick={() => dispatch(createTag({tag}))}>Crear tag.</i>
+          : <></>
+        }
     </ContainerItemCreateTagStyles>
   )
 }

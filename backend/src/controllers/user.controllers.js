@@ -246,10 +246,10 @@ export const getFollowers = async (req,res) => {
         
         if(privateAccount) return res.status(403).json({message: "Esta cuenta es privada! No tienes acceso a su informacion.", followers: [], status: 403});
 
-        if(!idsFollowers.length) return res.status(404).json({message: "Not found followers!", followers: [], status: 404});
-        
         const foundFollowers = await User.find({_id: {$in: idsFollowers}}).select("username thumbnail _id");
-        
+    
+        if(!foundFollowers.length) return res.status(404).json({message: "Not found followers!", followers: [], status: 404});
+
         res.status(200).json({message: "Followers founded!", followers: foundFollowers, status: 200});
     } catch (error) {
         console.error('Ocurrio un error en getFollowers(). user.controllers.js', error.message);

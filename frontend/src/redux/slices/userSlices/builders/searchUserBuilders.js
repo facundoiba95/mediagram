@@ -1,7 +1,7 @@
 export default ( builders, searchUser ) => {
     builders.addCase( searchUser.rejected, ( state, action ) => {
         state.isLoading = false;
-        state.error = action.payload.error[0].message;
+        state.error = action.payload.message;
         state.status = action.payload.status;
         state.userFound = [];
     })

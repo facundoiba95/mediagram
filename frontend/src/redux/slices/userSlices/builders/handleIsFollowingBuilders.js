@@ -4,6 +4,7 @@ export default ( builders, handleIsFollowing ) => {
         state.error = action.payload.message;
         state.isLogged = action.payload.isLogged;
         state.status = action.payload.status;
+        state.isFollowing = action.payload.isFollowing;
     })
     builders.addCase( handleIsFollowing.fulfilled, ( state, action ) => {
             state.isLoading = false;

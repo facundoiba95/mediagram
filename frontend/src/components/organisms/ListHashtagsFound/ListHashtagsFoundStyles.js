@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ContainerListHashtagsFoundStyles = styled.ul`
 width: 100%;
 height: 100%;
-max-width: 600px;
+max-width: ${props => props.maxWidth};
 max-height: 200px;
 overflow-y: scroll;
 display: flex;

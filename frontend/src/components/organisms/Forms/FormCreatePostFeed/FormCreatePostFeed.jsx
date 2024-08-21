@@ -16,7 +16,7 @@ const FormCreatePostFeed = () => {
   const [hashtag, setHashtag] = useState("");
   const [showListHashtags, setShowListHashtags] = useState(false);
   const { switchChecked, listReferTo } = useContext(GlobalContext)
-  const { tags, isLoading, listTags } = useSelector(state => state.tagSlices);
+  const { tags, isLoading, listTags, status} = useSelector(state => state.tagSlices);
   const textareaRef = useRef(null);
   const userAuth = useSelector(state => state.authSlices.user);
 
@@ -62,9 +62,9 @@ const FormCreatePostFeed = () => {
   };
 
   const renderHashtags = () => {
-    if (!tags.length) {
+    if (status === 404) {
       return (
-        <ItemCreateTag tag={hashtag} />
+        <ItemCreateTag tag={hashtag} showCreateTag={true}/>
       )
     }
 

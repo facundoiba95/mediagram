@@ -4,9 +4,9 @@ import { MoonLoader } from 'react-spinners';
 
 //@params isLoading = Boolean
 //@params children = Node 
-const ListHashtagsFound = ({ isLoading, children }) => {
+const ListHashtagsFound = ({ isLoading, children, maxWidth}) => {
     return (
-        <ContainerListHashtagsFoundStyles>
+        <ContainerListHashtagsFoundStyles maxWidth={maxWidth}>
             {
                 isLoading
                     ? <span style={{ margin: "0 auto" }}>

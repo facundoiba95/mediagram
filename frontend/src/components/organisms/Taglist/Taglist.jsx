@@ -8,7 +8,7 @@ import { getVisiblePosts } from '../../../redux/slices/postSlices/postSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 
 const Taglist = () => {
-    const { nameTag, tags, isLoading, trendTags } = useSelector(state => state.tagSlices);
+    const { nameTag, tags, isLoading, trendTags, status} = useSelector(state => state.tagSlices);
     const { showList, setShowList } = useContext(GlobalContext);
     const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const Taglist = () => {
     }, [nameTag, trendTags]);
     
     const renderHashtags = () => {
-        if (!tags.length) {
+        if (status === 404) {
             return (
                 <ItemCreateTag tag={nameTag} />
             )
@@ -56,7 +56,7 @@ const Taglist = () => {
     return (
         <>
             {
-                showList && (<ListHashtagsFound isLoading={isLoading}>
+                showList && (<ListHashtagsFound isLoading={isLoading} maxWidth={"500px"}>
                     {renderHashtags()}
                 </ListHashtagsFound>)
             }
