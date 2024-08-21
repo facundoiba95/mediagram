@@ -45,7 +45,7 @@ export const handleRegister = async (req, res) => {
         newUser.imgProfile = '';
 
         await newUser.save();
-        return res.status(200).json({ message: 'User created successfully!', status: 200 });
+        return res.status(200).json({ message: 'Usuario creado exitosamente!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en handleRegister. Error: ', error);
         return res.status(500).json({ message: error, status: 500 });
@@ -90,7 +90,7 @@ export const changePassword = async (req, res) => {
         userAuth.password = password;
         await userAuth.save();
 
-        return res.status(200).json({ message: 'Is password changed successfully!', status: 200 });
+        return res.status(200).json({ message: 'Se cambio la contraseña correctamente!', status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en changePassword(). auth.controllers.js', error.message);
         res.status(error.status).json({ error: error.message, status: error.status })

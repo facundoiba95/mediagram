@@ -20,7 +20,7 @@ export default async (req, res, next) => {
         }
 
     } catch (error) {
-        console.error('Ocurrió un error en post.controllers.js, "searchTags()". Error: ', error);
+        console.error('Ocurrió un error en middleware "searchTags()". Error: ', error);
         next(error);
     }
 }

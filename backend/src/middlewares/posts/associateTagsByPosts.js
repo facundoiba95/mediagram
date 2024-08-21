@@ -67,6 +67,7 @@ export default async (req, res, next) => {
                     'relatedPosts.counterComments': 1,
                     'relatedPosts.mediaType': 1,
                     'relatedPosts.textContent': 1,
+                    'relatedPosts.shareInExplore':1,
                     'relatedPosts.createdAt': 1,
                     'relatedPosts.likes': 1
                 }

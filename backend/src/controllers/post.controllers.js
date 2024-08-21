@@ -87,6 +87,8 @@ export const getPostByID = async (req, res) => {
     }
 }
 
+
+
 export const getPostByFollowings = async (req, res) => {
     try {
         const postByFollowings = req.postByFollowings;

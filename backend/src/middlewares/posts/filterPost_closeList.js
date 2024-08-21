@@ -12,7 +12,7 @@ export default async (req, res, next) => {
         const exclude_ExclusivePosts = await handleRestrictPosts(userSelected, idAuth);
 
         if (!isExclusiveUser) {
-            userSelected[0].posts = exclude_ExclusivePosts;
+            userSelected[0].posts = exclude_ExclusivePosts.map(post => post._id);
             userSelected[0].countPosts = userSelected[0].posts.length
         }
 
