@@ -4,6 +4,7 @@ import ItemTrendTag from '../../atoms/ItemTrendTag/ItemTrendTag';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrendTags } from '../../../redux/slices/tagSlices/tagSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { getVisiblePosts } from '../../../redux/slices/postSlices/postSlices';
 
 const TrendTags = () => {
   const { isOpenTrendTags, setIsOpenTrendTags } = useContext(GlobalContext);
@@ -11,7 +12,7 @@ const TrendTags = () => {
   const { trendTags } = useSelector(state => state.tagSlices);
 
   useEffect(() => {
-    dispatch(getTrendTags());
+      dispatch(getTrendTags());
   }, [])
 
   const renderItems = () => {

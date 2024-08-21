@@ -9,7 +9,6 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 
 const Taglist = () => {
     const { nameTag, tags, isLoading, trendTags } = useSelector(state => state.tagSlices);
-    const defaultNameTag = trendTags.length ? trendTags[0].name : "";
     const { showList, setShowList } = useContext(GlobalContext);
     const dispatch = useDispatch();
 
@@ -23,11 +22,10 @@ const Taglist = () => {
         if (nameTag.length) {
             setShowList(true)
         } else {
-            dispatch(getVisiblePosts(defaultNameTag))
             setShowList(false);
         }
-    }, [nameTag]);
-
+    }, [nameTag, trendTags]);
+    
     const renderHashtags = () => {
         if (!tags.length) {
             return (

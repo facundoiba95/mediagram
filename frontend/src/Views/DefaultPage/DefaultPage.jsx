@@ -23,7 +23,6 @@ const DefaultPage = () => {
     } else if (isLogged) {
       navigator("/")
     } else {
-      dispatch(logout())
       navigator("/defaultPage")
     }
   }, [isLogged, navigator])

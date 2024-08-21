@@ -5,18 +5,17 @@ import { useSelector } from 'react-redux';
 import SkeletonExplorePostSection from '../../molecules/Loaders/SkeletonExplorePostSection/SkeletonExplorePostSection';
 
 const PostsInExplore = () => {
-  const { post, isLoading } = useSelector(state => state.postSlices);
+  const { relatedPosts, isLoading } = useSelector(state => state.postSlices);
   const { nameTag, trendTags } = useSelector(state => state.tagSlices);
   const [sectionCard, setSectionCard] = useState([]);
 
   useEffect(() => {
-    if (post.length > 0) {
-      const relatedPosts = post[0].relatedPosts;
+    if (relatedPosts.length > 0) {
       splitPost(relatedPosts, 5);
     } else {
       setSectionCard([]);
     }
-  }, [post]);
+  }, [relatedPosts]);
 
   const splitPost = (relatedPosts, separator) => {
     let arr = [];
@@ -27,7 +26,7 @@ const PostsInExplore = () => {
   };
 
   const renderSectionPost = () => {
-    if (!post.length && nameTag.length) {
+    if (!relatedPosts.length && nameTag.length) {
       return (
         <MessageNotFoundTagsByPostStyles>
           <p>No se encontraron publicaciones relacionadas a "<b>{nameTag}</b>"</p>

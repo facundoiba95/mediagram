@@ -19,6 +19,7 @@ const initialState = {
     status: null,
     trendPosts: [],
     post: [],
+    relatedPosts: []
 }
 
 export const createPost = createAsyncThunk(

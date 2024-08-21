@@ -9,7 +9,7 @@ export default ( builders, getVisiblePosts ) => {
             state.status = action.payload.status;
             state.message = action.payload.message;
             state.error = action.payload.error;
-            state.post = action.payload.post;
+            state.relatedPosts = action.payload.post[0].relatedPosts;
     })
     builders.addCase(  getVisiblePosts.pending, ( state, action ) => {
         state.isLoading = true;
