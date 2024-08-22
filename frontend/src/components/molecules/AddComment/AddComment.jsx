@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { AddCommentContainerStyles, FormCommentContainerStyle } from './AddCommentStyles'
 import { useDispatch, useSelector } from 'react-redux';
-import { addComment } from '../../../redux/slices/postSlices/postSlices';
+import { addComment, getPostByID } from '../../../redux/slices/postSlices/postSlices';
 import { validateSession } from '../../../redux/slices/authSlices/authSlices';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { setStatusNotification, setUserReceptor } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
@@ -26,6 +26,7 @@ const AddComment = ({ hiddenComments, idPost, postBy }) => {
 
     if (await result.payload.status === 200) {
       await dispatch(addComment(comment))
+      await dispatch(getPostByID(idPost));
       dispatch(setStatusNotification());
       dispatch(setUserReceptor(postBy.username));
       setInputComment("");

@@ -52,6 +52,7 @@ const SearchBarUsers = ({ data, placeholderValue, type, resetData }) => {
     handleSearch()
   }, [inputSearchBar]);
 
+ 
 
 
   return (
