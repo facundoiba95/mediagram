@@ -19,7 +19,7 @@ const HeadCardPost = ({
         <HeadCardPostInProfileStyles>
             {
                 imgProfile
-                    ? <img src={imgProfile} />
+                    ? <img data-username={username} src={imgProfile} onClick={(e) => goProfile(e)}/>
                     : <RiUserSmileFill className='imgProfile' />
             }
             <div>

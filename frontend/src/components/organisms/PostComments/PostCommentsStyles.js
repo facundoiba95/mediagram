@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const PostCommentsListStyles = styled.ul`
 width: 100%;
-height: auto;
-max-height: 80vh;
-display: flex;
+height: 100%;
+max-height: 60vh;
+display: ${props => props.comments ? "flex":"none"};
 flex-direction: column;
 justify-content: flex-start;
 align-items: center;
@@ -28,6 +28,7 @@ justify-content: flex-start;
 align-items: flex-start;
 gap: 5px;
 padding: 5px;
+background-color: ${ props => props.isCommentSelected ? '#93C43150' : 'transparent' };
 
 span {
     background-color: transparent;
@@ -37,6 +38,7 @@ img {
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .contentComment{
@@ -52,6 +54,10 @@ img {
     background-color: transparent;
     p, b {
         background-color: transparent;
+    }
+
+    b {
+        cursor: pointer;
     }
 }
 

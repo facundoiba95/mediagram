@@ -80,7 +80,7 @@ const CardPostInFeed = ({
       <PostComments comments={comments} limit={true} _id={_id}/>
       <AddComment
         hiddenComments={true}
-        postBy={postBy._id}
+        postBy={postBy}
         idPost={_id}
       />
     </CardPostInFeedContainerStyles>

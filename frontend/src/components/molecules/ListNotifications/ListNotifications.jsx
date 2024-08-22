@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { ListNotificationStyles, ListNotificationsContainerStyles, TitleNotificationsStyles } from './ListNotificationsStyles'
 import { AiFillLeftCircle } from 'react-icons/ai';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { getNotifications, viewNotifications } from '../../../redux/slices/socketSlices/notificationSlices/notificationSlices';
+import { useSelector } from 'react-redux';
 import ItemNotification from '../../atoms/ItemNotification/ItemNotification';
-import { getFollowUpRequests } from '../../../redux/slices/authSlices/authSlices';
 import FollowUpRequest from '../../organisms/FollowUpRequest/FollowUpRequest';
 
 
@@ -25,8 +23,7 @@ const ListNotifications = () => {
           status={status}
         />
       )
-
-    }).reverse();
+    });
   }
 
   const handleOpenNotifications = async () => {

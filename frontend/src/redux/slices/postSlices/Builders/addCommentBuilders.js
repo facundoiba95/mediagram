@@ -1,15 +1,18 @@
-export default ( builders, addComment ) => {
-    builders.addCase( addComment.rejected, ( state, action ) => {
-        state.isLoading = false;
-        state.error = action.payload.error[0].message;
+export default (builders, addComment) => {
+    builders.addCase(addComment.rejected, (state, action) => {
+        state.error = action.payload.error;
         state.status = action.payload.status;
     })
-    builders.addCase( addComment.fulfilled, ( state, action ) => {
-            state.isLoading = false;
-            state.status = action.payload.status;
-            state.message = action.payload.message;
+    builders.addCase(addComment.fulfilled, (state, action) => {
+        state.status = action.payload.status;
+        state.message = action.payload.message;
+        state.post = state.post.map(item => {
+            if (item._id === action.payload.idPost) {
+                item.comments.push(action.payload.comment);
+            }
+
+            return { ...item }
+        })
     })
-    builders.addCase( addComment.pending, ( state, action ) => {
-        state.isLoading = true;
-})
+
 }

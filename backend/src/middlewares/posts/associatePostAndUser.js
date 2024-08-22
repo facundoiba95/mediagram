@@ -15,6 +15,10 @@ export default async (req, res, next) => {
                 path: 'tags'
             })
             .populate({
+                path:"referTo",
+                select: "_id username thumbnail"
+            })
+            .populate({
                 path: 'comments',
                 populate: {
                     path: 'commentBy',

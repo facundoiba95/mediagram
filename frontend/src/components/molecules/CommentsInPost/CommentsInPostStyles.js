@@ -126,7 +126,7 @@ export const ListCommentsStyles = styled.ul`
 	flex-direction: column;
 	align-items: center;
 	justify-content: ${(props) => (props.comments ? "flex-start" : "center")};
-	gap: 40px;
+	gap: 20px;
 
 	::-webkit-scrollbar {
 		display: none;

@@ -22,7 +22,6 @@ const ViewPost = ({ children }) => {
   const post = useSelector((state) => state.postSlices.post);
   const { likes } = useSelector((state) => state.likeSlices);
   const { views } = useSelector((state) => state.viewSlices);
-  const statusPost = useSelector((state) => state.postSlices.status);
   const { isLogged } = useSelector(state => state.authSlices);
   const navigator = useNavigate();
   const dispatch = useDispatch();

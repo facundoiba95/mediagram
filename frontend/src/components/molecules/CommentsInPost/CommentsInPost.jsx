@@ -7,10 +7,10 @@ import PostInteraction from '../PostInteraction/PostInteraction';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AddComment from '../AddComment/AddComment';
 import { useSelector } from 'react-redux';
-import Comentary from '../../atoms/Comentary/Comentary';
 import { RiUserSmileFill } from 'react-icons/ri';
 import ValidateSession from '../../Containers/ValidateSession/ValidateSession';
 import { MessageNotFollowUpRequestStyles } from '../../organisms/FollowUpRequest/FollowUpRequestStyles';
+import ItemCommentPost from '../ItemCommentPost/ItemCommentPost';
 
 const CommentsInPost = ({
   description,
@@ -73,19 +73,22 @@ const CommentsInPost = ({
       )
     }
 
-    return post[0].comments.map(item => {
-      const { comment, createdAt, _id } = item;
-      const { thumbnail, username } = item.commentBy;
+    return post[0].comments.map((item, index) => {
+      const { comment, createdAt, _id, commentBy, replies, likes, counterLikes } = item;
       return (
-        <Comentary
-          username={username}
-          comment={comment}
-          thumbnail={thumbnail}
-          createdAt={createdAt}
+        <ItemCommentPost
+          _idPost={post[0]._id}
           _id={_id}
+          commentBy={commentBy}
+          comment={comment}
+          replies={replies}
+          likes={likes}
+          counterLikes={counterLikes}
+          createdAt={createdAt}
+          key={index}
         />
       )
-    }).reverse();
+    });
   }
 
   const renderReferTo = () => {
@@ -145,11 +148,11 @@ const CommentsInPost = ({
           </ListCommentsStyles>
         </WrapperCommentContainerStyles>
         <ValidateSession>
-          <AddComment 
+          <AddComment
             hiddenComments={hiddenComments}
             idPost={idPost}
-            postBy={post[0].postBy._id}
-            />
+            postBy={post[0].postBy}
+          />
         </ValidateSession>
       </ViewPostDescriptionStyles>
     </ViewPostCommentsSectionStyles>

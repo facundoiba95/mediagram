@@ -69,7 +69,13 @@ export const addComment = async (req, res) => {
         await addCommentInPost.save();
         await newComment.save();
 
-        return res.status(200).json({ message: 'Added comment!', status: 200 });
+        const populateComment = await Comment.findOne(newComment._id)
+        .populate({
+            path:"commentBy",
+            select: "_id username thumbnail isPrivate",
+        })
+
+        return res.status(200).json({ message: 'Added comment!', comment: populateComment, idPost, status: 200 });
     } catch (error) {
         console.error('Ocurrio un error en comment.controllers.js, "addComment()"', { error: error.message, status: error.status });
         return res.status(500).json({ error: error.message, status: error.status });

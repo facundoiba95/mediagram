@@ -10,7 +10,8 @@ export default (fields) => {
             });
             next()
         } catch (error) {
-            return Promise.reject({ error: `${fields} no es valido para convertir a ObjectId.` })
+            console.error("Ocurrio un error al convertir datos a ObjectId. Error: ", error);
+            next({ error: `${fields} no es valido para convertir a ObjectId.`, status: 400 })
         }
     }
 }

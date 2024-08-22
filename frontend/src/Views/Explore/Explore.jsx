@@ -41,7 +41,7 @@ const Explore = () => {
                     <TrendMessage message={name} />
                     <PostsInExplore />
                 </ContainerExploreChildrens>
-                <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)} />
+                {/* <FaHashtag className='iconTag' onClick={() => setIsOpenTrendTags(!isOpenTrendTags)} /> */}
                 <Trends />
             </ContainerExploreSection>
         </TransitionContainer>

@@ -62,7 +62,7 @@ const PostComments = ({ comments, limit ,_id}) => {
 		}
 	};
 
-	return <PostCommentsListStyles>{limitComments()}</PostCommentsListStyles>;
+	return <PostCommentsListStyles comments={comments.length}>{limitComments()}</PostCommentsListStyles>;
 };
 
 export default PostComments;

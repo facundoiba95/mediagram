@@ -27,7 +27,8 @@ export default async (_idUser) => {
                     'notificationBy.thumbnail': 1,
                     'notificationBy.username': 1
                 }
-            }
+            },
+            { $sort: {createdAt: -1}}
         ]).limit(constants_notifications.limitNotifications);
 
         const populatedNotifications = await Notification.populate(
