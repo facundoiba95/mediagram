@@ -16,6 +16,7 @@ import userRoutes from './routes/user.routes.js';
 import tagsRoutes from './routes/tags.routes.js';
 import commentRoutes from './routes/comment.routes.js';
 import professionRoutes from './routes/profession.routes.js';
+import streamingRoutes from './routes/streaming.routes.js';
 import notificationSockets, { rooms } from './sockets/Notifications/notificationSockets.js';
 
 // config
@@ -72,6 +73,7 @@ app.use('/api/mediagram/user/', userRoutes);
 app.use('/api/mediagram/tags/', tagsRoutes);
 app.use('/api/mediagram/comment', commentRoutes);
 app.use('/api/mediagram/profession', professionRoutes);
+app.use('/api/mediagram/streaming', streamingRoutes);
 
 // websockets
 io.on('connection', (socket) => {

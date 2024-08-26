@@ -21,10 +21,10 @@ import Explore from '../Views/Explore/Explore';
 import ViewerHistory from '../components/organisms/ViewerHistory/ViewerHistory';
 import useTitleDocument from '../Hooks/useTitleDocument';
 import { restartUserFound } from '../redux/slices/userSlices/userSlices';
-import { connectionSocket, socket } from '../../socket';
 import { setStatusConnection } from '../redux/slices/socketSlices/authSocketSlices/authSocketSlices';
 import ChangeLocation from '../components/molecules/ChangeLocation/ChangeLocation';
 import ChangeProfession from '../components/molecules/ChangeProfession/ChangeProfession';
+import socket from '../../socket';
 
 const Router = () => {
   const params = useParams();
@@ -34,12 +34,13 @@ const Router = () => {
   const { isLogged } = useSelector(state => state.authSlices);
   const { status_connection } = useSelector(state => state.authSocketSlices);
   const setTitleDocument = useTitleDocument();
+  const Socket = socket.socket;
 
   const connectSocketAsync = async (retries = 5) => {
-    connectionSocket();
+    socket.connectSocket();
     return new Promise((resolve, reject) => {
       const checkConnection = () => {
-        if (socket.connected) {
+        if (Socket.connected) {
           resolve();
         } else if (retries === 0) {
           reject(new Error("No se pudo conectar"));
@@ -62,7 +63,7 @@ const Router = () => {
         if (isLogged) {
           await connectSocketAsync();
           dispatch(setStatusConnection(true));
-          socket.emit("subscribeNotifications", {
+          Socket.emit("subscribeNotifications", {
             _id: userAuth._id,
             username: userAuth.username
           });

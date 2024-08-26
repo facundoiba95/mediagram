@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import getNotificationsBuilders from "./notificationBuilders/getNotificationsBuilders";
 import { useSelector } from "react-redux";
 import viewNotificationsBuilders from "./notificationBuilders/viewNotificationsBuilders";
-import { socket } from "../../../../../socket";
+import socket from "../../../../../socket";
 
 const initialState = {
     error: null,
@@ -12,16 +12,17 @@ const initialState = {
     isLoading: false
 }
 
+const Socket = socket.socket;
 
 export const getNotifications = createAsyncThunk(
     'getNotifications/notificationSlices',
     async (_idUser) => {
         try {
             const result = await new Promise((resolve) => {
-                socket.emit('getNotifications',{ 
+                Socket.emit('getNotifications',{ 
                          _id: _idUser             
                 })
-                socket.on('getNotifications', (data) => {
+                Socket.on('getNotifications', (data) => {
                     resolve(data);
                 })
             });
@@ -39,10 +40,10 @@ export const viewNotifications = createAsyncThunk(
     async (_idUser) => {
         try {
             const result = await new Promise((resolve) => {
-                socket.emit('viewNotifications',{ 
+                Socket.emit('viewNotifications',{ 
                          _id: _idUser             
                 })
-                socket.on('viewNotifications', (data) => {
+                Socket.on('viewNotifications', (data) => {
                     resolve(data);
                 })
             });
@@ -62,7 +63,7 @@ const notificationSlice = createSlice({
             return initialState;
         },
         alertNotification: ( state, action ) => {
-            socket.emit('newNotification', {
+            Socket.emit('newNotification', {
                 message: 'new notification from client socket!',
                 userReceptor: state.userReceptor
             })

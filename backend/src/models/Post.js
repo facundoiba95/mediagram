@@ -40,6 +40,7 @@ const postSchema = new Schema({
     likes: [{
         idUser: {
             type: Schema.Types.ObjectId,
+            unique: true,
             ref: "User"
         },
         idNotification: {

@@ -3,7 +3,6 @@ import GlobalStyle from "./GlobalStyles"
 import Router from "./routes/Router";
 import { useDispatch, useSelector } from "react-redux";
 import { alertNotification } from "./redux/slices/socketSlices/notificationSlices/notificationSlices";
-import { socket } from "../socket";
 
 function App() {
   const statusNofitication = useSelector( state => state.notificationSlices.status );
@@ -11,9 +10,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(socket) {
-      dispatch(alertNotification());
-    }
+    dispatch(alertNotification());
   }, [ statusNofitication, userReceptor ]);
   
   return (

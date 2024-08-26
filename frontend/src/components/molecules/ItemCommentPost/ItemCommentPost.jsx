@@ -25,7 +25,7 @@ const ItemCommentPost = ({
     const userAuth = useSelector(state => state.authSlices.user);
     const statusPost = useSelector(state => state.postSlices.status);
     const sendLike = useIsLike();
-    const [isLike, setIsLike] = useState(likes.some(usr => usr === userAuth._id));
+    const [isLike, setIsLike] = useState(likes.some(usr => usr.idUser === userAuth._id));
     const [countLikes, setCountLikes] = useState(counterLikes);
     const searchParams = new URLSearchParams(location.search);
     const idComment = searchParams.get('idComment');

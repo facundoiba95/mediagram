@@ -19,5 +19,6 @@ export default (socket) => {
         rooms.set(userAuth, [socket.id]);
         
         socket.join(userAuth);
+        console.log("SOCKETS room: ", rooms)
     });
 }

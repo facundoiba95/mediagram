@@ -21,9 +21,9 @@ import {
 } from "../../redux/slices/userSlices/userSlices";
 import { GlobalContext } from "../../Context/GlobalContext";
 import CreateContentFeed from "../../components/organisms/CreateContentFeed/CreateContentFeed";
-import { socket } from "../../../socket";
 import SuggestedUsers from "../../components/organisms/SuggestedUsers/SuggestedUsers";
 import TitleSuggestions from "../../components/atoms/TitleSuggestions/TitleSuggestions";
+import socket from "../../../socket";
 
 const Feed = () => {
 	const dispatch = useDispatch();
@@ -31,11 +31,10 @@ const Feed = () => {
 	const [isReadyFeed, setIsReadyFeed] = useState(false);
 	const userAuth = useSelector((state) => state.authSlices.user);
 	const { isLogged } = useSelector((state) => state.authSlices);
-	const stateNotifications = useSelector(
-		(state) => state.notificationSlices.state
-	);
+	const stateNotifications = useSelector((state) => state.notificationSlices.state);
 	const { userReceptor } = useSelector((state) => state.notificationSlices);
 	const containerPostRef = useRef(null);
+	const Socket = socket.socket;
 	const sound = new Howl({
 		src: [songNotification],
 		volume: 0.1,
@@ -56,23 +55,21 @@ const Feed = () => {
 	}, []);
 
 	useEffect(() => {
-		if (socket) {
-			socket.on("newNotification", (data) => {
-				const userRecived = data.user;
+		Socket.on("newNotification", (data) => {
+			const userRecived = data.user;
 
-				if (userRecived === userAuth.username) {
-					dispatch(getNotifications(userAuth._id));
-					setActiveEffect(true);
-					sound.volume(0.5);
-					sound.play();
+			if (userRecived === userAuth.username) {
+				dispatch(getNotifications(userAuth._id));
+				setActiveEffect(true);
+				sound.volume(0.5);
+				sound.play();
 
-					setTimeout(() => {
-						setActiveEffect(false);
-					}, 3000);
-				}
-			});
-		}
-	}, [stateNotifications, userReceptor]);
+				setTimeout(() => {
+					setActiveEffect(false);
+				}, 3000);
+			}
+		});
+	}, [stateNotifications]);
 
 	useEffect(() => {
 		if (isLogged) {

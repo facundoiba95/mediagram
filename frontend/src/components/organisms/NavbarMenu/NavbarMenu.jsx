@@ -18,8 +18,8 @@ import { getNotifications, restartNotifications, viewNotifications } from '../..
 import { resetTagState } from '../../../redux/slices/tagSlices/tagSlices';
 import { resetStateLocation } from '../../../redux/slices/locationSlices/locationSlices';
 import { restartUserSelected, restartUserSlice } from '../../../redux/slices/userSlices/userSlices';
-import { socket } from '../../../../socket';
 import iconNewNotification from "../../../assets/bell_alert1.gif";
+import socket from '../../../../socket';
 
 const NavbarHeader = () => {
   // states 
@@ -27,8 +27,8 @@ const NavbarHeader = () => {
   const user = useSelector(state => state.authSlices.user);
   const notifications = useSelector(state => state.notificationSlices.notifications);
   const updateNotifications = useRef(false);
+  const disconnectSocket = socket.disconnectSocket;
  
-
 
   // hooks and tools
   const navigator = useNavigate();
@@ -96,7 +96,7 @@ const NavbarHeader = () => {
       dispatch(resetTagState());
       dispatch(restartUserSlice());
       setIsOpenMenu(false);
-      socket.disconnect();
+      disconnectSocket();
       navigator('/');
     } else {
       return;

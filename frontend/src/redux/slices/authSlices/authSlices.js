@@ -7,7 +7,7 @@ import changePasswordBuilders from "./authBuilders/changePasswordBuilders";
 import validateSessionBuilders from "./authBuilders/validateSessionBuilders";
 import updateListFriendsBuilders from "./authBuilders/updateListFriendsBuilders";
 import getFollowUpRequestsBuilders from "./authBuilders/getFollowUpRequestsBuilders";
-import { socket } from "../../../../socket";
+import socket from "../../../../socket";
 
 const initialState = {
     error: null,
@@ -242,10 +242,7 @@ const authSlices = createSlice({
         },
         logout: (state) => {
             localStorage.removeItem('token');
-            if (socket) {
-                socket.disconnect();
-            }
-
+            socket.disconnectSocket();
             return { ...initialState };
         },
         resetStateAuth: (state) => {

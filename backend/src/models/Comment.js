@@ -16,8 +16,15 @@ const commentSchema = new Schema({
         required: true,
     },
     likes: [{
-        type: mongoose.Types.ObjectId,
-        default: []
+        idUser: {
+            type: Schema.Types.ObjectId,
+            unique: true,
+            ref: "User"
+        },
+        idNotification: {
+            type: Schema.Types.ObjectId,
+            ref: "Notification"
+        }
     }],
     counterLikes: {
         type: Number,

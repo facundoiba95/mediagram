@@ -9,6 +9,7 @@ import { addComment, handleLikeComment } from "../controllers/comment.controller
 
 // middlewares functionals
 import validateAuthInPost from "../middlewares/posts/validateAuthInPost.js";
+import isExistLikeInComment from "../middlewares/posts/isExistLikeInComment.js";
 
 
 // middlewares validators
@@ -18,7 +19,7 @@ import addCommentValidations from "../middlewares/Validations_routes/Comments/ad
 
 
 // routes
-router.post('/handleLikeComment/:idComment', [...handleLikeCommentValidations, validationErrors], handleLikeComment);
+router.post('/handleLikeComment/:idComment', [...handleLikeCommentValidations, validationErrors, isExistLikeInComment], handleLikeComment);
 router.post('/addComment', [validateAuthInPost, ... addCommentValidations, validationErrors], addComment);
 
 export default router;

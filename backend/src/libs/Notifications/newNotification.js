@@ -20,7 +20,7 @@ export default async ({ userAuth, userID, type, status, message, idPost, thumbna
         newNotification = await notification_template_newFollower({ message, status, userAuth });
         break;
       case typeNotification.LIKE:
-        newNotification = await notification_template_newLike({ thumbnailPost, idPost, userAuth });
+        newNotification = await notification_template_newLike({ thumbnailPost, idPost, userAuth, message});
         break;
       case typeNotification.COMMENT:
         newNotification = await notification_template_newComment({ thumbnailPost, idPost, idComment, userAuth, message });

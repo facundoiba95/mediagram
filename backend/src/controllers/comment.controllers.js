@@ -1,34 +1,39 @@
 import newNotification from "../libs/Notifications/newNotification.js";
 import Comment from "../models/Comment.js";
 import Post from "../models/Post.js";
-import { newComment_message } from "../libs/messages.js";
+import { likeComment_message, newComment_message } from "../libs/messages.js";
 import typeNotification from '../libs/Notifications/typeNotification.js';
 import mongoose from "mongoose";
+import addCountersInComment from "../libs/Posts/addCountersInComment.js";
 
-export const handleLikeComment = async (req,res) => {
+export const handleLikeComment = async (req, res) => {
     try {
-        const { idComment } = req.params;
         const idAuth = req.idUser;
-        const foundComment = await Comment.findOne({_id: idComment});
-        
-        if(!foundComment) return res.status(404).json({error: "Not found comment!", status: 404});
-        
-        const isExistLike = foundComment.likes.some(usr => usr.equals(idAuth));
+        const userAuth = req.userAuth;
+        const foundComment = req.foundComment;
+        if (!foundComment) return res.status(404).json({ error: "Not found comment!", status: 404 });
 
-        if(isExistLike) {
-            foundComment.likes = foundComment.likes.filter(usr => !usr.equals(idAuth));
-            foundComment.counterLikes = foundComment.likes.length;
-            await foundComment.save();
-            return res.status(200).json({message: "Dislike comment!", status: 200});
-        } else {
-            foundComment.likes.push(idAuth);
-            foundComment.counterLikes = foundComment.likes.length;
-            await foundComment.save();
-            return res.status(200).json({message: "Like comment!", status: 200});
-        }
+        const foundPost = await Post.findById(foundComment.referenceId);
+
+        const newNotif = await newNotification({
+            userID: foundComment.commentBy,
+            userAuth,
+            type: "like",
+            idPost: foundComment.referenceId,
+            thumbnailPost: foundPost.thumbnail,
+            message: likeComment_message(userAuth)
+        })
+
+        foundComment.likes.push({ idUser: idAuth, idNotification: newNotif._id })
+
+        addCountersInComment(foundComment);
+
+        await foundComment.save();
+
+        return res.status(200).json({ message: "Like comment!", status: 200 });
     } catch (error) {
         console.error("Ocurrio un error al agregar like al comentario. handleLikeComment. Error: ", error);
-        return res.status(error.status).json({error: error.error, status: error.status});
+        return res.status(error.status).json({ error: error.error, status: error.status });
     }
 }
 
@@ -70,10 +75,10 @@ export const addComment = async (req, res) => {
         await newComment.save();
 
         const populateComment = await Comment.findOne(newComment._id)
-        .populate({
-            path:"commentBy",
-            select: "_id username thumbnail isPrivate",
-        })
+            .populate({
+                path: "commentBy",
+                select: "_id username thumbnail isPrivate",
+            })
 
         return res.status(200).json({ message: 'Added comment!', comment: populateComment, idPost, status: 200 });
     } catch (error) {

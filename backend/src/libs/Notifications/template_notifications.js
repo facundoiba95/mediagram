@@ -14,13 +14,13 @@ export const notification_template_newFollower = async ({message, status, userAu
       return await newNotification;
 }
 
-export const notification_template_newLike = async ({thumbnailPost, idPost, userAuth}) => {
+export const notification_template_newLike = async ({thumbnailPost, idPost, userAuth, message}) => {
     const _idPost = new mongoose.Types.ObjectId(idPost);
     
     const newNotification = new Notification({
         type: 'like',
         content: {
-            message: `A ${ userAuth.username } le gusta tu post!`,
+            message,
             imgContent: thumbnailPost,
             idPost: _idPost
         },
