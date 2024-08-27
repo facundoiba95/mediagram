@@ -242,7 +242,8 @@ const authSlices = createSlice({
         },
         logout: (state) => {
             localStorage.removeItem('token');
-            socket.disconnectSocket();
+            socket.disconnectSocket_notifications();
+            socket.disconnectSocket_chat();
             return { ...initialState };
         },
         resetStateAuth: (state) => {

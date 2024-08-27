@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import getNotificationsBuilders from "./notificationBuilders/getNotificationsBuilders";
-import { useSelector } from "react-redux";
 import viewNotificationsBuilders from "./notificationBuilders/viewNotificationsBuilders";
 import socket from "../../../../../socket";
 
@@ -12,17 +11,17 @@ const initialState = {
     isLoading: false
 }
 
-const Socket = socket.socket;
+const socket_notifications = socket.socket_notifications;
 
 export const getNotifications = createAsyncThunk(
     'getNotifications/notificationSlices',
     async (_idUser) => {
         try {
             const result = await new Promise((resolve) => {
-                Socket.emit('getNotifications',{ 
+                socket_notifications.emit('getNotifications',{ 
                          _id: _idUser             
                 })
-                Socket.on('getNotifications', (data) => {
+                socket_notifications.on('getNotifications', (data) => {
                     resolve(data);
                 })
             });
@@ -40,10 +39,10 @@ export const viewNotifications = createAsyncThunk(
     async (_idUser) => {
         try {
             const result = await new Promise((resolve) => {
-                Socket.emit('viewNotifications',{ 
+                socket_notifications.emit('viewNotifications',{ 
                          _id: _idUser             
                 })
-                Socket.on('viewNotifications', (data) => {
+                socket_notifications.on('viewNotifications', (data) => {
                     resolve(data);
                 })
             });
@@ -63,7 +62,7 @@ const notificationSlice = createSlice({
             return initialState;
         },
         alertNotification: ( state, action ) => {
-            Socket.emit('newNotification', {
+            socket_notifications.emit('newNotification', {
                 message: 'new notification from client socket!',
                 userReceptor: state.userReceptor
             })

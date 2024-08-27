@@ -34,13 +34,14 @@ const Router = () => {
   const { isLogged } = useSelector(state => state.authSlices);
   const { status_connection } = useSelector(state => state.authSocketSlices);
   const setTitleDocument = useTitleDocument();
-  const Socket = socket.socket;
+  const socket_notifications = socket.socket_notifications;
 
   const connectSocketAsync = async (retries = 5) => {
-    socket.connectSocket();
+    socket.connectSocket_chat();
+    socket.connectSocket_notifications();
     return new Promise((resolve, reject) => {
       const checkConnection = () => {
-        if (Socket.connected) {
+        if (socket_notifications.connected) {
           resolve();
         } else if (retries === 0) {
           reject(new Error("No se pudo conectar"));
@@ -63,7 +64,7 @@ const Router = () => {
         if (isLogged) {
           await connectSocketAsync();
           dispatch(setStatusConnection(true));
-          Socket.emit("subscribeNotifications", {
+          socket_notifications.emit("subscribeNotifications", {
             _id: userAuth._id,
             username: userAuth.username
           });

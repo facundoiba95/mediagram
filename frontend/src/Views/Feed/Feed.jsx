@@ -34,7 +34,7 @@ const Feed = () => {
 	const stateNotifications = useSelector((state) => state.notificationSlices.state);
 	const { userReceptor } = useSelector((state) => state.notificationSlices);
 	const containerPostRef = useRef(null);
-	const Socket = socket.socket;
+	const socket_notifications = socket.socket_notifications;
 	const sound = new Howl({
 		src: [songNotification],
 		volume: 0.1,
@@ -55,7 +55,7 @@ const Feed = () => {
 	}, []);
 
 	useEffect(() => {
-		Socket.on("newNotification", (data) => {
+		socket_notifications.on("newNotification", (data) => {
 			const userRecived = data.user;
 
 			if (userRecived === userAuth.username) {

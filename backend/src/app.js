@@ -54,7 +54,7 @@ app.use(express.json());
 // middleware para verificar token en todas las solicitudes POST, con lista de excepciones.
 app.use(async (req, res, next) => {
     if (exceptionPOSTPaths.find(item => item === req.path)) return next();
-    let method = { POST: 'POST'}
+    let method = { POST: 'POST' }
     if (!method[req.method]) {
         next();
     } else {
@@ -76,24 +76,45 @@ app.use('/api/mediagram/profession', professionRoutes);
 app.use('/api/mediagram/streaming', streamingRoutes);
 
 // websockets
-io.on('connection', (socket) => {
+const chatNamespace = io.of("/chat");
+const notificationsNamespace = io.of("/notifications");
+
+chatNamespace.on("connection", (socket) => {
     verifyTokenSocket(socket, () => {
         socket.leaveAll();
-
-        notificationSockets(socket);
-        }, (error) => {
-        console.error("Ocurrio un error al conectar el WebSocket. Error: ", error);
+        
+        console.log("namespace CHAT conected: ", socket.handshake.auth)
+    }, (error) => {
+        console.error("Ocurrio un error al conectar el WebSocket namespace: 'CHAT'. Error: ", error);
     })
 
     socket.on("disconnect", () => {
-        if(socket.userAuth) {
+        if (socket.userAuth) {
             const usernameAuth = socket.userAuth.username;
             rooms.delete(usernameAuth)
-            console.log("SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
+            console.log("NAMESPACE CHAT: SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
         }
     })
-})
+});
 
+notificationsNamespace.on("connection", (socket) => {
+    verifyTokenSocket(socket, () => {
+        socket.leaveAll();
+
+        console.log("namespace NOTIFICATIONS conected: ", socket.handshake.auth)
+        notificationSockets(socket);
+    }, (error) => {
+        console.error("Ocurrio un error al conectar el WebSocket namespace: 'NOTIFICATIONS'. Error: ", error);
+    })
+
+    socket.on("disconnect", () => {
+        if (socket.userAuth) {
+            const usernameAuth = socket.userAuth.username;
+            rooms.delete(usernameAuth)
+            console.log("NAMESPACE NOTIFICATIONS: SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
+        }
+    })
+});
 
 
 // manejador de errores global

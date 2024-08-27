@@ -1,19 +1,42 @@
 import io from 'socket.io-client';
 
-const socket = io(`${import.meta.env.VITE_URL_SOCKET}`,{
-    path: `${import.meta.env.VITE_SOCKET_PATH}`,
-    autoConnect: false
+const socket_chat = io(`${import.meta.env.VITE_URL_SOCKET}/chat`, {
+  autoConnect: false,
+  path: `${import.meta.env.VITE_SOCKET_PATH}`,
 });
 
-function connectSocket () {
-  socket.auth = {
+const socket_notifications = io(`${import.meta.env.VITE_URL_SOCKET}/notifications`, {
+  autoConnect: false,
+  path: `${import.meta.env.VITE_SOCKET_PATH}`,
+})
+
+function connectSocket_chat () {
+  socket_chat.auth = {
     token: localStorage.getItem('token')
 }
-  socket.connect()
+  socket_chat.connect()
 }
 
-function disconnectSocket() {
-  socket.disconnect()
+function connectSocket_notifications () {
+  socket_notifications.auth = {
+    token: localStorage.getItem('token')
+}
+  socket_notifications.connect()
 }
 
-export default {socket, connectSocket, disconnectSocket}
+function disconnectSocket_chat (){
+  socket_chat.disconnect();
+}
+
+function disconnectSocket_notifications () {
+  socket_notifications.disconnect();
+}
+
+export default {
+  socket_chat, 
+  socket_notifications,
+  disconnectSocket_chat, 
+  disconnectSocket_notifications, 
+  connectSocket_chat,
+  connectSocket_notifications
+}

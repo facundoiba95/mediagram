@@ -27,8 +27,6 @@ const NavbarHeader = () => {
   const user = useSelector(state => state.authSlices.user);
   const notifications = useSelector(state => state.notificationSlices.notifications);
   const updateNotifications = useRef(false);
-  const disconnectSocket = socket.disconnectSocket;
- 
 
   // hooks and tools
   const navigator = useNavigate();
@@ -96,7 +94,8 @@ const NavbarHeader = () => {
       dispatch(resetTagState());
       dispatch(restartUserSlice());
       setIsOpenMenu(false);
-      disconnectSocket();
+      socket.disconnectSocket_chat();
+      socket.disconnectSocket_notifications();
       navigator('/');
     } else {
       return;
