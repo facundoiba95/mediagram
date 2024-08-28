@@ -11,6 +11,8 @@ import authSocketSlices from '../slices/socketSlices/authSocketSlices/authSocket
 import updateAuth_middleware from '../middlewares/updateAuth_middleware';
 import { thunk } from 'redux-thunk';
 import professionSlices from '../slices/professionSlices/professionSlices';
+import chatSlices from '../slices/socketSlices/chatSocketSlices/chatSlices';
+import messageSlices from '../slices/socketSlices/messageSlices/messageSlices'
 
 const store = configureStore({
     reducer:{
@@ -23,7 +25,9 @@ const store = configureStore({
         likeSlices: likeSlices,
         viewSlices: viewSlices,
         authSocketSlices: authSocketSlices,
-        professionSlices: professionSlices
+        professionSlices: professionSlices,
+        chatSlices: chatSlices,
+        messageSlices: messageSlices
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk,updateAuth_middleware)
 });

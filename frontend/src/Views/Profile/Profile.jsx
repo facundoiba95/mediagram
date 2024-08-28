@@ -21,7 +21,7 @@ const Profile = ({ children }) => {
   const { userSelected, followers, followings } = useSelector(state => state.userSlices);
 
   // useContext 
-  const { isOpen, setOpenLoader } = useContext(GlobalContext);
+  const { isOpen, setOpenLoader, setIsOpen, setIsOpenMenu } = useContext(GlobalContext);
 
   // hooks and tools
   const navigator = useNavigate();
@@ -66,6 +66,15 @@ const Profile = ({ children }) => {
     fetchUserDetails();
   }, [userSelected]);
 
+
+  const goToProfile = async (e) => {
+    const valueUserSelected = e.currentTarget.dataset.username;
+    params.username = valueUserSelected;
+    setIsOpen(false);
+    setIsOpenMenu(false);
+    navigator(`/profile/${params.username}`);
+  }
+
   const renderModalSearchUsers = () => {
     if (params.typeFollow === 'followers') {
       return (
@@ -74,6 +83,7 @@ const Profile = ({ children }) => {
           data={followers}
           placeholderValue={placeholderValue[params.typeFollow]}
           resetData={resetState_followers}
+          handleFunction={goToProfile}
         />
       )
     } else if (params.typeFollow === 'followings') {
@@ -83,6 +93,7 @@ const Profile = ({ children }) => {
           data={followings}
           placeholderValue={placeholderValue[params.typeFollow]}
           resetData={resetState_followings}
+          handleFunction={goToProfile}
         />
       )
     }

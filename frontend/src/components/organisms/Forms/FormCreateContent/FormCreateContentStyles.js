@@ -48,7 +48,6 @@ p, h2{
     flex-direction: column;  
     justify-content: flex-start;  
     height: 100%;
-    background-color: red;
 }
 `
 
@@ -270,13 +269,11 @@ export const GridTwoContainerStyles = styled.span`
 
     ::-webkit-scrollbar{
     background-color: var(--dark);
-    color:red;
     height:10px;
     width:10px;
 }
 ::-webkit-scrollbar-thumb{
     background-color: var(--light);
-    color:red;
     height:10px;
     width:10px;
 }

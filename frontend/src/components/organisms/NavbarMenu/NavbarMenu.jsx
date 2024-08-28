@@ -85,6 +85,15 @@ const NavbarHeader = () => {
 
   }
 
+  const goMessages = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth"
+    })
+
+    navigator("/messages")
+  }
+
   const handleLogout = () => {
     if (window.confirm('Desea cerrar sesión?')) {
       dispatch(logout());
@@ -181,7 +190,7 @@ const NavbarHeader = () => {
           <MdExplore className='iconNavbar' />
           <p>Explorar</p>
         </NavbarMenuItemStyles>
-        <NavbarMenuItemStyles>
+        <NavbarMenuItemStyles onClick={goMessages}>
           <AiFillMessage className='iconNavbar' />
           <p>Mensajes</p>
         </NavbarMenuItemStyles>

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import GlobalContainer from '../components/Containers/GlobalContainer/GlobalContainer';
 import Profile from '../Views/Profile/Profile';
 import CreateContent from '../Views/CreateContent/CreateContent';
@@ -25,10 +25,16 @@ import { setStatusConnection } from '../redux/slices/socketSlices/authSocketSlic
 import ChangeLocation from '../components/molecules/ChangeLocation/ChangeLocation';
 import ChangeProfession from '../components/molecules/ChangeProfession/ChangeProfession';
 import socket from '../../socket';
+import Messages from '../Views/Messages/Messages';
+import { GlobalContext } from '../Context/GlobalContext';
+import ViewerChat from '../components/organisms/ViewerChat/ViewerChat';
+import ChatIsEmpty from '../components/molecules/Modals/ChatIsEmpty/ChatIsEmpty';
+import Chat from '../components/organisms/Chat/Chat';
 
 const Router = () => {
   const params = useParams();
   const dispatch = useDispatch();
+  const { setIsOpen, setIsOpenMenu } = useContext(GlobalContext);
   const userFound = useSelector(state => state.userSlices.userFound);
   const userAuth = useSelector(state => state.authSlices.user);
   const { isLogged } = useSelector(state => state.authSlices);
@@ -82,7 +88,6 @@ const Router = () => {
     <BrowserRouter>
       <GlobalLoader />
       <GlobalContainer>
-        <ModalSearchUsers data={userFound} type={'searchUserDB'} resetData={restartUserFound} />
         <Notifications />
         <Routes>
           <Route path='/' element={
@@ -146,6 +151,16 @@ const Router = () => {
           <Route path='/history' element={
             <ProtectedRoutes redirectTo={'/unauthorized'}>
               <ViewerHistory />
+            </ProtectedRoutes>
+          } />
+          <Route path='/messages' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
+              <Messages> <ViewerChat><ChatIsEmpty /></ViewerChat></Messages>
+            </ProtectedRoutes>
+          } />
+          <Route path='/messages/:idChat' element={
+            <ProtectedRoutes redirectTo={'/unauthorized'}>
+              <Messages><ViewerChat><Chat /></ViewerChat></Messages>
             </ProtectedRoutes>
           } />
           <Route path='/unauthorized' element={<ModalUnauthenticated />} />

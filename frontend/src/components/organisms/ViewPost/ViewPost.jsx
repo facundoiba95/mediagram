@@ -16,7 +16,7 @@ import ViewerPostText from "../ViewerPostText/ViewerPostText";
 import ViewerPostMedia from "../ViewerPostMedia/ViewerPostMedia";
 
 const ViewPost = ({ children }) => {
-  const { isOpenViewPost, setIsOpenViewPost, setIsOpenAddTags, setOpenLoader } = useContext(GlobalContext);
+  const { isOpenViewPost, setIsOpenViewPost, setIsOpenAddTags, setOpenLoader, setIsOpen, setIsOpenMenu } = useContext(GlobalContext);
   const isLoadingPost = useSelector((state) => state.postSlices.isLoading);
   const [isReadyPost, setIsReadyPost] = useState(false);
   const post = useSelector((state) => state.postSlices.post);
@@ -33,6 +33,14 @@ const ViewPost = ({ children }) => {
     setIsOpenAddTags(false);
     navigator(-1);
   };
+
+  const goToProfile = async (e) => {
+    const valueUserSelected = e.currentTarget.dataset.username;
+    params.username = valueUserSelected;
+    setIsOpen(false);
+    setIsOpenMenu(false);
+    navigator(`/profile/${params.username}`);
+  }
 
   useEffect(() => {
     setOpenLoader(true);
@@ -124,6 +132,7 @@ const ViewPost = ({ children }) => {
           title={"Vistas"}
           placeholderValue={"Buscar usuario"}
           resetData={resetState_views}
+          handleFunction={goToProfile}
         />
       );
     } else if (params.typeInteraction === "likes") {
@@ -133,6 +142,7 @@ const ViewPost = ({ children }) => {
           placeholderValue={"Buscar usuario"}
           title={"Likes"}
           resetData={resetState_likes}
+          handleFunction={goToProfile}
         />
       );
     }

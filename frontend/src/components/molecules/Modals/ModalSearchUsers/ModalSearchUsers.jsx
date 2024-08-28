@@ -10,21 +10,10 @@ import { ItemModalSearchUsersStyles, ListModalSearchUsersStyles, ModalSearchUser
 import SearchBarUsers from '../../SearchBars/SearchBarUsers/SearchBarUsers';
 import MoonLoaderResponsive from '../../Loaders/MoonLoaderResponsive/MoonLoaderResponsive';
 
-const ModalSearchUsers = ({ data, message, placeholderValue, type, title, resetData }) => {
+const ModalSearchUsers = ({ data, message, placeholderValue, type, title, resetData, handleFunction}) => {
   const { isOpen, setIsOpen, setIsOpenMenu } = useContext(GlobalContext);
   const usersFounded = useSelector(state => state.userSlices.userFound);
   const { isLoading } = useSelector(state => state.userSlices);
-  const params = useParams();
-  const navigator = useNavigate();
-
-  const goToProfile = async (e) => {
-    const valueUserSelected = e.currentTarget.dataset.username;
-    params.username = valueUserSelected;
-    setIsOpen(false);
-    setIsOpenMenu(false);
-    navigator(`/profile/${params.username}`);
-  }
-
 
   const renderUserFounded = () => {
     if (!isOpen) return;
@@ -38,7 +27,7 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type, title, resetD
     return usersFounded.map(item => {
       const { username, thumbnail, _id } = item;
       return (
-        <ItemModalSearchUsersStyles data-username={username} onClick={(e) => goToProfile(e)} key={_id}>
+        <ItemModalSearchUsersStyles data-username={username} onClick={(e) => handleFunction(e)} key={_id}>
           {
             thumbnail
               ? <img src={thumbnail} alt="imgProfile" />
