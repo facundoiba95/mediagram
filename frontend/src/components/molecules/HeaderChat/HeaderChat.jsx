@@ -3,19 +3,27 @@ import { HeaderChatContainerStyles } from './HeaderChatStyles';
 import { useSelector } from 'react-redux';
 
 const HeaderChat = () => {
-    const { members, name, imgUrl } = useSelector(state => state.chatSlices.chatSelected);
+    const { chatSelected } = useSelector(state => state.chatSlices);
+    const userAuth = useSelector(state => state.authSlices.user);
+
+    const { members, name, imgUrl, type} = chatSelected[0];
+
+    const userReceptor = members.find(usr => usr._id !== userAuth._id);
+    const nameChat = type === "PRIVATE" ? userReceptor.username : name;
+    const imgChat = type === "PRIVATE" ? userReceptor.thumbnail : imgUrl;
 
     const renderMembers = () => {
-        return members.map(usr => (
-            <li><p>{usr.username} </p></li>
+        if(type === "PRIVATE") return (<></>)
+        return members.map((usr,index) => (
+            <li key={index}><p>{usr.username} </p></li>
         ))
     }
 
     return (
         <HeaderChatContainerStyles>
-            <img src={imgUrl} alt="img header chat" />
+            <img src={imgChat} alt="img header chat" />
             <span>
-                <b>{name}</b>
+                <b>{nameChat}</b>
                 <ul>
                     {renderMembers()}
                 </ul>

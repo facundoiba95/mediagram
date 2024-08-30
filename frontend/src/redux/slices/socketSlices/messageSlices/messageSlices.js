@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import socket from "../../../../../socket";
-import newMessageBuilders from "./messageBuilders/newMessageBuilders";
 import getMessagesBuilders from "./messageBuilders/getMessagesBuilders";
 import handleImportantMessageBuilders from "./messageBuilders/handleImportantMessageBuilders";
 import deleteMessageBuilders from "./messageBuilders/deleteMessageBuilders";
+import sendMessageBuilders from "./messageBuilders/sendMessageBuilders";
 
 const initialState = {
     error: null,
@@ -35,12 +35,12 @@ export const getMessages = createAsyncThunk(
     }
 )
 
-export const newMessage = createAsyncThunk(
+export const sendMessage = createAsyncThunk(
     'newMessage/messageSlices',
-    async (message, { rejectWithValue }) => {
+    async ({idChat, message}, { rejectWithValue }) => {
         try {
             const response = await new Promise((resolve) => {
-                socket_chat.emit("newMessage", { message })
+                socket_chat.emit("sendMessage", { idChat, message })
 
                 socket_chat.on("newMessage", (data) => {
                     resolve(data)
@@ -109,16 +109,23 @@ const messageSlices = createSlice({
             state.messagesInChat = [];
         },
         setMessages: (state,action) => {
-            state.messagesInChat = action.payload;
+            state.messagesInChat.push(state.message);
+        },
+        addMessage: (state, action) => {
+            state.message = action.payload;
+            state.messagesInChat = [ ... state.messagesInChat, action.payload]
+        },
+        setMessagesInChat: (state, action) => {
+            state.messagesInChat = [ ... state.messagesInChat, action.payload ]
         }
     },
     extraReducers: (builders) => {
-        newMessageBuilders(builders, newMessage);
+        sendMessageBuilders(builders, sendMessage);
         getMessagesBuilders(builders, getMessages);
         handleImportantMessageBuilders(builders, handleImportantMessage);
         deleteMessageBuilders(builders, deleteMessage);
     }
 })
 
-export const { resetMessageState, setInitialState_messages, resetMessagesInChatState, setMessages } = messageSlices.actions;
+export const { resetMessageState, setInitialState_messages, resetMessagesInChatState, setMessages, setMessagesInChat } = messageSlices.actions;
 export default messageSlices.reducer;

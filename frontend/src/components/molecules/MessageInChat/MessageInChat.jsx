@@ -14,7 +14,7 @@ const MessageInChat = ({
     const dateToSend = `${hour}:${minutes} hs`;
 
     const renderMedia = () => {
-        if (mediaUrl == "") {
+        if (mediaUrl == "" || !mediaUrl) {
             return (<></>)
         } else {
             return (
@@ -29,7 +29,7 @@ const MessageInChat = ({
             <span className='contentMessage'>
                 <b>{sender.username}</b>
                 {renderMedia()}
-                <p>{text}</p>
+                <pre>{text}</pre>
                 <small>{dateToSend}</small>
             </span>
         </MessageInChatContainerStyles>

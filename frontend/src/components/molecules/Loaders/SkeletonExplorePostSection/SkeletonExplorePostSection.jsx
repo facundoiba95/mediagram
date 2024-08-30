@@ -7,7 +7,7 @@ const SkeletonExplorePostSection = () => {
 
     const renderSkeleton = () => {
         return lengthSkeleton.map((card, index) => (
-            <CardPostInExploreStyles heightCard={index % 5 == 0}>
+            <CardPostInExploreStyles heightCard={index % 5 == 0} key={index}>
                 <Skeleton width={'100%'} height={'100%'} variant='rounded' animation='wave' />
             </CardPostInExploreStyles>
         ))

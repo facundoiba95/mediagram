@@ -27,7 +27,7 @@ const ModalSearchUsers = ({ data, message, placeholderValue, type, title, resetD
     return usersFounded.map(item => {
       const { username, thumbnail, _id } = item;
       return (
-        <ItemModalSearchUsersStyles data-username={username} onClick={(e) => handleFunction(e)} key={_id}>
+        <ItemModalSearchUsersStyles data-username={username} data-id={_id} onClick={(e) => handleFunction(e)} key={_id}>
           {
             thumbnail
               ? <img src={thumbnail} alt="imgProfile" />

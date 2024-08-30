@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ItemChatContainerStyles = styled.li`
 width: 100%;
-height: 150px;
+height: 100px;
 display: flex;
 justify-content: flex-start;
 align-items: center;
@@ -10,7 +10,7 @@ font-family: "Red Hat Display";
 color: white;
 gap: 10px;
 background-color: transparent;
-padding: 10px;
+padding: 5px;
 
 b, p, span, small {
     background-color: transparent;

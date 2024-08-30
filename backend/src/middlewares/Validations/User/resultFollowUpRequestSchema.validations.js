@@ -12,8 +12,8 @@ export default checkSchema({
         },
         custom: {
             options: (value) => {
-                if(value !== ACCEPT_ID || value !== REJECT_ID) return false;
-                return true;
+                if(value == ACCEPT_ID || value == REJECT_ID) return true;
+                return false;
             },
             errorMessage: "followUpRequestResult invalid! La respuesta a la solicitud de seguimiento no es valida."
         }

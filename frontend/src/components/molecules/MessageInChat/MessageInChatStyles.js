@@ -24,8 +24,13 @@ background-color: transparent;
     object-fit: contain;
 }
 
-b, p,small {
+b, pre, small {
     background-color: transparent;
+}
+
+pre {
+    font-family: "Red Hat Display";
+    white-space: pre-wrap;
 }
 
 .contentMessage {

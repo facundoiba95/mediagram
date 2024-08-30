@@ -4,6 +4,7 @@ import newChatBuilders from "./chatSocketBuilders/newChatBuilders";
 import deleteChatBuilders from "./chatSocketBuilders/deleteChatBuilders";
 import getChatByIDBuilders from "./chatSocketBuilders/getChatByIDBuilders";
 import socket from "../../../../../socket";
+import joinChatBuilders from "./chatSocketBuilders/joinChatBuilders";
 
 const initialState = {
     error: null,
@@ -11,6 +12,7 @@ const initialState = {
     status: null,
     message: null,
     chats: [],
+    idChat: null,
     chatSelected: []
 }
 
@@ -38,10 +40,10 @@ export const getChats = createAsyncThunk(
 
 export const newChat = createAsyncThunk(
     'newChat/chatSlices',
-    async ({ type, idUser }, { rejectWithValue }) => {
+    async ({ type, username, idUser}, { rejectWithValue }) => {
         try {
             const response = await new Promise((resolve) => {
-                socket_chat.emit("newChat", { type, idUser });
+                socket_chat.emit("newChat", { type, username, idUser });
 
                 socket_chat.on("newChat", (data) => {
                     resolve(data)
@@ -58,7 +60,7 @@ export const newChat = createAsyncThunk(
 
 export const getChatByID = createAsyncThunk(
     'getChatByID/chatSlices',
-    async ({ idChat }, { rejectWithValue }) => {
+    async (idChat, { rejectWithValue }) => {
         try {
             const response = await new Promise((resolve) => {
                 socket_chat.emit("getChatByID", { idChat });
@@ -71,6 +73,26 @@ export const getChatByID = createAsyncThunk(
             return response;
         } catch (error) {
             console.error("Ocurrio un error al obtener el chat. Error", error);
+            return rejectWithValue({ error })
+        }
+    }
+)
+
+export const joinChat = createAsyncThunk(
+    'joinChat/chatSlices',
+    async (idChat, {rejectWithValue}) => {
+        try {
+            const response = await new Promise((resolve) => {
+                socket_chat.emit("joinChat", { idChat });
+
+                socket_chat.on("joinChat", (data) => {
+                    resolve(data)
+                })
+            })
+
+            return response;
+        } catch (error) {
+            console.error("Ocurrio un error al unirse al chat. Error", error);
             return rejectWithValue({ error })
         }
     }
@@ -111,6 +133,9 @@ const chatSlices = createSlice({
         },
         setChat: (state, action) => {
             state.chatSelected = action.payload;
+        },
+        setIdChat: (state, action) => {
+            state.idChat = action.payload;
         }
     },
     extraReducers: (builders) => {
@@ -118,8 +143,9 @@ const chatSlices = createSlice({
         newChatBuilders(builders, newChat);
         deleteChatBuilders(builders, deleteChat);
         getChatByIDBuilders(builders, getChatByID);
+        joinChatBuilders(builders, joinChat);
     }
 })
 
-export const { setInitialState_chat, resetChatSelectedState, resetChatsState, setChat } = chatSlices.actions;
+export const { setInitialState_chat, resetChatSelectedState, resetChatsState, setChat, setIdChat } = chatSlices.actions;
 export default chatSlices.reducer;

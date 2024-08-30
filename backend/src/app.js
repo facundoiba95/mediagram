@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import verifyToken from './middlewares/auth/verifyToken.js';
 import handleErrors from './middlewares/errors/handleErrors.js';
-import { verifyTokenSocket } from './sockets/Auth/verifyTokenSocket.js';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
 
@@ -17,7 +16,10 @@ import tagsRoutes from './routes/tags.routes.js';
 import commentRoutes from './routes/comment.routes.js';
 import professionRoutes from './routes/profession.routes.js';
 import streamingRoutes from './routes/streaming.routes.js';
-import notificationSockets, { rooms } from './sockets/Notifications/notificationSockets.js';
+
+// namespaces
+import Chat from './sockets/Namespaces/Chat.js';
+import Notifications from './sockets/Namespaces/Notifications.js';
 
 // config
 const app = express();
@@ -75,46 +77,13 @@ app.use('/api/mediagram/comment', commentRoutes);
 app.use('/api/mediagram/profession', professionRoutes);
 app.use('/api/mediagram/streaming', streamingRoutes);
 
-// websockets
+// websockets Namespaces
 const chatNamespace = io.of("/chat");
 const notificationsNamespace = io.of("/notifications");
 
-chatNamespace.on("connection", (socket) => {
-    verifyTokenSocket(socket, () => {
-        socket.leaveAll();
-        
-        console.log("namespace CHAT conected: ", socket.handshake.auth)
-    }, (error) => {
-        console.error("Ocurrio un error al conectar el WebSocket namespace: 'CHAT'. Error: ", error);
-    })
+Chat(chatNamespace);
+Notifications(notificationsNamespace);
 
-    socket.on("disconnect", () => {
-        if (socket.userAuth) {
-            const usernameAuth = socket.userAuth.username;
-            rooms.delete(usernameAuth)
-            console.log("NAMESPACE CHAT: SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
-        }
-    })
-});
-
-notificationsNamespace.on("connection", (socket) => {
-    verifyTokenSocket(socket, () => {
-        socket.leaveAll();
-
-        console.log("namespace NOTIFICATIONS conected: ", socket.handshake.auth)
-        notificationSockets(socket);
-    }, (error) => {
-        console.error("Ocurrio un error al conectar el WebSocket namespace: 'NOTIFICATIONS'. Error: ", error);
-    })
-
-    socket.on("disconnect", () => {
-        if (socket.userAuth) {
-            const usernameAuth = socket.userAuth.username;
-            rooms.delete(usernameAuth)
-            console.log("NAMESPACE NOTIFICATIONS: SOCKET DESCONECTADO. ROOMS ACTUALIZADO: ", rooms);
-        }
-    })
-});
 
 
 // manejador de errores global

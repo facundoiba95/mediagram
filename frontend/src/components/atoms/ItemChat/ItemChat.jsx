@@ -1,13 +1,11 @@
 import React from 'react'
 import { ItemChatContainerStyles } from './ItemChatSyles'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setChat } from '../../../redux/slices/socketSlices/chatSocketSlices/chatSlices';
-import { setMessages } from '../../../redux/slices/socketSlices/messageSlices/messageSlices';
-import messages from '../../dataTestMessages';
+import { getChatByID, joinChat, newChat, setChat, setIdChat } from '../../../redux/slices/socketSlices/chatSocketSlices/chatSlices';
+import { getMessages, setInitialState_messages, setMessages, setMessagesInChat } from '../../../redux/slices/socketSlices/messageSlices/messageSlices';
 
 const ItemChat = ({
-    index,
     _id,
     members,
     name,
@@ -20,25 +18,43 @@ const ItemChat = ({
     const dispatch = useDispatch();
     const navigator = useNavigate();
     const params = useParams();
-
-    const { idChat, sender, important, createdAt, text } = lastMessage[0];
-    const hour = `${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()}hs`;
-    
+    const userAuth = useSelector(state => state.authSlices.user);
+    const userReceptor = members.find(usr => usr._id !== userAuth._id);
+    const nameChat = type === "PRIVATE" ? userReceptor.username : name;
+    const imgChat = type === "PRIVATE" ? userReceptor.thumbnail : imgUrl;
 
     const handleSetChat = async () => {
-        dispatch(setChat(chat))
-        dispatch(setMessages(messages.filter(msg => msg.idChat == _id)));
+        await dispatch(setInitialState_messages())
+        await dispatch(getChatByID(_id));
+        await dispatch(setIdChat(_id))
+        await dispatch(joinChat(_id));
+        await dispatch(getMessages(_id))
+
         params.idChat = _id;
         navigator(`/messages/${params.idChat}`);
     }
 
-    return (
-        <ItemChatContainerStyles key={index} onClick={handleSetChat}>
-            <img src={imgUrl || members[0].thumbnail} alt="chat image" />
-            <span>
-                <b>{name || members[0].username}</b>
+    const renderLastMessage = () => {
+        if(!lastMessage) return (<></>)
+            
+        const { idChat, sender, important, createdAt, text } = lastMessage;
+        const hour = `${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()}hs`;
+        
+        return (
+            <>
                 <p>{text}</p>
                 <small>{hour}</small>
+            </>
+        )
+    }
+
+
+    return (
+        <ItemChatContainerStyles onClick={handleSetChat}>
+            <img src={imgChat} alt="chat image" />
+            <span>
+                <b>{nameChat}</b>
+                {renderLastMessage()}
             </span>
         </ItemChatContainerStyles>
     )

@@ -1,11 +1,5 @@
 import { rooms } from "./notificationSockets.js";
 
-const checkUserInRoom = (rooms, id_socket) => {
-    for (const [username, socket_id] of rooms.entries()) {
-        rooms.set(username, socket_id.filter(socket => socket !== id_socket));
-    }
-}
-
 export default (socket) => {
     socket.on('subscribeNotifications', (user) => {
         const userAuth = socket.userAuth.username;
@@ -19,6 +13,5 @@ export default (socket) => {
         rooms.set(userAuth, [socket.id]);
         
         socket.join(userAuth);
-        console.log("SOCKETS room: ", rooms)
     });
 }
