@@ -1,6 +1,6 @@
 import mongoose, { mongo } from "mongoose";
-import associateNotificationAndUser from "../../libs/Posts/associateNotificationAndUser.js";
-import _idValidations from "../Validations/Notifications/_id.validations.js";
+import associateNotificationAndUser from "../../../libs/Posts/associateNotificationAndUser.js";
+import _idValidations from "../../Validations/Notifications/_id.validations.js";
 
 export default (socket) => {
     socket.on('getNotifications', async (data) => {

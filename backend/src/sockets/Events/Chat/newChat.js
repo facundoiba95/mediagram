@@ -1,5 +1,5 @@
-import Chat from "../../models/Chat.js";
-import idChatValidations from "../Validations/Chat/idChat.validations.js";
+import Chat from "../../../models/Chat.js";
+import idChatValidations from "../../Validations/Chat/idChat.validations.js";
 
 export default (socket) => {
     try {

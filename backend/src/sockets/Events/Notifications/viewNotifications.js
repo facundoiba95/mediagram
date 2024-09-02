@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import constants_notifications from "../../libs/Notifications/constants_notifications.js";
-import associateNotificationAndUser from "../../libs/Posts/associateNotificationAndUser.js";
-import Notifications from "../../models/Notification.js";
-import _idValidations from "../Validations/Notifications/_id.validations.js";
+import constants_notifications from "../../../libs/Notifications/constants_notifications.js";
+import associateNotificationAndUser from "../../../libs/Posts/associateNotificationAndUser.js";
+import Notifications from "../../../models/Notification.js";
+import _idValidations from "../../Validations/Notifications/_id.validations.js";
 
 export default (socket) => {
     socket.on('viewNotifications', async (data) => {

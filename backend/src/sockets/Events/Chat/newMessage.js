@@ -1,7 +1,7 @@
-import Chat from "../../models/Chat.js";
-import Message from '../../models/Message.js';
-import idChatValidations from "../Validations/Chat/idChat.validations.js";
-import messageValidations from "../Validations/Chat/message.validations.js";
+import Chat from "../../../models/Chat.js";
+import Message from '../../../models/Message.js';
+import idChatValidations from "../../Validations/Chat/idChat.validations.js";
+import messageValidations from "../../Validations/Chat/message.validations.js";
 
 export default (socket) => {
     socket.on("sendMessage", async (data) => {

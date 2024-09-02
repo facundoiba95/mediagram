@@ -6,7 +6,7 @@
    
 */
 
-import userReceptorValidations from "../Validations/Notifications/userReceptor.validations.js";
+import userReceptorValidations from "../../Validations/Notifications/userReceptor.validations.js";
 
 export default (socket) => {
     socket.on('newNotification', (data) => {

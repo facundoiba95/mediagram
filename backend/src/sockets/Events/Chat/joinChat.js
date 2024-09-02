@@ -1,6 +1,6 @@
 export const room = new Map();
-import Chat from '../../models/Chat.js';
-import idChatValidations from '../Validations/Chat/idChat.validations.js';
+import Chat from '../../../models/Chat.js';
+import idChatValidations from '../../Validations/Chat/idChat.validations.js';
 
 const updateRoomSockets = (rooms, idChat, id_socket) => {
     if (rooms.has(idChat)) {

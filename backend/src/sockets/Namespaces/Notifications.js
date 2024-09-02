@@ -1,5 +1,5 @@
 import { verifyTokenSocket } from "../Auth/verifyTokenSocket.js";
-import notificationSockets, { rooms } from "../Notifications/notificationSockets.js";
+import notificationSockets, { rooms } from "../Events/Notifications/notificationSockets.js";
 
 export default (notificationsNamespace) => {
     notificationsNamespace.on("connection", (socket) => {

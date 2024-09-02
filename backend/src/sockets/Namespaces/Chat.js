@@ -1,11 +1,11 @@
 import { verifyTokenSocket } from "../Auth/verifyTokenSocket.js";
-import getChatByID from "../Chat/getChatByID.js";
-import getChats from "../Chat/getChats.js";
-import getMessages from "../Chat/getMessages.js";
-import joinChat from "../Chat/joinChat.js";
-import newChat from "../Chat/newChat.js";
-import newMessage from "../Chat/newMessage.js";
-import { rooms } from "../Notifications/notificationSockets.js";
+import getChatByID from "../Events/Chat/getChatByID.js";
+import getChats from "../Events/Chat/getChats.js";
+import getMessages from "../Events/Chat/getMessages.js";
+import joinChat from "../Events/Chat/joinChat.js";
+import newChat from "../Events/Chat/newChat.js";
+import newMessage from "../Events/Chat/newMessage.js";
+import { rooms } from "../Events/Notifications/notificationSockets.js";
 
 export default (chatNamespace) => {
     chatNamespace.on("connection", (socket) => {

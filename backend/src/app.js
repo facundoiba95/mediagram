@@ -78,12 +78,11 @@ app.use('/api/mediagram/profession', professionRoutes);
 app.use('/api/mediagram/streaming', streamingRoutes);
 
 // websockets Namespaces
-const chatNamespace = io.of("/chat");
-const notificationsNamespace = io.of("/notifications");
+const chatNamespace = io.of("/chat"); // http://localhost:3500/chat/socket.io:ascac
+const notificationsNamespace = io.of("/notifications");// http://localhost:3500/notifications/socket.io:ascac
 
 Chat(chatNamespace);
 Notifications(notificationsNamespace);
-
 
 
 // manejador de errores global

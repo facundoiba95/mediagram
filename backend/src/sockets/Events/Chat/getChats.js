@@ -1,4 +1,4 @@
-import Chat from "../../models/Chat.js";
+import Chat from "../../../models/Chat.js";
 
 export default (socket) => {
     socket.on("getChats", async () => {
