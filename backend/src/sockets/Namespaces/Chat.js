@@ -12,6 +12,7 @@ export default (chatNamespace) => {
         verifyTokenSocket(socket, () => {
             socket.leaveAll();
 
+
             getChats(socket);
             getChatByID(socket)
             newChat(socket);

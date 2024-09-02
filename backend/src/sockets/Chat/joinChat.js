@@ -1,5 +1,6 @@
 export const room = new Map();
 import Chat from '../../models/Chat.js';
+import idChatValidations from '../Validations/Chat/idChat.validations.js';
 
 const updateRoomSockets = (rooms, idChat, id_socket) => {
     if (rooms.has(idChat)) {
@@ -16,10 +17,23 @@ export default (socket) => {
         const idChat = data.idChat;
         const userAuth = socket.userAuth;
 
-        const findChat = await Chat.find({_id: idChat});
+        const validations = idChatValidations(data);
 
-        if(!findChat.length) {
-            socket.emit("joinChat" , {
+        if(validations.validation !== true) {
+            console.log("Error en la validacion de idChat, en joinChat.js . Error: ", validations);
+            
+            socket.emit("error", {
+                error: validations
+            })
+            
+            return;
+        }
+
+
+        const findChat = await Chat.find({ _id: idChat });
+
+        if (!findChat.length) {
+            socket.emit("joinChat", {
                 message: "No se encontro el chat!"
             })
             return;
